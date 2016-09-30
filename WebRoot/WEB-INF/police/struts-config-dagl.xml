@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<form-beans>
+	
+		<form-bean name="DaglFrom" type="com.jrsoft.fri.dagl.from.DaglFrom" />
+   </form-beans>
+		<action-mappings>
+	  <!-- 电梯-->
+	<action path="/elevatorAction" name="DaglFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	 
+	  <!-- 电梯网关-->
+	<action path="/gatewayAction" name="DaglFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	
+	 <!-- 维保单位-->
+	<action path="/maintenanceUnitAction" name="DaglFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	
+	 <!-- 维保人员-->
+	<action path="/maintenanceUsersAction" name="DaglFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	
+	 <!-- 区域-->
+	<action path="/regionAction" name="DaglFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	
+	 <!-- 使用单位-->
+	<action path="/useUnitAction" name="DaglFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+
+	</action-mappings>
+</struts-config>

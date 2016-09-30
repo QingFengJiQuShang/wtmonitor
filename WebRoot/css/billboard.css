@@ -1,0 +1,23 @@
+.modal-body tr td {
+	color: red;
+	line-height: 50px;
+	font-size: 12px;
+	padding-left: 10px;
+}
+#addBtn{
+float: left;margin-top: 10px;
+}
+#inputfile,#inputfileAdd{
+	display: inline;
+}
+#pic{
+	width:320px;height: 270px;
+}
+
+#map{
+	width:570px;
+	height:500px;
+}
+table{
+	 margin: auto;
+}

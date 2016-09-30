@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<form-beans>
+	
+		<form-bean name="XtglForm" type="com.jrsoft.fri.xtgl.from.XtglForm" />
+   </form-beans>
+		<action-mappings>
+	  <!-- 系统用户-->
+	<action path="/usersAction" name="XtglForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	 
+	  <!-- 电梯维保记录表-->
+	<action path="/recordsAction"  name="XtglForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	 <!-- 电梯年检 -->
+	<action path="/inspectionAction" name="XtglForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+
+	</action-mappings>
+</struts-config>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="wtmonitor"
+  id="myeclipse.1344387953125"
+  context-root="/wt"
+  j2ee-spec="5.0"
+  archive="wtmonitor.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

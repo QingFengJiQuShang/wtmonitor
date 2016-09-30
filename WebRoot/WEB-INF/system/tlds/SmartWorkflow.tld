@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+  <tlib-version>1.0</tlib-version>
+  <short-name>WF</short-name>
+  <uri>http://java.sun.com/jsp/jstl/core</uri>
+  <!-- function用于描述一个el函数 ，jsp中用到这个函数的是设置的名称 -->
+  <function>
+  	<name>getShowApplyUrl</name>
+  	<function-class>smart.sys.workflow.main.SmartWorkFlow</function-class>
+  	<function-signature>java.lang.String getShowApplyUrl(java.lang.String)</function-signature>
+  </function>
+</taglib>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+<!-- 系统用户 -->
+	<bean name="/usersAction" class="com.jrsoft.fri.xtgl.action.XtglUsersAction">
+		<property name="usersService" ref="usersService" />
+	</bean>
+	<bean id="usersService" class="com.jrsoft.fri.xtgl.service.XtglUsersServiceImpl">
+		<property name="usersDao"  ref="usersDao" />
+	</bean>
+	<bean id="usersDao" class="com.jrsoft.fri.xtgl.dao.XtglUsersDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 系统用户 -->
+    
+    <!-- 电梯维保记录 -->
+	<bean name="/recordsAction" class="com.jrsoft.fri.xtgl.action.XtglMaintenanceRecordsAction">
+		<property name="recordsService" ref="recordsService" />
+	</bean>
+	<bean id="recordsService" class="com.jrsoft.fri.xtgl.service.XtglMaintenanceRecordsServiceImpl">
+		<property name="recordsDao"  ref="recordsDao" />
+	</bean>
+	<bean id="recordsDao" class="com.jrsoft.fri.xtgl.dao.XtglMaintenanceRecordsDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 电梯维保记录-->
+    
+    <!--电梯年检 -->
+	<bean name="/inspectionAction" class="com.jrsoft.fri.xtgl.action.XtglYearlyInspectioAction">
+		<property name="inspectionService" ref="inspectionService" />
+	</bean>
+	<bean id="inspectionService" class="com.jrsoft.fri.xtgl.service.XtglYearlyInspectionServiceImpl">
+		<property name="inspectionDao"  ref="inspectionDao" />
+	</bean>
+	<bean id="inspectionDao" class="com.jrsoft.fri.xtgl.dao.XtglYearlyInspectionDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!--电梯年检 -->
+	
+	</beans>

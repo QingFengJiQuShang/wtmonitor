@@ -1,0 +1,157 @@
+.nav .active a{
+	line-height: 30px;
+}
+.nav{
+	box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+	text-align: center;
+}
+.nav li a{
+	line-height: 20px;
+}
+.search{
+    margin-top: 15px;
+}
+.search .search-box{
+    width: 100%;
+}
+.search .search-box input{
+    width: 30%;
+}
+.search .search-box .bar{
+    width: 50%;
+}
+.search .search-box button{
+    width:40%;
+    display: inline-block;
+    padding: 0 12px;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid;
+    border-radius: 4px;
+    color: #fff;
+    background-color:cornflowerblue;
+    border-color:cornflowerblue;
+    margin: 0 auto;
+    outline: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    float: right;
+    line-height: 30px;
+}
+.zone{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+}
+.zone li{
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    float: left;
+    color: #2e8ded;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.zone li:hover{
+    transition: 1s all;
+    background-color: crimson;
+    color: white;
+
+}
+
+#map{
+	box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+	margin-top:3px;
+	width: 100%;
+	height: 600px;
+	text-align: center;
+	
+	transition: width 1s;
+	-moz-transition: width 1s; /* Firefox 4 */
+	-webkit-transition: width 1s; /* Safari ºÍ Chrome */
+	-o-transition: width 1s; /* Opera */
+}
+
+#video{
+	box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+	margin-top:3px;
+	width:0%;
+	height:600px;
+	text-align: center;
+	float:left;
+	transition: width 1s;
+	-moz-transition: width 1s; /* Firefox 4 */
+	-webkit-transition: width 1s; /* Safari ºÍ Chrome */
+	-o-transition: width 1s; /* Opera */
+	
+}
+video{
+	width:0%;
+	height:90%;
+}
+#backMap{
+	clear: both;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.dl-horizontal dt,.dl-horizontal dd{
+	line-height: 50px;
+}
+
+
+
+.regular-checkbox {
+	display: none;
+}
+
+.regular-checkbox + label {
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+
+.regular-checkbox + label:active, .regular-checkbox:checked + label:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+
+.regular-checkbox:checked + label {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+}
+
+.regular-checkbox:checked + label:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+}
+
+footer{
+	padding:10px 0;
+	
+}
+

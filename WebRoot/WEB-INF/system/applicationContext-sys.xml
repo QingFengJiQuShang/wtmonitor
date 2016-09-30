@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:*.properties</value>
+			</list>
+		</property>
+	</bean>
+<!-- 	
+	<bean id="dataSource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="jndiSepri"></property>
+		<property name="resourceRef" value="false"></property>
+		<property name="jndiEnvironment">
+			<props>
+     			<prop key="java.naming.provider.url">t3://127.0.0.1:7001,127.0.0.1:7003,127.0.0.1:7004,127.0.0.1:7005</prop> 
+    			<prop key="java.naming.factory.initial">weblogic.jndi.WLInitialContextFactory</prop>
+			</props>
+		</property> 
+	</bean>
+-->	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName">      
+			<value>org.logicalcobwebs.proxool.ProxoolDriver</value>      
+		</property>      
+		<property  name="url">      
+			<value>proxool.smart_pool</value>  
+		</property>
+	</bean>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+				<!-- <prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop>  -->
+				<prop key="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="mappingDirectoryLocations">
+			<list>
+			  	<!-- <value>classpath:com/jrsoft/module/*/*/po/</value>  -->
+			  	<value>classpath:com/jrsoft/fri/*/entity/</value>
+			</list>
+		</property>
+		
+		<!-- 处理lob-->
+		<!-- 9i处理方式 -->
+		<!--<property name="lobHandler">		
+			<ref bean="oracleLobHandler" />
+			</property>  -->
+		<!-- 10g处理方式 -->
+		<property name="lobHandler" ref="lobHandler" />
+	</bean>
+
+	<bean id="lobHandler" lazy-init="true"
+		class="org.springframework.jdbc.support.lob.DefaultLobHandler" />
+	<!--
+		<bean id="oracleLobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler" lazy-init="true">
+		<property name="nativeJdbcExtractor">
+		<ref bean="nativeJdbcExtractor" />
+		</property>
+		</bean>
+		<bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor" />
+	-->
+
+	<bean id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 声明式事务 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="upd*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="do*" propagation="REQUIRED" />
+			<tx:method name="merge*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+    
+	<aop:config>
+		<aop:pointcut id="smartService" expression="execution(* smart.sys.*.*.service.*.*(..))" />
+		<aop:pointcut id="revService" expression="execution(* com.jrsoft.fri.*.service.*.*(..))" />
+		<aop:pointcut id="coreService" expression="execution(* com.jrsoft.fri.common.*.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="smartService" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="revService" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="coreService" />
+	</aop:config>
+
+
+</beans>

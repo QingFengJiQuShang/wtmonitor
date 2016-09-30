@@ -1,0 +1,24 @@
+#MyEclipse Hibernate Properties
+#Thu Sep 29 16:37:35 CST 2016
+sessionFactoryName=com.jrsoft.fri.cggl.po.HibernateSessionFactory
+genBasicCompId=false
+profile=
+daoSFId=
+version=3.0
+jndiPath=
+detectM2M=false
+reStrategyClass=
+detectO2O=false
+springDaoFile=
+useJavaTypes=true
+keyGenerator=sequence
+libInstallFolder=
+addLibs2Project=false
+genVersionTag=false
+sessionFactoryId=
+basePersistenceClass=
+genAnnotations=false
+reSettingsFile=/PoliceFri/hibernate.reveng.xml
+configFile=/smart/WebRoot/WEB-INF/system/applicationContext-sys.xml
+createConfigFile=false
+addLibs2Classpath=false
