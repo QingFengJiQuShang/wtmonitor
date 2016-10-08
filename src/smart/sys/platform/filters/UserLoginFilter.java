@@ -50,9 +50,7 @@ public class UserLoginFilter extends HttpServlet implements Filter {
 	public void init(FilterConfig filterConfig) {
 		loginPage = filterConfig.getInitParameter("loginPage");
 		if(loginPage==null){
-//			loginPage = "/login.jsp";
-			//wangcuicui 2013-06-07 ÐÞ¸Ä
-			loginPage = "/police/login.jsp";
+			loginPage = "/login.jsp";
 		}
 	}
 
@@ -67,11 +65,7 @@ public class UserLoginFilter extends HttpServlet implements Filter {
 			String urlCode = StringUtils.encodeBase64(url);
 			if (userSession.getAttribute("user")== null
 					&& url.indexOf("userLogin") < 0
-					&& url.indexOf("userLoginAjax") < 0
-					&& url.indexOf("userLogout") < 0
 					&& url.indexOf("login.jsp") < 0
-					&& url.indexOf("login1.jsp") < 0
-					&& url.indexOf("kygl.jsp") < 0
 					//||(userSession.getAttribute("user")== null&&((url.substring(url.length()-11,url.length())).equals("/PoliceFri/")||(url.substring(url.length()-10,url.length())).equals("/PoliceFri")))
 					) {
 				//response.sendRedirect(url_err + "?url=" + urlCode);

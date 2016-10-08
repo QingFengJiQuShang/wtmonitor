@@ -1,0 +1,175 @@
+@charset "utf-8";
+
+/*监控*/
+
+.frame {
+	/*display: none;*/
+}
+
+.frame_list li {
+	position: relative;
+	width: 30%;
+	height: 200px;
+	background-color: #939393;
+	margin: 20px 0 0 2.5%;
+	cursor: pointer;
+}
+
+.frame_list li p {
+	position: absolute;
+	bottom: 10px;
+	width: 90%;
+	padding: 0 5%;
+	font-size: 14px;
+	line-height: 20px;
+	color: #fff;
+}
+
+.frame_list p span {
+	font-size: 16px;
+}
+
+.frame_list p span img {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	vertical-align: bottom;
+	margin-right: 5px;
+}
+
+
+/*上下*/
+
+.nother {
+	width: 30%;
+	margin: 10px auto 0;
+}
+
+.nother p {
+	width: 55px;
+}
+
+.nother p img {
+	width: 100%;
+	cursor: pointer;
+}
+.con_top {
+    height: 45px;
+    line-height: 45px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+.con_top p {
+    position: relative;
+    padding-left: 3%;
+    font-size: 16px;
+}
+/*切换效果*/
+
+.tab {
+	display: none;
+}
+
+.tab .back {
+	position: relative;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 16px;
+	padding: 0 100px 0;
+	border-bottom: 1px solid #eee;
+}
+
+.tab .back>span {
+	position: absolute;
+	left: 10px;
+	top: 15px;
+	width: 25px;
+	height: 25px;
+	background: url("../../img/last2.png") no-repeat;
+	background-size: 100% 100%;
+	cursor: pointer;
+}
+
+.tab .back .data,
+.tab .back .input-group {
+	font-size: 16px;
+	position: relative;
+}
+
+.tab .back .data input,
+.tab .back .input-group input {
+	display: inline-block;
+	width: 135px;
+	height: 35px;
+	border: 1px solid #dadada;
+	text-align: center;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.tab .back .data .select,
+.tab .back .input-group .select {
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	right: 5px;
+	bottom: 0;
+	margin: auto;
+	width: 15px;
+	height: 15px;
+	background: url("../../img/down.png") no-repeat;
+	background-size: 100% 100%;
+}
+
+.tab .back .polling {
+	margin: auto;
+	display: inline-block;
+	position: absolute;
+	right: 20px;
+	top: 0;
+	width: 70px;
+	height: 35px;
+	bottom: 0;
+	border-radius: 5px;
+	background-color: #0183bd;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.laydate-icon {
+	background: url()!important;
+}
+
+.tab_video .default {
+	font-size: 16px;
+	line-height: 45px;
+	padding-left: 20px;
+}
+
+.video {
+	position: relative;
+	width: 90%;
+	height: 380px;
+	margin: 0 auto;
+	background-color: #939393;
+}
+
+@media only screen and (min-width: 1420px) {
+	.video {
+		position: relative;
+		width: 90%;
+		height: 550px;
+		margin: 0 auto;
+		background-color: #939393;
+	}
+}
+
+.video p {
+	position: absolute;
+	width: 100%;
+	bottom: 10px;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+}

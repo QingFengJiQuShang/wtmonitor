@@ -53,12 +53,9 @@ public class AdminLoginFilter extends HttpServlet implements Filter {
 			HttpSession userSession = request.getSession();
 			String url = ((HttpServletRequest) req).getRequestURL().toString().trim();
 			String urlCode = StringUtils.encodeBase64(url);
-//			String url_err = "/system/jsp/login.jsp";
-			//wangcuicui 2013-06-07 修改
-			String url_err = "/police/login.jsp";
+			String url_err = "/login.jsp";
 			if (userSession.getAttribute("admin") == null
-					&& url.indexOf("login.jsp") < 0
-					&& url.indexOf("adminLoginAction") < 0) {
+					&& url.indexOf("login.jsp") < 0) {
 				request.getRequestDispatcher(url_err + "?url=" + urlCode).forward(request, response);
 				log.error("\u8bbf\u95ee\u540e\u53f0"+url+"\u65f6 \u672a\u53d1\u73b0\u767b\u5f55\u7ba1\u7406\u5458\uff01**********\u5df2\u62e6\u622a \u91cd\u65b0\u767b\u5f55");	//"访问后台"+url+"时 未发现登录管理员！**********已拦截 重新登录"
 			} else {

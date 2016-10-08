@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <context-param>
-    <param-name>webAppRootKey</param-name>
-    <param-value>smart.root</param-value>
-  </context-param>
+  
   <context-param>
     <param-name>requestEncoding</param-name>
     <param-value>UTF-8</param-value>
@@ -12,10 +9,7 @@
     <param-name>responseEncoding</param-name>
     <param-value>UTF-8</param-value>
   </context-param>
-  <context-param>
-    <param-name>log4jConfigLocation</param-name>
-    <param-value>/WEB-INF/conf/log4j.properties</param-value>
-  </context-param>
+  
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
@@ -148,7 +142,7 @@
     <filter-name>userLoginFilter</filter-name>
     <url-pattern>*.do</url-pattern>
     <url-pattern>/example/*</url-pattern>
-    <url-pattern>/police/*</url-pattern>
+    <url-pattern>/jsp/*</url-pattern>
   </filter-mapping>
   <servlet>
     <servlet-name>userLogin</servlet-name>
@@ -163,6 +157,23 @@
     <url-pattern>/userLogin</url-pattern>
   </servlet-mapping>
   
+  
+<!-- 随机验证码 -->
+<servlet>  
+    <description>输出验证码</description>  
+    <display-name>This is the display name of my J2EE component</display-name>  
+    <servlet-name>PictureCheckCode</servlet-name>  
+    <servlet-class>smart.sys.platform.servlets.PictureCheckCode</servlet-class>  
+  </servlet>  
+  
+  <servlet-mapping>  
+    <servlet-name>PictureCheckCode</servlet-name>  
+    <url-pattern>/PictureCheckCode</url-pattern>  
+  </servlet-mapping>  
+  <welcome-file-list>  
+    <welcome-file>login.jsp</welcome-file>  
+  </welcome-file-list>
+<!-- 随机验证码 -->
 
   
   <!-- session 失效时间 单位为分钟-->

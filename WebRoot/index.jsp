@@ -1,25 +1,30 @@
-<%@page import="org.jbpm.api.ProcessEngine"%>
-<%@page import="smart.sys.platform.springUtils.SpringBeanUtil"%>
-<%@page import="smart.sys.platform.dao.DBEntity"%>
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-
-Object pe = SpringBeanUtil.getBean("processEngine");
-out.println(pe);
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+			
 %>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>首页</title>
+<head>
+<base href="<%=basePath%>">
 
-  </head>
-  
-  <body>
-    
-  </body>
+<title>智慧安全登监控系统</title>
+
+<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/index.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script></head>
+<script type="text/javascript">
+
+</script>
+
+	<body>
+		首页
+	</body>
+
 </html>

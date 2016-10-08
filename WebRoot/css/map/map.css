@@ -1,0 +1,75 @@
+@charset "utf-8";
+.real_time li {
+	width: 100%;
+}
+#allmap {
+	height: 550px;
+}
+@media only screen and (min-width: 1420px) {
+#allmap {
+	height: 700px;
+}
+}
+
+.sech {
+	position: relative;
+}
+.sech form p {
+	position: absolute;
+	z-index: 999;
+	top: 30px;
+	right: 30px;
+	height: 35px;
+}
+.sech form p label {
+	position: relative;
+
+	height: 100%;
+}
+.sech form p label span {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	bottom: 0;
+	margin: auto;
+	width: 25px;
+	height: 25px;
+	background: url("../../img/clear.png") no-repeat;
+	background-size: 100% 100%;
+	cursor: pointer;
+}
+.sech form p input {
+	width: 200px;
+	height: 100%;
+	text-indent: 10px;
+}
+.sech form p button {
+    width: 35px;
+    height: 35px;
+    background: #01aaef url(../../img/seach.png) no-repeat center center;
+    background-size: 80% 80%;
+	cursor: pointer;
+}
+/*电梯现状*/
+.over {
+	position: absolute;
+	bottom: 40px;
+	left: 40px;
+	background-color: #fff;
+	text-align: center;
+	overflow: hidden;
+	width: 645px;
+	height: 50px;
+}
+.over .list-num {
+	width: 680px;
+	margin-left: 1px;
+}
+.over li {
+	width: 110px;
+	padding: 10px 0;
+}
+.over li p {
+	border-right: 1px solid #e4e4e4;
+	font-size: 14px;
+}

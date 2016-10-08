@@ -1,0 +1,161 @@
+@charset "utf-8";
+/*状态*/
+.con_top {
+	height: 45px;
+	line-height: 45px;
+	border-bottom: 1px solid #eee;
+}
+.con_top p {
+	position: relative;
+	padding-left: 3%;
+	font-size: 16px;
+}
+.con_top p img {
+	position: absolute;
+	left: 10px;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+	width: 20px;
+	height: 20px;
+}
+.con_top p .green {
+	background-color: #03ff52;
+}
+.con_top p .off-line {
+	background-color: #b9b9b9;
+}
+.con_top p .red {
+	background-color: #ff2524;
+}
+/*监控*/
+.frame_list li {
+	position: relative;
+	width: 30%;
+	height: 200px;
+	background-color: #939393;
+	margin: 20px 0 0 2.5%;
+	cursor: pointer;
+}
+.frame_list li p {
+	position: absolute;
+	bottom: 10px;
+	width: 90%;
+	padding: 0 5%;
+	font-size: 14px;
+	line-height: 20px;
+	color: #fff;
+	text-align: center;
+}
+.frame_list p span {
+	font-size: 16px;	
+}
+.frame_list p span img {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	vertical-align: bottom;
+	margin-right: 5px;
+}
+/*上下*/
+.nother {
+	width: 30%;
+	margin: 10px auto 0;
+}
+.nother p {
+	width: 55px;
+}
+.nother p img {
+	width: 100%;
+	cursor: pointer;
+}
+/*切换效果*/
+.tab {
+	display: none;
+}
+.tab .back {
+	position: relative;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+	font-size: 16px;
+	border-bottom: 1px solid #eee;
+}
+.tab .back span {
+	position: absolute;
+	left: 10px;
+	top: 15px;
+	width: 25px;
+	height: 25px;
+	background: url("../../img/last2.png") no-repeat;
+	background-size: 100% 100%;
+	cursor: pointer;
+}
+.tab_video {
+	width: 80%;
+}
+.tab_video div {
+	position: relative;
+	width: 90%;
+	height: 450px;
+	margin: 20px auto 0;
+	background-color: #939393;
+}
+.tab_video div p {
+	position: absolute;
+	bottom: 10px;
+	width: 90%;
+	color: #fff;
+	padding: 0 5%;
+	font-size: 14px;
+}
+.tab_video div p img {
+	width: 20px;
+	vertical-align: bottom;
+	margin-right: 10px;
+}
+/*列表*/
+.tab_list {
+	width: 20%;
+	margin-left: -1px;
+	border-left: 1px solid #eee;
+}
+.tab_list li p {
+	position: relative;
+	font-size: 16px;
+	cursor: pointer;
+	line-height: 40px;
+	padding-left: 10px;
+	color: #535353;
+	border-bottom: 1px solid #eee;
+}
+.tab_list li p span {
+	position: absolute;
+	margin: auto;
+	right: 10px;
+	top: 0;
+	bottom: 0;
+	width: 15px;
+	height: 15px;	
+	cursor: pointer;
+}
+.tab_list li p .down {
+	background: url("../../img/down.png") no-repeat;
+	background-size: 100% 100%;
+}
+.tab_list li p .up {
+	background: url("../../img/up.png") no-repeat;
+	background-size: 100% 100%;
+}
+.tab_list ul li .info {
+	display: none;
+	width: 95%;
+	margin-left: 5%;
+	line-height: 40px;
+}
+.tab_list ul li .info li {
+	font-size: 16px;
+	color: #e5e5e5;	
+	word-break: break-all;
+	border-bottom: 1px solid #eee;
+}

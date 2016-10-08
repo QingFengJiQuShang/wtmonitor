@@ -1,5 +1,6 @@
 package com.jrsoft.fri.xtgl.action;
 
+import javax.jms.Session;
 import javax.servlet.http.HttpServlet;
 
 import java.io.IOException;
@@ -51,101 +52,115 @@ public class UserLoginServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String loginName = req.getParameter("username");
-		String passwd = req.getParameter("password");
-		String passwd1=StringUtils.encodeBase64(passwd);
+		String passwd = req.getParameter("passwd");
+		String code=req.getParameter("code");
+		String checkCode =(String)req.getSession().getAttribute("randCheckCode");
 		JSONObject json = new JSONObject();
-		XtglUsers user = Users.login(loginName, passwd1);
-		if (user != null) {
-			Map<String, String> map=new Hashtable<String, String>();
-			// 得到application
-			ServletContext application = req.getSession().getServletContext();
-			Map<String, String> appMap = (Map<String, String>) application.getAttribute("app");
-			if (appMap != null) {
-				
-				String value = appMap.get(user.getLoginname()
-						+ user.getPassword() + "userkey");
-				if (appMap.containsKey(user.getLoginname() + user.getPassword()
-						+ "userkey")) {
-					if (value.equals(req.getRemoteAddr())) {// 如果用户名相同，ip也相同，继续访问
-						System.out.println("用户已在该台机器上登录！");
-
-						json.put("dl", 3);
-					} else {// 如果用户名相同，ip不同，停止访问
-						System.out.println("用户已登录！");
-						json.put("dl", 5);
+		if(code.equals(checkCode)){
+			String passwd1=StringUtils.encodeBase64(passwd);
+			
+			XtglUsers user = Users.login(loginName, passwd1);
+			if (user != null) {
+				Map<String, String> map=new Hashtable<String, String>();
+				// 得到application
+				ServletContext application = req.getSession().getServletContext();
+				Map<String, String> appMap = (Map<String, String>) application.getAttribute("app");
+				if (appMap != null) {
+					
+					String value = appMap.get(user.getLoginname()
+							+ user.getPassword() + "userkey");
+					if (appMap.containsKey(user.getLoginname() + user.getPassword()
+							+ "userkey")) {
+						if (value.equals(req.getRemoteAddr())) {// 如果用户名相同，ip也相同，继续访问
+							System.out.println("用户已在该台机器上登录！");
+							
+							json.put("dl", 3);
+						} else {// 如果用户名相同，ip不同，停止访问
+							System.out.println("用户已登录！");
+							json.put("dl", 5);
+						}
+					} else {
+						map.put(loginName + passwd1
+								+ "userkey", req.getRemoteAddr());
+						/* begin得到application并存值* */
+						application.setAttribute("app", map);
+						Map<String, String> aMap=(Map<String, String>)application.getAttribute("app");
+						System.out.println("dd");
+						/* end得到application并存值* */
+						
+						
 					}
-				} else {
+				}else{
+					//Map<String, String> map=new Hashtable<String, String>();
 					map.put(loginName + passwd1
 							+ "userkey", req.getRemoteAddr());
 					/* begin得到application并存值* */
 					application.setAttribute("app", map);
-					Map<String, String> aMap=(Map<String, String>)application.getAttribute("app");
-					System.out.println("dd");
-					/* end得到application并存值* */
-					
 					
 				}
-			}else{
-				//Map<String, String> map=new Hashtable<String, String>();
-				map.put(loginName + passwd1
-						+ "userkey", req.getRemoteAddr());
-				/* begin得到application并存值* */
-				application.setAttribute("app", map);
 				
-			}
-			
-			
-			
-			req.getSession().setAttribute("user", user);
-			req.getSession().setAttribute("gridHeight", "450");
+				
+				
+				req.getSession().setAttribute("user", user);
+				req.getSession().setAttribute("gridHeight", "450");
 
-			// cookie记录用户名
-			int flag = 0;
-			Cookie[] cookies = req.getCookies();
-			for (int i = 0; i < cookies.length; i++) {
-				if (cookies[i].getName().equals("loginName")) {
-					cookies[i].setValue(user.getLoginname());
-					cookies[i].setMaxAge(60 * 60 * 24 * 365); // 1年
-					resp.addCookie(cookies[i]);
-					flag = 1;
-				} else if (cookies[i].getName().equals("loginNames")) {
-					String loginNames = cookies[i].getValue();
-					if (loginNames.indexOf(user.getLoginname()) < 0) {
-						if (loginNames.split(",").length >= 6) {
-							loginNames = loginNames.substring(0, loginNames
-									.lastIndexOf(","));
+				// cookie记录用户名
+				int flag = 0;
+				Cookie[] cookies = req.getCookies();
+				for (int i = 0; i < cookies.length; i++) {
+					if (cookies[i].getName().equals("loginName")) {
+						cookies[i].setValue(user.getLoginname());
+						cookies[i].setMaxAge(60 * 60 * 24 * 365); // 1年
+						resp.addCookie(cookies[i]);
+						flag = 1;
+					} else if (cookies[i].getName().equals("loginNames")) {
+						String loginNames = cookies[i].getValue();
+						if (loginNames.indexOf(user.getLoginname()) < 0) {
+							if (loginNames.split(",").length >= 6) {
+								loginNames = loginNames.substring(0, loginNames
+										.lastIndexOf(","));
+							}
+							loginNames = (user.getLoginname() + ",") + loginNames;
+							cookies[i].setValue(loginNames);
 						}
-						loginNames = (user.getLoginname() + ",") + loginNames;
-						cookies[i].setValue(loginNames);
+						cookies[i].setMaxAge(60 * 60 * 24 * 365); // 1年
+						resp.addCookie(cookies[i]);
+						flag = 1;
 					}
-					cookies[i].setMaxAge(60 * 60 * 24 * 365); // 1年
-					resp.addCookie(cookies[i]);
-					flag = 1;
 				}
-			}
-			if (flag == 0) {
-				Cookie loginNameCookie = new Cookie("loginName", user
-						.getLoginname());
-				loginNameCookie.setMaxAge(60 * 60 * 24 * 365); // 1年
-				Cookie loginNamesCookie = new Cookie("loginNames", user
-						.getLoginname());
-				loginNamesCookie.setMaxAge(60 * 60 * 24 * 365); // 1年
-				resp.addCookie(loginNameCookie);
-				resp.addCookie(loginNamesCookie);
-			}
+				if (flag == 0) {
+					Cookie loginNameCookie = new Cookie("loginName", user
+							.getLoginname());
+					loginNameCookie.setMaxAge(60 * 60 * 24 * 365); // 1年
+					Cookie loginNamesCookie = new Cookie("loginNames", user
+							.getLoginname());
+					loginNamesCookie.setMaxAge(60 * 60 * 24 * 365); // 1年
+					resp.addCookie(loginNameCookie);
+					resp.addCookie(loginNamesCookie);
+				}
 
-			Date date = new Date(System.currentTimeMillis());
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			json.put("result", 1);
-			json.put("msg", "\u767b\u5f55\u6210\u529f\uff01"); // 登陆成功！
-		} else {
-			json.put("result", 2);
-			json.put("msg",
-					"\u7528\u6237\u540d\u6216\u5bc6\u7801\u9519\u8bef\uff01"); // 用户名或密码错误！
+				Date date = new Date(System.currentTimeMillis());
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				json.put("result", 1);
+				json.put("msg", "\u767b\u5f55\u6210\u529f\uff01"); // 登陆成功！
+			} else {
+				json.put("result", 2);
+				json.put("msg",
+						"\u7528\u6237\u540d\u6216\u5bc6\u7801\u9519\u8bef\uff01"); // 用户名或密码错误！
+			}
+		}else{
+			json.put("result", 3);
+			json.put("msg", "验证码输入错误"); // 登陆成功！
 		}
+		
 		resp.setCharacterEncoding("utf-8");
 		PrintWriter out = resp.getWriter();
+		System.out.println(json.toString());
 		out.print(json);
+		//json.write(out);
+        out.flush();
+        out.close();
+
 	}
 
 	@Override
