@@ -19,8 +19,11 @@
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/index.css" />
 		<script src="<%=path %>/js/jquery-ui.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery.form.js"></script>
-		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.js"></script>
-		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script></head>
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery-ui.js"></script>	
+		<script type="text/javascript" src="<%=path %>/js/jquery.SuperSlide.2.1.1.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.8.3.js"></script>
+		</head>
 <script type="text/javascript">
 //改变验证码图片 
   function reloadcode(){
@@ -30,25 +33,34 @@
 
 	
 function doLogin(){
-	//alert(login_onclick());
-	if(login_onclick()==true){
 		var username = $("input[name='username']").val();
 		var passwd = $("input[name='passwd']").val();
 		var code = $("input[name='code']").val();
-		//alert(username+"  "+passwd+"  "+code);
-		
+		if (username==""){
+			 alert("对不起,用户名不能为空!");
+			 return ;
+		}
+		 if (passwd==""){
+			alert("对不起,密码不能为空!");
+			return ;
+		}
+		 if (code==""){
+			
+			 alert("对不起,验证码不能为空!") ;
+			return ;
+		}
 		$.ajax({
 			type:"POST",
 			url:"<%=path%>/userLogin",
 			data:"username="+username+"&passwd="+passwd+"&code="+code,
-			dataType: "json",
-			success:function(jsonData){
+			success:function(rs){
 			
-				alert(jsonData.result);
-				if(jsonData.result==1){		//用户登陆成功
+				if(rs.success==1){		//用户登陆成功
 						 window.location="<%=path%>/index.jsp";
-				}else if(jsonData.result==3){		//验证码不正确
+				}else if(rs.success==3){		//验证码不正确
 					alert("验证码不正确!");
+					$("input[name='code']").value="";
+					$("input[name='code']").focus();
 				}else{
 					alert("用户名或密码不对!");
 					$("input[name='password']").value="";
@@ -60,27 +72,6 @@ function doLogin(){
 	   },
 	
 		});
-	}
-}
-
-function login_onclick(){
-	var username = $("input[name='username']").val();
-	var passwd = $("input[name='passwd']").val();
-	var code = $("input[name='code']").val();
-	if (username==""){
-		alert("对不起,用户名不能为空!");
-		 return false;
-	}else if (passwd==""){
-		alert("对不起,密码不能为空!");
-		return false;
-	}else if (code==""){
-		alert("对不起,验证码不能为空!");
-		return false;
-	}else{
-		return true;
-	}
-	
-	
 }
 
 </script>
@@ -89,7 +80,7 @@ function login_onclick(){
 		<div class="warp">
 			<div class="con">
 				<div class="right">
-					<form class="fl"   action="<%=path%>/userLogin" method="post">
+				   <div class="fl"  >
 						<p>
 							<label for="">用户名&nbsp;:&nbsp;</label>
 							<input type="text" name="username" id="" placeholder="" />
@@ -104,7 +95,7 @@ function login_onclick(){
 							<img src="<%=path %>/PictureCheckCode"   id="code" onclick="reloadcode()" style="cursor: pointer;" alt="看不清楚,换一张"> 
 						</p>
 						<button class="logn"  onclick="doLogin();">登录</button>
-					</form>
+					</div>
 					<img src="img/index_logo.png" alt="" class="fl"/>
 					<p>
 						管理系统登录

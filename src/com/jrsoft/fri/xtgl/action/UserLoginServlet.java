@@ -56,7 +56,8 @@ public class UserLoginServlet extends HttpServlet{
 		String code=req.getParameter("code");
 		String checkCode =(String)req.getSession().getAttribute("randCheckCode");
 		JSONObject json = new JSONObject();
-		if(code.equals(checkCode)){
+		int count=0;
+		if(code.equalsIgnoreCase(checkCode)){
 			String passwd1=StringUtils.encodeBase64(passwd);
 			
 			XtglUsers user = Users.login(loginName, passwd1);
@@ -141,25 +142,18 @@ public class UserLoginServlet extends HttpServlet{
 
 				Date date = new Date(System.currentTimeMillis());
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				json.put("result", 1);
-				json.put("msg", "\u767b\u5f55\u6210\u529f\uff01"); // 登陆成功！
+				count=1;// 登陆成功！
 			} else {
-				json.put("result", 2);
-				json.put("msg",
-						"\u7528\u6237\u540d\u6216\u5bc6\u7801\u9519\u8bef\uff01"); // 用户名或密码错误！
+				count=2;  //用户名或密码错误
 			}
 		}else{
-			json.put("result", 3);
-			json.put("msg", "验证码输入错误"); // 登陆成功！
+			count=3;//验证码输入错误
 		}
 		
 		resp.setCharacterEncoding("utf-8");
-		PrintWriter out = resp.getWriter();
 		System.out.println(json.toString());
-		out.print(json);
-		//json.write(out);
-        out.flush();
-        out.close();
+
+		JsonUtil.ajaxOutPutJsonOrCount(resp, count);
 
 	}
 

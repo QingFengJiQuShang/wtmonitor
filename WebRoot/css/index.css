@@ -48,39 +48,39 @@ html,body {
     background: url(../img/index2.png) no-repeat;
     background-size: 100% 100%;
 }
-.right form {
+.right div {
 	width: 65%;
     height: 100%;
     background: url(../img/index1.png) no-repeat;
     background-size: 100% 102%;
     background-position-y: -2px;	
 }
-.right form p {
+.right div p {
 	width: 65%;
 	height: 40px;
 	line-height: 40px;
 	font-size: 14px;
 	margin: 0 auto;
 }
-.right form p:nth-child(1) {
+.right div p:nth-child(1) {
 	margin-top: 5%;
 }
-.right form p span {
+.right div p span {
 	color: transparent;
 }
-.right form p label {
+.right div p label {
 	color: #3798e9;	
 }
-.right form p input {
+.right div p input {
 	width: 185px;
 	height: 25px;
 	border-radius: 5px;
     box-shadow: inset 0px 1px 4px #000;
 }
-.right form p:nth-child(3) input {
+.right div p:nth-child(3) input {
 	width: 100px;
 }
-.right form p:nth-child(3) img {
+.right div p:nth-child(3) img {
 	width: 80px;
 	height: 30px;
 	vertical-align: middle;
