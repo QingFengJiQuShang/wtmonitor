@@ -56,7 +56,7 @@ function doLogin(){
 			success:function(rs){
 			
 				if(rs.success==1){		//用户登陆成功
-						 window.location="<%=path%>/index.jsp";
+						 window.location="<%=path%>/jsp/index.jsp";
 				}else if(rs.success==3){		//验证码不正确
 					alert("验证码不正确!");
 					$("input[name='code']").value="";
