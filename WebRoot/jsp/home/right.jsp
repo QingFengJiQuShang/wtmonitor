@@ -20,11 +20,9 @@
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/map/map.css" />
 		</head>
 	
-	<body >
-			
-<iframe width="10%" height="550" id="leftFrame" name="leftFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/left.jsp" ></iframe>
-<iframe width="90%" height="550" id="rightFrame" name="rightFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/home/right.jsp"  style="margin-left: -4px; margin-right: -4px;"></iframe>
+	<body>
+	<iframe width="100%" height="50" id="top" name="top" frameborder=0 scrolling=no src="<%=path%>/jsp/home/top.jsp" ></iframe>
+	<iframe width="100%" height="550" id="main" name="main" frameborder=0 scrolling=no src="<%=path%>/jsp/home/main.jsp"  style="margin-top: -4px; margin-bottom: -20px;"></iframe>
 	
-		
-	</body>
+		</body>		
 </html>

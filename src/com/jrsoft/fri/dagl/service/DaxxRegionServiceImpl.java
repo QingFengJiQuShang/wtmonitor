@@ -4,7 +4,7 @@ import com.jrsoft.fri.common.core.service.BaseServiceImpl;
 import com.jrsoft.fri.dagl.dao.DaxxRegionDao;
 import com.jrsoft.fri.dagl.entity.DaxxRegion;
 
-public class DaxxRegionServiceImpl    extends BaseServiceImpl<DaxxRegion, String> implements DaxxRegionService{
+public class DaxxRegionServiceImpl    extends BaseServiceImpl<DaxxRegion> implements DaxxRegionService{
 	private DaxxRegionDao regionDao;
 
 	public DaxxRegionDao getRegionDao() {

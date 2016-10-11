@@ -1,9 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+			XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 			
 %>
 <!DOCTYPE html>
@@ -23,6 +25,9 @@
 		</head>
 <script type="text/javascript">
 
+ function sign(){
+        	window.parent.parent.sign();
+	}
 </script>
 
 	
@@ -32,11 +37,11 @@
 			<p class="fl">
 				<img src="<%=path %>/img/logo.png" />&nbsp;|&nbsp;&nbsp;电梯运行安全物联系统
 			</p>
-			<p class="fr out">
+			<p class="fr out" onclick="sign();">
 				<img src="<%=path %>/img/sign_out.png" class="manage" alt="" />退出
 			</p>
 			<p class="fr userName">
-				<img src="<%=path %>/img/manage.png" alt="" class="manage" />你好管理员
+				<img src="<%=path %>/img/manage.png" alt="" class="manage" />您好，<%=user.getName() %>
 			</p>
 		</div>
 		

@@ -4,7 +4,7 @@ import com.jrsoft.fri.common.core.service.BaseServiceImpl;
 import com.jrsoft.fri.dagl.dao.DaxxGatewayDao;
 import com.jrsoft.fri.dagl.entity.DaxxGateway;
 
-public class DaxxGatewayServiceImpl    extends BaseServiceImpl<DaxxGateway, String> implements DaxxGatewayService{
+public class DaxxGatewayServiceImpl    extends BaseServiceImpl<DaxxGateway> implements DaxxGatewayService{
 	private DaxxGatewayDao gatewayDao;
 
 	public DaxxGatewayDao getGatewayDao() {

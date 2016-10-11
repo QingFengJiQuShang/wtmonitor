@@ -6,9 +6,11 @@
 -->
 <hibernate-mapping>
     <class name="com.jrsoft.fri.dagl.entity.DaxxGateway" table="DAXX_GATEWAY" schema="WTMONITOR">
-        <id name="id" type="java.math.BigDecimal">
+        <id name="id" type="java.lang.Integer">
             <column name="ID" precision="22" scale="0" />
-            <generator class="sequence" />
+            <generator class="sequence" >
+                 <param name="sequence">Gateway</param>
+            </generator>
         </id>
         <property name="type" type="java.lang.String">
             <column name="TYPE" length="200" />

@@ -4,7 +4,7 @@ import com.jrsoft.fri.common.core.service.BaseServiceImpl;
 import com.jrsoft.fri.dagl.dao.DaxxUseUnitDao;
 import com.jrsoft.fri.dagl.entity.DaxxUseUnit;
 
-public class DaxxUseUnitServiceImpl    extends BaseServiceImpl<DaxxUseUnit, String> implements DaxxUseUnitService{
+public class DaxxUseUnitServiceImpl    extends BaseServiceImpl<DaxxUseUnit> implements DaxxUseUnitService{
 	private DaxxUseUnitDao useUnitDao;
 
 	public DaxxUseUnitDao getUseUnitDao() {

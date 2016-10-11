@@ -69,7 +69,7 @@ public class UserLoginFilter extends HttpServlet implements Filter {
 					//||(userSession.getAttribute("user")== null&&((url.substring(url.length()-11,url.length())).equals("/PoliceFri/")||(url.substring(url.length()-10,url.length())).equals("/PoliceFri")))
 					) {
 				//response.sendRedirect(url_err + "?url=" + urlCode);
-				request.getRequestDispatcher(loginPage + "?url=" + urlCode).forward(request, response);
+				request.getRequestDispatcher(loginPage).forward(request, response);
 				log.error("\u8bf7\u6c42"+url+"\u65f6 \u7528\u6237\u672a\u767b\u5f55\uff01**********\u91cd\u65b0\u767b\u5f55");	//"请求"+url+"时 用户未登录！**********重新登录"
 			} else {
 				chain.doFilter(req, res);

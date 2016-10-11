@@ -4,7 +4,7 @@ import com.jrsoft.fri.common.core.service.BaseServiceImpl;
 import com.jrsoft.fri.dagl.dao.DaxxMaintenanceUsersDao;
 import com.jrsoft.fri.dagl.entity.DaxxMaintenanceUsers;
 
-public class DaxxMaintenanceUsersServiceImpl    extends BaseServiceImpl<DaxxMaintenanceUsers, String> implements DaxxMaintenanceUsersService{
+public class DaxxMaintenanceUsersServiceImpl    extends BaseServiceImpl<DaxxMaintenanceUsers> implements DaxxMaintenanceUsersService{
 	private DaxxMaintenanceUsersDao maintenanceUsersDao;
 
 	public DaxxMaintenanceUsersDao getMaintenanceUsersDao() {

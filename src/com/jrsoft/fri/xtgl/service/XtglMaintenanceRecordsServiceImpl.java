@@ -4,7 +4,7 @@ import com.jrsoft.fri.common.core.service.BaseServiceImpl;
 import com.jrsoft.fri.xtgl.dao.XtglMaintenanceRecordsDao;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceRecords;
 
-public class XtglMaintenanceRecordsServiceImpl   extends BaseServiceImpl<XtglMaintenanceRecords, String> implements XtglMaintenanceRecordsService{
+public class XtglMaintenanceRecordsServiceImpl   extends BaseServiceImpl<XtglMaintenanceRecords> implements XtglMaintenanceRecordsService{
 	private XtglMaintenanceRecordsDao recordsDao;
 
 	public XtglMaintenanceRecordsDao getRecordsDao() {

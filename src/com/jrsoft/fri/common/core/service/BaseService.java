@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.jrsoft.fri.common.utils.Page;
 
-public interface BaseService<T,PK extends Serializable> {
+public interface BaseService<T extends Serializable> {
 
 	public T save(T entity);
 	public T saveWithAtta(T entity , String tempOwnerId);
 	public T saveorupdate(T entity);
-	public T load(PK id);
-	public T get(PK id);
+	public T load(int id);
+	public T get(int id);
 	public T update(T entity);
-	public void delete(PK ids);
+	public void delete(int ids);
 	public List<T> query(Page page);
 	public List<T> queryAll(String checkhql);
 	public List<Object []> executeSQLQuery(final String sql);

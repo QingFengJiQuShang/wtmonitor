@@ -8,7 +8,7 @@ import smart.sys.platform.springUtils.SpringBeanUtil;
 import com.jrsoft.fri.common.core.dao.BaseDao;
 import com.jrsoft.fri.common.utils.Page;
 
-public class BaseServiceImpl<T,PK extends Serializable> implements BaseService<T, PK> {
+public class BaseServiceImpl<T extends Serializable> implements BaseService<T> {
 
 	private BaseDao baseDao = null;
 	
@@ -39,13 +39,13 @@ public class BaseServiceImpl<T,PK extends Serializable> implements BaseService<T
 	}
 
 	@Override
-	public T get(PK id) {
+	public T get(int id) {
 		
 		return (T)baseDao.get(id);
 	}
 
 	@Override
-	public T load(PK id) {
+	public T load(int id) {
 		
 		return (T)baseDao.load(id);
 	}
@@ -57,11 +57,8 @@ public class BaseServiceImpl<T,PK extends Serializable> implements BaseService<T
 	}
 
 	@Override
-	public void delete(PK ids) {
-		String[] idsArr = ((String)ids).split(",");
-		for(String id : idsArr){
+	public void delete(int id) {
 			baseDao.delete(id);
-		}
 	}
 
 	@Override

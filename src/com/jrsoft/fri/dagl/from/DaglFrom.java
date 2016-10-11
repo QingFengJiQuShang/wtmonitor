@@ -1,5 +1,6 @@
 package com.jrsoft.fri.dagl.from;
 
+import com.jrsoft.fri.common.core.form.BaseForm;
 import com.jrsoft.fri.dagl.entity.DaxxElevator;
 import com.jrsoft.fri.dagl.entity.DaxxGateway;
 import com.jrsoft.fri.dagl.entity.DaxxMaintenanceUnit;
@@ -7,7 +8,7 @@ import com.jrsoft.fri.dagl.entity.DaxxMaintenanceUsers;
 import com.jrsoft.fri.dagl.entity.DaxxRegion;
 import com.jrsoft.fri.dagl.entity.DaxxUseUnit;
 
-public class DaglFrom {
+public class DaglFrom   extends BaseForm {
 	private  DaxxElevator elevator=new DaxxElevator();
 	private  DaxxGateway gateway =new DaxxGateway();
 	private  DaxxMaintenanceUnit maintenanceUnit =new DaxxMaintenanceUnit();

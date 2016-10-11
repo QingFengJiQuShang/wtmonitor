@@ -4,7 +4,7 @@ import com.jrsoft.fri.common.core.service.BaseServiceImpl;
 import com.jrsoft.fri.dagl.dao.DaxxElevatorDao;
 import com.jrsoft.fri.dagl.entity.DaxxElevator;
 
-public class DaxxElevatorServiceImpl   extends BaseServiceImpl<DaxxElevator, String> implements DaxxElevatorService{
+public class DaxxElevatorServiceImpl   extends BaseServiceImpl<DaxxElevator> implements DaxxElevatorService{
 	private DaxxElevatorDao elevatorDao;
 
 	public DaxxElevatorDao getElevatorDao() {

@@ -6,14 +6,16 @@
 -->
 <hibernate-mapping>
     <class name="com.jrsoft.fri.dagl.entity.DaxxRegion" table="DAXX_REGION" schema="WTMONITOR">
-        <id name="id" type="java.math.BigDecimal">
+        <id name="id" type="java.lang.Integer">
             <column name="ID" precision="22" scale="0" />
-            <generator class="sequence" />
+            <generator class="sequence" >
+                 <param name="sequence">REGION</param>
+            </generator>
         </id>
         <property name="region" type="java.lang.String">
             <column name="REGION" />
         </property>
-        <property name="clientId" type="java.math.BigDecimal">
+        <property name="clientId" type="java.lang.Integer">
             <column name="CLIENT_ID" precision="22" scale="0" />
         </property>
     </class>

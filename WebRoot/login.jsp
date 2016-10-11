@@ -73,10 +73,15 @@ function doLogin(){
 	
 		});
 }
-
+//回车登陆
+function GoURLB(event) {
+    if (event.keyCode == 13) {
+    	doLogin();
+    }
+}
 </script>
 
-	<body>
+	<body  onkeypress="GoURLB(event)">
 		<div class="warp">
 			<div class="con">
 				<div class="right">

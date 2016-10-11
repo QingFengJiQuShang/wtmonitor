@@ -1,10 +1,4 @@
-$(".add_user").click(function() {
-	$(".user_list").hide();
-	$(".add_info").show();
-})
-$(".delete").click(function() {
-	$(this).parents("tr").remove();
-})
+
 //		多选
 $("tbody").on("click", ".select", function() {
 		$(this).children("em").toggleClass("selected");

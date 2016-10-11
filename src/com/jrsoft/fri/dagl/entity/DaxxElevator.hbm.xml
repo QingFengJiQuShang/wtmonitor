@@ -6,9 +6,11 @@
 -->
 <hibernate-mapping>
     <class name="com.jrsoft.fri.dagl.entity.DaxxElevator" table="DAXX_ELEVATOR" schema="WTMONITOR">
-        <id name="id" type="java.math.BigDecimal">
+        <id name="id" type="java.lang.Integer">
             <column name="ID" precision="22" scale="0" />
-            <generator class="sequence" />
+            <generator class="sequence" >
+                 <param name="sequence">ELEVATOR</param>
+            </generator>
         </id>
         <property name="registerid" type="java.lang.String">
             <column name="REGISTERID" length="200" />
@@ -43,13 +45,13 @@
         <property name="manufactureTime" type="java.sql.Timestamp">
             <column name="MANUFACTURE_TIME" length="7" />
         </property>
-        <property name="gatewayId" type="java.math.BigDecimal">
+        <property name="gatewayId" type="java.lang.Integer">
             <column name="GATEWAY_ID" precision="22" scale="0" />
         </property>
-        <property name="useUnitId" type="java.math.BigDecimal">
+        <property name="useUnitId" type="java.lang.Integer">
             <column name="USE_UNIT_ID" precision="22" scale="0" />
         </property>
-        <property name="maintenanceUnitId" type="java.math.BigDecimal">
+        <property name="maintenanceUnitId" type="java.lang.Integer">
             <column name="MAINTENANCE_UNIT_ID" precision="22" scale="0" />
         </property>
         <property name="yearlyState" type="java.lang.String">

@@ -4,7 +4,7 @@ import com.jrsoft.fri.common.core.service.BaseServiceImpl;
 import com.jrsoft.fri.xtgl.dao.XtglUsersDao;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 
-public class XtglUsersServiceImpl  extends BaseServiceImpl<XtglUsers, String> implements XtglUsersService{
+public class XtglUsersServiceImpl  extends BaseServiceImpl<XtglUsers> implements XtglUsersService{
 	private XtglUsersDao usersDao;
 
 	public XtglUsersDao getUsersDao() {

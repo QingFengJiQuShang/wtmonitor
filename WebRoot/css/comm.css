@@ -4,10 +4,14 @@ html,body {
 	min-width: 1000px;
 }
 .top {
-	padding-right: 40px;
-	height: 60px;
-	line-height: 60px;
-	background: url("../img/background.png") no-repeat;
+    /* padding-right: 40px; */
+    height: 60px;
+    line-height: 60px;
+    background: url(../img/background.png) no-repeat;
+    position: fixed;
+    width: 98%;
+    padding-right: 2%;
+    z-index: 9;
 }
 .top p {
 	margin-left: 40px;
@@ -27,9 +31,13 @@ html,body {
 	height: 92.5%;
 }
 .list {
-	width: 10%;
-	height: 100%;
-	background-color: #0183bf;
+    width: 100%;
+    height: 100%;
+    background-color: #0183bf;
+    position: fixed;
+    top: 0;
+   
+    z-index: 3;
 }
 .list li {
 	width: 100%;
@@ -47,7 +55,7 @@ html,body {
 }
 /*右侧内容*/
 .con {
-	width: 90%;
+    width: 100%;
 }
 .real_time {
 	background-color: #0183bf;

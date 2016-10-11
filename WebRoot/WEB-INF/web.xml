@@ -135,7 +135,7 @@
     <filter-class>smart.sys.platform.filters.UserLoginFilter</filter-class>
     <init-param>
       <param-name>loginPage</param-name>
-      <param-value>login.jsp</param-value>
+      <param-value>/login.jsp</param-value>
     </init-param>
   </filter>
   <filter-mapping>
@@ -144,6 +144,7 @@
     <url-pattern>/example/*</url-pattern>
     <url-pattern>/jsp/*</url-pattern>
   </filter-mapping>
+   <!-- 登录 -->
   <servlet>
     <servlet-name>userLogin</servlet-name>
     <servlet-class>com.jrsoft.fri.xtgl.action.UserLoginServlet</servlet-class>
@@ -156,8 +157,25 @@
     <servlet-name>userLogin</servlet-name>
     <url-pattern>/userLogin</url-pattern>
   </servlet-mapping>
-  
-  
+   <!-- 登录 -->
+  <!-- 退出登录 -->
+   <servlet>
+    <servlet-name>userLogout</servlet-name>
+    <servlet-class>com.jrsoft.fri.xtgl.action.UserLogout</servlet-class>
+    <init-param>
+      <param-name>RPMS</param-name>
+      <param-value>科研管理系统</param-value>
+    </init-param>
+    <init-param>
+      <param-name>welcomePage</param-name>
+      <param-value>/login.jsp</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>userLogout</servlet-name>
+    <url-pattern>/userLogout</url-pattern>
+  </servlet-mapping>
+   <!-- 退出登录 -->
 <!-- 随机验证码 -->
 <servlet>  
     <description>输出验证码</description>  
@@ -171,7 +189,7 @@
     <url-pattern>/PictureCheckCode</url-pattern>  
   </servlet-mapping>  
   <welcome-file-list>  
-    <welcome-file>login.jsp</welcome-file>  
+    <welcome-file>/login.jsp</welcome-file>  
   </welcome-file-list>
 <!-- 随机验证码 -->
 
@@ -185,11 +203,11 @@
 <!--404\500错误友好提示界面 start-->
   	<error-page>
 		<error-code>404</error-code>
-		<location>/system/jsp/common/error/error404.jsp</location>
+		<location>/404.html</location>
   	</error-page>
   	<error-page>
 		<error-code>500</error-code>
-		<location>/system/jsp/common/error/error500.jsp</location>
+		<location>/500.html</location>
   	</error-page>
 <!--404\500错误友好提示界面 end-->
 
