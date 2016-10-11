@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,20 +12,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'updateRegion.jsp' starting page</title>
+    <title>区域信息列表</title>
     
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
-  </head>
-  
-  <body>
-    This is my JSP page. <br>
+	<link rel="stylesheet" type="text/css" href="<%=path %>/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/comm.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/file/file_index.css" />
+	</head>
+<script type="text/javascript">
+     function add(){
+		 	$('#form').submit();
+     }
+</script>
+	<body>
+		
+		<div class="wrap clearfix">
+			<div class="con fl">			
+				<div class="con_right">	
+					<div class="add_info">
+						<form id="form" action="<%=path %>/regionAction.do?method=updateEntity" method="post"  encType="multipart/form-data">
+							<p>
+								<label for="area2">行政区域&nbsp;:&nbsp;</label>
+								<input  type="hidden"  value="${list.id}"  name="region.id"  id="id"/>
+								<input type="text" id="region"  name="region.region" value="${list.region}"/>
+							</p>
+							<p>
+								<label for="name">客户名称&nbsp;:&nbsp;</label>
+								<input type="text" id="clientId"  name="region.clientId"  value="${list.clientId}"/>
+							</p>
+							<p class="clearfix">
+								<label for="">&nbsp;</label>
+								<input type="submit" class="sure" value="确定"  onclick="add();"></input>
+								<input type="reset" class="reset" value="重置"  onclick="reset();">
+							</p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
   </body>
 </html>

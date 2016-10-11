@@ -22,7 +22,7 @@
 	
 	<body>
 	<iframe width="100%" height="50" id="top" name="top" frameborder=0 scrolling=no src="<%=path%>/jsp/dagl/top.jsp" ></iframe>
-	<iframe width="100%" height="550" id="main" name="main" frameborder=0 scrolling=no src="<%=path%>/jsp/dagl/region/regionList.jsp"  style="margin-top: -4px; margin-bottom: -20px;"></iframe>
+	<iframe width="100%" height="550" id="main" name="main" frameborder=0 scrolling=no src="<%=path%>/regionAction.do?method=query"  style="margin-top: -4px; margin-bottom: -20px;"></iframe>
 	
 		</body>		
 </html>

@@ -16,6 +16,13 @@ public class DaxxRegionServiceImpl    extends BaseServiceImpl<DaxxRegion> implem
 		this.regionDao = regionDao;
 	}
 
+	@Override
+	public void export(String filePath, DaxxRegion region) {
+		regionDao.export(filePath, region);
+		
+	}
+	
+
 
 	
 

@@ -21,7 +21,7 @@
 	<script type="text/javascript">
 	   function toMain(flag){
 		   if(flag==1){
-			   window.parent.main.location="<%=path%>/jsp/dagl/region/regionList.jsp";
+			   window.parent.main.location="<%=path%>/regionAction.do?method=query";
 		   }
 		   if(flag==2){
 			   window.parent.main.location="<%=path%>/jsp/dagl/region/addRegion.jsp";

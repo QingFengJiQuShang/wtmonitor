@@ -10,9 +10,9 @@ public class DaxxRegion implements java.io.Serializable {
 
 	// Fields
 
-	private int id;
+	private Long id;
 	private String region;			//行政区域
-	private int clientId;   //客户id
+	private Long clientId;   //客户id
  
 	// Constructors
 
@@ -21,18 +21,18 @@ public class DaxxRegion implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public DaxxRegion(String region, int clientId) {
+	public DaxxRegion(String region, Long clientId) {
 		this.region = region;
 		this.clientId = clientId;
 	}
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -44,11 +44,11 @@ public class DaxxRegion implements java.io.Serializable {
 		this.region = region;
 	}
 
-	public int getClientId() {
+	public Long getClientId() {
 		return this.clientId;
 	}
 
-	public void setClientId(int clientId) {
+	public void setClientId(Long clientId) {
 		this.clientId = clientId;
 	}
 

@@ -10,14 +10,14 @@ public class DaxxUseUnit implements java.io.Serializable {
 
 	// Fields
 
-	private int id;
+	private Long id;
 	private String name;			//单位名称
 	private String type;				//单位类型
 	private String reception;				//前台电话
 	private String liaisons;				//联络人
 	private String phone;				//联络电话
 	private String address;				//地址
-	private int regionId;				//区域id
+	private Long regionId;				//区域id
 
 	// Constructors
 
@@ -27,7 +27,7 @@ public class DaxxUseUnit implements java.io.Serializable {
 
 	/** full constructor */
 	public DaxxUseUnit(String name, String type, String reception,
-			String liaisons, String phone, String address, int regionId) {
+			String liaisons, String phone, String address, Long regionId) {
 		this.name = name;
 		this.type = type;
 		this.reception = reception;
@@ -39,11 +39,11 @@ public class DaxxUseUnit implements java.io.Serializable {
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -95,11 +95,11 @@ public class DaxxUseUnit implements java.io.Serializable {
 		this.address = address;
 	}
 
-	public int getRegionId() {
+	public Long getRegionId() {
 		return this.regionId;
 	}
 
-	public void setRegionId(int regionId) {
+	public void setRegionId(Long regionId) {
 		this.regionId = regionId;
 	}
 

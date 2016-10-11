@@ -10,12 +10,12 @@ public class XtglMaintenanceRecords implements java.io.Serializable {
 
 	// Fields
 
-	private int id;		//id
+	private Long id;		//id
 	private Date time;		//维保日期
-	private int unitId;		//维保单位_id
-	private int userId;		//维保人Id
+	private Long unitId;		//维保单位_id
+	private Long userId;		//维保人Id
 	private String content;		//维保内容
-	private int elevatorId;		//维保电梯Id
+	private Long elevatorId;		//维保电梯Id
 
 	// Constructors
 
@@ -24,8 +24,8 @@ public class XtglMaintenanceRecords implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public XtglMaintenanceRecords(Date time, int unitId,
-			int userId, String content, int elevatorId) {
+	public XtglMaintenanceRecords(Date time, Long unitId,
+			Long userId, String content, Long elevatorId) {
 		this.time = time;
 		this.unitId = unitId;
 		this.userId = userId;
@@ -35,11 +35,11 @@ public class XtglMaintenanceRecords implements java.io.Serializable {
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -51,19 +51,19 @@ public class XtglMaintenanceRecords implements java.io.Serializable {
 		this.time = time;
 	}
 
-	public int getUnitId() {
+	public Long getUnitId() {
 		return this.unitId;
 	}
 
-	public void setUnitId(int unitId) {
+	public void setUnitId(Long unitId) {
 		this.unitId = unitId;
 	}
 
-	public int getUserId() {
+	public Long getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -75,11 +75,11 @@ public class XtglMaintenanceRecords implements java.io.Serializable {
 		this.content = content;
 	}
 
-	public int getElevatorId() {
+	public Long getElevatorId() {
 		return this.elevatorId;
 	}
 
-	public void setElevatorId(int elevatorId) {
+	public void setElevatorId(Long elevatorId) {
 		this.elevatorId = elevatorId;
 	}
 

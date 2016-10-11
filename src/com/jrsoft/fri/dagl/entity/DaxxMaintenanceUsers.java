@@ -10,7 +10,7 @@ public class DaxxMaintenanceUsers implements java.io.Serializable {
 
 	// Fields
 
-	private int id;
+	private Long id;
 	private String name;		//维保人
 	private String numbers;		//维保证编号
 	private String validity;		//维保证有效期
@@ -33,11 +33,11 @@ public class DaxxMaintenanceUsers implements java.io.Serializable {
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

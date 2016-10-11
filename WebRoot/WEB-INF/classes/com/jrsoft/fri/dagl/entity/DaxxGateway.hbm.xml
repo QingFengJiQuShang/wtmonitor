@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="com.jrsoft.fri.dagl.entity.DaxxGateway" table="DAXX_GATEWAY" schema="WTMONITOR">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="java.lang.Long">
             <column name="ID" precision="22" scale="0" />
             <generator class="sequence" >
                  <param name="sequence">Gateway</param>

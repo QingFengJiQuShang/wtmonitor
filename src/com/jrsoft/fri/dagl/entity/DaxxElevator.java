@@ -12,7 +12,7 @@ public class DaxxElevator implements java.io.Serializable {
 
 	// Fields
 
-	private int id;
+	private Long id;
 	private String registerid;			//电梯注册号
 	private String distinguishid;		//识别码
 	private String brand;		//电梯品牌
@@ -24,9 +24,9 @@ public class DaxxElevator implements java.io.Serializable {
 	private String label;		//地图标注
 	private String place;		//安装地点
 	private Date manufactureTime;		//生产日期
-	private int gatewayId;		//电梯网关id
-	private int useUnitId;		//使用单位id
-	private int maintenanceUnitId;		//维保单位id
+	private Long gatewayId;		//电梯网关id
+	private Long useUnitId;		//使用单位id
+	private Long maintenanceUnitId;		//维保单位id
 	private String yearlyState;		//年检状态
 	private String maintenanceState;		//维保状态
 
@@ -40,8 +40,8 @@ public class DaxxElevator implements java.io.Serializable {
 	public DaxxElevator(String registerid, String distinguishid, String brand,
 			String model, String state, String type, String numbers,
 			String lengths, String label, String place,
-			Date manufactureTime, int gatewayId,
-			int useUnitId, int maintenanceUnitId,
+			Date manufactureTime, Long gatewayId,
+			Long useUnitId, Long maintenanceUnitId,
 			String yearlyState, String maintenanceState) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
@@ -63,11 +63,11 @@ public class DaxxElevator implements java.io.Serializable {
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -159,27 +159,27 @@ public class DaxxElevator implements java.io.Serializable {
 		this.manufactureTime = manufactureTime;
 	}
 
-	public int getGatewayId() {
+	public Long getGatewayId() {
 		return this.gatewayId;
 	}
 
-	public void setGatewayId(int gatewayId) {
+	public void setGatewayId(Long gatewayId) {
 		this.gatewayId = gatewayId;
 	}
 
-	public int getUseUnitId() {
+	public Long getUseUnitId() {
 		return this.useUnitId;
 	}
 
-	public void setUseUnitId(int useUnitId) {
+	public void setUseUnitId(Long useUnitId) {
 		this.useUnitId = useUnitId;
 	}
 
-	public int getMaintenanceUnitId() {
+	public Long getMaintenanceUnitId() {
 		return this.maintenanceUnitId;
 	}
 
-	public void setMaintenanceUnitId(int maintenanceUnitId) {
+	public void setMaintenanceUnitId(Long maintenanceUnitId) {
 		this.maintenanceUnitId = maintenanceUnitId;
 	}
 

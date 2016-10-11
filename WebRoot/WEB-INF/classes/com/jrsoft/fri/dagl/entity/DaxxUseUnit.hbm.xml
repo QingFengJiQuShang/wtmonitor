@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="com.jrsoft.fri.dagl.entity.DaxxUseUnit" table="DAXX_USE_UNIT" schema="WTMONITOR">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="java.lang.Long">
             <column name="ID" precision="22" scale="0" />
             <generator class="sequence" >
                  <param name="sequence">Use_Unit</param>
@@ -30,7 +30,7 @@
         <property name="address" type="java.lang.String">
             <column name="ADDRESS" length="200" />
         </property>
-        <property name="regionId" type="java.lang.Integer">
+        <property name="regionId" type="java.lang.Long">
             <column name="REGION_ID" precision="22" scale="0" />
         </property>
     </class>

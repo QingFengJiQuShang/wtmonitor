@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -15,11 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/file/file_index.css" />
 		<script type="text/javascript">
-		  function add(){
-			  window.location="<%=path%>/jsp/dagl/region/addRegion.jsp";
-			  
-		  }
-		
+		    	
 		</script>
 	</head>
 
@@ -32,26 +31,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="con_right">
 					<div class="user_list clearfix">
 						<div class="choose">
-							<form>
 								<div class="term clearfix">
 									<p class="fl">
-										<label for="area">行政区域&nbsp;:&nbsp;</label>
-										<input  name="" id="area" placeholder="请输入">
+										<label for="area">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;行政区域&nbsp;:&nbsp;</label>
+										<input name="region.region"    value="${reg}"  id="region" placeholder="请输入">
 									</p>
-									<p class="fl place">
-										<label for="place">地点&nbsp;:&nbsp;</label>
-										<select name="" id="">
-											<option value="">请选择</option>
-										</select>
+									<p class="fl">
+										<label for="area">&nbsp;&nbsp;&nbsp;&nbsp;客户名称&nbsp;:&nbsp;</label>
+										<input name="region.clientId"    value="${client}"  id="client" placeholder="请输入">
 									</p>
-									<button class="fl polling">查询</button>
+									<button class="fl polling"  onclick="query();">查询</button>
 								</div>
-							</form>
+							
 						</div>
 						<div class="clearfix tiao">
 							<p class="add add_user fl"  onclick="add();">新增</p>
 							<p class="delete_batch fl">批量删除</p>
-							<p class="fr export"><img src="<%=path %>/img/export.png" />导出文档</p>
+							<p class="fr export"  onclick="exp();"><img src="<%=path %>/img/export.png" />导出文档</p>
 						</div>
 						<div class="table">
 							<table>
@@ -65,27 +61,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</tr>
 								</thead>
 								<tbody>
+
+                  		  <c:forEach items="${list}" var="list">
 									<tr>
-										<td class="select"><em class="fl"></em></td>
-										<td>XXX</td>
-										<td>XXX</td>
+										<td class="select">								
+											<em class="fl"><input type="hidden" value="${list.id}" /></em>
+										</td>
+										<td >${list.region}</td>
+										<td>${list.clientId}</td>
 										<td>
-											<span class="add_user"><img src="<%=path %>/img/edit.png" alt="" />编辑</span>
-											<span class="delete"><img src="<%=path %>/img/delete.png"/>删除</span>
+											<span class="add_user" onclick="findById('${list.id}');"><img src="<%=path %>/img/edit.png" alt="" />编辑</span>
+											<span class="delete"  onclick="del('${list.id}');"><img src="<%=path %>/img/delete.png"/ >删除</span>
 										</td>
 									</tr>
-									<tr>
-										<td class="select"><em class="fl"></em></td>
-										<td>XXX</td>
-										<td>XXX</td>
-										<td>
-											<span class="add_user"><img src="<%=path %>/img/edit.png" alt="" />编辑</span>
-											<span class="delete"><img src="<%=path %>/img/delete.png"/>删除</span>
-										</td>
-									</tr>
+									</c:forEach>
 								</tbody>
 							</table>
+							<p class="page clearfix">
+								<c:if test="${page.pageNum==0}">
+										<span class="fl" style="background-color:  #e0e0e0;">上一页</span>
+								 </c:if>
+							 	 <c:if test="${page.pageNum!=0}">
+							 	 		<span class="fl"  onclick="fenye('${page.pageNum-1	}')">上一页</span>
+                         		</c:if>
+								
+								<c:if test="${page.pageNum+1==page.countSize}">
+                        				<span class="fr"  style="background-color: #e0e0e0;">下一页</span>
+		                        </c:if>
+		                        <c:if test="${page.pageNum+1!=page.countSize}">
+		                        		<span class="fr"  onclick="fenye('${page.pageNum+1}')">下一页</span>
+		                    	</c:if>
+							</p>
+							
+							
 						</div>
+						
 					</div>
 					
 				</div>
@@ -94,8 +104,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</body>
 	<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path %>/js/file/file_idnex.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-
+	<script src="<%=path %>/js/file/file_idnex.js" type="text/javascript" charset="utf-8"></script>
+	
   </body>
 </html>

@@ -39,13 +39,13 @@ public class BaseServiceImpl<T extends Serializable> implements BaseService<T> {
 	}
 
 	@Override
-	public T get(int id) {
+	public T get(Long id) {
 		
 		return (T)baseDao.get(id);
 	}
 
 	@Override
-	public T load(int id) {
+	public T load(Long id) {
 		
 		return (T)baseDao.load(id);
 	}
@@ -57,7 +57,7 @@ public class BaseServiceImpl<T extends Serializable> implements BaseService<T> {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(Long id) {
 			baseDao.delete(id);
 	}
 

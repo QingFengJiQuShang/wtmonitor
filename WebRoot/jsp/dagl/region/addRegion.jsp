@@ -21,7 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
      function add(){
 		 	$('#form').submit();
-    }
      }
 </script>
 	<body>
@@ -33,16 +32,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<form id="form" action="<%=path %>/regionAction.do?method=addEntity" method="post"  encType="multipart/form-data">
 							<p>
 								<label for="area2">行政区域&nbsp;:&nbsp;</label>
-								<input type="text" id="region"  name="region"/>
+								<input type="text" id="region"  name="region.region"/>
 							</p>
 							<p>
 								<label for="name">客户名称&nbsp;:&nbsp;</label>
-								<input type="text" id=""  name="" />
+								<input type="text" id="clientId"  name="region.clientId" />
 							</p>
 							<p class="clearfix">
 								<label for="">&nbsp;</label>
 								<input type="submit" class="sure" value="确定"  onclick="add();"></input>
-								<input type="reset" class="reset" value="重置">
+								<input type="reset" class="reset" value="重置"  onclick="reset();">
 							</p>
 						</form>
 					</div>

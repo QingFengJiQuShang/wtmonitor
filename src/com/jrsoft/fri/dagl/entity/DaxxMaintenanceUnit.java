@@ -9,7 +9,7 @@ public class DaxxMaintenanceUnit implements java.io.Serializable {
 
 	// Fields
 
-	private int id;
+	private Long id;
 	private String name;			//单位名称
 	private String liaisons;			//负责人
 	private String phone;			//负责人电话
@@ -36,11 +36,11 @@ public class DaxxMaintenanceUnit implements java.io.Serializable {
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

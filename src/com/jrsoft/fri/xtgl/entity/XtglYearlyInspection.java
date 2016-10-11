@@ -10,12 +10,12 @@ public class XtglYearlyInspection implements java.io.Serializable {
 
 	// Fields
 
-	private int id;			//id
+	private Long id;			//id
 	private Date time;			//检验日期
 	private String inspectionUnit;			//检验单位
 	private String result;			//检验结果
 	private String remarks;			//备注
-	private int elevatorId;			//年检电梯Id
+	private Long elevatorId;			//年检电梯Id
 
 	// Constructors
 
@@ -25,7 +25,7 @@ public class XtglYearlyInspection implements java.io.Serializable {
 
 	/** full constructor */
 	public XtglYearlyInspection(Date time, String inspectionUnit,
-			String result, String remarks, int elevatorId) {
+			String result, String remarks, Long elevatorId) {
 		this.time = time;
 		this.inspectionUnit = inspectionUnit;
 		this.result = result;
@@ -35,11 +35,11 @@ public class XtglYearlyInspection implements java.io.Serializable {
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -75,11 +75,11 @@ public class XtglYearlyInspection implements java.io.Serializable {
 		this.remarks = remarks;
 	}
 
-	public int getElevatorId() {
+	public Long getElevatorId() {
 		return this.elevatorId;
 	}
 
-	public void setElevatorId(int elevatorId) {
+	public void setElevatorId(Long elevatorId) {
 		this.elevatorId = elevatorId;
 	}
 

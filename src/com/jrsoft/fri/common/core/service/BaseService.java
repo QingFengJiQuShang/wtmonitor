@@ -10,10 +10,10 @@ public interface BaseService<T extends Serializable> {
 	public T save(T entity);
 	public T saveWithAtta(T entity , String tempOwnerId);
 	public T saveorupdate(T entity);
-	public T load(int id);
-	public T get(int id);
+	public T load(Long id);
+	public T get(Long id);
 	public T update(T entity);
-	public void delete(int ids);
+	public void delete(Long ids);
 	public List<T> query(Page page);
 	public List<T> queryAll(String checkhql);
 	public List<Object []> executeSQLQuery(final String sql);

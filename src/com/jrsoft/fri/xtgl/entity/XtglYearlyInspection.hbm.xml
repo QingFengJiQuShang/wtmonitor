@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="com.jrsoft.fri.xtgl.entity.XtglYearlyInspection" table="XTGL_YEARLY_INSPECTION" schema="WTMONITOR">
-        <id name="id" type="java.lang.Integer">
+        <id name="id" type="java.lang.Long">
             <column name="ID" precision="22" scale="0" />
              <generator class="sequence" >
                  <param name="sequence">YEARLY_INSPECTION</param>
@@ -24,7 +24,7 @@
         <property name="remarks" type="java.lang.String">
             <column name="REMARKS" length="2000" />
         </property>
-        <property name="elevatorId" type="java.lang.Integer">
+        <property name="elevatorId" type="java.lang.Long">
             <column name="ELEVATOR_ID" precision="22" scale="0" />
         </property>
     </class>

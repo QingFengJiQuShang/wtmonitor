@@ -34,7 +34,7 @@ public class DBEntity {
 		}
 		return hibernateTemplate;
 	}
-	private Connection getConnection() throws SQLException{
+	public Connection getConnection() throws SQLException{
 		if(conn==null||conn.isClosed()||(!conn.isValid(10))){
 			conn = getHibernateTemplate().getSessionFactory().openSession().connection();
 			System.out.println("连接已被关闭，重新取得连接");

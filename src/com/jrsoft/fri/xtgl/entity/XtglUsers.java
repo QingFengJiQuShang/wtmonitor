@@ -10,7 +10,7 @@ public class XtglUsers implements java.io.Serializable {
 
 	// Fields
 
-	private int id;								//id
+	private Long id;								//id
 	private String name;				//ĞÕÃû
 	private String loginname;		//µÇÂ¼Ãû
 	private String password;		//ÃÜÂë
@@ -35,11 +35,11 @@ public class XtglUsers implements java.io.Serializable {
 
 	// Property accessors
 
-	public int getId() {
+	public Long getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
