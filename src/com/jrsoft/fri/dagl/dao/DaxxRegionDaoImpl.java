@@ -89,7 +89,7 @@ public class DaxxRegionDaoImpl  extends BaseDaoImpl< DaxxRegion, String> impleme
 					    row = sheet.createRow(i+1);
 					    DaxxRegion	e = (DaxxRegion) list.get(i);
 						
-						cell = row.createCell(++j);// 创建格 字段
+						cell = row.createCell(j);// 创建格 字段
 						cell.setCellValue(e.getRegion());   //行政区域
 						
 						cell = row.createCell(++j);// 创建格 字段
@@ -108,6 +108,7 @@ public class DaxxRegionDaoImpl  extends BaseDaoImpl< DaxxRegion, String> impleme
 			fOut.flush();
 			// 操作结束，关闭文件
 			fOut.close();
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("已运行 xlCreate() : " + e);

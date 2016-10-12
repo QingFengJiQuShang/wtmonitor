@@ -16,5 +16,11 @@ public class DaxxElevatorServiceImpl   extends BaseServiceImpl<DaxxElevator> imp
 		this.elevatorDao = elevatorDao;
 	}
 
+	@Override
+	public void export(String filePath, DaxxElevator elevator) {
+		elevatorDao.export(filePath, elevator);
+		
+	}
+
 	
 }

@@ -233,7 +233,7 @@ public class DaxxRegionAction extends DispatchAction {
 					.format(new Date());
 			String fileName = "区域信息" + dates + ".xls";
 			String filePath = request.getRealPath("/")
-					+ "execl\\" + fileName;
+					+ "excel\\" + fileName;
 			// 生成excel文件
 			regionService.export(filePath, region);
 
@@ -270,7 +270,7 @@ public class DaxxRegionAction extends DispatchAction {
 		}
 
 	
-		 return	new ActionForward("/regionAction.do?method=query");
+		 return	null;
 		
 	}
 

@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 	<link rel="stylesheet" type="text/css" href="<%=path %>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/comm.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/file/file_index.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/file/file_dianti.css" />
 	</head>
 <script type="text/javascript">
      function add(){
@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="con fl">			
 				<div class="con_right">	
 					<div class="add_info">
-						<form id="form" action="<%=path %>/regionAction.do?method=addEntity" method="post"  encType="multipart/form-data">
+						<form id="form" action="<%=path %>/elevatorAction.do?method=addEntity" method="post"  encType="multipart/form-data">
 							<p>
 								<label for="area2">行政区域&nbsp;:&nbsp;</label>
 								<input type="text" id="region"  name="region.region"/>

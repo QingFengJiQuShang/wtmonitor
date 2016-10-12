@@ -71,11 +71,15 @@
 .add_info {
 	width: 90%;
 	margin: 0 auto;
-	display: none;
 }
-.add_info p {
+.add_info ul li p {
+	width: 50%;
 	position: relative;
 	line-height: 50px;
+}
+.add_info .sub {
+	width: 50%;
+	margin: 0 auto;
 }
 .add_info p span {
     color: red;
@@ -98,9 +102,6 @@
 }
 #content {
 	height: 100px;
-}
-.add_info p:last-child{
-	margin: 20px auto 0;
 }
 .add_info .sure,
 .add_info .reset {

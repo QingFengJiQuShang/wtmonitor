@@ -24,7 +24,7 @@
 			   window.parent.main.location="<%=path%>/regionAction.do?method=query";
 		   }
 		   if(flag==2){
-			   window.parent.main.location="<%=path%>/jsp/dagl/region/addRegion.jsp";
+			   window.parent.main.location="<%=path%>/elevatorAction.do?method=query";
 		   }
 	   }
 	   $(document).ready(function() {

@@ -1,8 +1,10 @@
 package com.jrsoft.fri.dagl.action;
 
+import org.apache.struts.actions.DispatchAction;
+
 import com.jrsoft.fri.dagl.service.DaxxUseUnitService;
 
-public class DaxxUseUnitAction {
+public class DaxxUseUnitAction  extends DispatchAction  {
 	private DaxxUseUnitService useUnitService;
 
 	public DaxxUseUnitService getUseUnitService() {

@@ -4,5 +4,5 @@ import com.jrsoft.fri.common.core.service.BaseService;
 import com.jrsoft.fri.dagl.entity.DaxxElevator;
 
 public interface DaxxElevatorService   extends BaseService< DaxxElevator>{
-
+	void export(String filePath,DaxxElevator elevator);
 }
