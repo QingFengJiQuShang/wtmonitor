@@ -33,9 +33,10 @@ function sign(){
 	<body>
 	
 <iframe width="100%" height="60" id="topFrame" name="topFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/top.jsp" ></iframe>
-<iframe width="100%" height="550" id="mainFrame" name="mainFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/main.jsp"  style="margin-top: -4px; margin-bottom: -20px;"></iframe>
+<iframe width="100%" height="610" id="mainFrame" name="mainFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/main.jsp"  style="margin-top: -4px; margin-bottom: -20px;"></iframe>
+<!-- 
 <iframe width="100%" height="0" frameborder=0 src="<%=path%>/jsp/bottom.jsp" scrolling="no" style="margin-top: -4px;" ></iframe>
-
+ -->
 	</body>
 
 </html>

@@ -26,6 +26,9 @@
 		   if(flag==2){
 			   window.parent.main.location="<%=path%>/elevatorAction.do?method=query";
 		   }
+		   if(flag==3){
+			   window.parent.main.location="<%=path%>/gatewayAction.do?method=query";
+		   }
 	   }
 	   $(document).ready(function() {
                     $(".real_time   li").click(function() {
@@ -46,7 +49,7 @@
 					<li style="width: 15%;float: left;"     onclick="toMain('2')">
 						<a href="javascript:void(0);"  >电梯信息</a>
 					</li>
-					<li style="width: 15%;float: left;"     onclick="toMain('2')">
+					<li style="width: 15%;float: left;"     onclick="toMain('3')">
 						<a href="javascript:void(0);"  >电梯网关信息</a>
 					</li>
 					<li style="width: 15%;float: left;"   onclick="toMain('2')">

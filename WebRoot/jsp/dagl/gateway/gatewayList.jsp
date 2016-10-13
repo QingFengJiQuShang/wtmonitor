@@ -12,11 +12,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>区域信息列表</title>
+    <title>电梯网关信息列表</title>
     
 	<link rel="stylesheet" type="text/css" href="<%=path %>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/comm.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/file/file_dianti.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/file/file_wang.css" />
 		<script type="text/javascript">
 		    	
 		</script>
@@ -30,52 +30,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="user_list clearfix">
 					<div class="choose">
 							<div class="term clearfix">
-								<p class="fl">
-									<label for="area">注册号&nbsp;:&nbsp;</label>
-									<input  name="reg"  id="reg"  value="${register}"  placeholder="请输入">
-								</p>
-								<p class="fl ">
-									<label for="ident">识别号&nbsp;:&nbsp;</label>
-									<input id="distinguish" name="distinguish"  value="${distinguish}"  placeholder="请输入">
-								</p>
-								<p class="fl">
-									<label for="tagging">地图标注&nbsp;:&nbsp;</label>
-									<input name="labels" id="labels"   value="${label}"  placeholder="请输入">
-								</p>
-							</div>
-							<div class="term clearfix">
-								<p class="fl">
-									<label for="area">电梯品牌&nbsp;:&nbsp;</label>
-									<select name="brand"  id="brand">
-										<option value="">请选择</option>
-									</select>
-								</p>
-								<p class="fl ">
-									<label for="place">电梯型号&nbsp;:&nbsp;</label>
-									<select name="model"  id="model">
-										<option value="">请选择</option>
-									</select>
-								</p>
-								<p class="fl">
-									<label for="place">电梯类型&nbsp;:&nbsp;</label>
-									<select name="type" id="type">
-										<option value="">请选择</option>
-									</select>
-								</p>
-							</div>
-							<div class="term clearfix">
-								<p class="fl">
-									<label for="area">总层数&nbsp;:&nbsp;</label>
-									<select name="numbers"  id="numbers">
-										<option value="">请选择</option>
-									</select>
-								</p>
-								<p class="fl ">
-									<label for="place">长度&nbsp;:&nbsp;</label>
-									<select name="lengths" id="lengths">
-										<option value="">请选择</option>
-									</select>
-								</p>
+									<p class="fl">
+										<label for="area">电梯网关类型&nbsp;:&nbsp;</label>
+										<select  id="type">
+											<option value="">请选择</option>
+											<option value="并行网关">并行网关</option>
+											<option value="事件网关">事件网关</option>
+											<option value="包含网关">包含网关</option>
+										</select>
+									</p>
+									<p class="fl ">
+										<label for="place">取流方式&nbsp;:&nbsp;</label>
+										<select  id="net">
+											<option value="">请选择</option>
+											<option value="并联">并联</option>
+											<option value="串联">串联</option>
+											
+										</select>
+									</p>
+									<p class="fl">
+										<label for="place">入网方式&nbsp;:&nbsp;</label>
+										<select   id="flow">
+											<option value="">请选择</option>
+											<option value="有线">有线</option>
+											<option value="无线">无线</option>
+										</select>
+									</p>
+									<p class="fl">
+										<label for="letter">通信路线&nbsp;:&nbsp;</label>
+										<input type="text" id="communication" value="${communication}" placeholder="请输入"/>
+									</p>
+								</div>
+								<div class="term clearfix">
+									
+									<p class="fl ">
+										<label for="place">终端机型&nbsp;:&nbsp;</label>
+										<input type="text" id="terminal"  value="${terminal}"/>
+									</p>
+									<p class="fl">
+										<label for="place">硬件版本&nbsp;:&nbsp;</label>
+										<input type="text" id="hardware"   value="${hardware}"/>
+									</p>
+									<p class="fl">
+										<label for="area">软件版本&nbsp;:&nbsp;</label>
+										<input type="text" id="software"   value="${software}"  />
+									</p>
+									
 								<button class="fl polling"  onclick="query();">查询</button>
 							</div>
 					</div>
@@ -90,17 +90,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<tr>
 										<th class="all" width="50px">
 											<em class="fl"></em>全选</th>
-										<th>注册号</th>
-										<th>识别码</th>
-										<th>电梯品牌</th>
-										<th>电梯型号</th>
-										<th>电梯类型</th>
-										<th>安装地点</th>
-										<th>生产日期 </th>
-										<th>注册状态</th>
-										<th>总层数</th>
-										<th>地图标注</th>
-										<th>长度</th>
+										<th>电梯网关类型</th>
+										<th>取流方式</th>
+										<th>入网方式</th>
+										<th>通信路线</th>
+										<th>终端机型</th>
+										<th>硬件版本</th>
+										<th>软件版本 </th>
 										<th>操作</th>
 									</tr>
 								</thead>
@@ -111,17 +107,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<td class="select">								
 											<em class="fl"><input type="hidden" value="${list.id}" /></em>
 										</td>
-										<td >${list.registerid}</td>
-										<td>${list.distinguishid}</td>
-										<td>${list.brand}</td>
-										<td>${list.model}</td>
-										<td>${list.type}</td>
-										<td>${list.place}</td>
-										<td>${list.manufactureTime}</td>
-										<td>${list.state}</td>
-										<td>${list.numbers}</td>
-										<td>${list.label}</td>
-										<td>${list.lengths}</td>
+										<td >${list.type}</td>
+										<td>${list.flow}</td>
+										<td>${list.net}</td>
+										<td>${list.communication}</td>
+										<td>${list.terminal}</td>
+										<td>${list.hardware}</td>
+										<td>${list.software}</td>
 										<td>
 											<span class="add_user" onclick="findById('${list.id}');"><img src="<%=path %>/img/edit.png" alt="" />编辑</span>
 											<span class="delete"  onclick="del('${list.id}');"><img src="<%=path %>/img/delete.png"/ >删除</span>
@@ -158,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path %>/js/file/file_dianti.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path %>/js/file/file_wang.js" type="text/javascript" charset="utf-8"></script>
 	
   </body>
 </html>

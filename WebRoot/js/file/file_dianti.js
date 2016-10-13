@@ -1,7 +1,45 @@
-		//模糊查询
+		function gotoUrl (){
+			   var reg= document.getElementById("reg").value;
+			   var distinguish= document.getElementById("distinguish").value;
+			  var label= document.getElementById("labels").value;
+			  var brand= document.getElementById("brand").value;
+			  var type= document.getElementById("type").value;
+			  var model= document.getElementById("model").value;
+			  var numbers= document.getElementById("numbers").value;
+			  var lengths= document.getElementById("lengths").value;
+			  
+			  var url="";
+			  if(reg!=""){
+				  url=url+"&reg="+reg;
+			  }
+			  if(distinguish!=""){
+				  url=url+"&distinguish="+distinguish;
+			  }
+			  if(label!=""){
+				  url=url+"&label="+label;
+			  }
+			  if(brand!=""){
+				  url=url+"&brand="+brand;
+			  }
+			  if(type!=""){
+				  url=url+"&type="+type;
+			  }
+			  if(model!=""){
+				  url=url+"&model="+model;
+			  }
+			  if(numbers!=""){
+				  url=url+"&numbers="+numbers;
+			  }
+			  if(lengths!=""){
+				  url=url+"&lengths="+lengths;
+			  }
+			  
+			  return url;
+		  }
+	   //模糊查询
 		function query(){
-			 
-			  window.location.href="elevatorAction.do?method=query"+gotoUrl ();			  
+			 var url=gotoUrl();
+    		  window.location.href="elevatorAction.do?method=query"+url;
 		  }
 		//添加
 		function add(){
@@ -28,39 +66,7 @@
          }
 		  
 		  
-		  function gotoUrl (){
-			   var distinguish= document.getElementById("distinguish").value;
-			  var label= document.getElementById("label").value;
-			  var brand= document.getElementById("brand").value;
-			  var type= document.getElementById("type").value;
-			  var model= document.getElementById("model").value;
-			  var numbers= document.getElementById("numbers").value;
-			  var lengths= document.getElementById("lengths").value;
-			  
-			  var url="";
-			  if(distinguish!=""){
-				  url=url+"&distinguish="+distinguish;
-			  }
-			  if(label!=""){
-				  url=url+"&label="+label;
-			  }
-			  if(brand!=""){
-				  url=url+"&brand="+brand;
-			  }
-			  if(type!=""){
-				  url=url+"&type="+type;
-			  }
-			  if(model!=""){
-				  url=url+"&model="+model;
-			  }
-			  if(numbers!=""){
-				  url=url+"&numbers="+numbers;
-			  }
-			  if(lengths!=""){
-				  url=url+"&lengths="+lengths;
-			  }
-			  return url;
-		  }
+		  
 		  	//		批量删除
 $(".delete_batch").click(function() {
 	var ids="";

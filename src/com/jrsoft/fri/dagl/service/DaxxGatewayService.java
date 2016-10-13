@@ -4,5 +4,5 @@ import com.jrsoft.fri.common.core.service.BaseService;
 import com.jrsoft.fri.dagl.entity.DaxxGateway;
 
 public interface DaxxGatewayService   extends BaseService< DaxxGateway>{
-
+	void export(String filePath,DaxxGateway gateway);
 }

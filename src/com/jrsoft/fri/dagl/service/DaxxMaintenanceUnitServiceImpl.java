@@ -14,5 +14,11 @@ public class DaxxMaintenanceUnitServiceImpl    extends BaseServiceImpl<DaxxMaint
 	public void setMaintenanceUnitDao(DaxxMaintenanceUnitDao maintenanceUnitDao) {
 		this.setBaseDao(maintenanceUnitDao);
 		this.maintenanceUnitDao = maintenanceUnitDao;
+	}
+
+	@Override
+	public void export(String filePath, DaxxMaintenanceUnit gateway) {
+		maintenanceUnitDao.export(filePath, gateway);
+		
 	}	
 }

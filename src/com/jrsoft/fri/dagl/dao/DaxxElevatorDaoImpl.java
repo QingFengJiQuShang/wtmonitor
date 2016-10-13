@@ -49,15 +49,38 @@ public class DaxxElevatorDaoImpl extends BaseDaoImpl< DaxxElevator, String> impl
 			/**
 			 * 设置字体
 			 */
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式	
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式	
 			HSSFFont f = workbook.createFont();
 			f.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
 			style.setFont(f);		
 			String[] top_arraydis = null;
 			Connection conn = DBEntity.getInstance().getConnection();
 			//查询服务订单
-			String sql="select dr.*  from daxx_elevators dr where  1=1 " ;
-					
+			String sql="select dr.*  from daxx_elevator dr where  1=1 " ;
+			if(elevator.getRegisterid()!=null&&!elevator.getRegisterid().equals("")){
+				sql+=" and registerid like '%"+elevator.getRegisterid()+"%'";
+			}		
+			if(elevator.getDistinguishid()!=null&&!elevator.getDistinguishid().equals("")){
+				sql+=" and distinguishid like '%"+elevator.getDistinguishid()+"%'";
+			}
+			if(elevator.getLabel()!=null&&!elevator.getLabel().equals("")){
+				sql+=" and label like '%"+elevator.getLabel()+"%'";
+			}
+			if(elevator.getBrand()!=null&&!elevator.getBrand().equals("")){
+				sql+=" and brand like '%"+elevator.getBrand()+"%'";
+			}
+			if(elevator.getType()!=null&&!elevator.getType().equals("")){
+				sql+=" and type like '%"+elevator.getType()+"%'";
+			}
+			if(elevator.getModel()!=null&&!elevator.getModel().equals("")){
+				sql+=" and model like '%"+elevator.getModel()+"%'";
+			}
+			if(elevator.getNumbers()!=null&&!elevator.getNumbers().equals("")){
+				sql+=" and numbers like '%"+elevator.getNumbers()+"%'";
+			}
+			if(elevator.getLengths()!=null&&!elevator.getLengths().equals("")){
+				sql+=" and lengths like '%"+elevator.getLengths()+"%'";
+			}	
 			
 			sql+=" order by id";	
 			
@@ -77,18 +100,18 @@ public class DaxxElevatorDaoImpl extends BaseDaoImpl< DaxxElevator, String> impl
 				elevators.setLengths(rs.getString("lengths"));
 				elevators.setLabel(rs.getString("label"));
 				elevators.setPlace(rs.getString("place"));
-				elevators.setManufactureTime(rs.getDate("manufactureTime"));
-				elevators.setYearlyState(rs.getString("yearlyState"));
+				elevators.setManufactureTime(df.parse(rs.getString("manufacture_Time")));
+				elevators.setYearlyState(rs.getString("yearly_State"));
 				elevators.setGatewayId(rs.getLong("gateway_Id"));
 				elevators.setUseUnitId(rs.getLong("use_Unit_Id"));
 				elevators.setMaintenanceUnitId(rs.getLong("maintenance_Unit_Id"));
-				elevators.setMaintenanceState(rs.getString("maintenanceState"));
+				elevators.setMaintenanceState(rs.getString("maintenance_State"));
 				list.add(elevators);
 				
 			}
 			
 			if (1 == 1) {
-				top_arraydis = ExcelColumns.region;
+				top_arraydis = ExcelColumns.elevator;
 
 				row = sheet.createRow(0);// 创建一行
 
@@ -109,44 +132,44 @@ public class DaxxElevatorDaoImpl extends BaseDaoImpl< DaxxElevator, String> impl
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getDistinguishid());   //识别码
 
-						cell = row.createCell(j);// 创建格 字段
+						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getBrand());   //电梯品牌
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getModel());   //电梯型号
 
-						cell = row.createCell(j);// 创建格 字段
+						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getState());   //注册状态
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getType());   //电梯类型
 
-						cell = row.createCell(j);// 创建格 字段
+						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getNumbers());   //总层数
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getLengths());   //长度
 
-						cell = row.createCell(j);// 创建格 字段
+						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getLabel());   //地图标注
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getPlace());   //安装地点
 
-						cell = row.createCell(j);// 创建格 字段
-						cell.setCellValue(e.getManufactureTime());   //生产日期
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(df.format(e.getManufactureTime()));   //生产日期
 						
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getYearlyState());   //电梯网关id
+						cell.setCellValue(e.getGatewayId());   //电梯网关id
 
-						cell = row.createCell(j);// 创建格 字段
-						cell.setCellValue(e.getGatewayId());   //使用单位id
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getUseUnitId());   //使用单位id
 						
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getUseUnitId());   //维保单位id
+						cell.setCellValue(e.getMaintenanceUnitId());   //维保单位id
 
-						cell = row.createCell(j);// 创建格 字段
-						cell.setCellValue(e.getMaintenanceUnitId());   //年检状态
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getYearlyState());   //年检状态
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getMaintenanceState());   //维保状态

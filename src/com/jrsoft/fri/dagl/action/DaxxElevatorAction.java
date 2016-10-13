@@ -66,6 +66,7 @@ public class DaxxElevatorAction extends DispatchAction {
 	 */
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
+		String register=request.getParameter("reg");
 		String distinguish=request.getParameter("distinguish");
 		String label=request.getParameter("label");
 		String brand=request.getParameter("brand");
@@ -74,6 +75,9 @@ public class DaxxElevatorAction extends DispatchAction {
 		String numbers=request.getParameter("numbers");
 		String lengths=request.getParameter("lengths");
 		
+		 if(register!=null){
+			 register=new String(register.getBytes("iso-8859-1"),"utf-8");
+		 }
 		 if(distinguish!=null){
 			 distinguish=new String(distinguish.getBytes("iso-8859-1"),"utf-8");
 		 }
@@ -100,8 +104,11 @@ public class DaxxElevatorAction extends DispatchAction {
 
 		Page  page=new Page();
 		String hql=" where  1=1 " ;
+		if(register!=null&&!register.equals("")){
+			hql+=" and registerid like '%"+register+"%'";
+		}
 		if(distinguish!=null&&!distinguish.equals("")){
-			hql+=" and distinguish like '%"+distinguish+"%'";
+			hql+=" and distinguishid like '%"+distinguish+"%'";
 		}
 		if(label!=null&&!label.equals("")){
 			hql+=" and label like '%"+label+"%'";
@@ -138,27 +145,29 @@ public class DaxxElevatorAction extends DispatchAction {
 				
 				//查询服务订单
 				String sql="select de.*  from daxx_elevator de where  1=1 " ;
-						
+				if(register!=null&&!register.equals("")){
+					sql+=" and registerid like '%"+register+"%'";
+				}		
 				if(distinguish!=null&&!distinguish.equals("")){
-					hql+=" and distinguish like '%"+distinguish+"%'";
+					sql+=" and distinguishid like '%"+distinguish+"%'";
 				}
 				if(label!=null&&!label.equals("")){
-					hql+=" and label like '%"+label+"%'";
+					sql+=" and label like '%"+label+"%'";
 				}
 				if(brand!=null&&!brand.equals("")){
-					hql+=" and brand like '%"+brand+"%'";
+					sql+=" and brand like '%"+brand+"%'";
 				}
 				if(type!=null&&!type.equals("")){
-					hql+=" and type like '%"+type+"%'";
+					sql+=" and type like '%"+type+"%'";
 				}
 				if(model!=null&&!model.equals("")){
-					hql+=" and model like '%"+model+"%'";
+					sql+=" and model like '%"+model+"%'";
 				}
 				if(numbers!=null&&!numbers.equals("")){
-					hql+=" and numbers like '%"+numbers+"%'";
+					sql+=" and numbers like '%"+numbers+"%'";
 				}
 				if(lengths!=null&&!lengths.equals("")){
-					hql+=" and lengths like '%"+lengths+"%'";
+					sql+=" and lengths like '%"+lengths+"%'";
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -192,6 +201,8 @@ public class DaxxElevatorAction extends DispatchAction {
 //				sta.close();
 //				rs.close();
 //				conn.close();
+				
+				request.setAttribute("register", register);
 				request.setAttribute("distinguish", distinguish);
 				request.setAttribute("label", label);
 				request.setAttribute("brand", brand);
@@ -218,7 +229,7 @@ public class DaxxElevatorAction extends DispatchAction {
 		String id=request.getParameter("id");
 		DaxxElevator list=elevatorService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/dagl/elevator/updateelevator.jsp");
+		return	new ActionForward("/jsp/dagl/elevator/updateElevator.jsp");
 	}
 	
 	/**
@@ -230,8 +241,11 @@ public class DaxxElevatorAction extends DispatchAction {
 	 */
 	public ActionForward  updateEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
+		String time=request.getParameter("time");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DaglFrom daglFrom=(DaglFrom)form;
-		DaxxElevator  daxxElevator=daglFrom.getElevator();
+		DaxxElevator daxxElevator =daglFrom.getElevator();
+		daxxElevator.setManufactureTime(df.parse(time));
 		DaxxElevator elevator=elevatorService.get(daxxElevator.getId());
 		
 		if(elevator!=null){
@@ -302,20 +316,48 @@ public class DaxxElevatorAction extends DispatchAction {
 	public ActionForward  export(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 
-		String reg=request.getParameter("reg");
-		String client=request.getParameter("client");
+		String register=request.getParameter("reg");
+		String distinguish=request.getParameter("distinguish");
+		String label=request.getParameter("label");
+		String brand=request.getParameter("brand");
+		String type=request.getParameter("type");
+		String model=request.getParameter("model");
+		String numbers=request.getParameter("numbers");
+		String lengths=request.getParameter("lengths");
 		DaxxElevator elevator=new DaxxElevator();
-		 if(reg!=null){
-			 reg=new String(reg.getBytes("iso-8859-1"),"utf-8");
-			
+		 if(register!=null){
+			 register=new String(register.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setRegisterid(register);
 		 }
-		 if(client!=null){
-			 client=new String(client.getBytes("iso-8859-1"),"utf-8");
-			 
+		 if(distinguish!=null){
+			 distinguish=new String(distinguish.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setDistinguishid(distinguish);
 		 }
-		 
-		 
-		 
+		 if(label!=null){
+			 label=new String(label.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setLabel(label);
+		 }
+		 if(brand!=null){
+			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setBrand(brand);
+		 }
+		 if(type!=null){
+			 type=new String(type.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setType(type);
+		 }
+		 if(model!=null){
+			 model=new String(model.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setModel(model);
+		 }
+		 if(numbers!=null){
+			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setNumbers(numbers);
+		 }
+		 if(lengths!=null){
+			 lengths=new String(lengths.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setLengths(lengths);
+		 }
+		
 		try {
 			String dates = new SimpleDateFormat("yyyyMMddHHmmss")
 					.format(new Date());

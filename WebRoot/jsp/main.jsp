@@ -22,8 +22,8 @@
 	
 	<body >
 			
-<iframe width="10%" height="550" id="leftFrame" name="leftFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/left.jsp" ></iframe>
-<iframe width="90%" height="550" id="rightFrame" name="rightFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/home/right.jsp"  style="margin-left: -4px; margin-right: -4px;"></iframe>
+<iframe width="10%" height="610" id="leftFrame" name="leftFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/left.jsp" ></iframe>
+<iframe width="90%" height="610" id="rightFrame" name="rightFrame" frameborder=0 scrolling=no src="<%=path%>/jsp/home/right.jsp"  style="margin-left: -4px; margin-right: -4px;"></iframe>
 	
 		
 	</body>

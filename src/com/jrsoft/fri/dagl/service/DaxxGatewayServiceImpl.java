@@ -16,6 +16,12 @@ public class DaxxGatewayServiceImpl    extends BaseServiceImpl<DaxxGateway> impl
 		this.gatewayDao = gatewayDao;
 	}
 
+	@Override
+	public void export(String filePath, DaxxGateway gateway) {
+		gatewayDao.export(filePath, gateway);
+		
+	}
+
 
 	
 }
