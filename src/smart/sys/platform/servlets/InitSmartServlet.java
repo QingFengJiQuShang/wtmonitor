@@ -1,5 +1,8 @@
 package smart.sys.platform.servlets;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import smart.sys.platform.springUtils.ContextHolder;
+import tcpip.MainServer;
 
 
 
@@ -20,6 +24,18 @@ public class InitSmartServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		initContext(config);
 		super.init(config);
+
+		//加载一个新线程，启动tcpIp 服务器端
+		FutureTask<String> task = new FutureTask<String>(new Callable<String>(){
+		       @Override
+		       public String call() throws Exception {		    	
+					MainServer mainServer=new MainServer();
+					mainServer.TcpServer();
+			return "Collection Completed";
+		       }
+				
+			});
+		new Thread(task).start();
 	}
 	
 	/**

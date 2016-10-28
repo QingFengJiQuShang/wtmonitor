@@ -19,28 +19,53 @@
 	</bean>
     <!-- 系统用户 -->
     
-    <!-- 电梯维保记录 -->
-	<bean name="/recordsAction" class="com.jrsoft.fri.xtgl.action.XtglMaintenanceRecordsAction">
-		<property name="recordsService" ref="recordsService" />
+    <!-- 维保单位 -->
+	<bean name="/maintenanceUnitAction" class="com.jrsoft.fri.xtgl.action.XtglMaintenanceUnitAction">
+		<property name="maintenanceUnitService" ref="maintenanceUnitService" />
 	</bean>
-	<bean id="recordsService" class="com.jrsoft.fri.xtgl.service.XtglMaintenanceRecordsServiceImpl">
-		<property name="recordsDao"  ref="recordsDao" />
+	<bean id="maintenanceUnitService" class="com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitServiceImpl">
+		<property name="maintenanceUnitDao"  ref="maintenanceUnitDao" />
 	</bean>
-	<bean id="recordsDao" class="com.jrsoft.fri.xtgl.dao.XtglMaintenanceRecordsDaoImpl">
+	<bean id="maintenanceUnitDao" class="com.jrsoft.fri.xtgl.dao.XtglMaintenanceUnitDaoImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
-    <!-- 电梯维保记录-->
+    <!-- 维保单位 -->
     
-    <!--电梯年检 -->
-	<bean name="/inspectionAction" class="com.jrsoft.fri.xtgl.action.XtglYearlyInspectioAction">
-		<property name="inspectionService" ref="inspectionService" />
+    
+    <!-- 维保人员 -->
+	<bean name="/maintenanceUsersAction" class="com.jrsoft.fri.xtgl.action.XtglMaintenanceUsersAction">
+		<property name="maintenanceUsersService" ref="maintenanceUsersService" />
 	</bean>
-	<bean id="inspectionService" class="com.jrsoft.fri.xtgl.service.XtglYearlyInspectionServiceImpl">
-		<property name="inspectionDao"  ref="inspectionDao" />
+	<bean id="maintenanceUsersService" class="com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersServiceImpl">
+		<property name="maintenanceUsersDao"  ref="maintenanceUsersDao" />
 	</bean>
-	<bean id="inspectionDao" class="com.jrsoft.fri.xtgl.dao.XtglYearlyInspectionDaoImpl">
+	<bean id="maintenanceUsersDao" class="com.jrsoft.fri.xtgl.dao.XtglMaintenanceUsersDaoImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
-    <!--电梯年检 -->
+    <!-- 维保人员 -->
+    
+    <!-- 使用单位 -->
+	<bean name="/useUnitAction" class="com.jrsoft.fri.xtgl.action.XtglUseUnitAction">
+		<property name="useUnitService" ref="useUnitService" />
+	</bean>
+	<bean id="useUnitService" class="com.jrsoft.fri.xtgl.service.XtglUseUnitServiceImpl">
+		<property name="useUnitDao"  ref="useUnitDao" />
+	</bean>
+	<bean id="useUnitDao" class="com.jrsoft.fri.xtgl.dao.XtglUseUnitDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 使用单位 -->
+	
+	<!-- 救援单位 -->
+	<bean name="/rescueUnitAction" class="com.jrsoft.fri.xtgl.action.XtglRescueUnitAction">
+		<property name="rescueUnitService" ref="xtglRescueUnitService" />
+	</bean>
+	<bean id="xtglRescueUnitService" class="com.jrsoft.fri.xtgl.service.XtglRescueUnitServiceImpl">
+		<property name="rescueUnitDao"  ref="xtglRescueUnitDao" />
+	</bean>
+	<bean id="xtglRescueUnitDao" class="com.jrsoft.fri.xtgl.dao.XtglRescueUnitDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 救援单位 -->
 	
 	</beans>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+<!-- 电梯 -->
+	<bean name="/elevatorAction" class="com.jrsoft.fri.dtjk.action.DtjkElevatorAction">
+		<property name="elevatorService" ref="elevatorService" />
+	</bean>
+	<bean id="elevatorService" class="com.jrsoft.fri.dtjk.service.DtjkElevatorServiceImpl">
+		<property name="elevatorDao"  ref="elevatorDao" />
+	</bean>
+	<bean id="elevatorDao" class="com.jrsoft.fri.dtjk.dao.DtjkElevatorDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 电梯 -->
+    
+    <!--电梯网关 -->
+	<bean name="/gatewayAction" class="com.jrsoft.fri.dtjk.action.DtjkGatewayAction">
+		<property name="gatewayService" ref="gatewayService" />
+	</bean>
+	<bean id="gatewayService" class="com.jrsoft.fri.dtjk.service.DtjkGatewayServiceImpl">
+		<property name="gatewayDao"  ref="gatewayDao" />
+	</bean>
+	<bean id="gatewayDao" class="com.jrsoft.fri.dtjk.dao.DtjkGatewayDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 电梯网关 -->
+    
+    <!--上报记录 -->
+	<bean name="/recordAction" class="com.jrsoft.fri.dtjk.action.DtjkRecordAction">
+		<property name="recordService" ref="recordService" />
+	</bean>
+	<bean id="recordService" class="com.jrsoft.fri.dtjk.service.DtjkRecordServiceImpl">
+		<property name="recordDao"  ref="recordDao" />
+	</bean>
+	<bean id="recordDao" class="com.jrsoft.fri.dtjk.dao.DtjkRecordDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 上报记录 -->
+    
+    <!-- 电梯维保记录 -->
+	<bean name="/recordsAction" class="com.jrsoft.fri.dtjk.action.DtjkMaintenanceRecordsAction">
+		<property name="recordsService" ref="recordsService" />
+	</bean>
+	<bean id="recordsService" class="com.jrsoft.fri.dtjk.service.DtjkMaintenanceRecordsServiceImpl">
+		<property name="recordsDao"  ref="recordsDao" />
+	</bean>
+	<bean id="recordsDao" class="com.jrsoft.fri.dtjk.dao.DtjkMaintenanceRecordsDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 电梯维保记录-->
+    
+    <!--电梯年检 -->
+	<bean name="/inspectionAction" class="com.jrsoft.fri.dtjk.action.DtjkYearlyInspectioAction">
+		<property name="inspectionService" ref="inspectionService" />
+	</bean>
+	<bean id="inspectionService" class="com.jrsoft.fri.dtjk.service.DtjkYearlyInspectionServiceImpl">
+		<property name="inspectionDao"  ref="inspectionDao" />
+	</bean>
+	<bean id="inspectionDao" class="com.jrsoft.fri.dtjk.dao.DtjkYearlyInspectionDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!--电梯年检 -->
+    
+    
+    
+   
+	
+	</beans>

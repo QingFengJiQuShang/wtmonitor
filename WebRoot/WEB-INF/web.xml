@@ -13,8 +13,8 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-    		/WEB-INF/police/applicationContext-dagl.xml,
     		/WEB-INF/police/applicationContext-xtgl.xml,
+    		/WEB-INF/police/applicationContext-dtjk.xml,
 			/WEB-INF/system/applicationContext-sys.xml
 		</param-value>
   </context-param>
@@ -50,7 +50,7 @@
       <param-name>config</param-name>
       <param-value>
       /WEB-INF/police/struts-config-xtgl.xml,
-       /WEB-INF/police/struts-config-dagl.xml
+      /WEB-INF/police/struts-config-dtjk.xml
 		</param-value>
     </init-param>
     <init-param>

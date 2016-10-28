@@ -3,36 +3,38 @@
 <struts-config>
 	<form-beans>
 	
-		<form-bean name="XtglForm" type="com.jrsoft.fri.xtgl.from.XtglForm" />
+		<form-bean name="DtjkFrom" type="com.jrsoft.fri.dtjk.from.DtjkFrom" />
    </form-beans>
 		<action-mappings>
-	  <!-- 系统用户-->
-	<action path="/usersAction" name="XtglForm"
+	  <!-- 电梯-->
+	<action path="/elevatorAction" name="DtjkFrom"
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
 	 
-	   <!-- 维保单位-->
-	<action path="/maintenanceUnitAction" name="XtglForm"
+	  <!-- 电梯网关-->
+	<action path="/gatewayAction" name="DtjkFrom"
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
 	
-	 <!-- 维保人员-->
-	<action path="/maintenanceUsersAction" name="XtglForm"
+	<!-- 上报记录-->
+	<action path="/recordAction" name="DtjkFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	<!-- 电梯维保记录表-->
+	<action path="/recordsAction"  name="DtjkFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	 <!-- 电梯年检 -->
+	 <action path="/inspectionAction"  name="DtjkFrom"
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
 	
-	 <!-- 使用单位-->
-	<action path="/useUnitAction" name="XtglForm"
-			parameter="method" scope="request"
-			type="org.springframework.web.struts.DelegatingActionProxy">
-	</action>
-<!-- 救援单位-->
-	<action path="/rescueUnitAction" name="XtglForm"
-			parameter="method" scope="request"
-			type="org.springframework.web.struts.DelegatingActionProxy">
-	</action>
+	
+
 	</action-mappings>
 </struts-config>
