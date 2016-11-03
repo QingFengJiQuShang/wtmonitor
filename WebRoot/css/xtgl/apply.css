@@ -1,0 +1,26 @@
+.table_con table thead th:nth-child(1) {
+	width: 26px;
+	border-left: 0;
+}
+.table_con table thead th:nth-child(2) {
+	width: 36px;
+}
+.table_con table thead th:nth-child(3) {
+	width: 220px;
+}
+.table_con table thead th:nth-child(4) {
+	width: 220px;
+}
+.table_con table thead th:nth-child(5) {
+	width: 100px;
+}
+.table_con table thead th:nth-child(6) {
+	width: 222px;
+}
+.table_con table thead th:nth-child(7) {
+	width: 222px;
+}
+.table_con table thead th:nth-child(8) {
+	width: 95px;
+	border-right: 0;
+}
