@@ -65,7 +65,7 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		String unitId=request.getParameter("unitId");
 		String name=request.getParameter("name");
 		String numbers=request.getParameter("numbers");
-		
+		String cardNumber=request.getParameter("cardNumber");
 		if(unitId!=null){
 			unitId=new String(unitId.getBytes("iso-8859-1"),"utf-8");
 		 }
@@ -75,6 +75,10 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		if(numbers!=null){
 			numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
 		 }
+		if(cardNumber!=null){
+			cardNumber=new String(cardNumber.getBytes("iso-8859-1"),"utf-8");
+		 }
+		
 		String num=request.getParameter("num");   //µ±Ç°Ò³
 		
 
@@ -88,6 +92,9 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		}
 		if(unitId!=null&&!unitId.equals("")){
 			hql+=" and unitId = '"+unitId+"'";
+		}
+		if(cardNumber!=null&&!cardNumber.equals("")){
+			hql+=" and cardNumber = '"+cardNumber+"'";
 		}
 		
 		hql+="order by id ";
@@ -116,6 +123,9 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 				if(unitId!=null&&!unitId.equals("")){
 					sql+=" and unit_Id = '"+unitId+"'";
 				}
+				if(cardNumber!=null&&!cardNumber.equals("")){
+					sql+=" and card_Number = '"+cardNumber+"'";
+				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				
@@ -129,18 +139,20 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 					elevator.setNumbers(rs.getString("numbers"));
 					elevator.setPhone(rs.getString("phone"));
 					elevator.setValidity(rs.getString("validity"));
-					
+					elevator.setCardNumber(rs.getString("card_Number"));
 					list.add(elevator);
 					
 				}
 				request.setAttribute("unitId", unitId);
 				request.setAttribute("name", name);
 				request.setAttribute("numbers", numbers);
+				request.setAttribute("cardNumber", cardNumber);
+				
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
 		
-		 return	new ActionForward("/jsp/Xtgl/maintenanceUsers/maintenanceUsersList.jsp");
+		 return	new ActionForward("/jsp/xtgl/maintenanceUsers/maintenanceUsersList.jsp");
 		}
 	
 	/**
@@ -153,9 +165,14 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 	public ActionForward  findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String id=request.getParameter("id");
+		String flag=request.getParameter("flag");
 		XtglMaintenanceUsers list=maintenanceUsersService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/Xtgl/maintenanceUsers/updateMaintenanceUsers.jsp");
+		if(flag.equals("1")){
+			return	new ActionForward("/jsp/xtgl/maintenanceUsers/updateMaintenanceUsers.jsp");
+		}else{
+			return	new ActionForward("/jsp/xtgl/maintenanceUsers/detailMaintenanceUsers.jsp");
+		}
 	}
 	
 	/**
@@ -173,12 +190,10 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		
 		if(elevator!=null){
 			elevator.setName(unit.getName());
-			elevator.setName(unit.getName());
-			elevator.setName(unit.getName());
 			elevator.setNumbers(unit.getNumbers());
 			elevator.setPhone(unit.getPhone());
 			elevator.setValidity(unit.getValidity());
-			
+			elevator.setCardNumber(unit.getCardNumber());
 			maintenanceUsersService.update(elevator);
 		}
 		return	new ActionForward("/maintenanceUsersAction.do?method=query&unitId="+elevator.getUnitId().getId());

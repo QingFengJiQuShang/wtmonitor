@@ -3,7 +3,7 @@ package com.jrsoft.fri.xtgl.entity;
 import java.math.BigDecimal;
 
 /**
- * XtglUseUnit entity. @author MyEclipse Persistence Tools
+ * 使用单位
  */
 
 public class XtglUseUnit implements java.io.Serializable {

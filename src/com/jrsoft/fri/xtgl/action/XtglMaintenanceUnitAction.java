@@ -60,17 +60,17 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
 		String name=request.getParameter("name");
+		String code=request.getParameter("code");
 		String liaisons=request.getParameter("liaisons");
-		String phone=request.getParameter("phone");
 		
 		if(name!=null){
 			name=new String(name.getBytes("iso-8859-1"),"utf-8");
 		 }
+		 if(code!=null){
+			 code=new String(code.getBytes("iso-8859-1"),"utf-8");
+		 }
 		 if(liaisons!=null){
 			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(phone!=null){
-			 phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
 		 }
 		
 		String num=request.getParameter("num");   //当前页
@@ -81,11 +81,11 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 		if(name!=null&&!name.equals("")){
 			hql+=" and name like '%"+name+"%'";
 		}
+		if(code!=null&&!code.equals("")){
+			hql+=" and code like '%"+code+"%'";
+		}
 		if(liaisons!=null&&!liaisons.equals("")){
 			hql+=" and liaisons like '%"+liaisons+"%'";
-		}
-		if(phone!=null&&!phone.equals("")){
-			hql+=" and phone like '%"+phone+"%'";
 		}
 		hql+="order by id ";
 		List<XtglMaintenanceUnit> XtglMaintenanceUnits=maintenanceUnitService.queryAll(hql);
@@ -107,11 +107,11 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 				if(name!=null&&!name.equals("")){
 					sql+=" and name like '%"+name+"%'";
 				}
+				if(code!=null&&!code.equals("")){
+					sql+=" and code like '%"+code+"%'";
+				}
 				if(liaisons!=null&&!liaisons.equals("")){
 					sql+=" and liaisons like '%"+liaisons+"%'";
-				}
-				if(phone!=null&&!phone.equals("")){
-					sql+=" and phone like '%"+phone+"%'";
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -136,13 +136,13 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 					
 				}
 				request.setAttribute("name", name);
+				request.setAttribute("code", code);
 				request.setAttribute("liaisons", liaisons);
-				request.setAttribute("phone", phone);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
 		
-		 return	new ActionForward("/jsp/Xtgl/maintenanceUnit/maintenanceUnitList.jsp");
+		 return	new ActionForward("/jsp/xtgl/maintenanceUnit/maintenanceUnitList.jsp");
 		}
 	
 	/**
@@ -155,13 +155,18 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 	public ActionForward  findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String id=request.getParameter("id");
+		String flag=request.getParameter("flag");
 		XtglMaintenanceUnit list=maintenanceUnitService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/Xtgl/maintenanceUnit/updateMaintenanceUnit.jsp");
+		if(flag.equals("1")){
+			return	new ActionForward("/jsp/xtgl/maintenanceUnit/updateMaintenanceUnit.jsp");
+		}else{
+			return	new ActionForward("/jsp/xtgl/maintenanceUnit/detailMaintenanceUnit.jsp");
+		}
 	}
 	
 	/**
-	 * 修改区域
+	 * 修改维保单位
 	 * @param request
 	 * @param response
 	 * @return
@@ -189,7 +194,7 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 	
 	
 	/**
-	 * 删除区域
+	 * 删除维保单位
 	 * @param request
 	 * @param response
 	 * @return
@@ -202,7 +207,7 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 		 return	new ActionForward("/maintenanceUnitAction.do?method=query");
 	}
 	/**
-	 * 批量 删除 区域
+	 * 批量 删除 维保单位
 	 * @param request
 	 * @param response
 	 * @return

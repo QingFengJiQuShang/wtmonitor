@@ -1,93 +1,105 @@
 @charset "utf-8";
-html,body {
+html,
+body {
 	height: 100%;
 	min-width: 1000px;
 }
+
 .top {
-    /* padding-right: 40px; */
-    height: 60px;
-    line-height: 60px;
-    background: url(../img/background.png) no-repeat;
-    position: fixed;
-    width: 98%;
-    padding-right: 2%;
-    z-index: 9;
+	position: fixed;
+	z-index: 9;
+	width: 98%;
+	height: 84px;
+	padding-right: 2%;
+	line-height: 84px;
+	background: url(../img/background.png) no-repeat;
+	background-size: 100% 100%;
 }
+
 .top p {
 	margin-left: 40px;
 	font-size: 18px;
 	color: #fff;
 	cursor: pointer;
 }
+
+.top p:nth-child(1) {
+	font-size: 24px;
+}
+
 .top p img {
 	vertical-align: middle;
 }
+
 .top p .manage {
 	width: 30px;
 	margin-right: 10px;
 }
-/*左侧导航*/
-.wrap {
-	height: 95.5%;
-}
+
 .list {
-    width: 100%;
-    height: 100%;
-    background-color: #0183bf;
-    position: fixed;
-    top: 0;
-   
-    z-index: 3;
-}
-.list li {
-	width: 100%;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-}
-.active {
-	background-color: #01aaef;
-}
-.list li a {
-	display: block;
-	color: #fff;
-	font-size: 16px;
-}
-/*右侧内容*/
-.con {
-    width: 100%;
-}
-.real_time {
-	background-color: #0183bf;
-}
-.real_time li {
-	width: 15%;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-}
-.real_time li a {
-	display: block;
-	color: #fff;
-	font-size: 16px;
+	position: fixed;
+	top: 84px;
+	width: 139px;
+	height: 100%;
+	background-color: #0083be;
 }
 
-/*分页*/
-.page {
-	width: 25%;
-	margin: 20px auto 0;
-}
-.page span {
-	width: 60px;
-	height: 30px;
-	text-align: center;
-	line-height: 30px;
-	font-size: 16px;
-	cursor: pointer;
-	background-color: #01aaef;
+.list .list-item .one {
+	position: relative;
+	height: 58px;
+	font-size: 20px;
 	color: #fff;
+	line-height: 58px;
+	text-align: center;
+	cursor: pointer;
 }
-/*
-.page span:hover {
-	
+
+.list-item .one i {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	top: 0;
+	left: 5px;
+	bottom: 0;
+	margin: auto;
+	background-size: 100% 100%;
+	background-image: url(../img/up.png);
+}
+
+.list-item .one .roate {
+	background-image: url(../img/pull.png);	
+}
+
+.list .list-item .active {
+	background-color: #00aaee;
+}
+
+.list .list-item .next {
+	display: none;
+}
+.next p {
+	height: 40px;
+	line-height: 40px;
+	text-indent: 52px;
+	font-size: 16px;
+	color: #fff;
+	cursor: pointer;
+}
+.con {
+	padding-left: 139px;
+	padding-top: 84px;
+}
+
+
+#allmap {
+	height: 685px;
+}
+/*iframe {
+	height: 100%;
+	border: 0;
 }*/
+@media screen and (max-width: 1366px) {
+	#allmap {
+		height: 504px;
+	}
+}

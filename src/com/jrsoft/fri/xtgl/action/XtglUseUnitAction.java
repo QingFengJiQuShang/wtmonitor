@@ -62,7 +62,7 @@ public class XtglUseUnitAction  extends DispatchAction  {
 	throws Exception {
 		String name=request.getParameter("name");
 		String liaisons=request.getParameter("liaisons");
-		String phone=request.getParameter("phone");
+		String type=request.getParameter("type");
 		
 		if(name!=null){
 			name=new String(name.getBytes("iso-8859-1"),"utf-8");
@@ -70,8 +70,8 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		 if(liaisons!=null){
 			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
 		 }
-		 if(phone!=null){
-			 phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+		 if(type!=null){
+			 type=new String(type.getBytes("iso-8859-1"),"utf-8");
 		 }
 		
 		String num=request.getParameter("num");   //µ±Ç°Ò³
@@ -85,8 +85,8 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		if(liaisons!=null&&!liaisons.equals("")){
 			hql+=" and liaisons like '%"+liaisons+"%'";
 		}
-		if(phone!=null&&!phone.equals("")){
-			hql+=" and phone like '%"+phone+"%'";
+		if(type!=null&&!type.equals("")){
+			hql+=" and type like '%"+type+"%'";
 		}
 		hql+="order by id ";
 		List<XtglUseUnit> XtglUseUnits=useUnitService.queryAll(hql);
@@ -111,8 +111,8 @@ public class XtglUseUnitAction  extends DispatchAction  {
 				if(liaisons!=null&&!liaisons.equals("")){
 					sql+=" and liaisons like '%"+liaisons+"%'";
 				}
-				if(phone!=null&&!phone.equals("")){
-					sql+=" and phone like '%"+phone+"%'";
+				if(type!=null&&!type.equals("")){
+					sql+=" and type like '%"+type+"%'";
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -134,12 +134,12 @@ public class XtglUseUnitAction  extends DispatchAction  {
 				}
 				request.setAttribute("name", name);
 				request.setAttribute("liaisons", liaisons);
-				request.setAttribute("phone", phone);
+				request.setAttribute("type", type);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
 		
-		 return	new ActionForward("/jsp/dagl/useUnit/useUnitList.jsp");
+		 return	new ActionForward("/jsp/xtgl/useUnit/useUnitList.jsp");
 		}
 	
 	/**
@@ -152,9 +152,14 @@ public class XtglUseUnitAction  extends DispatchAction  {
 	public ActionForward  findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String id=request.getParameter("id");
+		String flag=request.getParameter("flag");
 		XtglUseUnit list=useUnitService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/dagl/useUnit/updateUseUnit.jsp");
+		if(flag.equals("1")){
+			return	new ActionForward("/jsp/xtgl/useUnit/updateUseUnit.jsp");
+		}else{
+			return	new ActionForward("/jsp/xtgl/useUnit/detailUseUnit.jsp");
+		}
 	}
 	
 	/**

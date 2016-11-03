@@ -7,7 +7,7 @@ public class Page {
 	//当前页数
 	private int pageNum;
 	//每页显示数
-	private int pageSize;
+	private int pageSize=5;
 	//总页数
 	private int countSize;
 	
@@ -27,7 +27,7 @@ public class Page {
 		return pageSize;
 	}
 	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+		this.pageSize = 5;
 	}
 	public int getCountSize() {
 		return countSize;

@@ -27,5 +27,15 @@
         <property name="unit" type="java.lang.String">
             <column name="UNIT" length="200" />
         </property>
+       
+        <property name="province" type="java.lang.String">
+            <column name="province" length="50" />
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="CITY" length="50" />
+        </property>
+         <property name="area" type="java.lang.String">
+            <column name="AREA" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

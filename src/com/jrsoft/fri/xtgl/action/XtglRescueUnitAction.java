@@ -48,7 +48,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 		XtglForm XtglForm=(XtglForm)form;
 		XtglRescueUnit elevator =XtglForm.getRescueUnit();
 		rescueUnitService.save(elevator);
-	    return	new ActionForward("/useUnitAction.do?method=query");
+	    return	new ActionForward("/rescueUnitAction.do?method=query");
 	}
 	/**
 	 * 查询 救援单位列表
@@ -104,7 +104,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*  from Xtgl_use_unit de where  1=1 " ;
+				String sql="select de.*  from Xtgl_Rescue_Unit de where  1=1 " ;
 				if(name!=null&&!name.equals("")){
 					sql+=" and name like '%"+name+"%'";
 				}
@@ -139,7 +139,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 				request.setAttribute("list", list);
 		
 		
-		 return	new ActionForward("/jsp/dagl/useUnit/useUnitList.jsp");
+		 return	new ActionForward("/jsp/xtgl/rescueUnit/rescueUnitList.jsp");
 		}
 	
 	/**
@@ -152,9 +152,14 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 	public ActionForward  findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String id=request.getParameter("id");
+		String flag=request.getParameter("flag");
 		XtglRescueUnit list=rescueUnitService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/dagl/useUnit/updateUseUnit.jsp");
+		if(flag.equals("1")){
+			return	new ActionForward("/jsp/xtgl/rescueUnit/updateRescueUnit.jsp");
+		}else{
+			return	new ActionForward("/jsp/xtgl/rescueUnit/dateilRescueUnit.jsp");
+		}
 	}
 	
 	/**
@@ -179,7 +184,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 			
 			rescueUnitService.update(useUnit);
 		}
-		return	new ActionForward("/useUnitAction.do?method=query");
+		return	new ActionForward("/rescueUnitAction.do?method=query");
 	}
 	
 	
@@ -196,7 +201,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		rescueUnitService.delete(id);
-		 return	new ActionForward("/useUnitAction.do?method=query");
+		 return	new ActionForward("/rescueUnitAction.do?method=query");
 	}
 	/**
 	 * 批量 删除 救援单位
@@ -214,7 +219,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 				rescueUnitService.delete(Long.parseLong(arr[i]));
 			}
 		}
-		 return	new ActionForward("/useUnitAction.do?method=query");
+		 return	new ActionForward("/rescueUnitAction.do?method=query");
 		
 	}
 	
@@ -253,7 +258,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 			String filePath = request.getRealPath("/")
 					+ "excel\\" + fileName;
 			// 生成excel文件
-			rescueUnitService.export(filePath, elevator);
+		//	rescueUnitService.export(filePath, elevator);
 
 			// 下载excel
 			BufferedOutputStream bos = null;

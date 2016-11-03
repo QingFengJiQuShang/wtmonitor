@@ -1,7 +1,7 @@
 package com.jrsoft.fri.xtgl.entity;
 
 /**
- * XtglMaintenanceUsers entity. @author MyEclipse Persistence Tools
+ * Œ¨±£»À‘±
  */
 
 public class XtglMaintenanceUsers implements java.io.Serializable {

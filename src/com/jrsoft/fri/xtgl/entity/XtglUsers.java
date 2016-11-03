@@ -16,7 +16,9 @@ public class XtglUsers implements java.io.Serializable {
 	private String password;		//密码
 	private String phone;				//电话
 	private String unit;					//单位
-
+	private String province;					//区域 省
+	private String city;					// 区域 市
+	private String area;					//区域  区
 	// Constructors
 
 	/** default constructor */
@@ -25,12 +27,15 @@ public class XtglUsers implements java.io.Serializable {
 
 	/** full constructor */
 	public XtglUsers(String name, String loginname, String password,
-			String phone, String unit) {
+			String phone, String unit,String province,String city,String area) {
 		this.name = name;
 		this.loginname = loginname;
 		this.password = password;
 		this.phone = phone;
+		this.province=province;
 		this.unit = unit;
+		this.city=city;
+		this.area=area;
 	}
 
 	// Property accessors
@@ -81,6 +86,30 @@ public class XtglUsers implements java.io.Serializable {
 
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 }
