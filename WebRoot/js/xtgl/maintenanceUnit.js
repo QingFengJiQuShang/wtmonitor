@@ -38,9 +38,22 @@
 		  function del(id){
     		  window.location.href="maintenanceUnitAction.do?method=delEntity&id="+id;
          }
-		  
-		  
-		  
+		    //下载  
+		  function exp(){
+    		  window.location.href="maintenanceUnitAction.do?method=export"+gotoUrl ();
+         }
+		  //选择模糊查询
+		function query1(){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="maintenanceUnitAction.do?method=query1&id="+id+"&id1="+id1+gotoUrl();
+		  }
+		  //选择列表分页  
+		  function fenye1(num){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="maintenanceUnitAction.do?method=query1&num="+num+"&id="+id+"&id1="+id1+gotoUrl();
+         }
 		  
 		  	//		批量删除
 $(".del").click(function() {

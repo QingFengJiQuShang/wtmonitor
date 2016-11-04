@@ -53,6 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="or clearfix">
 						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
 						<p class="fl del">批量删除</p>
+						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">

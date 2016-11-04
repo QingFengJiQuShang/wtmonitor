@@ -1,0 +1,165 @@
+.back {
+	margin: 8px;
+	width: 57px;
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	border: 1px solid #0083be;
+	text-align: center;
+	color: #0083be;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.back img {
+	margin-right: 5px;
+	vertical-align: sub;
+}
+
+.wrap {
+	width: 97%;
+	margin: 0 auto;
+	border: 2px solid #ccc;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.record {
+	padding: 10px 5px;
+	border-bottom: 1px solid #d1d1d1;
+}
+
+.record .name {
+	font-size: 16px;
+	font-weight: bold;
+	color: #545454;
+}
+
+.record .fenzhi {
+	width: 25%;
+}
+
+.record .fenzhi p {
+	height: 45px;
+	line-height: 45px;
+}
+
+.record .fenzhi p label {
+	display: inline-block;
+	width: 110px;
+	padding-right: 10px;
+	text-align: right;
+	font-size: 14px;
+	color: #535353;
+	font-weight: bold;
+}
+
+.record .fenzhi p span {
+	display: inline-block;
+	width: 60px;
+	height: 30px;
+	text-indent: 20px;
+	background-image: url(../../../img/sel2.png);
+	background-repeat: no-repeat;
+	background-position: left 16px;
+	cursor: pointer;
+}
+
+.record .fenzhi p .gou {
+	background-image: url(../../../img/sel.png);
+}
+
+.record .fenzhi p input {
+	width: 150px;
+	height: 24px;
+	border: 1px solid #d2d2d2;
+	text-indent: 10px;
+	color: #818181;
+}
+
+.record .fenzhi p select {
+	width: 152px;
+	height: 24px;
+	border: 1px solid #d2d2d2;
+	text-indent: 10px;
+	color: #818181;
+}
+
+.maker {
+	padding: 10px 5px;
+}
+
+.maker .fenzhi {
+	width: 33%;
+}
+
+.maker .name {
+	font-size: 16px;
+	font-weight: bold;
+	color: #545454;
+}
+
+.maker .fenzhi p {
+	height: 30px;
+	line-height: 30px;
+}
+
+.maker .fenzhi p label {
+	display: inline-block;
+	width: 150px;
+	padding-right: 10px;
+	text-align: right;
+	font-size: 14px;
+	color: #535353;
+}
+
+.maker .fenzhi p input {
+	width: 150px;
+	height: 24px;
+	border: 1px solid #d2d2d2;
+	text-indent: 10px;
+	color: #818181;
+}
+
+.or {
+	width: 400px;
+	margin: 10px auto;
+}
+
+.or input {
+	width: 80px;
+	height: 35px;
+	background-color: #00AAEE;
+	color: #fff;
+	font-size: 14px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.map {
+	width: 780px;
+	height: 480px;
+}
+.popup {
+	display: none;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 20%;
+    width: 780px;
+    height: 480px;
+}
+.popup span {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 20px;
+	height: 20px;
+	background: url(../../../img/index_X.png) no-repeat;
+	cursor: pointer;
+}

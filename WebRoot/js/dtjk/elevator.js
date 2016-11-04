@@ -1,47 +1,53 @@
 	function gotoUrl (){
-			 var name= document.getElementById("name").value;
-			 var type= document.getElementById("type").value;
-			 var liaisons= document.getElementById("liaisons").value;
-			 
+			 var registerid= document.getElementById("registerid").value;
+			 var distinguishid= document.getElementById("distinguishid").value;
+			 var useUnitName= document.getElementById("useUnitName").value;
+			  var brand= document.getElementById("brand").value;
+			 var numbers= document.getElementById("numbers").value;
 			  var url="";
-			  if(name!=""){
-				  url=url+"&name="+name;
+			  if(registerid!=""){
+				  url=url+"&registerid="+registerid;
 			  }
-			  if(liaisons!=""){
-				  url=url+"&liaisons="+liaisons;
+			  if(distinguishid!=""){
+				  url=url+"&distinguishid="+distinguishid;
 			  }
-			  if(type!=""&&type!="请选择"){
-				  url=url+"&type="+type;
+			  if(useUnitName!=""){
+				  url=url+"&useUnitName="+useUnitName;
 			  }
-			  
+			  if(brand!=""){
+				  url=url+"&brand="+brand;
+			  }
+			  if(numbers!=""){
+				  url=url+"&numbers="+numbers;
+			  }
 			  return url;
 		  }
 	   //模糊查询
 		function query(){
-    		  window.location.href="rescueUnitAction.do?method=query"+gotoUrl();
+    		  window.location.href="elevatorAction.do?method=query"+gotoUrl();
 		  }
 		//添加
 		function add(){
-			  window.location="jsp/xtgl/rescueUnit/addRescueUnit.jsp";
+			  window.location="jsp/dtjk/elevator/addElevator.jsp";
 			  
 		  }
 		//列表分页  
 		  function fenye(num){
 			
-    		  window.location.href="rescueUnitAction.do?method=query&num="+num+gotoUrl();
+    		  window.location.href="elevatorAction.do?method=query&num="+num+gotoUrl();
          }
 		  //编辑
 		  function findById(id,flag){
-    		  window.location.href="rescueUnitAction.do?method=findById&id="+id+"&flag="+flag;
+    		  window.location.href="elevatorAction.do?method=findById&id="+id+"&flag="+flag;
          }
 		//删除
 		  function del(id){
-    		  window.location.href="rescueUnitAction.do?method=delEntity&id="+id;
+    		  window.location.href="elevatorAction.do?method=delEntity&id="+id;
          }
 		  
-		      //下载  
+		 //下载  
 		  function exp(){
-    		  window.location.href="rescueUnitAction.do?method=export"+gotoUrl ();
+    		  window.location.href="elevatorAction.do?method=export"+gotoUrl ();
          }
 		  
 		  
@@ -53,7 +59,7 @@ $(".del").click(function() {
 				ids=ids+$(this).find("i").children().val()+",";
 			}
 		})
-	 window.location.href="rescueUnitAction.do?method=deleteEntity&ids="+ids;
+	 window.location.href="elevatorAction.do?method=deleteEntity&ids="+ids;
 })
 		  
 

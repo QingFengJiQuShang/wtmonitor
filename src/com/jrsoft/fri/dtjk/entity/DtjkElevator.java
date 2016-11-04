@@ -2,6 +2,11 @@ package com.jrsoft.fri.dtjk.entity;
 
 import java.util.Date;
 
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
+
 /**
  * 电梯表
  */
@@ -16,20 +21,20 @@ public class DtjkElevator implements java.io.Serializable {
 	private String distinguishid;			//识别码
 	private String brand;			//电梯品牌（选择）
 	private String model;			//电梯型号
-	private String state;			//注册状态
+	private String state;			//运行状态
 	private String type;			//电梯类型
 	private String numbers;			//总层数
 	private String label;			//地图标注
 	private String place;			//安装地点
 	private Date manufactureTime;			//生产日期
-	private Long gatewayId;			//电梯网关id
-	private Long useUnitId;			//使用单位id
-	private Long maintenanceUnitId;			//维保单位id
+	private DtjkGateway gatewayId=new DtjkGateway();			//电梯网关id
+	private XtglUseUnit useUnitId=new XtglUseUnit();			//使用单位id
+	private XtglMaintenanceUnit maintenanceUnitId=new XtglMaintenanceUnit();			//维保单位id
 	private String yearlyState;			//年检状态
 	private String maintenanceState;			//维保状态
 	private String registerState;			//注册状态
 	private String speed;			//电梯速度
-	private Long maintenanceUsersId;			//维保人id
+	private XtglMaintenanceUsers maintenanceUsersId=new XtglMaintenanceUsers();			//维保人id
 	private String installPlace;			//安装地点
 	private String installUnit;			//安装单位
 	private String installUser;			//安装人
@@ -45,9 +50,13 @@ public class DtjkElevator implements java.io.Serializable {
 	private Date yearlyTime;			//上次年检时间
 	private Date maintenanceTime;			//上次维保时间
 	private String remarks;			//备注
-
+    private XtglUsers userid;				//所属用户
 	// Constructors
-
+    
+    private String useUnitName;			//使用单位名称
+    private String maintenanceUnitName;		//维保单位名称
+    private String maintenanceUsersName;	//维保人员姓名
+    
 	/** default constructor */
 	public DtjkElevator() {
 	}
@@ -56,16 +65,16 @@ public class DtjkElevator implements java.io.Serializable {
 	public DtjkElevator(String registerid, String distinguishid, String brand,
 			String model, String state, String type, String numbers,
 			String label, String place, Date manufactureTime,
-			Long gatewayId, Long useUnitId,
-			Long maintenanceUnitId, String yearlyState,
+			DtjkGateway gatewayId, XtglUseUnit useUnitId,
+			XtglMaintenanceUnit maintenanceUnitId, String yearlyState,
 			String maintenanceState, String registerState, String speed,
-			Long maintenanceUsersId, String installPlace,
+			XtglMaintenanceUsers maintenanceUsersId, String installPlace,
 			String installUnit, String installUser, Date installTime,
 			String manufacturer, String manufacturerPhone,
 			String manufacturerAddress, String manufacturerUrl,
 			String filialeAddress, String filialePhone, String filialeContact,
 			String serviceIfe, Date yearlyTime, Date maintenanceTime,
-			String remarks) {
+			String remarks,XtglUsers userid) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -191,30 +200,6 @@ public class DtjkElevator implements java.io.Serializable {
 		this.manufactureTime = manufactureTime;
 	}
 
-	public Long getGatewayId() {
-		return this.gatewayId;
-	}
-
-	public void setGatewayId(Long gatewayId) {
-		this.gatewayId = gatewayId;
-	}
-
-	public Long getUseUnitId() {
-		return this.useUnitId;
-	}
-
-	public void setUseUnitId(Long useUnitId) {
-		this.useUnitId = useUnitId;
-	}
-
-	public Long getMaintenanceUnitId() {
-		return this.maintenanceUnitId;
-	}
-
-	public void setMaintenanceUnitId(Long maintenanceUnitId) {
-		this.maintenanceUnitId = maintenanceUnitId;
-	}
-
 	public String getYearlyState() {
 		return this.yearlyState;
 	}
@@ -245,14 +230,6 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setSpeed(String speed) {
 		this.speed = speed;
-	}
-
-	public Long getMaintenanceUsersId() {
-		return this.maintenanceUsersId;
-	}
-
-	public void setMaintenanceUsersId(Long maintenanceUsersId) {
-		this.maintenanceUsersId = maintenanceUsersId;
 	}
 
 	public String getInstallPlace() {
@@ -373,6 +350,74 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public DtjkGateway getGatewayId() {
+		return gatewayId;
+	}
+
+	public void setGatewayId(DtjkGateway gatewayId) {
+		this.gatewayId = gatewayId;
+	}
+
+	public XtglUseUnit getUseUnitId() {
+		return useUnitId;
+	}
+
+	public void setUseUnitId(XtglUseUnit useUnitId) {
+		this.useUnitId = useUnitId;
+	}
+
+	public XtglMaintenanceUnit getMaintenanceUnitId() {
+		return maintenanceUnitId;
+	}
+
+	public void setMaintenanceUnitId(XtglMaintenanceUnit maintenanceUnitId) {
+		this.maintenanceUnitId = maintenanceUnitId;
+	}
+
+	public XtglMaintenanceUsers getMaintenanceUsersId() {
+		return maintenanceUsersId;
+	}
+
+	public void setMaintenanceUsersId(XtglMaintenanceUsers maintenanceUsersId) {
+		this.maintenanceUsersId = maintenanceUsersId;
+	}
+
+	public XtglUsers getUserid() {
+		return userid;
+	}
+
+	public void setUserid(XtglUsers userid) {
+		this.userid = userid;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getUseUnitName() {
+		return useUnitName;
+	}
+
+	public void setUseUnitName(String useUnitName) {
+		this.useUnitName = useUnitName;
+	}
+
+	public String getMaintenanceUnitName() {
+		return maintenanceUnitName;
+	}
+
+	public void setMaintenanceUnitName(String maintenanceUnitName) {
+		this.maintenanceUnitName = maintenanceUnitName;
+	}
+
+	public String getMaintenanceUsersName() {
+		return maintenanceUsersName;
+	}
+
+	public void setMaintenanceUsersName(String maintenanceUsersName) {
+		this.maintenanceUsersName = maintenanceUsersName;
 	}
 
 }

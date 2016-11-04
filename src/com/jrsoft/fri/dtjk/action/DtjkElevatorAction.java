@@ -16,13 +16,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.actions.DispatchAction;
+
 import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.xtgl.from.Page;
 
-public class DtjkElevatorAction {
+public class DtjkElevatorAction extends DispatchAction{
 	private DtjkElevatorService elevatorService;
 
 	public DtjkElevatorService getElevatorService() {
@@ -43,12 +45,14 @@ public class DtjkElevatorAction {
 	 */
 	public ActionForward  addEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
-		String time=request.getParameter("time");
+		String installTime=request.getParameter("installTime");
+		String manufactureTime=request.getParameter("manufactureTime");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkElevator elevator =DtjkFrom.getElevator();
 		
-		elevator.setManufactureTime(df.parse(time));
+		elevator.setManufactureTime(df.parse(manufactureTime));
+		elevator.setInstallTime(df.parse(installTime));
 		elevatorService.save(elevator);
 	    return	new ActionForward("/elevatorAction.do?method=query");
 	}
@@ -62,67 +66,46 @@ public class DtjkElevatorAction {
 	 */
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
-		String register=request.getParameter("reg");
-		String distinguish=request.getParameter("distinguish");
-		String label=request.getParameter("label");
+		String registerid=request.getParameter("registerid");
+		String distinguishid=request.getParameter("distinguishid");
+		String useUnitName=request.getParameter("useUnitName");
 		String brand=request.getParameter("brand");
-		String type=request.getParameter("type");
-		String model=request.getParameter("model");
 		String numbers=request.getParameter("numbers");
-		String lengths=request.getParameter("lengths");
 		
-		 if(register!=null){
-			 register=new String(register.getBytes("iso-8859-1"),"utf-8");
+		 if(registerid!=null){
+			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
 		 }
-		 if(distinguish!=null){
-			 distinguish=new String(distinguish.getBytes("iso-8859-1"),"utf-8");
+		 if(distinguishid!=null){
+			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
 		 }
-		 if(label!=null){
-			 label=new String(label.getBytes("iso-8859-1"),"utf-8");
+		 if(useUnitName!=null){
+			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
 		 }
 		 if(brand!=null){
 			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
 		 }
-		 if(type!=null){
-			 type=new String(type.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(model!=null){
-			 model=new String(model.getBytes("iso-8859-1"),"utf-8");
-		 }
 		 if(numbers!=null){
 			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(lengths!=null){
-			 lengths=new String(lengths.getBytes("iso-8859-1"),"utf-8");
 		 }
 		String num=request.getParameter("num");   //当前页
 		
 
 		Page  page=new Page();
 		String hql=" where  1=1 " ;
-		if(register!=null&&!register.equals("")){
-			hql+=" and registerid like '%"+register+"%'";
+		if(registerid!=null&&!registerid.equals("")){
+			hql+=" and registerid like '%"+registerid+"%'";
 		}
-		if(distinguish!=null&&!distinguish.equals("")){
-			hql+=" and distinguishid like '%"+distinguish+"%'";
+		if(distinguishid!=null&&!distinguishid.equals("")){
+			hql+=" and distinguishid like '%"+distinguishid+"%'";
 		}
-		if(label!=null&&!label.equals("")){
-			hql+=" and label like '%"+label+"%'";
+		if(useUnitName!=null&&!useUnitName.equals("")){
+			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
 		}
 		if(brand!=null&&!brand.equals("")){
 			hql+=" and brand like '%"+brand+"%'";
 		}
-		if(type!=null&&!type.equals("")){
-			hql+=" and type like '%"+type+"%'";
-		}
-		if(model!=null&&!model.equals("")){
-			hql+=" and model like '%"+model+"%'";
-		}
 		if(numbers!=null&&!numbers.equals("")){
 			hql+=" and numbers like '%"+numbers+"%'";
-		}
-		if(lengths!=null&&!lengths.equals("")){
-			hql+=" and lengths like '%"+lengths+"%'";
 		}
 		hql+="order by id ";
 		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
@@ -140,32 +123,28 @@ public class DtjkElevatorAction {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*  from daxx_elevator de where  1=1 " ;
-				if(register!=null&&!register.equals("")){
-					sql+=" and registerid like '%"+register+"%'";
+				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
+						" from dtjk_elevator de " +
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
+						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
+						" where  1=1 " ;
+				if(registerid!=null&&!registerid.equals("")){
+					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
-				if(distinguish!=null&&!distinguish.equals("")){
-					sql+=" and distinguishid like '%"+distinguish+"%'";
+				if(distinguishid!=null&&!distinguishid.equals("")){
+					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
-				if(label!=null&&!label.equals("")){
-					sql+=" and label like '%"+label+"%'";
+				if(useUnitName!=null&&!useUnitName.equals("")){
+					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
 				if(brand!=null&&!brand.equals("")){
-					sql+=" and brand like '%"+brand+"%'";
-				}
-				if(type!=null&&!type.equals("")){
-					sql+=" and type like '%"+type+"%'";
-				}
-				if(model!=null&&!model.equals("")){
-					sql+=" and model like '%"+model+"%'";
+					sql+=" and de.brand de.like '%"+brand+"%'";
 				}
 				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and numbers like '%"+numbers+"%'";
+					sql+=" and de.numbers like '%"+numbers+"%'";
 				}
-				if(lengths!=null&&!lengths.equals("")){
-					sql+=" and lengths like '%"+lengths+"%'";
-				}
-				sql+=" order by id";	
+				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				
 				PreparedStatement sta = conn.prepareStatement(sql1);
@@ -177,39 +156,29 @@ public class DtjkElevatorAction {
 					elevator.setRegisterid(rs.getString("registerid"));
 					elevator.setDistinguishid(rs.getString("distinguishid"));
 					elevator.setBrand(rs.getString("brand"));
-					elevator.setModel(rs.getString("model"));
 					elevator.setState(rs.getString("state"));
-					elevator.setType(rs.getString("type"));
 					elevator.setNumbers(rs.getString("numbers"));
 					elevator.setLabel(rs.getString("label"));
-					elevator.setPlace(rs.getString("place"));
+					elevator.setInstallUnit(rs.getString("install_Unit"));
 					elevator.setManufactureTime(rs.getDate("manufacture_Time"));
 					elevator.setYearlyState(rs.getString("yearly_State"));
-					elevator.setGatewayId(rs.getLong("gateway_Id"));
-					elevator.setUseUnitId(rs.getLong("use_Unit_Id"));
-					elevator.setMaintenanceUnitId(rs.getLong("maintenance_Unit_Id"));
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
+					elevator.setUseUnitName(rs.getString("useunitname"));
+					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
 					list.add(elevator);
 					
 				}
 				
-//				sta.close();
-//				rs.close();
-//				conn.close();
-				
-				request.setAttribute("register", register);
-				request.setAttribute("distinguish", distinguish);
-				request.setAttribute("label", label);
+				request.setAttribute("registerid", registerid);
+				request.setAttribute("distinguishid", distinguishid);
+				request.setAttribute("useUnitName", useUnitName);
 				request.setAttribute("brand", brand);
-				request.setAttribute("type", type);
-				request.setAttribute("model", model);
 				request.setAttribute("numbers", numbers);
-				request.setAttribute("lengths", lengths);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
 		
-		 return	new ActionForward("/jsp/dagl/elevator/elevatorList.jsp");
+		 return	new ActionForward("/jsp/dtjk/elevator/elevatorList.jsp");
 		}
 	
 	/**
@@ -222,9 +191,14 @@ public class DtjkElevatorAction {
 	public ActionForward  findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String id=request.getParameter("id");
+		String flag=request.getParameter("flag");
 		DtjkElevator list=elevatorService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/dagl/elevator/updateElevator.jsp");
+		if(flag.equals("1")){
+			return	new ActionForward("/jsp/dtjk/elevator/updateElevator.jsp");
+		}else{
+			return	new ActionForward("/jsp/dtjk/elevator/detailElevator.jsp");
+		}
 	}
 	
 	/**
@@ -236,31 +210,15 @@ public class DtjkElevatorAction {
 	 */
 	public ActionForward  updateEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
-		String time=request.getParameter("time");
+		String installTime=request.getParameter("installTime");
+		String manufactureTime=request.getParameter("manufactureTime");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
-		DtjkElevator DtjkElevator =DtjkFrom.getElevator();
-		DtjkElevator.setManufactureTime(df.parse(time));
-		DtjkElevator elevator=elevatorService.get(DtjkElevator.getId());
+		DtjkElevator elevator =DtjkFrom.getElevator();
 		
-		if(elevator!=null){
-			elevator.setRegisterid(DtjkElevator.getRegisterid());
-			elevator.setDistinguishid(DtjkElevator.getDistinguishid());
-			elevator.setBrand(DtjkElevator.getBrand());
-			elevator.setModel(DtjkElevator.getModel());
-			elevator.setState(DtjkElevator.getState());
-			elevator.setType(DtjkElevator.getType());
-			elevator.setNumbers(DtjkElevator.getNumbers());
-			elevator.setLabel(DtjkElevator.getLabel());
-			elevator.setPlace(DtjkElevator.getPlace());
-			elevator.setManufactureTime(DtjkElevator.getManufactureTime());
-			elevator.setYearlyState(DtjkElevator.getYearlyState());
-			elevator.setGatewayId(DtjkElevator.getGatewayId());
-			elevator.setUseUnitId(DtjkElevator.getUseUnitId());
-			elevator.setMaintenanceUnitId(DtjkElevator.getMaintenanceUnitId());
-			elevator.setMaintenanceState(DtjkElevator.getMaintenanceState());
-			elevatorService.update(elevator);
-		}
+		elevator.setInstallTime(df.parse(installTime));
+		elevator.setManufactureTime(df.parse(manufactureTime));
+		elevatorService.update(elevator);
 		return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	

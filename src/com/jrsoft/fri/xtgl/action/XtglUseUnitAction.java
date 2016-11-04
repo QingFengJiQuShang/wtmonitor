@@ -295,5 +295,101 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		return null;
 	}
 
+	/**
+	 *   选择 使用单位列表
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  query1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String name=request.getParameter("name");
+		String liaisons=request.getParameter("liaisons");
+		String type=request.getParameter("type");
+		
+		String id=request.getParameter("id");
+		String id1=request.getParameter("id1");
+		
+		if(name!=null){
+			name=new String(name.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(liaisons!=null){
+			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(type!=null){
+			 type=new String(type.getBytes("iso-8859-1"),"utf-8");
+		 }
+		
+		String num=request.getParameter("num");   //当前页
+		
 
+		Page  page=new Page();
+		String hql=" where  1=1 " ;
+		if(name!=null&&!name.equals("")){
+			hql+=" and name like '%"+name+"%'";
+		}
+		if(liaisons!=null&&!liaisons.equals("")){
+			hql+=" and liaisons like '%"+liaisons+"%'";
+		}
+		if(type!=null&&!type.equals("")){
+			hql+=" and type like '%"+type+"%'";
+		}
+		hql+="order by id ";
+		List<XtglUseUnit> XtglUseUnits=useUnitService.queryAll(hql);
+		
+		page.setPageSize(3);	//每页显示数
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		page.setCount(XtglUseUnits.size());//总记录数
+		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+		
+		List<XtglUseUnit> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*  from Xtgl_use_unit de where  1=1 " ;
+				if(name!=null&&!name.equals("")){
+					sql+=" and name like '%"+name+"%'";
+				}
+				if(liaisons!=null&&!liaisons.equals("")){
+					sql+=" and liaisons like '%"+liaisons+"%'";
+				}
+				if(type!=null&&!type.equals("")){
+					sql+=" and type like '%"+type+"%'";
+				}
+				sql+=" order by id";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<XtglUseUnit>();
+				while(rs.next()){
+					XtglUseUnit useUnit=new XtglUseUnit();
+					useUnit.setId(rs.getLong("id"));
+					useUnit.setName(rs.getString("name"));
+					useUnit.setType(rs.getString("type"));
+					useUnit.setLiaisons(rs.getString("liaisons"));
+					useUnit.setPhone(rs.getString("phone"));
+					useUnit.setAddress(rs.getString("address"));
+					
+					list.add(useUnit);
+					
+				}
+				request.setAttribute("id", id);
+				request.setAttribute("id1", id1);
+				request.setAttribute("name", name);
+				request.setAttribute("liaisons", liaisons);
+				request.setAttribute("type", type);
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+		
+		
+		 return	new ActionForward("/jsp/comm/selectUseUnitList.jsp");
+		}
+	
 }

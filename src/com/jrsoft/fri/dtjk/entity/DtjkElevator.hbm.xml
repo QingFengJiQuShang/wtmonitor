@@ -42,15 +42,15 @@
         <property name="manufactureTime" type="java.util.Date">
             <column name="MANUFACTURE_TIME" length="7" />
         </property>
-        <property name="gatewayId" type="java.lang.Long">
-            <column name="GATEWAY_ID" precision="22" scale="0" />
-        </property>
-        <property name="useUnitId" type="java.lang.Long">
-            <column name="USE_UNIT_ID" precision="22" scale="0" />
-        </property>
-        <property name="maintenanceUnitId" type="java.lang.Long">
-            <column name="MAINTENANCE_UNIT_ID" precision="22" scale="0" />
-        </property>
+        <many-to-one name="gatewayId" class="com.jrsoft.fri.dtjk.entity.DtjkGateway" fetch="select">
+            <column name="GATEWAY_ID" length="50" />
+        </many-to-one>
+        <many-to-one name="useUnitId" class="com.jrsoft.fri.xtgl.entity.XtglUseUnit" fetch="select">
+            <column name="USE_UNIT_ID" length="50" />
+        </many-to-one>
+        <many-to-one name="maintenanceUnitId" class="com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit" fetch="select">
+            <column name="MAINTENANCE_UNIT_ID" length="50" />
+        </many-to-one>
         <property name="yearlyState" type="java.lang.String">
             <column name="YEARLY_STATE" length="200" />
         </property>
@@ -58,14 +58,14 @@
             <column name="MAINTENANCE_STATE" length="200" />
         </property>
         <property name="registerState" type="java.lang.String">
-            <column name="register_STATE" length="200" />
+            <column name="REGISTERSTATE" length="200" />
         </property>
         <property name="speed" type="java.lang.String">
             <column name="SPEED" length="200" />
         </property>
-        <property name="maintenanceUsersId" type="java.lang.Long">
-            <column name="MAINTENANCE_USERS_ID" precision="22" scale="0" />
-        </property>
+        <many-to-one name="maintenanceUsersId" class="com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers" fetch="select">
+            <column name="MAINTENANCE_USERS_ID" length="50" />
+        </many-to-one>
         <property name="installPlace" type="java.lang.String">
             <column name="INSTALL_PLACE" length="200" />
         </property>
@@ -82,10 +82,10 @@
             <column name="MANUFACTURER" length="200" />
         </property>
         <property name="manufacturerPhone" type="java.lang.String">
-            <column name="`MANUFACTURER_ PHONE`" length="200" />
+            <column name="`MANUFACTURER_PHONE`" length="200" />
         </property>
         <property name="manufacturerAddress" type="java.lang.String">
-            <column name="`MANUFACTURER_ ADDRESS`" length="200" />
+            <column name="`MANUFACTURER_ADDRESS`" length="200" />
         </property>
         <property name="manufacturerUrl" type="java.lang.String">
             <column name="MANUFACTURER_URL" length="200" />
@@ -111,5 +111,9 @@
         <property name="remarks" type="java.lang.String">
             <column name="REMARKS" length="2000" />
         </property>
+        
+        <many-to-one name="userid" class="com.jrsoft.fri.xtgl.entity.XtglUsers" fetch="select">
+            <column name="userid" length="50" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

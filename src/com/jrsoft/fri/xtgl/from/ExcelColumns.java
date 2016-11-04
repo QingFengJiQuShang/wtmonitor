@@ -10,8 +10,11 @@ public class ExcelColumns {
 	
 	public final static String MaintenanceUnit[] = {"单位名称","负责人","负责人电话","办公地点","公司代码","法人"};
 	
-	public final static String XtglUseUnit[] = {"单位名称","单位类型","前台电话","联络人","联络电话","地址","区域"};
+	public final static String XtglUseUnit[] = {"使用单位名称","使用单位类型","联系人","联系人电话","使用单位地址"};
 
-	public final static String XtglMaintenanceUsers[] = {"维保人","维保证编号","维保证有效期","电话"};
+	public final static String XtglMaintenanceUsers[] = {"维保人","电话","维保证编号","维保证有效期","维保卡号"};
+	
+	public final static String XtglRescueUnit[] = {"救援单位名称","救援单位类型","联系人","联系人电话","救援单位地址"};
+
 	
 }

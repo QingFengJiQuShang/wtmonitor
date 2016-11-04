@@ -60,7 +60,7 @@ public class XtglMaintenanceUsersDaoImpl  extends BaseDaoImpl< XtglMaintenanceUs
 				sql+=" and numbers like '%"+users.getNumbers()+"%'";
 			}
 			if(users.getUnitId()!=null&&!users.getUnitId().equals("")){
-				sql+=" and unit_Id = '"+users.getUnitId()+"'";
+				sql+=" and unit_Id = '"+users.getUnitId().getId()+"'";
 			}
 			sql+=" order by id";	
 			
@@ -98,13 +98,16 @@ public class XtglMaintenanceUsersDaoImpl  extends BaseDaoImpl< XtglMaintenanceUs
 						cell.setCellValue(e.getName());   //维保人
 						
 						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getPhone());   //负责人电话
+						
+						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getNumbers());   //维保证编号
 
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getValidity());   //维保证有效期
 						
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getPhone());   //负责人电话
+						cell.setCellValue(e.getCardNumber());   //维保卡号
 						
 						
 						j = 0;

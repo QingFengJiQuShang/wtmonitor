@@ -1,3 +1,19 @@
+.list-order {
+	height: 58px;
+	background-color: #037eb7;
+}
+.list-order li {
+	width: 137px;
+	height: 58px;
+	text-align: center;
+	font-size: 16px;
+	line-height: 58px;
+	color: #fff;
+	cursor: pointer;
+}
+.list-order .active {
+	background-color: #069de1;
+}
 .warp {
 	width: 97%;
 	margin: 15px auto 0;
@@ -20,7 +36,6 @@
 	background-color: #00AAEE;
 }
 .select {
-	height: 55px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	-o-border-radius: 10px;
@@ -48,7 +63,7 @@
 	font-size: 13px;
 	font-weight: 700;
 	font-size: 13px;
-	
+	color: #d4d4d4;
 	text-indent: 10px;
 }
 .select p select {
@@ -58,6 +73,7 @@
 	width: 74px;
 	height: 30px;
 	margin-top: 15px;
+	margin-left: 20px;
 	font-size: 13px;
 	color: #fff;
 	background-color: #00aaee;
@@ -95,7 +111,6 @@
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-right:10px;
 }
 .table_con {
 	border: 2px solid #ccc;	
@@ -123,7 +138,7 @@ thead tr th i {
 	width: 12px;
 	height: 12px;
 	margin: 0 auto;
-	background-image: url(../../img/sel_gray.png) ;
+	background-image: url(../../../img/sel_gray.png) ;
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
@@ -138,21 +153,23 @@ tbody tr td {
 }
 tbody tr td:last-child{
 	border-right: 0;
+	width: 95px;
 }
 tbody tr td img {
 	margin: 0 5px;
+	cursor: pointer;
 }
 tbody tr td i {
 	display: block;
 	width: 12px;
 	height: 12px;
 	margin: 0 auto;
-	background-image: url(../../img/sel_gray.png);
+	background-image: url(../../../img/sel_gray.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;	
 }
 .gou {
-	background-image: url(../../img/gou.png);
+	background-image: url(../../../img/gou.png);
 }
 .choose {
 	position: relative;
@@ -186,11 +203,3 @@ tbody tr td i {
 	left: 0;
 	margin: auto;
 }
-.table_con table thead th:nth-child(1) {
-	width: 26px;
-	border-left: 0;
-}
-.table_con table thead th:last-child {
-	width: 95px;
-	border-right: 0;
-} 

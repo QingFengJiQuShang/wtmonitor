@@ -48,6 +48,9 @@ public class DtjkFrom   extends BaseForm {
 	public void setInspection(DtjkYearlyInspection inspection) {
 		this.inspection = inspection;
 	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	
 	
 	

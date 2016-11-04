@@ -94,9 +94,9 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 				elevators.setPlace(rs.getString("place"));
 				elevators.setManufactureTime(df.parse(rs.getString("manufacture_Time")));
 				elevators.setYearlyState(rs.getString("yearly_State"));
-				elevators.setGatewayId(rs.getLong("gateway_Id"));
-				elevators.setUseUnitId(rs.getLong("use_Unit_Id"));
-				elevators.setMaintenanceUnitId(rs.getLong("maintenance_Unit_Id"));
+			//	elevators.setGatewayId(rs.getLong("gateway_Id"));
+			//	elevators.setUseUnitId(rs.getLong("use_Unit_Id"));
+			//	elevators.setMaintenanceUnitId(rs.getLong("maintenance_Unit_Id"));
 				elevators.setMaintenanceState(rs.getString("maintenance_State"));
 				list.add(elevators);
 				
@@ -150,13 +150,13 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 						cell.setCellValue(df.format(e.getManufactureTime()));   //生产日期
 						
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getGatewayId());   //电梯网关id
+				//		cell.setCellValue(e.getGatewayId());   //电梯网关id
 
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getUseUnitId());   //使用单位id
+				//		cell.setCellValue(e.getUseUnitId());   //使用单位id
 						
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getMaintenanceUnitId());   //维保单位id
+					//	cell.setCellValue(e.getMaintenanceUnitId());   //维保单位id
 
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getYearlyState());   //年检状态

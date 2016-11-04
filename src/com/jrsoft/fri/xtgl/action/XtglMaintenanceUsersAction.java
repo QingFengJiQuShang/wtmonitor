@@ -17,6 +17,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
@@ -247,7 +249,7 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 	 */
 	public ActionForward  export(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
-
+		String unitId=request.getParameter("unitId");
 		String name=request.getParameter("name");
 		String numbers=request.getParameter("numbers");
 		if(name!=null){
@@ -259,6 +261,9 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		XtglMaintenanceUsers elevator=new XtglMaintenanceUsers();
 		elevator.setName(name);
 		elevator.setNumbers(numbers);
+		XtglMaintenanceUnit maintenanceUnit=new XtglMaintenanceUnit();
+		maintenanceUnit.setId(Long.parseLong(unitId));
+		elevator.setUnitId(maintenanceUnit);
 		try {
 			String dates = new SimpleDateFormat("yyyyMMddHHmmss")
 					.format(new Date());
@@ -303,5 +308,113 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		return null;
 	}
 	
+	/**
+	 * 选择 维保人列表
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  query1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String unitId=request.getParameter("unitId");
+		String name=request.getParameter("name");
+		String numbers=request.getParameter("numbers");
+		String cardNumber=request.getParameter("cardNumber");
+		
+		String id=request.getParameter("id");
+		String id1=request.getParameter("id1");
+		
+		if(unitId!=null){
+			unitId=new String(unitId.getBytes("iso-8859-1"),"utf-8");
+		 }
+		if(name!=null){
+			name=new String(name.getBytes("iso-8859-1"),"utf-8");
+		 }
+		if(numbers!=null){
+			numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+		 }
+		if(cardNumber!=null){
+			cardNumber=new String(cardNumber.getBytes("iso-8859-1"),"utf-8");
+		 }
+		
+		String num=request.getParameter("num");   //当前页
+		
+
+		Page  page=new Page();
+		String hql=" where  1=1 " ;
+		if(name!=null&&!name.equals("")){
+			hql+=" and name like '%"+name+"%'";
+		}
+		if(numbers!=null&&!numbers.equals("")){
+			hql+=" and numbers like '%"+numbers+"%'";
+		}
+		if(unitId!=null&&!unitId.equals("")){
+			hql+=" and unitId = '"+unitId+"'";
+		}
+		if(cardNumber!=null&&!cardNumber.equals("")){
+			hql+=" and cardNumber = '"+cardNumber+"'";
+		}
+		
+		hql+="order by id ";
+		List<XtglMaintenanceUsers> XtglMaintenanceUserss=maintenanceUsersService.queryAll(hql);
+		
+		page.setPageSize(3);	//每页显示数
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		page.setCount(XtglMaintenanceUserss.size());//总记录数
+		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+		
+		List<XtglMaintenanceUsers> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*  from Xtgl_maintenance_users de where  1=1 " ;
+				if(name!=null&&!name.equals("")){
+					sql+=" and name like '%"+name+"%'";
+				}
+				if(numbers!=null&&!numbers.equals("")){
+					sql+=" and numbers like '%"+numbers+"%'";
+				}
+				if(unitId!=null&&!unitId.equals("")){
+					sql+=" and unit_Id = '"+unitId+"'";
+				}
+				if(cardNumber!=null&&!cardNumber.equals("")){
+					sql+=" and card_Number = '"+cardNumber+"'";
+				}
+				sql+=" order by id";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<XtglMaintenanceUsers>();
+				while(rs.next()){
+					XtglMaintenanceUsers elevator=new XtglMaintenanceUsers();
+					elevator.setId(rs.getLong("id"));
+					elevator.setName(rs.getString("name"));
+					elevator.setNumbers(rs.getString("numbers"));
+					elevator.setPhone(rs.getString("phone"));
+					elevator.setValidity(rs.getString("validity"));
+					elevator.setCardNumber(rs.getString("card_Number"));
+					list.add(elevator);
+					
+				}
+				request.setAttribute("id", id);
+				request.setAttribute("id1", id1);
+				request.setAttribute("unitId", unitId);
+				request.setAttribute("name", name);
+				request.setAttribute("numbers", numbers);
+				request.setAttribute("cardNumber", cardNumber);
+				
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+		
+		
+				 return	new ActionForward("/jsp/comm/selectMaintenanceUsersList.jsp");
+		}
 
 }

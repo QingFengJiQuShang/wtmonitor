@@ -41,10 +41,23 @@
 		  function del(id){
     		  window.location.href="maintenanceUsersAction.do?method=delEntity&id="+id+gotoUrl();
          }
+		    //下载  
+		  function exp(){
+    		  window.location.href="maintenanceUsersAction.do?method=export"+gotoUrl ();
+         }
 		  
-		  
-		  
-		  
+		  //选择模糊查询
+		function query(){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="maintenanceUsersAction.do?method=query1&id="+id+"&id1="+id1+gotoUrl();
+		  }
+		//选择列表分页  
+		  function fenye(num){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="maintenanceUsersAction.do?method=query1&num="+num+"&id="+id+"&id1="+id1+gotoUrl();
+         }
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";

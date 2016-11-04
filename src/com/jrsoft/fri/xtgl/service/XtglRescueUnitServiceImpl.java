@@ -14,5 +14,9 @@ public class XtglRescueUnitServiceImpl     extends BaseServiceImpl<XtglRescueUni
 		this.setBaseDao(rescueUnitDao);
 		this.rescueUnitDao = rescueUnitDao;
 	}
+	@Override
+	public void export(String filePath, XtglRescueUnit unit) {
+		rescueUnitDao.export(filePath, unit);
+	}
 	
 }

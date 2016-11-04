@@ -258,7 +258,7 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 			String filePath = request.getRealPath("/")
 					+ "excel\\" + fileName;
 			// 生成excel文件
-		//	rescueUnitService.export(filePath, elevator);
+			rescueUnitService.export(filePath, elevator);
 
 			// 下载excel
 			BufferedOutputStream bos = null;

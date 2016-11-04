@@ -33,8 +33,7 @@ function toMain(flag){
 			   window.main.location="<%=path%>/jsp/home/main.jsp";
 		   }
 		   if(flag==2){
-			   alert(flag);
-			   window.main.location="<%=path%>/jsp/dagl/elevator/elevatorList.jsp";
+			   window.main.location="<%=path%>/elevatorAction.do?method=query";
 		   }
 		   if(flag==31){
 			   window.main.location="<%=path%>/usersAction.do?method=query";

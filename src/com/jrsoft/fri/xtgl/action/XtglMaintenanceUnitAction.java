@@ -297,5 +297,107 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 		
 		return null;
 	}
+	
+	/**
+	 * 选择 维保单位列表
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  query1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String name=request.getParameter("name");
+		String code=request.getParameter("code");
+		String liaisons=request.getParameter("liaisons");
+		
+		String id=request.getParameter("id");
+		String id1=request.getParameter("id1");
+		
+		if(name!=null){
+			name=new String(name.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(code!=null){
+			 code=new String(code.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(liaisons!=null){
+			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
+		 }
+		
+		String num=request.getParameter("num");   //当前页
+		
 
+		Page  page=new Page();
+		String hql=" where  1=1 " ;
+		if(name!=null&&!name.equals("")){
+			hql+=" and name like '%"+name+"%'";
+		}
+		if(code!=null&&!code.equals("")){
+			hql+=" and code like '%"+code+"%'";
+		}
+		if(liaisons!=null&&!liaisons.equals("")){
+			hql+=" and liaisons like '%"+liaisons+"%'";
+		}
+		hql+="order by id ";
+		List<XtglMaintenanceUnit> XtglMaintenanceUnits=maintenanceUnitService.queryAll(hql);
+		
+		page.setPageSize(3);	//每页显示数
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		page.setCount(XtglMaintenanceUnits.size());//总记录数
+		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+		
+		List<XtglMaintenanceUnit> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*  from Xtgl_maintenance_unit de where  1=1 " ;
+				if(name!=null&&!name.equals("")){
+					sql+=" and name like '%"+name+"%'";
+				}
+				if(code!=null&&!code.equals("")){
+					sql+=" and code like '%"+code+"%'";
+				}
+				if(liaisons!=null&&!liaisons.equals("")){
+					sql+=" and liaisons like '%"+liaisons+"%'";
+				}
+				sql+=" order by id";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<XtglMaintenanceUnit>();
+				while(rs.next()){
+					XtglMaintenanceUnit elevator=new XtglMaintenanceUnit();
+					elevator.setId(rs.getLong("id"));
+					elevator.setName(rs.getString("name"));
+					elevator.setLiaisons(rs.getString("liaisons"));
+					elevator.setPhone(rs.getString("phone"));
+					elevator.setAddress(rs.getString("address"));
+					elevator.setCode(rs.getString("code"));
+					elevator.setCorporation(rs.getString("corporation"));
+					
+					String sql2="select count(*)  from Xtgl_maintenance_users de where  1=1  and unit_Id = '"+rs.getLong("id")+"'";
+					int n=DBEntity.getInstance().queryDataCount(sql2);
+					elevator.setNum(n);
+					list.add(elevator);
+					
+				}
+				
+				request.setAttribute("id", id);
+				request.setAttribute("id1", id1);
+				request.setAttribute("name", name);
+				request.setAttribute("code", code);
+				request.setAttribute("liaisons", liaisons);
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+		
+		
+		 return	new ActionForward("/jsp/comm/selectMaintenanceUnitList.jsp");
+		}
+	
 }
