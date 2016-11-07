@@ -53,6 +53,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		
 		elevator.setManufactureTime(df.parse(manufactureTime));
 		elevator.setInstallTime(df.parse(installTime));
+		elevator.setState("正常");
 		elevatorService.save(elevator);
 	    return	new ActionForward("/elevatorAction.do?method=query");
 	}
@@ -181,6 +182,259 @@ public class DtjkElevatorAction extends DispatchAction{
 		 return	new ActionForward("/jsp/dtjk/elevator/elevatorList.jsp");
 		}
 	
+	/**
+	 * 查询 电梯列表  电梯监控
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  queryMonitor(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String registerid=request.getParameter("registerid");
+		String distinguishid=request.getParameter("distinguishid");
+		String useUnitName=request.getParameter("useUnitName");
+		String brand=request.getParameter("brand");
+		String numbers=request.getParameter("numbers");
+		
+		 if(registerid!=null){
+			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(distinguishid!=null){
+			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(useUnitName!=null){
+			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(brand!=null){
+			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(numbers!=null){
+			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+		 }
+		String num=request.getParameter("num");   //当前页
+		
+
+		Page  page=new Page();
+		String hql=" where  1=1 " ;
+		if(registerid!=null&&!registerid.equals("")){
+			hql+=" and registerid like '%"+registerid+"%'";
+		}
+		if(distinguishid!=null&&!distinguishid.equals("")){
+			hql+=" and distinguishid like '%"+distinguishid+"%'";
+		}
+		if(useUnitName!=null&&!useUnitName.equals("")){
+			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
+		}
+		if(brand!=null&&!brand.equals("")){
+			hql+=" and brand like '%"+brand+"%'";
+		}
+		if(numbers!=null&&!numbers.equals("")){
+			hql+=" and numbers like '%"+numbers+"%'";
+		}
+		hql+="order by id ";
+		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
+		
+		page.setPageSize(3);	//每页显示数
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		page.setCount(DtjkElevators.size());//总记录数
+		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+		
+		List<DtjkElevator> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
+						" from dtjk_elevator de " +
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
+						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
+						" where  1=1 " ;
+				if(registerid!=null&&!registerid.equals("")){
+					sql+=" and de.registerid like '%"+registerid+"%'";
+				}		
+				if(distinguishid!=null&&!distinguishid.equals("")){
+					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
+				}
+				if(useUnitName!=null&&!useUnitName.equals("")){
+					sql+=" and xuu.name like '%"+useUnitName+"%'";
+				}
+				if(brand!=null&&!brand.equals("")){
+					sql+=" and de.brand de.like '%"+brand+"%'";
+				}
+				if(numbers!=null&&!numbers.equals("")){
+					sql+=" and de.numbers like '%"+numbers+"%'";
+				}
+				sql+=" order by de.id";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<DtjkElevator>();
+				while(rs.next()){
+					DtjkElevator elevator=new DtjkElevator();
+					elevator.setId(rs.getLong("id"));
+					elevator.setRegisterid(rs.getString("registerid"));
+					elevator.setDistinguishid(rs.getString("distinguishid"));
+					elevator.setBrand(rs.getString("brand"));
+					elevator.setState(rs.getString("state"));
+					elevator.setNumbers(rs.getString("numbers"));
+					elevator.setLabel(rs.getString("label"));
+					elevator.setInstallUnit(rs.getString("install_Unit"));
+					elevator.setManufactureTime(rs.getDate("manufacture_Time"));
+					elevator.setYearlyState(rs.getString("yearly_State"));
+					elevator.setMaintenanceState(rs.getString("maintenance_State"));
+					elevator.setUseUnitName(rs.getString("useunitname"));
+					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
+					list.add(elevator);
+					
+				}
+				
+				request.setAttribute("registerid", registerid);
+				request.setAttribute("distinguishid", distinguishid);
+				request.setAttribute("useUnitName", useUnitName);
+				request.setAttribute("brand", brand);
+				request.setAttribute("numbers", numbers);
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+		
+		
+		 return	new ActionForward("/jsp/dtjk/monitor/monitorList.jsp");
+		}
+	
+	/**
+	 * 查询 电梯列表  电梯监控
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  queryPlayback (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String registerid=request.getParameter("registerid");
+		String distinguishid=request.getParameter("distinguishid");
+		String useUnitName=request.getParameter("useUnitName");
+		String brand=request.getParameter("brand");
+		String numbers=request.getParameter("numbers");
+		
+		 if(registerid!=null){
+			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(distinguishid!=null){
+			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(useUnitName!=null){
+			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(brand!=null){
+			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(numbers!=null){
+			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+		 }
+		String num=request.getParameter("num");   //当前页
+		
+
+		Page  page=new Page();
+		String hql=" where  1=1 " ;
+		if(registerid!=null&&!registerid.equals("")){
+			hql+=" and registerid like '%"+registerid+"%'";
+		}
+		if(distinguishid!=null&&!distinguishid.equals("")){
+			hql+=" and distinguishid like '%"+distinguishid+"%'";
+		}
+		if(useUnitName!=null&&!useUnitName.equals("")){
+			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
+		}
+		if(brand!=null&&!brand.equals("")){
+			hql+=" and brand like '%"+brand+"%'";
+		}
+		if(numbers!=null&&!numbers.equals("")){
+			hql+=" and numbers like '%"+numbers+"%'";
+		}
+		hql+="order by id ";
+		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
+		
+		page.setPageSize(3);	//每页显示数
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		page.setCount(DtjkElevators.size());//总记录数
+		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+		
+		List<DtjkElevator> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
+						" from dtjk_elevator de " +
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
+						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
+						" where  1=1 " ;
+				if(registerid!=null&&!registerid.equals("")){
+					sql+=" and de.registerid like '%"+registerid+"%'";
+				}		
+				if(distinguishid!=null&&!distinguishid.equals("")){
+					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
+				}
+				if(useUnitName!=null&&!useUnitName.equals("")){
+					sql+=" and xuu.name like '%"+useUnitName+"%'";
+				}
+				if(brand!=null&&!brand.equals("")){
+					sql+=" and de.brand de.like '%"+brand+"%'";
+				}
+				if(numbers!=null&&!numbers.equals("")){
+					sql+=" and de.numbers like '%"+numbers+"%'";
+				}
+				sql+=" order by de.id";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<DtjkElevator>();
+				while(rs.next()){
+					DtjkElevator elevator=new DtjkElevator();
+					elevator.setId(rs.getLong("id"));
+					elevator.setRegisterid(rs.getString("registerid"));
+					elevator.setDistinguishid(rs.getString("distinguishid"));
+					elevator.setBrand(rs.getString("brand"));
+					elevator.setState(rs.getString("state"));
+					elevator.setNumbers(rs.getString("numbers"));
+					elevator.setLabel(rs.getString("label"));
+					elevator.setInstallUnit(rs.getString("install_Unit"));
+					elevator.setManufactureTime(rs.getDate("manufacture_Time"));
+					elevator.setYearlyState(rs.getString("yearly_State"));
+					elevator.setMaintenanceState(rs.getString("maintenance_State"));
+					elevator.setUseUnitName(rs.getString("useunitname"));
+					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
+					
+					String sql2="select count(*)  from dtjk_record de where  1=1  and elevator_id = '"+rs.getString("registerid")+"'";
+					int n=DBEntity.getInstance().queryDataCount(sql2);
+					elevator.setNum(n);
+					list.add(elevator);
+					
+				}
+				
+				request.setAttribute("registerid", registerid);
+				request.setAttribute("distinguishid", distinguishid);
+				request.setAttribute("useUnitName", useUnitName);
+				request.setAttribute("brand", brand);
+				request.setAttribute("numbers", numbers);
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+		
+		
+		 return	new ActionForward("/jsp/dtjk/playback/elevatorList.jsp");
+		}
 	/**
 	 * 编辑 查看 电梯 
 	 * @param request

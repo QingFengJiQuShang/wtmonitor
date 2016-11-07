@@ -14,12 +14,13 @@ public class DtjkGateway implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long id;					//
+	private String serialNumber;				//网关序列号
+	private String elevatorId;				//电梯Id
 	private String type;				//电梯网关类型
 	private String hardware;				//硬件版本
 	private String software;				//软件版本
 	private String sim;				//SIM卡号
 	private String report;				//上报周期
-	private String serialNumber;				//设备序列号
 	private String floor;				//总楼层
 	private String speed;				//设定速度
 	private String spacing;				//平层间距
@@ -35,7 +36,7 @@ public class DtjkGateway implements java.io.Serializable {
 	public DtjkGateway(String type, String hardware, String software,
 			String sim, String report, String serialNumber, String ip,
 			String port, String floor, String speed, String spacing,
-			String networking) {
+			String networking,String elevatorId) {
 		this.type = type;
 		this.hardware = hardware;
 		this.software = software;
@@ -46,6 +47,7 @@ public class DtjkGateway implements java.io.Serializable {
 		this.speed = speed;
 		this.spacing = spacing;
 		this.networking = networking;
+		this.elevatorId=elevatorId;
 	}
 
 	// Property accessors
@@ -136,6 +138,18 @@ public class DtjkGateway implements java.io.Serializable {
 
 	public void setNetworking(String networking) {
 		this.networking = networking;
+	}
+
+	public String getElevatorId() {
+		return elevatorId;
+	}
+
+	public void setElevatorId(String elevatorId) {
+		this.elevatorId = elevatorId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

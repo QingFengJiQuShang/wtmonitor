@@ -9,7 +9,7 @@
         <id name="id" type="java.lang.Long">
             <column name="ID" precision="22" scale="0" />
              <generator class="sequence" >
-                 <param name="sequence">Gateway</param>
+                 <param name="sequence">GATEWAY</param>
             </generator>
         </id>
         <property name="type" type="java.lang.String">
@@ -28,7 +28,7 @@
             <column name="REPORT" length="200" />
         </property>
         <property name="serialNumber" type="java.lang.String">
-            <column name="SERIAL_NUMBER" length="200" />
+            <column name="SERIAL_NUMBER" length="50" />
         </property>
        
         <property name="floor" type="java.lang.String">
@@ -42,6 +42,9 @@
         </property>
         <property name="networking" type="java.lang.String">
             <column name="NETWORKING" length="200" />
+        </property>
+         <property name="elevatorId" type="java.lang.String">
+            <column name="ELEVATOR_ID" length="50" />
         </property>
     </class>
 </hibernate-mapping>

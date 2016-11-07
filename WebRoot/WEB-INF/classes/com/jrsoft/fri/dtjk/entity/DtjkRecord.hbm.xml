@@ -15,8 +15,8 @@
         <property name="serialNumber" type="java.lang.String">
             <column name="SERIAL_NUMBER" length="50" />
         </property>
-        <property name="elevatorId" type="java.lang.Long">
-            <column name="ELEVATOR_ID" precision="22" scale="0" />
+        <property name="elevatorId" type="java.lang.String">
+            <column name="ELEVATOR_ID" length="50" />
         </property>
         <property name="direction" type="java.lang.String">
             <column name="DIRECTION" length="50" />
@@ -47,6 +47,9 @@
         </property>
         <property name="maintenanceState" type="java.lang.String">
             <column name="MAINTENANCE_STATE" length="50" />
+        </property>
+        <property name="foundTime" type="java.util.Date">
+            <column name="FOUND_TIME" length="7" />
         </property>
     </class>
 </hibernate-mapping>

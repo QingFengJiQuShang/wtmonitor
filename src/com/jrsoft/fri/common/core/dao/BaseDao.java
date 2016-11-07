@@ -13,7 +13,7 @@ public interface BaseDao<T,PK extends Serializable> {
 	public T get(PK id);
 	public T update(T entity);
 	public void delete(PK id);
-	public List<T> query(Page page);
+	public List<T> query(String checkhql);
 	public List<T> queryAll(String checkhql);
 	public List<Object []> executeSQLQuery(final String sql);
 	public List<T> queryHQL(String checkHql,int currentPage,int perPage);

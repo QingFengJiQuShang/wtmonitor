@@ -11,6 +11,7 @@ public class DtjkRecordServiceImpl    extends BaseServiceImpl<DtjkRecord> implem
 		return recordDao;
 	}
 	public void setRecordDao(DtjkRecordDao recordDao) {
+		this.setBaseDao(recordDao);
 		this.recordDao = recordDao;
 	}
 

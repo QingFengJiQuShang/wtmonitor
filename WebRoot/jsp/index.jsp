@@ -32,9 +32,16 @@ function toMain(flag){
 		   if(flag==1){
 			   window.main.location="<%=path%>/jsp/home/main.jsp";
 		   }
-		   if(flag==2){
+		   if(flag==21){
 			   window.main.location="<%=path%>/elevatorAction.do?method=query";
 		   }
+		   if(flag==22){
+			   window.main.location="<%=path%>/elevatorAction.do?method=queryMonitor";
+		   }
+		   if(flag==23){
+			   window.main.location="<%=path%>/elevatorAction.do?method=queryPlayback";
+		   }
+		   
 		   if(flag==31){
 			   window.main.location="<%=path%>/usersAction.do?method=query";
 		   }
@@ -71,9 +78,9 @@ function toMain(flag){
 				<p class="one grade"   onclick="toMain('1')">
 					<i class=""></i>电梯监控</p>
 				<div class="next">
-					<p  onclick="toMain('2')">电梯列表</p>
-					<p  onclick="toMain('1')">电梯监控</p>
-					<p  onclick="toMain('1')">电梯回放</p>
+					<p  onclick="toMain('21')">电梯列表</p>
+					<p  onclick="toMain('22')">电梯监控</p>
+					<p  onclick="toMain('23')">电梯回放</p>
 					<p  onclick="toMain('1')">电梯管理</p>
 				</div>
 			</li>

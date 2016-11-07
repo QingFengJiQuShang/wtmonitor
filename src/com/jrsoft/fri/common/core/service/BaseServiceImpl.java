@@ -62,8 +62,8 @@ public class BaseServiceImpl<T extends Serializable> implements BaseService<T> {
 	}
 
 	@Override
-	public List<T> query(Page page) {
-		return (List<T>)baseDao.query(page);
+	public List<T> query(String checkhql) {
+		return (List<T>)baseDao.query(checkhql);
 	}
 
 	@Override

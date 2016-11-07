@@ -56,7 +56,7 @@ public class DtjkElevator implements java.io.Serializable {
     private String useUnitName;			//使用单位名称
     private String maintenanceUnitName;		//维保单位名称
     private String maintenanceUsersName;	//维保人员姓名
-    
+    private int num;  //数量
 	/** default constructor */
 	public DtjkElevator() {
 	}
@@ -418,6 +418,14 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setMaintenanceUsersName(String maintenanceUsersName) {
 		this.maintenanceUsersName = maintenanceUsersName;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 }

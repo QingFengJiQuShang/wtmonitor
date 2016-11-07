@@ -12,60 +12,71 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>系统用户列表</title>
+    <title>电梯列表</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	    <link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/user.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
-
+		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
 	</head>
-  
-  <body>
+
+	<body>
 		<div class="con" id="user">
-			
+			<p class="user">电梯回放</p>
 			<div class="warp">
-				<div class="select clearfix">
+				<div class="select">
+				<div class="clearfix">
 					<p class="fl">
-						<label for="user">用户名&nbsp;:&nbsp;</label>
-						<input type="text" id="name" placeholder="请输入"  value="${name}" />
+						<label for="user">电梯方向&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="elevatorId" name="elevatorId"  value="${elevatorId}">
+						<select name="direction" id="direction">
+							<option value="">请选择</option>
+							<option <c:if test="${direction=='上'}">selected="selected" </c:if> value="上">上</option>
+							<option <c:if test="${direction=='下'}">selected="selected" </c:if> value="下">下</option>
+						</select>		
 					</p>
 					<p class="fl">
-						<label for="unit">公司单位&nbsp;:&nbsp;</label>
-						<input type="text" id="unit" placeholder="请输入"  value="${unit}"/>
+						<label for="code">是否有人&nbsp;:&nbsp;</label>
+						<select name="people" id="people">
+							<option value="">请选择</option>
+							<option <c:if test="${people=='有人'}">selected="selected" </c:if> value="有人">有人</option>
+							<option <c:if test="${people=='没人'}">selected="selected" </c:if> value="没人">没人</option>
+						</select>		
 					</p>
-					<p class="fl" style="width: 300px;">
-						<label for="">区域选择&nbsp;:&nbsp;</label>
-						<select id="province" name="users.province"  style="width: 95px;"></select>&nbsp;&nbsp;
-						<select id="city" name="users.city" style="width: 95px;"></select>&nbsp;&nbsp;
-						<select id="area"   style="display: none;"></select>&nbsp;&nbsp;
+					<p class="fl">
+						<label for="man">电梯门状态&nbsp;:&nbsp;</label>
+						<select name="door" id="door">
+							<option value="">请选择</option>
+							<option <c:if test="${door=='开门'}">selected="selected" </c:if> value="开门">开门</option>
+							<option <c:if test="${door=='关门'}">selected="selected" </c:if> value="关门">关门</option>
+						</select>
 					</p>
+				
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
-					<div class="or clearfix">
-						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
-						<p class="fl del">批量删除</p>
-					</div>
-					<div class="table_con">
+					<p></p>
+				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
 								<th class="all">
 									<i></i>
 								</th>
-								<th>序列</th>
-								<th>用户名</th>
-								<th>登录名</th>
-								<th>电话</th>
-								<th>公司单位</th>
-								<th>城市</th>
-								<th>权限管理</th>
-								<th>操作</th>
+							<th>序列</th>
+								<th>电梯注册号</th>
+								<th>日期</th>
+								<th>时间</th>
+								<th>电梯方向</th>
+								<th>电梯楼层</th>
+								<th>是否有人</th>
+								<th>电梯门状态</th>
+								<th>电梯状态</th>
+							<th>操作</th>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
@@ -74,17 +85,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<i class=""><input type="hidden" value="${list.id}" /></i>
 									</td>
 									<td>${s.index + 1 }</td>
-									<td>${list.name }</td>
-									<td>${list.loginname }</td>
-									<td>${list.phone }</td>
-									<td>${list.unit }</td>
-									<td>${list.province}&nbsp;&nbsp;${list.city}&nbsp;&nbsp;</td>
-									<td>权限管理</td>
+									<td>${list.elevatorId }</td>
+									<td>${list.gatewayDate }</td>
+									<td>${list.gatewayTime }</td>
+									<td>${list.direction }</td>
+									<td>${list.floor}</td>
+									<td>${list.people}</td>
+									<td>${list.door}</td>
+									<td>${list.heartbeat}</td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','2');"/>
-										<img src="<%=path%>/img/compile.png"  onclick="findById('${list.id}','1');"/>
-										<img src="<%=path%>/img/del.png" alt="" class="del_one" onclick="del('${list.id}');"/>
-									</td>
+										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}');"/>
+										</td>
 								</tr>
 								</c:forEach>
 								
@@ -117,12 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	</body>
-		<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-		<script src="<%=path %>/js/ssq.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/xtgl/user.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript">
-			addressInit('province', 'city', 'area','${province}','${city}','请选择');
-	</script>
-	
+	<script src="<%=path%>/js/dtjk/record.js" type="text/javascript" charset="utf-8"></script>
 </html>

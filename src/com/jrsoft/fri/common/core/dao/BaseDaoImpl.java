@@ -101,27 +101,12 @@ public abstract class BaseDaoImpl <T, PK extends Serializable> extends Hibernate
 	}
 
 	@Override
-	public List<T> query(Page page) {
+	public List<T> query(String checkhql) {
 		
-		List<Object> params = new ArrayList<Object>(); // 参数值
-		List<String> types = new ArrayList<String>(); // 参数类型
-		String content = SearchOperationUtil.getCombOperation(this.getEntityClass(), page, params, types);
+		String hql=" from "+getEntityClass().getSimpleName()+checkhql;
 		
-		StringBuffer queryCountHql = new StringBuffer(" select count(*) from ");
-		int index = content.lastIndexOf("order by");
-		queryCountHql.append(content.substring(0, index));
-		Query query = this.getSession(true).createQuery(queryCountHql.toString());
-	
-		SearchOperationUtil.setQueryParams(query, params, types); // 填充参数
-		int dataCount = ((Long) query.uniqueResult()).intValue();
-		page.setDataCount(dataCount);
-
-		StringBuffer queryHql = new StringBuffer(" select "+(this.getEntityClass().getSimpleName()).toLowerCase()+" from ");
-		System.out.print(queryHql);
-		queryHql.append(content);
-		query = this.getSession(true).createQuery(queryHql.toString()).setFirstResult(
-				page.getStart()).setMaxResults(page.getEnd());
-		SearchOperationUtil.setQueryParams(query, params, types); // 填充参数
+		Query query = this.getSession(true).createQuery(hql);
+		System.out.print("-----------"+getEntityClass().getSimpleName());
 		List<T> list = query.list();
 		return list;
 	}

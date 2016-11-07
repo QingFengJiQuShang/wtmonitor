@@ -1,5 +1,7 @@
 package com.jrsoft.fri.dtjk.entity;
 
+import java.util.Date;
+
 
 /**
  * 电梯上报记录
@@ -15,7 +17,7 @@ public class DtjkRecord implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;				//
 	private String serialNumber;				//网关序列号
-	private Long elevatorId;				//电梯Id
+	private String elevatorId;				//电梯Id
 	private String direction;				//运行方向
 	private String speed;				//运行速度
 	private String floor;				//当前楼层
@@ -26,6 +28,7 @@ public class DtjkRecord implements java.io.Serializable {
 	private String heartbeat;				//一切正常
 	private String maintenanceUserId;				//现场维保人员
 	private String maintenanceState;				//检修状态
+	private Date foundTime;                //创建时间
 
 	// Constructors
 
@@ -34,10 +37,10 @@ public class DtjkRecord implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public DtjkRecord(String serialNumber, Long elevatorId,
+	public DtjkRecord(String serialNumber, String elevatorId,
 			String direction, String speed, String floor, String gatewayDate,
 			String gatewayTime, String people, String door, String heartbeat,
-			String maintenanceUserId, String maintenanceState) {
+			String maintenanceUserId, String maintenanceState,Date foundTime) {
 		this.serialNumber = serialNumber;
 		this.elevatorId = elevatorId;
 		this.direction = direction;
@@ -70,11 +73,11 @@ public class DtjkRecord implements java.io.Serializable {
 		this.serialNumber = serialNumber;
 	}
 
-	public Long getElevatorId() {
+	public String getElevatorId() {
 		return this.elevatorId;
 	}
 
-	public void setElevatorId(Long elevatorId) {
+	public void setElevatorId(String elevatorId) {
 		this.elevatorId = elevatorId;
 	}
 
@@ -156,6 +159,18 @@ public class DtjkRecord implements java.io.Serializable {
 
 	public void setMaintenanceState(String maintenanceState) {
 		this.maintenanceState = maintenanceState;
+	}
+
+	public Date getFoundTime() {
+		return foundTime;
+	}
+
+	public void setFoundTime(Date foundTime) {
+		this.foundTime = foundTime;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

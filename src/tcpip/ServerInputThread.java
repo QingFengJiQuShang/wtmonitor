@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import jiexie.jiexie;
+import com.jrsoft.fri.dtjk.action.Gateway;
 
 
 public class ServerInputThread  extends Thread
@@ -31,7 +31,7 @@ public class ServerInputThread  extends Thread
                 int length = is.read(buffer);
                 
                 String str = new String(buffer, 0, length);
-                jiexie j=new jiexie();
+                Gateway j=new Gateway();
                 j.query(str,os);
                 System.out.println(str);
                 System.out.println();
@@ -40,8 +40,13 @@ public class ServerInputThread  extends Thread
         }
         catch (IOException e)
         {
-            e.printStackTrace();
-        }
+        	e.printStackTrace();
+        	run();
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	run();
+			
+		}
     }
 
 }

@@ -33,22 +33,8 @@ public class DtjkGatewayAction  extends DispatchAction {
 	public void setGatewayService(DtjkGatewayService gatewayService) {
 		this.gatewayService = gatewayService;
 	}
-
-	/**
-	 * 新增 电梯网关信息
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	public ActionForward  addEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
-			throws Exception {
-		DtjkFrom DtjkFrom=(DtjkFrom)form;
-		DtjkGateway elevator =DtjkFrom.getGateway();
-		
-		gatewayService.save(elevator);
-	    return	new ActionForward("/gatewayAction.do?method=query");
-	}
+	
+	
 	/**
 	 * 查询 电梯网关列表
 	 * @param request
@@ -203,30 +189,6 @@ public class DtjkGatewayAction  extends DispatchAction {
 		return	new ActionForward("/jsp/dagl/gateway/updateGateway.jsp");
 	}
 	
-	/**
-	 * 修改网关
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	public ActionForward  updateEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
-			throws Exception {
-		DtjkFrom DtjkFrom=(DtjkFrom)form;
-		DtjkGateway Dtjkgateway =DtjkFrom.getGateway();
-		DtjkGateway gateway=gatewayService.get(Dtjkgateway.getId());
-		
-		if(gateway!=null){
-			gateway.setType(Dtjkgateway.getType());
-			gateway.setHardware(Dtjkgateway.getHardware());
-			gateway.setSoftware(Dtjkgateway.getSoftware());
-			gateway.setSim(Dtjkgateway.getSim());
-			gateway.setReport(Dtjkgateway.getReport());
-			gateway.setSerialNumber(Dtjkgateway.getSerialNumber());
-			gatewayService.update(gateway);
-		}
-		return	new ActionForward("/gatewayAction.do?method=query");
-	}
 	
 	
 	
