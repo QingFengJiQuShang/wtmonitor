@@ -115,3 +115,7 @@ body {
 				display: none;
 				
 			}
+.calendar {
+	position: fixed!important;
+	top:  40%!important;
+}

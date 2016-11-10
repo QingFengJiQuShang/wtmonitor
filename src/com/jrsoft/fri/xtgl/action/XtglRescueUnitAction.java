@@ -294,6 +294,99 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 		
 		return null;
 	}
+	
+	/**
+	 * 选择 救援单位列表
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  query1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String name=request.getParameter("name");
+		String liaisons=request.getParameter("liaisons");
+		String phone=request.getParameter("phone");
+		String id=request.getParameter("id");
+		String id1=request.getParameter("id1");
+		if(name!=null){
+			name=new String(name.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(liaisons!=null){
+			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(phone!=null){
+			 phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+		 }
+		
+		String num=request.getParameter("num");   //当前页
+		
 
+		Page  page=new Page();
+		String hql=" where  1=1 " ;
+		if(name!=null&&!name.equals("")){
+			hql+=" and name like '%"+name+"%'";
+		}
+		if(liaisons!=null&&!liaisons.equals("")){
+			hql+=" and liaisons like '%"+liaisons+"%'";
+		}
+		if(phone!=null&&!phone.equals("")){
+			hql+=" and phone like '%"+phone+"%'";
+		}
+		hql+="order by id ";
+		List<XtglRescueUnit> XtglRescueUnits=rescueUnitService.queryAll(hql);
+		
+		page.setPageSize(3);	//每页显示数
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		page.setCount(XtglRescueUnits.size());//总记录数
+		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+		
+		List<XtglRescueUnit> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*  from Xtgl_Rescue_Unit de where  1=1 " ;
+				if(name!=null&&!name.equals("")){
+					sql+=" and name like '%"+name+"%'";
+				}
+				if(liaisons!=null&&!liaisons.equals("")){
+					sql+=" and liaisons like '%"+liaisons+"%'";
+				}
+				if(phone!=null&&!phone.equals("")){
+					sql+=" and phone like '%"+phone+"%'";
+				}
+				sql+=" order by id";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<XtglRescueUnit>();
+				while(rs.next()){
+					XtglRescueUnit useUnit=new XtglRescueUnit();
+					useUnit.setId(rs.getLong("id"));
+					useUnit.setName(rs.getString("name"));
+					useUnit.setType(rs.getString("type"));
+					useUnit.setLiaisons(rs.getString("liaisons"));
+					useUnit.setPhone(rs.getString("phone"));
+					useUnit.setAddress(rs.getString("address"));
+					
+					list.add(useUnit);
+					
+				}
+				request.setAttribute("name", name);
+				request.setAttribute("liaisons", liaisons);
+				request.setAttribute("phone", phone);
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+				request.setAttribute("id", id);
+				request.setAttribute("id1", id1);
+		
+		 return	new ActionForward("/jsp/comm/selectRescueUnit.jsp");
+		}
 
 }

@@ -2,6 +2,9 @@ package com.jrsoft.fri.gzcl.entity;
 
 import java.util.Date;
 
+import com.jrsoft.fri.dtjk.entity.DtjkElevator;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
+
 
 /**
  * GzclFault entity. @author MyEclipse Persistence Tools
@@ -11,7 +14,7 @@ public class GzclFault implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private Long id;					//
-	private Long elevatorId;					//故障电梯Id
+	private DtjkElevator elevatorId=new DtjkElevator();//维保电梯Id
 	private String fault;					//故障信息
 	private String handle;					//处理信息
 	private Date happenTime;					//故障发生时间
@@ -21,20 +24,26 @@ public class GzclFault implements java.io.Serializable {
 	private Date successTime;					//救援成功时间
 	private String unitId;					//施救单位列表
 	private String numbers;					//困人数量
-	private Long dutyId;					//值班人
+	 private XtglUsers dutyId=new XtglUsers();			//值班人
 	private String flag;					//是否是当前故障标示
-
+	private String state;			//状态
 	// Constructors
-
+	private String registerid;			//电梯注册号
+	private String distinguishid;			//识别码
+	private String place;			//安装地点
+	private String dutyName; //值班人姓名
+	private String begintime;
+	private String endtime;
+	
 	/** default constructor */
 	public GzclFault() {
 	}
 
 	/** full constructor */
-	public GzclFault(Long elevatorId, String fault, String handle,
+	public GzclFault(DtjkElevator elevatorId, String fault, String handle,
 			Date happenTime, String type, Date alarmTime,
 			Date arriveTime, Date successTime, String unitId,
-			String numbers, Long dutyId, String flag) {
+			String numbers, XtglUsers dutyId, String flag,String state) {
 		this.elevatorId = elevatorId;
 		this.fault = fault;
 		this.handle = handle;
@@ -59,11 +68,11 @@ public class GzclFault implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Long getElevatorId() {
+	public DtjkElevator getElevatorId() {
 		return this.elevatorId;
 	}
 
-	public void setElevatorId(Long elevatorId) {
+	public void setElevatorId(DtjkElevator elevatorId) {
 		this.elevatorId = elevatorId;
 	}
 
@@ -139,11 +148,11 @@ public class GzclFault implements java.io.Serializable {
 		this.numbers = numbers;
 	}
 
-	public Long getDutyId() {
+	public XtglUsers getDutyId() {
 		return this.dutyId;
 	}
 
-	public void setDutyId(Long dutyId) {
+	public void setDutyId(XtglUsers dutyId) {
 		this.dutyId = dutyId;
 	}
 
@@ -153,6 +162,62 @@ public class GzclFault implements java.io.Serializable {
 
 	public void setFlag(String flag) {
 		this.flag = flag;
+	}
+
+	public String getRegisterid() {
+		return registerid;
+	}
+
+	public void setRegisterid(String registerid) {
+		this.registerid = registerid;
+	}
+
+	public String getDistinguishid() {
+		return distinguishid;
+	}
+
+	public void setDistinguishid(String distinguishid) {
+		this.distinguishid = distinguishid;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getDutyName() {
+		return dutyName;
+	}
+
+	public void setDutyName(String dutyName) {
+		this.dutyName = dutyName;
+	}
+
+	public String getBegintime() {
+		return begintime;
+	}
+
+	public void setBegintime(String begintime) {
+		this.begintime = begintime;
+	}
+
+	public String getEndtime() {
+		return endtime;
+	}
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
 	}
 
 }

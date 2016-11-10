@@ -12,7 +12,14 @@ public class GzclFaultServiceImpl   extends BaseServiceImpl<GzclFault> implement
 	}
 
 	public void setFaultDao(GzclFaultDao faultDao) {
+		this.setBaseDao(faultDao);
 		this.faultDao = faultDao;
+	}
+
+	@Override
+	public void export(String filePath, GzclFault entity) {
+		faultDao.export(filePath, entity);
+		
 	}
 
 }

@@ -50,13 +50,16 @@ public class DtjkElevator implements java.io.Serializable {
 	private Date yearlyTime;			//上次年检时间
 	private Date maintenanceTime;			//上次维保时间
 	private String remarks;			//备注
-    private XtglUsers userid;				//所属用户
+    private XtglUsers userid=new XtglUsers();				//所属用户
 	// Constructors
     
     private String useUnitName;			//使用单位名称
     private String maintenanceUnitName;		//维保单位名称
     private String maintenanceUsersName;	//维保人员姓名
-    private int num;  //数量
+    
+    private int numRecords;  //维保记录数量
+    private int numYearly;  //年检记录数量
+    private int num;  //上报记录数量
 	/** default constructor */
 	public DtjkElevator() {
 	}
@@ -426,6 +429,22 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setNum(int num) {
 		this.num = num;
+	}
+
+	public int getNumRecords() {
+		return numRecords;
+	}
+
+	public void setNumRecords(int numRecords) {
+		this.numRecords = numRecords;
+	}
+
+	public int getNumYearly() {
+		return numYearly;
+	}
+
+	public void setNumYearly(int numYearly) {
+		this.numYearly = numYearly;
 	}
 
 }

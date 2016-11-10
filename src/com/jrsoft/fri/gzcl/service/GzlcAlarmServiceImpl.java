@@ -12,7 +12,14 @@ public class GzlcAlarmServiceImpl   extends BaseServiceImpl<GzlcAlarm> implement
 	}
 
 	public void setAlarmDao(GzlcAlarmDao alarmDao) {
+		this.setBaseDao(alarmDao);
 		this.alarmDao = alarmDao;
+	}
+
+	@Override
+	public void export(String filePath, GzlcAlarm entity) {
+		alarmDao.export(filePath, entity);
+		
 	}
 
 	

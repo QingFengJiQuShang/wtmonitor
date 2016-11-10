@@ -29,6 +29,23 @@ selectMaintenanceUnit=function(id,id1){
 }
 
 /**
+ * 多选 救援单位
+ */
+selectRescueUnit=function(id,id1){
+	JqueryDialog.Open('救援单位', 'rescueUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+}
+// 删除 已选择的救援单位
+closeMultiRescueUnit=function(id){
+		$('#'+id+' option:selected').remove();
+}
+
+/**
+ * 选择电梯信息
+ */
+selectElevator=function(id,id1,id2){
+	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query1&id='+id+"&id1="+id1+"&id2="+id2, 1000, 500);
+}
+/**
  * 选择维保人员
  */
 selectMaintenanceUsers=function(id,id1){

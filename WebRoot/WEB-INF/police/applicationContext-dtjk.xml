@@ -34,7 +34,6 @@
     <!--上报记录 -->
 	<bean name="/recordAction" class="com.jrsoft.fri.dtjk.action.DtjkRecordAction">
 		<property name="recordService" ref="recordService" />
-		<property name="elevatorService" ref="elevatorService" />
 	</bean>
 	<bean id="recordService" class="com.jrsoft.fri.dtjk.service.DtjkRecordServiceImpl">
 		<property name="recordDao"  ref="recordDao" />
@@ -47,7 +46,6 @@
     <!-- 电梯维保记录 -->
 	<bean name="/recordsAction" class="com.jrsoft.fri.dtjk.action.DtjkMaintenanceRecordsAction">
 		<property name="recordsService" ref="recordsService" />
-		
 	</bean>
 	<bean id="recordsService" class="com.jrsoft.fri.dtjk.service.DtjkMaintenanceRecordsServiceImpl">
 		<property name="recordsDao"  ref="recordsDao" />

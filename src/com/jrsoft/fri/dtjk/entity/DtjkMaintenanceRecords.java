@@ -3,6 +3,10 @@ package com.jrsoft.fri.dtjk.entity;
 
 import java.util.Date;
 
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
+
 /**
  * 电梯维保记录表
  */
@@ -17,14 +21,20 @@ public class DtjkMaintenanceRecords implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;				//
 	private Date time;				//维保日期
-	private Long unitId;				//维保单位_id
-	private Long userId;				//维保人Id
+	private XtglMaintenanceUnit unitId=new XtglMaintenanceUnit();			//维保单位id
+	private XtglMaintenanceUsers userId=new XtglMaintenanceUsers();			//维保人id
+	private XtglUseUnit useUnitId=new XtglUseUnit();			//使用单位id
+	private DtjkElevator elevatorId=new DtjkElevator();//维保电梯Id
 	private String content;				//维保内容
-	private Long elevatorId;				//维保电梯Id
 	private String cardNumber;				//卡号
 	private String remarks;				//备注
-	private Long useUnitId;				//使用单位id
-
+	
+	private String useUnitName;  //使用单位
+	private String userName;		//维保人员
+	private String unitName;    	//维保单位名称
+	private String registerid;			//电梯注册号
+	private String distinguishid;			//识别码
+	private String place;			//安装地点
 	// Constructors
 
 	/** default constructor */
@@ -32,9 +42,9 @@ public class DtjkMaintenanceRecords implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public DtjkMaintenanceRecords(Date time, Long unitId,
-			Long userId, String content, Long elevatorId,
-			String cardNumber, String remarks, Long useUnitId) {
+	public DtjkMaintenanceRecords(Date time, XtglMaintenanceUnit unitId,
+			XtglMaintenanceUsers userId, String content, DtjkElevator elevatorId,
+			String cardNumber, String remarks, XtglUseUnit useUnitId) {
 		this.time = time;
 		this.unitId = unitId;
 		this.userId = userId;
@@ -63,36 +73,12 @@ public class DtjkMaintenanceRecords implements java.io.Serializable {
 		this.time = time;
 	}
 
-	public Long getUnitId() {
-		return this.unitId;
-	}
-
-	public void setUnitId(Long unitId) {
-		this.unitId = unitId;
-	}
-
-	public Long getUserId() {
-		return this.userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
 	public String getContent() {
 		return this.content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public Long getElevatorId() {
-		return this.elevatorId;
-	}
-
-	public void setElevatorId(Long elevatorId) {
-		this.elevatorId = elevatorId;
 	}
 
 	public String getCardNumber() {
@@ -111,12 +97,89 @@ public class DtjkMaintenanceRecords implements java.io.Serializable {
 		this.remarks = remarks;
 	}
 
-	public Long getUseUnitId() {
-		return this.useUnitId;
+	public XtglMaintenanceUnit getUnitId() {
+		return unitId;
 	}
 
-	public void setUseUnitId(Long useUnitId) {
+	public void setUnitId(XtglMaintenanceUnit unitId) {
+		this.unitId = unitId;
+	}
+
+	public XtglMaintenanceUsers getUserId() {
+		return userId;
+	}
+
+	public void setUserId(XtglMaintenanceUsers userId) {
+		this.userId = userId;
+	}
+
+	public XtglUseUnit getUseUnitId() {
+		return useUnitId;
+	}
+
+	public void setUseUnitId(XtglUseUnit useUnitId) {
 		this.useUnitId = useUnitId;
 	}
+
+	public DtjkElevator getElevatorId() {
+		return elevatorId;
+	}
+
+	public void setElevatorId(DtjkElevator elevatorId) {
+		this.elevatorId = elevatorId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
+	public String getRegisterid() {
+		return registerid;
+	}
+
+	public void setRegisterid(String registerid) {
+		this.registerid = registerid;
+	}
+
+	public String getDistinguishid() {
+		return distinguishid;
+	}
+
+	public void setDistinguishid(String distinguishid) {
+		this.distinguishid = distinguishid;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getUseUnitName() {
+		return useUnitName;
+	}
+
+	public void setUseUnitName(String useUnitName) {
+		this.useUnitName = useUnitName;
+	}
+
 
 }

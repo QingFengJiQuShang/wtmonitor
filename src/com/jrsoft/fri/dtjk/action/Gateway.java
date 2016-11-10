@@ -8,15 +8,21 @@ import smart.sys.platform.springUtils.SpringBeanUtil;
 
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
+import com.jrsoft.fri.dtjk.entity.DtjkMaintenanceRecords;
 import com.jrsoft.fri.dtjk.entity.DtjkRecord;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
+import com.jrsoft.fri.dtjk.service.DtjkMaintenanceRecordsService;
 import com.jrsoft.fri.dtjk.service.DtjkRecordService;
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
 
 public class Gateway {
 	private static DtjkGatewayService gatewayService = (DtjkGatewayService)SpringBeanUtil.getBean("gatewayService");
 	private static DtjkRecordService recordService = (DtjkRecordService)SpringBeanUtil.getBean("recordService");
 	private static DtjkElevatorService elevatorService = (DtjkElevatorService)SpringBeanUtil.getBean("elevatorService");
+	private static DtjkMaintenanceRecordsService recordsService = (DtjkMaintenanceRecordsService)SpringBeanUtil.getBean("recordsService");
+	private static XtglMaintenanceUsersService maintenanceUsersService = (XtglMaintenanceUsersService)SpringBeanUtil.getBean("maintenanceUsersService");
 
 	public static DtjkGatewayService getGatewayService() {
 		return gatewayService;
@@ -40,6 +46,24 @@ public class Gateway {
 
 	public static void setElevatorService(DtjkElevatorService elevatorService) {
 		Gateway.elevatorService = elevatorService;
+	}
+
+	public static DtjkMaintenanceRecordsService getRecordsService() {
+		return recordsService;
+	}
+
+	public static void setRecordsService(
+			DtjkMaintenanceRecordsService recordsService) {
+		Gateway.recordsService = recordsService;
+	}
+
+	public static XtglMaintenanceUsersService getMaintenanceUsersService() {
+		return maintenanceUsersService;
+	}
+
+	public static void setMaintenanceUsersService(
+			XtglMaintenanceUsersService maintenanceUsersService) {
+		Gateway.maintenanceUsersService = maintenanceUsersService;
 	}
 
 	public void query(String str,OutputStream os ) throws Exception{
@@ -79,6 +103,35 @@ public class Gateway {
 			}
 			//保存 上报的运行数据
 			recordService.save(record);
+			
+			//维保人员不为空时，生成维保记录
+			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("检修中")){
+				DtjkMaintenanceRecords records=new DtjkMaintenanceRecords();
+				records.setTime(new Date());
+				records.setCardNumber(record.getMaintenanceUserId());		//卡号
+				
+				String hql=" where 1=1 and  cardNumber = '"+record.getMaintenanceUserId()+"'";
+				List<XtglMaintenanceUsers> useUnitId=maintenanceUsersService.queryAll(hql);
+				if(useUnitId.size()>0){
+					records.setUserId(useUnitId.get(0));//维保人id
+					records.setUnitId(useUnitId.get(0).getUnitId());//维保单位id
+				}else{
+					records.setUserId(null);//维保人id
+					records.setUnitId(null);//维保单位id
+				}
+				String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
+				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+				if(elevators.size()>0){
+					records.setUseUnitId(elevators.get(0).getUseUnitId());//使用单位id
+					records.setElevatorId(elevators.get(0));//维保电梯Id
+				}else{
+					records.setUseUnitId(null);//使用单位id
+					records.setElevatorId(null);//维保电梯Id
+				}
+				recordsService.save(records);
+				
+			}
+			
 			
 		}  else if(type.equalsIgnoreCase("23")){    //上报静态数据
 			gateway.setElevatorId(elevatorId);

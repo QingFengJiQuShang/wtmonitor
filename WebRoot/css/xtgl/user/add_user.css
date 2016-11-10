@@ -48,6 +48,9 @@
 .table_con .fill {
 	margin-bottom: 21px;
 }
+.table_con .fill textarea {
+	border: 1px solid #d2d2d2;
+}
 .table_con label {
 	display: inline-block;
 	width: 40%;
@@ -120,6 +123,23 @@
 	width: 76px;
 	height: 32px;
 	background-color: #00aaee;
+	color: #fff;
+	font-size: 14px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.or {
+	width: 400px;
+	margin: 10px auto;
+}
+
+.or input {
+	width: 80px;
+	height: 35px;
+	background-color: #00AAEE;
 	color: #fff;
 	font-size: 14px;
 	-webkit-border-radius: 5px;

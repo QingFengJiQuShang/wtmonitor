@@ -127,7 +127,7 @@ thead tr th i {
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
-tbody tr td {
+.table_con  tbody tr td {
 	text-align: center;
 	height: 34px;
 	line-height: 34px;

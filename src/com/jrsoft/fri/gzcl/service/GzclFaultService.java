@@ -4,5 +4,6 @@ import com.jrsoft.fri.common.core.service.BaseService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 
 public interface GzclFaultService   extends BaseService< GzclFault>{
+	void export(String filePath,GzclFault entity);
 
 }

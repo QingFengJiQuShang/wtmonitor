@@ -8,11 +8,13 @@
     <class name="com.jrsoft.fri.gzcl.entity.GzclFault" table="GZCL_FAULT" schema="WTMONITOR">
         <id name="id" type="java.lang.Long">
             <column name="ID" precision="22" scale="0" />
-            <generator class="sequence" />
+            <generator class="sequence" >
+                 <param name="sequence">FAULT</param>
+            </generator>
         </id>
-        <property name="elevatorId" type="java.lang.Long">
-            <column name="ELEVATOR_ID" precision="22" scale="0" />
-        </property>
+              <many-to-one name="elevatorId" class="com.jrsoft.fri.dtjk.entity.DtjkElevator" fetch="select">
+            <column name="ELEVATOR_ID" length="50" />
+        </many-to-one>
         <property name="fault" type="java.lang.String">
             <column name="FAULT" length="2000" />
         </property>
@@ -40,11 +42,14 @@
         <property name="numbers" type="java.lang.String">
             <column name="NUMBERS" length="200" />
         </property>
-        <property name="dutyId" type="java.lang.Long">
-            <column name="DUTY_ID" precision="22" scale="0" />
-        </property>
+        <many-to-one name="dutyId" class="com.jrsoft.fri.xtgl.entity.XtglUsers" fetch="select">
+            <column name="DUTY_ID" length="50" />
+        </many-to-one>
         <property name="flag" type="java.lang.String">
             <column name="FLAG" length="50" />
+        </property>
+         <property name="state" type="java.lang.String">
+            <column name="STATE" length="200" />
         </property>
     </class>
 </hibernate-mapping>

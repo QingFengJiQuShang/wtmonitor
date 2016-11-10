@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<form-beans>
+	
+		<form-bean name="GzclForm" type="com.jrsoft.fri.gzcl.from.GzclForm" />
+   </form-beans>
+		<action-mappings>
+	  <!-- 人工接警-->
+	<action path="/alarmAction" name="GzclForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	 
+	  <!-- 当前故障-->
+	<action path="/faultAction" name="GzclForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	
+
+	</action-mappings>
+</struts-config>

@@ -41,6 +41,9 @@ function toMain(flag){
 		   if(flag==23){
 			   window.main.location="<%=path%>/elevatorAction.do?method=queryPlayback";
 		   }
+		   if(flag==24){
+			   window.main.location="<%=path%>/elevatorAction.do?method=queryManage";
+		   }
 		   
 		   if(flag==31){
 			   window.main.location="<%=path%>/usersAction.do?method=query";
@@ -54,7 +57,15 @@ function toMain(flag){
 		    if(flag==34){
 			   window.main.location="<%=path%>/rescueUnitAction.do?method=query";
 		   }
-		    
+		   if(flag==41){
+			   window.main.location="<%=path%>/alarmAction.do?method=query";
+		   }
+		   if(flag==42){
+			   window.main.location="<%=path%>/faultAction.do?method=query";
+		   }
+		   if(flag==43){
+			   window.main.location="<%=path%>/faultAction.do?method=query1";
+		   }
 	   }
 </script>
 
@@ -71,17 +82,26 @@ function toMain(flag){
 			</p>
 		</div>
 		<ul class="list ">
-			<li class="list-item">
+			<li class="list-item"   onclick="toMain('1')">
 				<p class="one active" data="<%=path %>/">首页</p>
 			</li>
 			<li class="list-item"  >
-				<p class="one grade"   onclick="toMain('1')">
+				<p class="one grade" >
 					<i class=""></i>电梯监控</p>
 				<div class="next">
 					<p  onclick="toMain('21')">电梯列表</p>
 					<p  onclick="toMain('22')">电梯监控</p>
 					<p  onclick="toMain('23')">电梯回放</p>
-					<p  onclick="toMain('1')">电梯管理</p>
+					<p  onclick="toMain('24')">电梯管理</p>
+				</div>
+			</li>
+			<li class="list-item">
+				<p class="one grade"   >
+					<i class=""></i>故障管理</p>
+				<div class="next">
+					<p	 onclick="toMain('41')">人工接警</p>
+					<p	 onclick="toMain('42')">当前故障</p>
+					<p	 onclick="toMain('43')">历史故障</p>
 				</div>
 			</li>
 			<li class="list-item">
@@ -94,9 +114,7 @@ function toMain(flag){
 					<p	 onclick="toMain('34')">救援单位</p>
 				</div>
 			</li>
-			<li class="list-item">
-				<p class="one" 	 onclick="toMain('1')">故障管理</p>
-			</li>
+			
 			<li class="list-item">
 				<p class="one"	 onclick="toMain('1')">统计分析</p>
 			</li>

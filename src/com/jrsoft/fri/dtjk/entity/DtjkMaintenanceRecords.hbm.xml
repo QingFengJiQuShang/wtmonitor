@@ -15,26 +15,26 @@
         <property name="time" type="java.util.Date">
             <column name="TIME" length="7" />
         </property>
-        <property name="unitId" type="java.lang.Long">
-            <column name="UNIT_ID" precision="22" scale="0" />
-        </property>
-        <property name="userId" type="java.lang.Long">
-            <column name="USER_ID" precision="22" scale="0" />
-        </property>
+        <many-to-one name="unitId" class="com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit" fetch="select">
+            <column name="UNIT_ID" length="50" />
+        </many-to-one>
+        <many-to-one name="userId" class="com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers" fetch="select">
+            <column name="USER_ID" length="50" />
+        </many-to-one>
         <property name="content" type="java.lang.String">
             <column name="CONTENT" length="2000" />
         </property>
-        <property name="elevatorId" type="java.lang.Long">
-            <column name="ELEVATOR_ID" precision="22" scale="0" />
-        </property>
+        <many-to-one name="elevatorId" class="com.jrsoft.fri.dtjk.entity.DtjkElevator" fetch="select">
+            <column name="ELEVATOR_ID" length="50" />
+        </many-to-one>
         <property name="cardNumber" type="java.lang.String">
             <column name="CARD_NUMBER" length="50" />
         </property>
         <property name="remarks" type="java.lang.String">
             <column name="REMARKS" length="2000" />
         </property>
-        <property name="useUnitId" type="java.lang.Long">
-            <column name="USE_UNIT_ID" precision="22" scale="0" />
-        </property>
+         <many-to-one name="useUnitId" class="com.jrsoft.fri.xtgl.entity.XtglUseUnit" fetch="select">
+            <column name="USE_UNIT_ID" length="50" />
+        </many-to-one>
     </class>
 </hibernate-mapping>
