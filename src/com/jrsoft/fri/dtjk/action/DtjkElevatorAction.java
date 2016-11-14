@@ -22,6 +22,7 @@ import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 
 public class DtjkElevatorAction extends DispatchAction{
@@ -50,7 +51,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkElevator elevator =DtjkFrom.getElevator();
-		
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		elevator.setUserid(user);
 		elevator.setManufactureTime(df.parse(manufactureTime));
 		elevator.setInstallTime(df.parse(installTime));
 		elevator.setState("Õý³£");

@@ -92,7 +92,7 @@ function GoURLB(event) {
 						</p>
 						<p>
 							<label for="">密<span>吗</span>码&nbsp;:&nbsp;</label>
-							<input type="text" name="passwd" id="" placeholder="" />
+							<input type="password" name="passwd" id="" placeholder="" />
 						</p>
 						<p>
 							<label for="">验证码&nbsp;:&nbsp;</label>

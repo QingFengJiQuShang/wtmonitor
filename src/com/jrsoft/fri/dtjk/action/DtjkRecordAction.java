@@ -183,8 +183,14 @@ public class DtjkRecordAction extends DispatchAction {
 			throws Exception {
 		String id=request.getParameter("id");
 		DtjkRecord list=recordService.get(Long.parseLong(id));
-		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/dtjk/monitor/monitorDetail.jsp");
+		String hql=" where registerid='"+list.getElevatorId()+"' ";
+		List<DtjkElevator> elevators=elevatorService.query(hql);
+		if(elevators.size()>0){
+			request.setAttribute("list", elevators.get(0));
+		}
+			
+		request.setAttribute("records", list);
+		return	new ActionForward("/jsp/dtjk/playback/monitorDetail.jsp");
 		
 	}
 

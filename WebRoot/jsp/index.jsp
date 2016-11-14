@@ -66,6 +66,16 @@ function toMain(flag){
 		   if(flag==43){
 			   window.main.location="<%=path%>/faultAction.do?method=query1";
 		   }
+		   
+		    if(flag==51){
+			   window.main.location="<%=path%>/jsp/tjfx/count_fault.html";
+		   }
+		   if(flag==52){
+			   window.main.location="<%=path%>/faultAction.do?method=query";
+		   }
+		   if(flag==53){
+			   window.main.location="<%=path%>/faultAction.do?method=query1";
+		   }
 	   }
 </script>
 
@@ -116,7 +126,15 @@ function toMain(flag){
 			</li>
 			
 			<li class="list-item">
-				<p class="one"	 onclick="toMain('1')">统计分析</p>
+				<p class="one grade"   >
+					<i class=""></i>统计分析</p>
+				<div class="next">
+					<p	 onclick="toMain('51')">故障统计</p>
+					<p	 onclick="toMain('52')">救援统计</p>
+					<p	 onclick="toMain('53')">电梯品牌统计</p>
+					<p	 onclick="toMain('54')">维保单位统计</p>
+					<p	 onclick="toMain('55')">使用单位统计</p>
+				</div>
 			</li>
 			<li class="list-item">
 				<p class="one"	 onclick="toMain('1')">系统设置</p>

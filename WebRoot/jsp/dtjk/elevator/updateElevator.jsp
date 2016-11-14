@@ -47,6 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>
 						<label for="apply">注册号&nbsp;:&nbsp;</label>
 						<input type="hidden"  id="id"  name="elevator.id"  value="${list.id}"  />
+						<input type="hidden"  id="userid"  name="elevator.userid.id"   value="${list.userid.id}"  />
 						<input type="hidden"  id="gatewayId"  name="elevator.gatewayId.id"   value="${list.gatewayId.id}"  />
 						<input type="text"  placeholder="请输入"  id="registerid"  name="elevator.registerid"   value="${list.registerid}" />
 					</p>
