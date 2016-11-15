@@ -76,6 +76,9 @@ function toMain(flag){
 		   if(flag==53){
 			   window.main.location="<%=path%>/faultAction.do?method=query1";
 		   }
+		   if(flag==61){
+			   window.main.location="<%=path%>/logAction.do?method=query";
+		   }
 	   }
 </script>
 
@@ -137,7 +140,11 @@ function toMain(flag){
 				</div>
 			</li>
 			<li class="list-item">
-				<p class="one"	 onclick="toMain('1')">系统设置</p>
+				<p class="one grade"   >
+					<i class=""></i>系统设置</p>
+				<div class="next">
+					<p	 onclick="toMain('61')">操作日志</p>
+				</div>
 			</li>
 		</ul>
 		<iframe src="<%=path %>/jsp/home/main.jsp" id="main"  name="main"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0" onLoad="iFrameHeight()" width="100%" height=""   style="margin-top: -2px; overflow-x:hidden;  ">

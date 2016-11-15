@@ -115,5 +115,8 @@
         <many-to-one name="userid" class="com.jrsoft.fri.xtgl.entity.XtglUsers" fetch="select">
             <column name="userid" length="50" />
         </many-to-one>
+        <property name="period" type="java.lang.String">
+            <column name="PERIOD" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+<!-- 系统设置 -->
+	<bean name="/logAction" class="com.jrsoft.fri.xtsz.action.XtszLogAction">
+		<property name="logService" ref="logService" />
+	</bean>
+	<bean id="logService" class="com.jrsoft.fri.xtsz.service.XtszLogServiceImpl">
+		<property name="logDao"  ref="logDao" />
+	</bean>
+	<bean id="logDao" class="com.jrsoft.fri.xtsz.dao.XtszLogDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 系统设置 -->
+	
+	</beans>

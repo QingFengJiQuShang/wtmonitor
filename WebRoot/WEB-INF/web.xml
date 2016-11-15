@@ -16,6 +16,7 @@
     		/WEB-INF/police/applicationContext-xtgl.xml,
     		/WEB-INF/police/applicationContext-dtjk.xml,
     		/WEB-INF/police/applicationContext-gzcl.xml,
+    		/WEB-INF/police/applicationContext-xtsz.xml,
 			/WEB-INF/system/applicationContext-sys.xml
 		</param-value>
   </context-param>
@@ -52,6 +53,7 @@
       <param-value>
        /WEB-INF/police/struts-config-xtgl.xml,
        /WEB-INF/police/struts-config-gzcl.xml,
+       /WEB-INF/police/struts-config-xtsz.xml,
       /WEB-INF/police/struts-config-dtjk.xml
 		</param-value>
     </init-param>

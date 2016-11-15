@@ -18,7 +18,21 @@
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
     <!-- 电梯 -->
-    
+    <!-- 电梯白名单 -->
+	<bean name="/phoneAction" class="com.jrsoft.fri.dtjk.action.DtjkPhoneAction">
+		<property name="phoneService" ref="phoneService" />
+		<property name="elevatorService" ref="elevatorService" />
+		<property name="maintenanceUnitService" ref="maintenanceUnitService" />
+		<property name="useUnitService" ref="useUnitService" />
+		<property name="usersService" ref="usersService" />
+	</bean>
+	<bean id="phoneService" class="com.jrsoft.fri.dtjk.service.DtjkPhoneServiceImpl">
+		<property name="phoneDao"  ref="phoneDao" />
+	</bean>
+	<bean id="phoneDao" class="com.jrsoft.fri.dtjk.dao.DtjkPhoneDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 电梯白名单 -->
     <!--电梯网关 -->
 	<bean name="/gatewayAction" class="com.jrsoft.fri.dtjk.action.DtjkGatewayAction">
 		<property name="gatewayService" ref="gatewayService" />

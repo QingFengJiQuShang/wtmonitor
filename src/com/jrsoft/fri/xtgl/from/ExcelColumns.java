@@ -24,6 +24,7 @@ public class ExcelColumns {
 
 	public final static String GzlcAlarm[] = {"电梯注册号","识别码","安装地点 ","故障发生时间","报警时间","报警人","报警人电话","故障问题","故障描述"};
 
-	
+	public final static String XtszLog[] = {"操作时间","操作人员","操作内容 "};
+
 	
 }

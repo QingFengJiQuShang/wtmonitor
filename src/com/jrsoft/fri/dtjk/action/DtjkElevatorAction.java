@@ -168,6 +168,11 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
+					elevator.setPeriod(rs.getString("period"));
+					String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
+					int n=DBEntity.getInstance().queryDataCount(sql2);
+					elevator.setNum(n);
+					
 					list.add(elevator);
 					
 				}
@@ -584,6 +589,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		request.setAttribute("list", list);
 		if(flag.equals("1")){
 			return	new ActionForward("/jsp/dtjk/elevator/updateElevator.jsp");
+		}else if(flag.equals("3")){
+			return	new ActionForward("/jsp/dtjk/period/period.jsp");
 		}else{
 			return	new ActionForward("/jsp/dtjk/elevator/detailElevator.jsp");
 		}
@@ -603,13 +610,65 @@ public class DtjkElevatorAction extends DispatchAction{
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkElevator elevator =DtjkFrom.getElevator();
+		DtjkElevator entity =elevatorService.get(elevator.getId());
 		
-		elevator.setInstallTime(df.parse(installTime));
-		elevator.setManufactureTime(df.parse(manufactureTime));
-		elevatorService.update(elevator);
+		if(entity.getId()!=null){
+			entity.setRegisterid(elevator.getRegisterid());
+			entity.setDistinguishid(elevator.getDistinguishid());
+			entity.setBrand(elevator.getBrand());
+			entity.setModel(elevator.getModel());
+			entity.setState(elevator.getState());
+			entity.setType(elevator.getType());
+			entity.setNumbers(elevator.getNumbers());
+			entity.setLabel(elevator.getLabel());
+			entity.setPlace(elevator.getPlace());
+			entity.setGatewayId(elevator.getGatewayId());
+			entity.setUseUnitId(elevator.getUseUnitId());
+			entity.setMaintenanceUnitId(elevator.getMaintenanceUnitId());
+			entity.setRegisterState(elevator.getRegisterState());
+			entity.setSpeed(elevator.getSpeed());
+			entity.setMaintenanceUsersId(elevator.getMaintenanceUsersId());
+			entity.setInstallPlace(elevator.getInstallPlace());
+			entity.setInstallUnit(elevator.getInstallUnit());
+			entity.setInstallUser(elevator.getInstallUser());
+			entity.setManufacturer(elevator.getManufacturer());
+			entity.setManufacturerPhone(elevator.getManufacturerPhone());
+			entity.setManufacturerAddress(elevator.getManufacturerAddress());
+			entity.setManufacturerUrl(elevator.getManufacturerUrl());
+			entity.setFilialeAddress(elevator.getFilialeAddress());
+			entity.setFilialePhone(elevator.getFilialePhone());
+			entity.setFilialeContact(elevator.getFilialeContact());
+			entity.setServiceIfe(elevator.getServiceIfe());
+			entity.setRemarks(elevator.getRemarks());
+			
+			entity.setInstallTime(df.parse(installTime));
+			entity.setManufactureTime(df.parse(manufactureTime));
+			elevatorService.update(entity);
+		}
+		
 		return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	
+	/**
+	 * ÐÞ¸ÄµçÌÝ
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  updatePeriod(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		DtjkFrom DtjkFrom=(DtjkFrom)form;
+		DtjkElevator elevator =DtjkFrom.getElevator();
+		DtjkElevator entity =elevatorService.get(elevator.getId());
+		
+		if(entity.getId()!=null){
+			entity.setPeriod(elevator.getPeriod());
+			elevatorService.update(entity);
+		}
+		
+		return	new ActionForward("/elevatorAction.do?method=query");
+	}
 	
 	
 	

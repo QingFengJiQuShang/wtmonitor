@@ -51,6 +51,7 @@ public class DtjkElevator implements java.io.Serializable {
 	private Date maintenanceTime;			//上次维保时间
 	private String remarks;			//备注
     private XtglUsers userid=new XtglUsers();				//所属用户
+    private String period;				//上报周期
 	// Constructors
     
     private String useUnitName;			//使用单位名称
@@ -77,7 +78,7 @@ public class DtjkElevator implements java.io.Serializable {
 			String manufacturerAddress, String manufacturerUrl,
 			String filialeAddress, String filialePhone, String filialeContact,
 			String serviceIfe, Date yearlyTime, Date maintenanceTime,
-			String remarks,XtglUsers userid) {
+			String remarks,XtglUsers userid,String period) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -111,6 +112,7 @@ public class DtjkElevator implements java.io.Serializable {
 		this.yearlyTime = yearlyTime;
 		this.maintenanceTime = maintenanceTime;
 		this.remarks = remarks;
+		this.period=period;
 	}
 
 	// Property accessors
@@ -445,6 +447,14 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setNumYearly(int numYearly) {
 		this.numYearly = numYearly;
+	}
+
+	public String getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 
 }
