@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>
 						<label for="style">类型&nbsp;:&nbsp;</label>${list.type}
 					</p>
-					<p onclick="label('label');">
+					<p >
 						<label for="map">地图标注&nbsp;:&nbsp;</label>${list.label}
 					</p>
 				</div>

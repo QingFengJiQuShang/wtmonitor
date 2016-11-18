@@ -53,8 +53,19 @@ public class DtjkElevatorAction extends DispatchAction{
 		DtjkElevator elevator =DtjkFrom.getElevator();
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		elevator.setUserid(user);
-		elevator.setManufactureTime(df.parse(manufactureTime));
-		elevator.setInstallTime(df.parse(installTime));
+		
+		if(elevator.getUseUnitId().getId()==0)
+			elevator.setUseUnitId(null);
+		if(elevator.getGatewayId().getId()==0)
+			elevator.setGatewayId(null);
+		if(elevator.getMaintenanceUsersId().getId()==0)
+			elevator.setMaintenanceUsersId(null);
+		if(elevator.getMaintenanceUnitId().getId()==0)
+			elevator.setMaintenanceUnitId(null);
+		if(manufactureTime!=null&&!manufactureTime.equals("") )
+			elevator.setManufactureTime(df.parse(manufactureTime));
+		if(installTime!=null&&!installTime.equals("") )
+			elevator.setInstallTime(df.parse(installTime));
 		elevator.setState("Õý³£");
 		elevatorService.save(elevator);
 	    return	new ActionForward("/elevatorAction.do?method=query");
@@ -640,9 +651,18 @@ public class DtjkElevatorAction extends DispatchAction{
 			entity.setFilialeContact(elevator.getFilialeContact());
 			entity.setServiceIfe(elevator.getServiceIfe());
 			entity.setRemarks(elevator.getRemarks());
-			
-			entity.setInstallTime(df.parse(installTime));
-			entity.setManufactureTime(df.parse(manufactureTime));
+			if(elevator.getUseUnitId().getId()==0)
+				entity.setUseUnitId(null);
+			if(elevator.getGatewayId().getId()==0)
+				entity.setGatewayId(null);
+			if(elevator.getMaintenanceUsersId().getId()==0)
+				entity.setMaintenanceUsersId(null);
+			if(elevator.getMaintenanceUnitId().getId()==0)
+				entity.setMaintenanceUnitId(null);
+			if(manufactureTime!=null&&!manufactureTime.equals("") )
+				entity.setManufactureTime(df.parse(manufactureTime));
+			if(installTime!=null&&!installTime.equals("") )
+				entity.setInstallTime(df.parse(installTime));
 			elevatorService.update(entity);
 		}
 		

@@ -24,7 +24,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
 	</head>
-
+<script type="text/javascript">
+		 function myrefresh(){
+			window.location.reload();
+		}
+		setTimeout('myrefresh()',30000); //指定30秒刷新一次s
+</script>
 	<body>
 		<div class="con" id="user">
 			<p class="user">电梯回放</p>

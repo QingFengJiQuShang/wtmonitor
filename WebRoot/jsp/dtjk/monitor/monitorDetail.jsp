@@ -30,35 +30,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<p class="order">电梯监控</p>
 				<p class="back"  onclick="history.go(-1); "><img src="<%=path %>/img/back.png" />返回</p>
 				<div class="show clearfix">
-				<c:if test="${records.door=='关门'}">
-						<p class="img fl">
-				</c:if>
-				<c:if test="${records.door=='开门'}">
-						<p class="img fl" style="background-image: url(<%=path %>/img/dianti_close.png);">
-				</c:if>
-					
-						<!--显示楼层-->
-						<span class="lou">
-						   <c:if test="${records.direction=='上'}">
-								<i class="up"></i>	
-							</c:if>
-							<c:if test="${records.direction=='下'}">
-								<i class="down"></i>	
-							</c:if>
-							
-							${records.floor}
-						</span>
-						<!--显示上下-->
-						
-						<c:if test="${records.direction=='上'}">
-								<span class="or dianti_up"></span>
-							</c:if>
-							<c:if test="${records.direction=='下'}">
-								<span class="or dianti_down"></span>
-							</c:if>
-						<span class="state no"></span>
-						<span class="state yes"></span>
-					</p>
+				
+				<iframe class="img fl" src="<%=path%>/recordAction.do?method=findByMonitor&id=${list.id}&flag=1" id="main"  name="main"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0"  width="50%"  height=""      style="margin-top: -2px; overflow-x:hidden;  ">
+			
+				</iframe>
+				
 					<div class="ifno fr">
 						<ul class="list_dainti clearfix" id="tabTit">
 							<li class="list-item  active">电梯信息</li>

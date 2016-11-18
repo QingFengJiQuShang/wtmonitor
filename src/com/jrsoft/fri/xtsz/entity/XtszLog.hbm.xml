@@ -19,7 +19,7 @@
             <column name="USER_NAME" length="200" />
         </property>
         <property name="content" type="java.lang.String">
-            <column name="CONTENT" length="200" />
+            <column name="CONTENT" length="2000" />
         </property>
     </class>
 </hibernate-mapping>

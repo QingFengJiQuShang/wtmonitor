@@ -32,6 +32,6 @@
     		  window.location.href="elevatorAction.do?method=queryMonitor&num="+num+gotoUrl();
          }
 		   //编辑
-		  function findById(id){
-    		  window.location.href="recordAction.do?method=findByMonitor&id="+id;
+		  function findById(id,flag){
+    		  window.location.href="recordAction.do?method=findByMonitor&id="+id+"&flag="+flag;
          }

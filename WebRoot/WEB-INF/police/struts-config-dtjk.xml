@@ -6,6 +6,11 @@
 		<form-bean name="DtjkFrom" type="com.jrsoft.fri.dtjk.from.DtjkFrom" />
    </form-beans>
 		<action-mappings>
+		<!-- 首页 -->
+	<action path="/indexAction" name="DtjkFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	  <!-- 电梯-->
 	<action path="/elevatorAction" name="DtjkFrom"
 			parameter="method" scope="request"

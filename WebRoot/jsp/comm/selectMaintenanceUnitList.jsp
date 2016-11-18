@@ -159,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 }
 	 window.parent.document.getElementById('${id}').value=id[0];
 	 window.parent.document.getElementById('${id1}').value=name[0];
-	 
+	 window.parent.document.getElementById('installUnit').focus();
 	 window.parent.JqueryDialog.Close();
  }
 	

@@ -88,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.numbers}</td>
 									<td>${list.state}</td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}');"/>
+										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','0');"/>
 									</td>
 								</tr>
 								</c:forEach>

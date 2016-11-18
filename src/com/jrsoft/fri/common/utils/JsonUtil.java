@@ -34,6 +34,27 @@ public class JsonUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 查询输出json
+	 * @param response
+	 * @param page
+	 * @param rows
+	 */
+	public static void ajaxOutPutJson(HttpServletResponse response, JSONObject rows ){
+		
+		
+        // 输出，部署后删除
+        System.out.println(rows.toString());
+        
+        response.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json");
+        try {
+			response.getWriter().print(rows);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 查询输出json
 	 * @param response

@@ -30,7 +30,7 @@ function sign(){
 }
 function toMain(flag){
 		   if(flag==1){
-			   window.main.location="<%=path%>/jsp/home/main.jsp";
+			   window.main.location="<%=path%>/indexAction.do?method=query";
 		   }
 		   if(flag==21){
 			   window.main.location="<%=path%>/elevatorAction.do?method=query";
@@ -85,7 +85,7 @@ function toMain(flag){
 		<body>
 		<div class="top clearfix">
 			<p class="fl">
-				<img src="<%=path %>/img/logo.png" />&nbsp;|&nbsp;&nbsp;电梯运行安全物联系统
+				<img src="<%=path %>/img/logo.png" />&nbsp;
 			</p>
 			<p class="fr out"  onclick="sign();">
 				<img src="<%=path %>/img/sign_out.png" class="manage" alt="" />退出
@@ -147,7 +147,7 @@ function toMain(flag){
 				</div>
 			</li>
 		</ul>
-		<iframe src="<%=path %>/jsp/home/main.jsp" id="main"  name="main"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0" onLoad="iFrameHeight()" width="100%" height=""   style="margin-top: -2px; overflow-x:hidden;  ">
+		<iframe src="<%=path%>/indexAction.do?method=query" id="main"  name="main"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0" onLoad="iFrameHeight()" width="100%" height=""   style="margin-top: -2px; overflow-x:hidden;  ">
 			
 		</iframe>
 	</body>

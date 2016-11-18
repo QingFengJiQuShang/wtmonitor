@@ -52,6 +52,7 @@ public class DtjkRecordAction extends DispatchAction {
 	public ActionForward  findByMonitor(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String id=request.getParameter("id");
+		String flag=request.getParameter("flag");
 		DtjkElevator list=elevatorService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
 		String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"')  ";
@@ -61,7 +62,10 @@ public class DtjkRecordAction extends DispatchAction {
 			DtjkRecord records=record.get(0);
 			request.setAttribute("records", records);
 		}
-		return	new ActionForward("/jsp/dtjk/monitor/monitorDetail.jsp");
+		if(flag.equals("1"))
+			return	new ActionForward("/jsp/dtjk/monitor/left.jsp");
+		else
+			return	new ActionForward("/jsp/dtjk/monitor/monitorDetail.jsp");
 		
 	}
 	
@@ -94,21 +98,22 @@ public class DtjkRecordAction extends DispatchAction {
 		 }
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
+		String sql1="select  count(de.id)  from dtjk_record de  where  1=1 " ;
 		if(elevatorId!=null&&!elevatorId.equals("")){
-			hql+=" and elevatorId = '"+elevatorId+"'";
+			sql1+=" and elevator_Id = '"+elevatorId+"'";
 		}
 		if(direction!=null&&!direction.equals("")){
-			hql+=" and direction = '"+direction+"'";
+			sql1+=" and direction = '"+direction+"'";
 		}
 		if(people!=null&&!people.equals("")){
-			hql+=" and people = '"+people+"'";
+			sql1+=" and people = '"+people+"'";
 		}
 		if(door!=null&&!door.equals("")){
-			hql+=" and door = '"+door+"'";
+			sql1+=" and door = '"+door+"'";
 		}
-		hql+=" order by foundTime desc  ";
-		List<DtjkRecord> DtjkElevators=recordService.queryAll(hql);
+		sql1+=" order by de.found_time desc  ";	
+		int siz=	DBEntity.getInstance().queryDataCount(sql1);
+		
 		
 		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
@@ -116,7 +121,7 @@ public class DtjkRecordAction extends DispatchAction {
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(DtjkElevators.size());//总记录数
+		page.setCount(siz);//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<DtjkRecord> list=null;
@@ -137,9 +142,9 @@ public class DtjkRecordAction extends DispatchAction {
 					sql+=" and door = '"+door+"'";
 				}
 				sql+=" order by de.found_time desc  ";	
-				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				String sql2="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				
-				PreparedStatement sta = conn.prepareStatement(sql1);
+				PreparedStatement sta = conn.prepareStatement(sql2);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkRecord>();
 				while(rs.next()){
