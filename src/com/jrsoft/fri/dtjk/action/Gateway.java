@@ -2,6 +2,8 @@ package com.jrsoft.fri.dtjk.action;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import smart.sys.platform.springUtils.SpringBeanUtil;
@@ -9,10 +11,13 @@ import tcpip.byteUtil;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
 import com.jrsoft.fri.dtjk.entity.DtjkMaintenanceRecords;
+import com.jrsoft.fri.dtjk.entity.DtjkPhone;
 import com.jrsoft.fri.dtjk.entity.DtjkRecord;
+import com.jrsoft.fri.dtjk.from.Ask;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
 import com.jrsoft.fri.dtjk.service.DtjkMaintenanceRecordsService;
+import com.jrsoft.fri.dtjk.service.DtjkPhoneService;
 import com.jrsoft.fri.dtjk.service.DtjkRecordService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
@@ -28,6 +33,7 @@ public class Gateway {
 	private static DtjkMaintenanceRecordsService recordsService = (DtjkMaintenanceRecordsService)SpringBeanUtil.getBean("recordsService");
 	private static XtglMaintenanceUsersService maintenanceUsersService = (XtglMaintenanceUsersService)SpringBeanUtil.getBean("maintenanceUsersService");
 	private static GzclFaultService faultService = (GzclFaultService)SpringBeanUtil.getBean("gzclFaultService");
+	private static DtjkPhoneService phoneService = (DtjkPhoneService)SpringBeanUtil.getBean("phoneService");
 
 	public static DtjkGatewayService getGatewayService() {
 		return gatewayService;
@@ -79,6 +85,14 @@ public class Gateway {
 		Gateway.faultService = faultService;
 	}
 
+	public static DtjkPhoneService getPhoneService() {
+		return phoneService;
+	}
+
+	public static void setPhoneService(DtjkPhoneService phoneService) {
+		Gateway.phoneService = phoneService;
+	}
+
 	public void query(byte[] buffer,OutputStream os ) throws Exception{
         byteUtil util=new byteUtil();
         String str = util.BytesHexString(buffer);
@@ -90,7 +104,7 @@ public class Gateway {
         
         	DtjkGateway gateway=new DtjkGateway();   //终端静态记录
     		DtjkRecord record=new DtjkRecord();     //终端上报记录
-    		
+    		Ask ask=new Ask();     				//请求命令
     		String type=str.substring(6,8); 
     		System.out.println("数据类型："+judgeType(type));
     		
@@ -114,13 +128,21 @@ public class Gateway {
     				 String output = str.substring(i+2, (i + 4));//命令长度
     			     int decimal = Integer.parseInt(output, 16)*2;
     				String content =str.substring(i+4,i+4+decimal);
-    				juageContent(command, content,gateway,record);
+    				juageContent(command, content,gateway,record,ask);
     				
     				i=i+4+decimal;   //更改i
     				String end =str.substring(i,i+2); //判断是否结束
     				if(end.equalsIgnoreCase("f0")){
     					break;
     				}
+    			}
+    			if(record.getGatewayDate()==null){
+    				 SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+    				 record.setGatewayDate(df.format(new Date()));
+    			}
+    			if(record.getGatewayTime()==null){
+   				 	SimpleDateFormat df=new SimpleDateFormat("HH:mm:ss");
+   				 	record.setGatewayTime(df.format(new Date()));
     			}
     			//保存 上报的运行数据
     			recordService.save(record);
@@ -149,6 +171,7 @@ public class Gateway {
     					records.setUseUnitId(null);//使用单位id
     					records.setElevatorId(null);//维保电梯Id
     				}
+    				
     				recordsService.save(records);
     				
     			}
@@ -163,7 +186,7 @@ public class Gateway {
     				 String output = str.substring(i+2, (i + 4));//命令长度
     			     int decimal = Integer.parseInt(output, 16)*2;
     				String content =str.substring(i+4,i+4+decimal);
-    				juageContent(command, content,gateway,record);
+    				juageContent(command, content,gateway,record,ask);
     				
     				i=i+4+decimal;   //更改i
     				String end =str.substring(i,i+2); //判断是否结束
@@ -255,11 +278,117 @@ public class Gateway {
     					e.printStackTrace();
     				}
     		}  else if(type.equalsIgnoreCase("22")){    //请求数据	
-    			 os.write("e0XX113331313034333133303032303037313030303032313031363038303130303140630b3132333435363738393132630b3132333435363738313233e0".getBytes());
+    			//循环  解析命令
+    			for( int i=70; i<str.length()-1; i=i ){
+    				 String command =str.substring(i,i+2); //命令类型 
+    				 String output = str.substring(i+2, (i + 4));//命令长度
+    			     int decimal = Integer.parseInt(output, 16)*2;
+    				String content =str.substring(i+4,i+4+decimal);
+    				juageContent(command, content,gateway,record,ask);
+    				
+    				i=i+4+decimal;   //更改i
+    				String end =str.substring(i,i+2); //判断是否结束
+    				if(end.equalsIgnoreCase("f0")){
+    					break;
+    				}
+    			}
+    			//生成发送命令
+    			String elevatorIds=str.substring(8,48); 
+    			String serialNumbers=str.substring(48,70); 
+    			 SimpleDateFormat df=new SimpleDateFormat("yyyyMMdd");
+    			 SimpleDateFormat df1=new SimpleDateFormat("HHmmss");
+    			 String date="";
+    			 String m="1140"+elevatorIds+serialNumbers;
+    			 //0X60
+    			 if(ask.getDates()!=null){
+    				 date=df.format(new Date());
+    				 date=stringToHex(date);
+    				 m+="6003"+date;
+    			 }
+    			//0X61
+    			 if(ask.getTime()!=null){
+    				 date=df1.format(new Date());
+    				 date=stringToHex(date);
+    				 m+="6103"+date;
+    			 }
+    			 //0X62
+    			 if(ask.getPeriod()!=null){
+    				 	//根据终端号查询该终端是否已记录
+    	     			String hql=" where  1=1 and serialNumber='"+gateway.getSerialNumber()+"' " ;
+    	     			List<DtjkGateway>  gateways=gatewayService.queryAll(hql);
+    	     			//num等于0 说明该终端未记录，重新保存
+    	     			if(gateways.size()>0){
+    	     				DtjkGateway list=gateways.get(0);
+    	     				if(list.getReport()!=null&&!list.getReport().equals("")){
+    	     					date=stringToHex(list.getReport());
+        	     				m+="6201"+date;
+    	     				}else{
+        	     				m+="620100";
+        	     			}
+    	     			}
+    			 }
+    			 String hql1=" where 1=1 and  registerid = '"+elevatorId+"'";
+ 				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+    				 if(elevators.size()>0){
+    					 DtjkElevator elevator=elevators.get(0);
+    					 String hql=" where  1=1 and elevatorId='"+elevator.getId()+"' " ;
+    		     		 List<DtjkPhone>  phones=phoneService.queryAll(hql);
+    		     		 
+    		     	//  白名单
+    	    			 if(ask.getWhite1()!=null){
+    		     		 	//0X63  白名单1
+	    		     		if(phones.size()>0){
+	    		     			DtjkPhone phone=phones.get(0);
+	    		     			date=convertStringToHex(phone.getPhone());
+	    		     			m+="630b"+date;
+	    		     		}else{
+	    		     			m+="620100";
+	    		     		}
+    	    			 }
+    	    			//  白名单
+    	    			 if(ask.getWhite2()!=null){
+	    		     		//0X64  白名单2
+	    		     		if(phones.size()>1){
+	    		     			DtjkPhone phone=phones.get(1);
+	    		     			date=convertStringToHex(phone.getPhone());
+	    		     			m+="640b"+date;
+	    		     		}else{
+	    		     			m+="620100";
+	    		     		}
+    	    			 }
+	    		     	//  白名单
+	    	    			 if(ask.getWhite3()!=null){
+		    		     		//0X65  白名单3
+		    		     		if(phones.size()>2){
+		    		     			DtjkPhone phone=phones.get(2);
+		    		     			date=convertStringToHex(phone.getPhone());
+		    		     			m+="650b"+date;
+		    		     		}else{
+		    		     			m+="620100";
+		    		     		}
+	    	    			 }
+	    		     	//  白名单
+	    	    			 if(ask.getWhite4()!=null){
+		    		     		//0X66  白名单4
+		    		     		if(phones.size()>3){
+		    		     			DtjkPhone phone=phones.get(3);
+		    		     			date=convertStringToHex(phone.getPhone());
+		    		     			ask.setWhite4("660b"+date);
+		    		     			m+="660b"+date;
+		    		     		}else{
+		    		     			m+="620100";
+		    		     		}
+	    	    			 }
+    			 }
+    			String len=Integer.toHexString(m.length());
+    			m="e0"+len+m+"f0";
+    			System.out.println("发送请求命令："+m);
+       			os.write(m.getBytes());
 
     		}else{   
     			try {
-    				 os.write("命令错误".getBytes());
+    				 System.out.println("命令错误：e0021102f0");
+    				 os.write("e0021102f0".getBytes());
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
@@ -295,7 +424,40 @@ public class Gateway {
 
 		  return sb.toString();
 		  }
-	 
+
+	 //十六进制ascii 解析
+	 public  String hexToString(String hex){
+
+		  StringBuilder temp = new StringBuilder();
+		  for( int i=0; i<hex.length()-1; i+=2 ){
+		      String output = hex.substring(i, (i + 2));
+		      int decimal = Integer.parseInt(output, 16);
+		      if(decimal>9){
+		    	  temp.append(decimal);
+		      }else{
+		    	  temp.append("0"+decimal);
+		      }
+		     
+		  }
+
+		  return temp.toString();
+		  }
+	//十六进制ascii 解析
+	 public static  String stringToHex(String hex){
+
+		  StringBuilder temp = new StringBuilder();
+		  for( int i=0; i<hex.length()-1; i+=2 ){
+		      String output = hex.substring(i, (i + 2));
+		      int decimal = Integer.parseInt(output);
+		      if(decimal>9){
+		    	  temp.append(Integer.toHexString(decimal)); 
+		      }else{
+		    	  temp.append("0"+Integer.toHexString(decimal));
+		      }
+		  }
+
+		  return temp.toString();
+		  }
 	 /**
 	  * 判断类型（上报，报警，请求数据）
 	  * @param type
@@ -319,14 +481,26 @@ public class Gateway {
 	  * 0×20，0×23 上报  解析 命令以及对应的内容
 	  * @param command
 	  * @param content
+	 * @throws ParseException 
 	  */
-	 public void juageContent(String command,String content,DtjkGateway gateway,DtjkRecord record) {
-		
-		 //总楼层
+	 public void juageContent(String command,String content,DtjkGateway gateway,DtjkRecord record,Ask ask) throws ParseException {
+		 //地上楼层
 		if(command.equalsIgnoreCase("01")){
 			int floor=Integer.parseInt(content, 16);
 			gateway.setFloor(Integer.toString(floor));
 			System.out.println("总楼层："+floor);
+		}
+		 //地上楼层
+		if(command.equalsIgnoreCase("03")){
+			int floor=Integer.parseInt(content, 16);
+			gateway.setUpper(Integer.toString(floor));
+			System.out.println("地上楼层："+floor);
+		}
+		 //地下楼层
+		if(command.equalsIgnoreCase("04")){
+			int floor=Integer.parseInt(content, 16);
+			gateway.setLower(Integer.toString(floor));
+			System.out.println("地下楼层："+floor);
 		}
 		 //设定速度
 		if(command.equalsIgnoreCase("02")){
@@ -407,15 +581,17 @@ public class Gateway {
 		}
 		//终端日期
 		if(command.equalsIgnoreCase("37")){
-			int floor=Integer.parseInt(content, 16);
-			record.setGatewayDate(Integer.toString(floor));
-			System.out.println("终端日期："+floor);
+			String date=hexToString(content);
+			 date=dateString(date) ;
+			record.setGatewayDate(date);
+			System.out.println("终端日期："+date);
 		}
 		//终端时间
 		if(command.equalsIgnoreCase("38")){
-			int floor=Integer.parseInt(content, 16);
-			record.setGatewayTime(Integer.toString(floor));
-			System.out.println("终端时间："+floor);
+			String time=hexToString(content);
+			time=timeString(time) ;
+			record.setGatewayTime(time);
+			System.out.println("终端时间："+time);
 		}
 		
 		//人
@@ -464,46 +640,56 @@ public class Gateway {
 				System.out.println("检修状态：正常");
 			}
 		}
-		
 		//终端日期
 		if(command.equalsIgnoreCase("60")){
-			int floor=Integer.parseInt(content, 16);
-			System.out.println("日期："+floor);
+			 String date=hexToString(content);
+			 date=dateString(date) ;
+			 ask.setDates(date);
+			 System.out.println("日期："+date);
 		}
 		//终端时间
 		if(command.equalsIgnoreCase("61")){
-			int floor=Integer.parseInt(content, 16);
-			System.out.println("时间："+floor);
+			String time=hexToString(content);
+			time=timeString(time) ;
+			ask.setTime(time);
+			System.out.println("时间："+time);
 		}
 		//上报周期
 		if(command.equalsIgnoreCase("62")){
-			int floor=Integer.parseInt(content, 16);
-			gateway.setReport(Integer.toString(floor));
-			System.out.println("上报周期 ："+floor+"秒");
+			String velocity =convertHexToString(content);
+			gateway.setReport(velocity);
+			ask.setPeriod(velocity);
+			System.out.println("上报周期 ："+velocity+"秒");
 			
 		}
 		//白名单1
 		if(command.equalsIgnoreCase("63")){
 			String velocity =convertHexToString(content);
+			ask.setWhite1(velocity);
 			System.out.println("白名单1："+velocity);
 		}
 		//白名单2
 		if(command.equalsIgnoreCase("64")){
 			String velocity =convertHexToString(content);
+			ask.setWhite2(velocity);
 			System.out.println("白名单2："+velocity);
 		}
 		//白名单3
 		if(command.equalsIgnoreCase("65")){
 			String velocity =convertHexToString(content);
+			ask.setWhite3(velocity);
 			System.out.println("白名单3："+velocity);
 		}
 		//白名单4
 		if(command.equalsIgnoreCase("66")){
 			String velocity =convertHexToString(content);
+			ask.setWhite4(velocity);
 			System.out.println("白名单4："+velocity);
 		}
 		
 	}
+	 
+	
 	 
 	/**
 	 * 0×21  判断故障类型
@@ -547,5 +733,34 @@ public class Gateway {
 		 }
 		 return name;
 	 }
+	//日期
+	 public static  String dateString(String hex){
 
+		  StringBuilder temp = new StringBuilder();
+		  for( int i=0; i<hex.length()-1; i+=2 ){
+		      String output = hex.substring(i, (i + 2));
+		      if((i+2)!=hex.length()){
+		    	  temp.append(output+ "-");
+		      }else{
+		    	  temp.append(output);
+		      }
+		  }
+
+		  return temp.toString();
+	 }
+	//时间
+	 public static  String timeString(String hex){
+
+		  StringBuilder temp = new StringBuilder();
+		  for( int i=0; i<hex.length()-1; i+=2 ){
+		      String output = hex.substring(i, (i + 2));
+		      if((i+2)!=hex.length()){
+		    	  temp.append(output+ ":");
+		      }else{
+		    	  temp.append(output);
+		      }
+		  }
+
+		  return temp.toString();
+	 }
 }

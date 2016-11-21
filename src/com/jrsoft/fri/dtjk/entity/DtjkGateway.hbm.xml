@@ -46,5 +46,11 @@
          <property name="elevatorId" type="java.lang.String">
             <column name="ELEVATOR_ID" length="50" />
         </property>
+        <property name="lower" type="java.lang.String">
+            <column name="lower" length="200" />
+        </property>
+        <property name="upper" type="java.lang.String">
+            <column name="upper" length="200" />
+        </property>
     </class>
 </hibernate-mapping>
