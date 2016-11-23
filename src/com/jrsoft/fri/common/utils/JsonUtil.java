@@ -14,14 +14,11 @@ public class JsonUtil {
 	 * @param page
 	 * @param rows
 	 */
-	public static void ajaxOutPutJson(HttpServletResponse response, Page page, JSONArray rows ){
+	public static void ajaxOutPutJson(HttpServletResponse response, JSONArray rows ){
 		
 		JSONObject jsonObj = new JSONObject(); 
         // 根据jqGrid对JSON的数据格式要求给jsonObj赋值  
-        jsonObj.put("page",String.valueOf(page.getPageNum()));     // 当前页   
-        jsonObj.put("total", String.valueOf(page.getPageCount()));    // 总页数   
-        jsonObj.put("records", String.valueOf(page.getDataCount()));  // 总记录数
-        jsonObj.put("rows", rows);
+          jsonObj.put("rows", rows);
         
         // 输出，部署后删除
         System.out.println(jsonObj.toString());

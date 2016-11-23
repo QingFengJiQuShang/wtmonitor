@@ -39,6 +39,17 @@
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
     <!-- 电梯白名单 -->
+    <!-- 报警提示 -->
+	<bean name="/pushAction" class="com.jrsoft.fri.dtjk.action.DtjkPushAction">
+		<property name="pushService" ref="pushService" />
+	</bean>
+	<bean id="pushService" class="com.jrsoft.fri.dtjk.service.DtjkPushServiceImpl">
+		<property name="pushDao"  ref="pushDao" />
+	</bean>
+	<bean id="pushDao" class="com.jrsoft.fri.dtjk.dao.DtjkPushDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 报警提示 -->
     <!--电梯网关 -->
 	<bean name="/gatewayAction" class="com.jrsoft.fri.dtjk.action.DtjkGatewayAction">
 		<property name="gatewayService" ref="gatewayService" />

@@ -21,6 +21,11 @@
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
+	<!-- 报警提示 -->
+	 <action path="/pushAction"  name="DtjkFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	  <!-- 电梯网关-->
 	<action path="/gatewayAction" name="DtjkFrom"
 			parameter="method" scope="request"

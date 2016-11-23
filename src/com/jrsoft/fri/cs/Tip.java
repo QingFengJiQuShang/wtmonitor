@@ -10,12 +10,9 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -23,6 +20,8 @@ import javax.swing.SwingConstants;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import javax.swing.JDialog;
+
+import sun.audio.ContinuousAudioDataStream;
 
 /**
  * @author Administrator 此工具类用法：实例化出对象，调用 void show("标题","内容") 方法. InfoUtil tool
@@ -41,19 +40,22 @@ public class Tip {
 	private JLabel close = null; // 关闭按钮
 	private JTextArea feature = null; // 内容
 	private JScrollPane jfeaPan = null;
-	private JLabel releaseLabel = null; // 发布时间
+	//private JLabel releaseLabel = null; // 发布时间
 	private JLabel sure = null;
 	private String titleT = null;
 	private String word = null;
-	private String time = null;
-
+	//private String time = null;
 	// private SimpleDateFormat sdf = new
 	// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public ContinuousAudioDataStream cads =null;
 
 	public void init() {
 		// 新建300x220的消息提示框
-		tw = new TipWindow(300, 220);
-		img = new ImageIcon("E:\\Workspaces\\GitHub\\wtmonitor\\WebRoot\\img\\index1.png");
+		tw = new TipWindow(300, 220,cads);
+		String musicurl=System.getProperty("user.dir");
+		musicurl=musicurl.replace("\\bin", "");  
+    	musicurl+="\\webapps\\wtmonitor";  
+		img = new ImageIcon(musicurl+"\\img\\title.png");
 		imgLabel = new JLabel(img);
 		// 设置各个面板的布局以及面板中控件的边界
 		headPan = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -61,21 +63,20 @@ public class Tip {
 		btnPan = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		title = new JLabel("电梯报警");
 		head = new JLabel(titleT);
-		close = new JLabel(" x");
+		close = new JLabel("");
 		feature = new JTextArea(word);
 		jfeaPan = new JScrollPane(feature);
 		// releaseLabel = new JLabel("发布于  " + time);
-		sure = new JLabel("确定");
-		sure.setBackground(Color.red);	
+		sure = new JLabel("");
 		sure.setHorizontalAlignment(SwingConstants.CENTER);
-		ImageIcon icon = new ImageIcon("E:\\Workspaces\\GitHub\\wtmonitor\\WebRoot\\img\\add.png");
+		ImageIcon icon = new ImageIcon(musicurl+"\\img\\confirm.png");
 		sure.setIcon(icon);
 		
 		// 将各个面板设置为透明，否则看不到背景图片
 		((JPanel) tw.getContentPane()).setOpaque(false);
 		headPan.setOpaque(false);
-		feaPan.setOpaque(false);
-		btnPan.setOpaque(false);
+		feaPan.setOpaque(true);
+		btnPan.setOpaque(true);
 
 		// 设置JDialog的整个背景图片
 		tw.getLayeredPane().add(imgLabel, new Integer(Integer.MIN_VALUE));
@@ -92,10 +93,13 @@ public class Tip {
 		title.setForeground(Color.black);
 
 		close.setFont(new Font("Arial", Font.BOLD, 15));
-		close.setPreferredSize(new Dimension(20, 20));
+		close.setPreferredSize(new Dimension(30, 25));
 		close.setVerticalTextPosition(JLabel.CENTER);
 		close.setHorizontalTextPosition(JLabel.CENTER);
 		close.setCursor(new Cursor(12));
+		sure.setHorizontalAlignment(SwingConstants.CENTER);
+		ImageIcon clo = new ImageIcon(musicurl+"\\img\\close.png");
+		close.setIcon(clo);
 		close.setToolTipText("关闭");
 
 		head.setPreferredSize(new Dimension(250, 35));
@@ -103,6 +107,8 @@ public class Tip {
 		head.setHorizontalTextPosition(JLabel.CENTER);
 		head.setFont(new Font("宋体", Font.PLAIN, 20));
 		head.setForeground(Color.BLACK);
+		
+		
 
 		feature.setEditable(false);
 		feature.setForeground(Color.BLACK);
@@ -114,14 +120,13 @@ public class Tip {
 		jfeaPan.setPreferredSize(new Dimension(250, 250));
 		jfeaPan.setBorder(null);
 		jfeaPan.setBackground(Color.black);
-
+		
 		 
 
 		// 为了隐藏文本域，加个空的JLabel将他挤到下面去
 		JLabel jsp = new JLabel();
-		jsp.setPreferredSize(new Dimension(300, 5));
-
-		sure.setPreferredSize(new Dimension(110, 30));
+		jsp.setPreferredSize(new Dimension(300, 10));
+		sure.setPreferredSize(new Dimension(75, 30));
 		// 设置标签鼠标手形
 		sure.setCursor(new Cursor(12));
 
@@ -191,6 +196,10 @@ public class Tip {
 	}
 
 	public void show(String titleT, String word) {
+		//播放 报警声音
+		Music music =new Music();
+		music.start();
+		cads=music.cads;
 		this.titleT = titleT;
 		this.word = word;
 		// time = sdf.format(new Date());
@@ -201,6 +210,7 @@ public class Tip {
 		tw.setResizable(false);
 		tw.setVisible(true);
 		tw.run();
+		
 	}
 }
 
@@ -210,10 +220,12 @@ class TipWindow extends JDialog {
 	private int x, y;
 	private int width, height;
 	private static Insets screenInsets;
-
-	public TipWindow(int width, int height) {
+	public ContinuousAudioDataStream cads =null;
+	
+	public TipWindow(int width, int height,ContinuousAudioDataStream cads ) {
 		this.width = width;
 		this.height = height;
+		this.cads=cads;
 		dim = Toolkit.getDefaultToolkit().getScreenSize();
 		screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(
 				this.getGraphicsConfiguration());
@@ -257,6 +269,11 @@ class TipWindow extends JDialog {
 			}
 		}
 		dispose();
+	
+
+		 Music music =new Music();
+		music.stop(cads);
+		
 	}
 
 }

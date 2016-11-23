@@ -8,16 +8,20 @@ import java.util.Date;
 import java.util.List;
 import smart.sys.platform.springUtils.SpringBeanUtil;
 import tcpip.byteUtil;
+
+import com.jrsoft.fri.cs.Tip;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
 import com.jrsoft.fri.dtjk.entity.DtjkMaintenanceRecords;
 import com.jrsoft.fri.dtjk.entity.DtjkPhone;
+import com.jrsoft.fri.dtjk.entity.DtjkPush;
 import com.jrsoft.fri.dtjk.entity.DtjkRecord;
 import com.jrsoft.fri.dtjk.from.Ask;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
 import com.jrsoft.fri.dtjk.service.DtjkMaintenanceRecordsService;
 import com.jrsoft.fri.dtjk.service.DtjkPhoneService;
+import com.jrsoft.fri.dtjk.service.DtjkPushService;
 import com.jrsoft.fri.dtjk.service.DtjkRecordService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
@@ -34,7 +38,9 @@ public class Gateway {
 	private static XtglMaintenanceUsersService maintenanceUsersService = (XtglMaintenanceUsersService)SpringBeanUtil.getBean("maintenanceUsersService");
 	private static GzclFaultService faultService = (GzclFaultService)SpringBeanUtil.getBean("gzclFaultService");
 	private static DtjkPhoneService phoneService = (DtjkPhoneService)SpringBeanUtil.getBean("phoneService");
+	private static DtjkPushService pushService = (DtjkPushService)SpringBeanUtil.getBean("pushService");
 
+	
 	public static DtjkGatewayService getGatewayService() {
 		return gatewayService;
 	}
@@ -91,6 +97,14 @@ public class Gateway {
 
 	public static void setPhoneService(DtjkPhoneService phoneService) {
 		Gateway.phoneService = phoneService;
+	}
+
+	public static DtjkPushService getPushService() {
+		return pushService;
+	}
+
+	public static void setPushService(DtjkPushService pushService) {
+		Gateway.pushService = pushService;
 	}
 
 	public void query(byte[] buffer,OutputStream os ) throws Exception{
@@ -224,7 +238,7 @@ public class Gateway {
     			 
     			//循环  解析命令
     				 String command =str.substring(70,72); //故障代码
-    				 command=" 故障类型："+ warning(command);
+    				 command="故障类型："+ warning(command);
     				 System.out.println(command);
     				 
     				 String state =str.substring(72,74); //状态
@@ -241,7 +255,7 @@ public class Gateway {
     				 if(people.equalsIgnoreCase("00")){
     					 people="	是否有人：无人";
     				 }else{
-    					 people="是否有人：有人";
+    					 people="	是否有人：有人";
     				 }
     				 System.out.println(people);
     				 String floor  =str.substring(76,78); //楼层
@@ -266,12 +280,31 @@ public class Gateway {
        			  fault.setDutyId(null);
        			String hql1=" where 1=1 and  registerid = '"+elevatorId+"'";
 				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+				DtjkElevator list=null;
+				DtjkPush push=new DtjkPush();
 				if(elevators.size()>0){
 					fault.setElevatorId(elevators.get(0));//维保电梯Id
+					push.setElevatorId(elevators.get(0));
+					list=elevators.get(0);
 				}else{
 					fault.setElevatorId(null);//维保电梯Id
+					push.setElevatorId(null);
 				}
-				faultService.save(fault);
+				faultService.save(fault);		//生成当前故障
+				
+				push.setRegisterid(elevatorId);
+				push.setDistinguishid(serialNumber);
+				push.setInstallPlace(list.getInstallPlace());
+				push.setFaultType(command);
+				push.setFlag("0");
+				pushService.save(push);		//生成提醒记录
+				
+				Tip tip=new Tip();
+				String word="";
+				//word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n电梯品牌："+list.getBrand()+"\n电梯型号："+list.getModel()+"\n安装地址："+list.getInstallPlace()+"\n故障类型:"+fault.getFault()+"\n";
+				word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n安装地址："+list.getInstallPlace()+"\n"+command+"\n";
+
+				tip.show("报警", word);
     				 try {
     					 os.write("e00101e0".getBytes());
     				} catch (IOException e) {

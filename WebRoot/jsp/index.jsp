@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
+<%@page import="com.jrsoft.fri.cs.Tip"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -20,7 +21,28 @@
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/map/map.css" />
-		
+		<script type="text/javascript" src="<%=path %>/js/comet4j.js"></script>
+		<style type="text/css">
+		  /*sheyMsg style*/
+    .msg { width:240px;display:none; }
+
+   
+    .blue .top,.blue .top .title,.blue .top span,.blue .bottom,.blue .bottom a {background:transparent url(<%=path%>/img/msg_bg_blue.gif) no-repeat 0px 0px;}
+    .blue .center {background:url(<%=path%>/img/center_bg_blue.gif) repeat-y;}
+    
+    .msg .top{width:240px;height:25px;position:relative;}
+    .msg .top .title {background-position:-195px -70px;padding-left:30px;line-height:22px;width:100px;height:25px;}
+    .msg .top span {background-position:0px -70px;width:36px; height:17px;position:absolute;top:1px;left:198px;cursor:pointer;}
+    .msg .top span:hover {background-position:-43px -71px;}
+
+    .msg .center { width:240px;height:115px;}
+    .msg .center h3{color:#0c4e7c;text-align:center;line-height:23px;font-size:13px;}
+    .msg .center p{color: #0c4e7c;margin:0px 10px;line-height:20px;}
+
+    .msg .bottom {height:29px;background-position:0px -32px;}
+    .msg .bottom a {background-position:-120px -75px;padding-left:20px;margin:7px 10px;float:right;width:30px;height:20px;}
+    /*sheyMsg style end*/
+		</style>
 		</head>
 <script type="text/javascript">
 function sign(){
@@ -82,7 +104,7 @@ function toMain(flag){
 	   }
 </script>
 
-		<body>
+		<body  onload="push();">
 		<div class="top clearfix">
 			<p class="fl">
 				<img src="<%=path %>/img/logo.png" />&nbsp;
@@ -150,10 +172,31 @@ function toMain(flag){
 		<iframe src="<%=path%>/indexAction.do?method=query" id="main"  name="main"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0" onLoad="iFrameHeight()" width="100%" height=""   style="margin-top: -2px; overflow-x:hidden;  ">
 			
 		</iframe>
+		<input  type="hidden" value=""   id="pushId"  name="pushId">
+		<!--sheyMsg start-->
+	<div class="msg blue" id="msgbox">
+		<div class="top">
+		    <div class="title">电梯报警</div>
+		    <span title="close" id="msgclose"></span>
+		</div>
+		 <div class="center">
+			<h3>电梯报警</h3>
+			<p id="news"></p>
+		</div>
+		<audio  id="music"   loop="loop"> 
+			<source src="<%=path%>/music/music.mp3" type="audio/mpeg" /> 
+		</audio>
+
+</audio>
+		<div class="bottom"><a target="_blank" href="http://blog.csdn.net/sohighthesky/archive/2009/11/10/4795886.aspx">查看</a>
+		</div>
+	</div>
+	<!--sheyMsg end-->
 	</body>
 	<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/comm.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/map.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="<%=path %>/js/sheyMsg.js"></script>
 	<script type="text/javascript">
 		function iFrameHeight() {
 			var ifm = document.getElementById("main");
@@ -163,6 +206,58 @@ function toMain(flag){
 				//ifm.width = subWeb.body.scrollWidth;
 			}
 		}
+		
+var g=function(id){return document.getElementById(id)};
+
+	setInterval('push()',10000); //指定30秒刷新一次s
+	function push (){
+		$.ajax({
+				 mtype:'post',
+				 url: '<%=path%>/pushAction.do?method=push',
+				 data:'',
+				 success: function(rs){
+				          var json=eval(rs.rows);			
+				         // alert(json.length);
+				          for(var i=0;i<json.length;i++){
+				        	  var msg=new sheyMsg("msgbox",{
+								    showDelay:1,
+								    onHide:clsoePush
+								});
+				        	  	g("msgclose").onclick=function() {//hide
+									msg.hide();
+								}
+				        	  document.getElementById('pushId').value=json[0].id;
+				         	  document.getElementById('news').innerHTML ="注册号："+json[0].registerid+"<br/>识别码："+json[0].distinguishid+"<br/>安装地址："+json[0].installPlace+"<br/>"+json[0].faultType+"<br/>";
+				          	  document.getElementById('music').play();		//开始播放
+				          }
+				          
+				  },
+				  error: function(result){
+							alert("操作失败!");
+					}
+		 });
+		
+		
+	}
+								
+	function clsoePush (){
+		var pushId= document.getElementById('pushId').value;
+		document.getElementById('music').pause();				//停止播放
+		
+		$.ajax({
+				 mtype:'post',
+				 url: '<%=path%>/pushAction.do?method=updatePush',
+				 data:'pushId='+pushId,
+				 success: function(rs){
+				        // alert("已确认");
+				  },
+				  error: function(result){
+							alert("操作失败!");
+					}
+		 });
+		
+	}
+	
 	</script>
 
 </html>
