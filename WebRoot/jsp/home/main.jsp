@@ -29,10 +29,12 @@
 	
 		<div class="con">
 			<p class="select" >
-				<select id="cmbProvince" name="cmbProvince"></select>
-				<select id="cmbCity" name="cmbCity"></select>
-				<select id="cmbArea" name="cmbArea"  style="display: none;"></select>
+				区域：<select id="province" name="province"  onblur="theLocation('province');"></select>
+				<select id="city" name="city"	 onblur="theLocation('city');"></select>
+				<select id="area" name="area"  style="display: none;"></select>
+				输入框：<input type="text" id="suggestId" size="20" value="" style="width:150px;height: 30px;" />
 			</p>
+			<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 			<html>
 
 
@@ -44,35 +46,35 @@
 			<ul class="clearfix list_num">
 				<li class="fl list-item" >
 					<p class="name">在线电梯电梯数量</p>
-					<p class="num">10</p>
+					<p class="num">${index.normalNum}</p>
 					<p>
 						<img src="<%=path %>/img/blue.png" alt="" />	
 					</p>
 				</li>
 				<li class="fl list-item">
 					<p class="name">离线数量</p>
-					<p class="num">6</p>
+					<p class="num">${index.offLineNum}</p>
 					<p>
 						<img src="<%=path %>/img/gray.png" alt="" />						
 					</p>
 				</li>
 				<li class="fl list-item">
 					<p class="name">故障数量</p>
-					<p class="num">5</p>
+					<p class="num">${index.faultNum}</p>
 					<p>
 						<img src="<%=path %>/img/red_small.png" alt="" />	
 					</p>
 				</li>
 				<li class="fl list-item">
 					<p class="name">维保过期数量</p>
-					<p class="num">3</p>
+					<p class="num">${index.maintenanceNum}</p>
 					<p>
 						<img src="<%=path %>/img/rose_red.png" alt="" />	
 					</p>
 				</li>
 				<li class="fl list-item">
 					<p class="name">未年检电梯数量</p>
-					<p class="num">6</p> 
+					<p class="num">${index.yearlyNum}</p> 
 					<p>
 						<img src="<%=path %>/img/orange_small.png" alt="" />	
 					</p>
@@ -94,11 +96,11 @@
 	<script src="<%=path %>/js/ssq.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=9gdzSjQZTjIbIGLxFnAOnxwa"></script>
 	<script type="text/javascript">
+	addressInit('province', 'city', 'area','${province}','${city}','请选择');
 		// 百度地图API功能
 	var map = new BMap.Map("allmap");
 	var point = new BMap.Point(116.404, 39.915);
-	map.centerAndZoom(point, 15);
-	
+	map.centerAndZoom(point, 12); 
 	
 	var pointArray = new Array();
 	var j=0
@@ -144,7 +146,65 @@
 	map.setViewport(pointArray);
 	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 	
+	//根据城市定位
+	function theLocation(id){
+			var city = document.getElementById(id).value;
+			if(city != ""){
+				map.centerAndZoom(city,11);      // 用城市名设置地图中心点
+			}
+		}
 	
+	//输入框提示
+	// 百度地图API功能
+	function G(id) {
+		return document.getElementById(id);
+	}
+	
+	
+	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{"input" : "suggestId"
+		,"location" : map
+	});
+
+	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+		
+		value = "";
+		if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		G("searchResultPanel").innerHTML = str;
+	});
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		
+		setPlace();
+	});
+
+	function setPlace(){
+		map.clearOverlays();    //清除地图上所有覆盖物
+		function myFun(){
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			map.centerAndZoom(pp, 18);
+			map.addOverlay(new BMap.Marker(pp));    //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+		  onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
 	
 	
 	//点击地图标注，弹出电梯信息
@@ -184,5 +244,8 @@
 		  function findById(id){
     		  window.location.href="<%=path %>/recordAction.do?method=findByMonitor&id="+id;
          }
+	  
+	  //区域
+	  	addressInit('province', 'city', 'area');
 	</script>
 </html>

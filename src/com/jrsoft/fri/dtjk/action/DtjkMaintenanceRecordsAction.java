@@ -79,6 +79,12 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		elevator.setTime(df.parse(time));
 		recordsService.save(elevator);
+		
+		//修改电梯的维保状态和维保时间
+		DtjkElevator entity =elevatorService.get(elevator.getElevatorId().getId());
+		entity.setMaintenanceTime(new Date());
+		entity.setMaintenanceState("正常");
+		elevatorService.update(entity);
 	    return	new ActionForward("/recordsAction.do?method=query&elevatorId="+elevator.getElevatorId().getId());
 	}
 	/**

@@ -1,7 +1,10 @@
 package com.jrsoft.fri.dtjk.action;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +16,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
+import smart.sys.platform.dao.DBEntity;
+
 import com.jrsoft.fri.common.utils.JsonUtil;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
+import com.jrsoft.fri.dtjk.from.Index;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 
@@ -47,12 +53,13 @@ public class IndexAction  extends DispatchAction{
 		String str="[";
 		int i=0;
 		for(DtjkElevator elevator:elevators){
-			String [] label=elevator.getLabel().split(",");
-			str+="["+label[0]+","+label[1]+"]";
-			i++;
-			if(i!=elevators.size())
-				str+=",";
-			
+			if(elevator.getLabel()!=null){
+				String [] label=elevator.getLabel().split(",");
+				str+="["+label[0]+","+label[1]+"]";
+				i++;
+				if(i!=elevators.size())
+					str+=",";
+			}
 		}
 		str+="]";
 		request.setAttribute("str", str);
@@ -63,12 +70,13 @@ public class IndexAction  extends DispatchAction{
 		String str1="[";
 		 i=0;
 		for(DtjkElevator elevator:elevators1){
-			String [] label=elevator.getLabel().split(",");
-			str1+="["+label[0]+","+label[1]+"]";
-			i++;
-			if(i!=elevators.size())
-				str1+=",";
-			
+			if(elevator.getLabel()!=null){
+				String [] label=elevator.getLabel().split(",");
+				str1+="["+label[0]+","+label[1]+"]";
+				i++;
+				if(i!=elevators.size())
+					str1+=",";
+			}
 		}
 		str1+="]";
 		request.setAttribute("str1", str1);
@@ -78,15 +86,39 @@ public class IndexAction  extends DispatchAction{
 		String str2="[";
 		 i=0;
 		for(DtjkElevator elevator:elevators2){
-			String [] label=elevator.getLabel().split(",");
-			str2+="["+label[0]+","+label[1]+"]";
-			i++;
-			if(i!=elevators.size())
-				str2+=",";
-			
+			if(elevator.getLabel()!=null){
+				String [] label=elevator.getLabel().split(",");
+				str2+="["+label[0]+","+label[1]+"]";
+				i++;
+				if(i!=elevators.size())
+					str2+=",";
+			}
 		}
 		str2+="]";
 		request.setAttribute("str2", str2);
+		Index index=new Index();
+		//正常电梯数量
+		index.setNormalNum(elevators.size());
+		//离线电梯数量
+		index.setOffLineNum(elevators1.size());
+		//故障电梯数量
+		index.setFaultNum(elevators2.size());
+		
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.DATE, -20);							//20天前日期
+		
+		String sql="select count(*)  from Dtjk_Elevator de where  1=1  and maintenance_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
+		int n=DBEntity.getInstance().queryDataCount(sql);
+		index.setMaintenanceNum(n);
+		
+		c.setTime(new Date());
+		c.add(Calendar.YEAR, -1);  //加一年
+		 sql="select count(*)  from Dtjk_Elevator de where  1=1  and yearly_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
+		 n=DBEntity.getInstance().queryDataCount(sql);
+		index.setYearlyNum(n);
+		request.setAttribute("index", index);
 		 return	new ActionForward("/jsp/home/main.jsp");
 	}
 	/**

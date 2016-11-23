@@ -181,15 +181,31 @@ public class Gateway {
     				if(elevators.size()>0){
     					records.setUseUnitId(elevators.get(0).getUseUnitId());//使用单位id
     					records.setElevatorId(elevators.get(0));//维保电梯Id
+    					
+    					//修改电梯的维保状态和维保时间
+        				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
+        				entity.setMaintenanceTime(new Date());
+        				entity.setMaintenanceState("正常");
+        				elevatorService.update(entity);
     				}else{
     					records.setUseUnitId(null);//使用单位id
     					records.setElevatorId(null);//维保电梯Id
     				}
-    				
     				recordsService.save(records);
-    				
     			}
     			
+    			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("正常")){
+    				String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
+    				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+    				if(elevators.size()>0){
+	    				//修改电梯的维保状态和维保时间
+	    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
+	    				entity.setMaintenanceTime(new Date());
+	    				entity.setMaintenanceState("正常");
+	    				elevatorService.update(entity);
+    				}
+    			}
+
     			
     		}  else if(type.equalsIgnoreCase("23")){    //上报静态数据
     			gateway.setElevatorId(elevatorId);
@@ -291,7 +307,8 @@ public class Gateway {
 					push.setElevatorId(null);
 				}
 				faultService.save(fault);		//生成当前故障
-				
+				list.setState("故障");
+				elevatorService.update(list);	//修改电梯运行状态
 				push.setRegisterid(elevatorId);
 				push.setDistinguishid(serialNumber);
 				push.setInstallPlace(list.getInstallPlace());

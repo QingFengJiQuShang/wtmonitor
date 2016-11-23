@@ -78,6 +78,11 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		DtjkYearlyInspection elevator =DtjkFrom.getInspection();
 		elevator.setTime(df.parse(time));
 		inspectionService.save(elevator);
+		//修改电梯的年检状态和年检时间
+		DtjkElevator entity =elevatorService.get(elevator.getElevatorId().getId());
+		entity.setYearlyTime(new Date());
+		entity.setYearlyState(elevator.getResult());
+		elevatorService.update(entity);
 	    return	new ActionForward("/inspectionAction.do?method=query&elevatorId="+elevator.getElevatorId().getId());
 	}
 	/**
