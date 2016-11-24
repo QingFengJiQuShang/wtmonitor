@@ -1,0 +1,32 @@
+caption {
+	height: 35px;
+	border-right: 1px solid#ccc;
+	line-height: 35px;
+	font-size: 14px;
+	font-weight: bold;
+	text-indent: 10px;
+	color: #545454;
+}
+caption span {
+	font-weight: normal;
+	
+}
+.table_con>div {
+	width: 50%;
+}
+.table_con table {
+	width: 100%;
+	border-right: 1px solid #ccc;
+}
+.table_con table thead th {
+	border-top: 1px solid #ccc;
+}
+.page_other {
+	line-height: 11;
+}
+.select button {
+	margin-left: 130px;
+}
+.set div {
+	
+}

@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>使用单位</title>
+    <title>短信警告</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -19,42 +19,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
-	
+	<style type="text/css">
+			.user,
+			.order {
+				height: 58px;
+				line-height: 58px;
+				background-color: #037eb6;
+				text-align: center;
+				font-size: 20px;
+				color: #FFF;
+			}
+			
+			.calendar {
+				top: 130px!important;
+			}
+			
+			.wrap {
+				margin-top: 20px;
+			}
+			
+			.wrap .textarea {
+				height: 120px;
+			}
+			
+			textarea {
+				border: 1px solid #d2d2d2;
+				border: 1px solid #d2d2d2;
+				width: 235px;
+				height: 82px;
+				resize: none;
+			}
+		</style>
 	</head>
 
 	<body>
-	<form id="form" action="<%=path %>/useUnitAction.do?method=addEntity" method="post"  encType="multipart/form-data">
+	<form id="form"   method="post"  encType="multipart/form-data">
 		<div class="con">
-			<p class="user">使用单位</p>
+			<p class="user">短信警告</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
-				<p class="add">新增使用单位</p>
+				<p class="add">修改短信警告</p>
 				<div class="table_con">
-					<p class="fill">
-						<label for="name">使用单位名称&nbsp;:&nbsp;</label>
-						<input type="text" id="name"  name="unit.name"  />
-					</p>
-					<p class="fill">
-						<label for="logn">使用单位类型&nbsp;:&nbsp;</label>
-						<select  name="unit.type"  id="type">
-							<option value="">请选择</option>
-							<option value="物业">物业</option>
-							<option value="政府">政府</option>
-							<option value="事业单位">事业单位</option>
-						</select>
-					</p>
-					<p class="fill">
-						<label for="man">联系人&nbsp;:&nbsp;</label>
-						<input type="text" id="liaisons"  name="unit.liaisons"  />
-					</p>
-					<p class="fill">
-						<label for="phone">联系人电话&nbsp;:&nbsp;</label>
-						<input type="text" id="phone"  name="unit.phone"  />
-					</p>
-					<p class="fill">
-						<label for="area">使用单位地址&nbsp;:&nbsp;</label>
-						<input type="text" id="address"  name="unit.address"  />
-					</p>
+				
+				<p class="fill">
+					<label for="phone">客户手机号码&nbsp;:&nbsp;</label>
+					<input type="" name="" id="phone" value="13123123130" />
+				</p>
+				<p class="fill">
+					<label for="state">发送状态&nbsp;:&nbsp;</label>
+					<input type="" name="" id="state" value="已发送" />
+				</p>
+				<p class="fill">
+					<label for="time">发送时间&nbsp;:&nbsp;</label>
+					<input type="text" name="appDateTime" id="posttime1" readonly="" class="">
+				</p>
+				<p class="fill textarea">
+					<label for="con">发送内容&nbsp;:&nbsp;</label>
+					<textarea name="" rows="" cols=""></textarea>
+				</p>
+				
+					
 					<div class="keep clearfix">
 				<!-- 	<input type="button"  class="fl"  value="保存"   onclick="add();"/> -->	
 						<button class="fl"    onclick="add();">保存</button>
