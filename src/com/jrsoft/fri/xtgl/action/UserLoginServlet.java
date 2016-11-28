@@ -1,8 +1,7 @@
 package com.jrsoft.fri.xtgl.action;
 
-import javax.jms.Session;
-import javax.servlet.http.HttpServlet;
 
+import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -12,7 +11,6 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,17 +19,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import net.sf.json.JSONObject;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
 import smart.sys.log.main.SmartLog;
-
 import com.jrsoft.fri.common.utils.JsonUtil;
 import com.jrsoft.fri.common.utils.StringUtils;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;

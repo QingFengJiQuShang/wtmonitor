@@ -147,6 +147,25 @@ public class DBEntity {
 		stat.close();
 		return rs;
 	}
+	
+	/**
+	 * 查询记条录数
+	 * @param sql
+	 * @return
+	 * @throws Exception
+	 */
+	public synchronized int queryCount(String sql) throws Exception {
+		int rs = 0;
+		 sql="select count(a.id) from ("+sql+") a ";
+		System.out.println("DBEntity将执行queryCount(sql)==>"+sql);
+		Statement stat = getConnection().createStatement();
+		ResultSet set = stat.executeQuery(sql);
+		if(set.next()){
+			rs = set.getInt(1);
+		}
+		stat.close();
+		return rs;
+	}
 	/**
 	 * 查询唯一的一个值
 	 * @param sql

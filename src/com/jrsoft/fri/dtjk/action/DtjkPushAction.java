@@ -45,7 +45,7 @@ public class DtjkPushAction  extends DispatchAction{
 	 */
 	public void push(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response ){
 		System.out.println("±¨¾¯ÌáÐÑ");
-		String hql=" where  1=1 and flag='0'  " ;
+		String hql=" where  1=1 and flag!='2'  " ;
 		List<DtjkPush> elevators=pushService.queryAll(hql);
 		JSONArray rows = new JSONArray();
 		

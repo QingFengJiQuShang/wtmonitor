@@ -11,6 +11,10 @@ import com.jrsoft.fri.xtgl.entity.XtglUsers;
  * 电梯表
  */
 
+/**
+ * @author Ziliang
+ *
+ */
 public class DtjkElevator implements java.io.Serializable {
 
 	// Fields
@@ -52,6 +56,11 @@ public class DtjkElevator implements java.io.Serializable {
 	private String remarks;			//备注
     private XtglUsers userid=new XtglUsers();				//所属用户
     private String period;				//上报周期
+    private Date flowStart;				//流量开始时间
+    private Date flowEnd;						//流量结束时间
+    private String flowTotal;				//流量总额
+    private String flowNum;				//流量使用额
+    private String flowSurplus;				//剩余流量
 	// Constructors
     
     private String useUnitName;			//使用单位名称
@@ -78,7 +87,8 @@ public class DtjkElevator implements java.io.Serializable {
 			String manufacturerAddress, String manufacturerUrl,
 			String filialeAddress, String filialePhone, String filialeContact,
 			String serviceIfe, Date yearlyTime, Date maintenanceTime,
-			String remarks,XtglUsers userid,String period) {
+			String remarks,XtglUsers userid,String period,Date flowStart,
+			Date flowEnd,String flowTotal,String flowNum,String flowSurplus) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -113,6 +123,11 @@ public class DtjkElevator implements java.io.Serializable {
 		this.maintenanceTime = maintenanceTime;
 		this.remarks = remarks;
 		this.period=period;
+		this.flowStart=flowStart;
+		this.flowEnd=flowEnd;
+		this.flowTotal=flowTotal;
+		this.flowNum=flowNum;
+		this.flowSurplus=flowSurplus;
 	}
 
 	// Property accessors
@@ -455,6 +470,46 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setPeriod(String period) {
 		this.period = period;
+	}
+
+	public Date getFlowStart() {
+		return flowStart;
+	}
+
+	public void setFlowStart(Date flowStart) {
+		this.flowStart = flowStart;
+	}
+
+	public Date getFlowEnd() {
+		return flowEnd;
+	}
+
+	public void setFlowEnd(Date flowEnd) {
+		this.flowEnd = flowEnd;
+	}
+
+	public String getFlowTotal() {
+		return flowTotal;
+	}
+
+	public void setFlowTotal(String flowTotal) {
+		this.flowTotal = flowTotal;
+	}
+
+	public String getFlowNum() {
+		return flowNum;
+	}
+
+	public void setFlowNum(String flowNum) {
+		this.flowNum = flowNum;
+	}
+
+	public String getFlowSurplus() {
+		return flowSurplus;
+	}
+
+	public void setFlowSurplus(String flowSurplus) {
+		this.flowSurplus = flowSurplus;
 	}
 
 }

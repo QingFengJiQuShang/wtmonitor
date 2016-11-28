@@ -11,19 +11,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-
 import smart.sys.platform.dao.DBEntity;
 
+import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
-import com.jrsoft.fri.gzcl.entity.GzlcAlarm;
 import com.jrsoft.fri.gzcl.from.GzclForm;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
 import com.jrsoft.fri.xtgl.from.Page;
@@ -72,32 +69,12 @@ public class GzclFaultAction extends DispatchAction {
 
 		
 		String num=request.getParameter("num");   //当前页
-		
-
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and elevatorId.registerid like '%"+registerid+"%'";
-		}
-		if(place!=null&&!place.equals("")){
-			hql+=" and elevatorId.installPlace like '%"+place+"%'";
-		}
-		if(begintime!=null&&!begintime.equals("")){
-			hql+=" and happenTime  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
-		}
-		if(endtime!=null&&!endtime.equals("")){
-			hql+=" and happenTime  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
-		}
-		hql+=" and state='处理中' order by happenTime desc ";
-		List<GzclFault> GzclFaults=faultService.queryAll(hql);
-		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(GzclFaults.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<GzclFault> list=null;
@@ -124,7 +101,8 @@ public class GzclFaultAction extends DispatchAction {
 				}
 				sql+="  and de.state='处理中' order by de.happen_Time desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<GzclFault>();
@@ -206,12 +184,23 @@ public class GzclFaultAction extends DispatchAction {
 		String arriveTime=request.getParameter("arriveTime");
 		String successTime=request.getParameter("successTime");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		unit.setHappenTime(df.parse(happenTime));
-		unit.setAlarmTime(df.parse(alarmTime));
-		unit.setArriveTime(df.parse(arriveTime));
-		unit.setSuccessTime(df.parse(successTime));
+		if(happenTime !=null&&!happenTime.equals(""))
+			unit.setHappenTime(df.parse(happenTime));
+		if(alarmTime !=null&&!alarmTime.equals(""))
+			unit.setAlarmTime(df.parse(alarmTime));
+		if(arriveTime !=null&&!arriveTime.equals(""))
+			unit.setArriveTime(df.parse(arriveTime));
+		if(successTime !=null&&!successTime.equals(""))
+			unit.setSuccessTime(df.parse(successTime));
 		unit.setUnitId(unitId);
 		faultService.update(unit);
+		if(!unit.getState().equals("处理中")){
+			String sql="update dtjk_elevator set state='正常' where id='"+unit.getElevatorId().getId()+"' ";
+			DBEntity.getInstance().executeSql(sql);
+		}
+		//DtjkElevator elevator=e
+		
+		
 		return	new ActionForward("/faultAction.do?method=query");
 	}
 	
@@ -409,29 +398,12 @@ public class GzclFaultAction extends DispatchAction {
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and elevatorId.registerid like '%"+registerid+"%'";
-		}
-		if(place!=null&&!place.equals("")){
-			hql+=" and elevatorId.installPlace like '%"+place+"%'";
-		}
-		if(begintime!=null&&!begintime.equals("")){
-			hql+=" and happenTime  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
-		}
-		if(endtime!=null&&!endtime.equals("")){
-			hql+=" and happenTime  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
-		}
-		hql+=" and state!='处理中' order by happenTime desc ";
-		List<GzclFault> GzclFaults=faultService.queryAll(hql);
 		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(GzclFaults.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<GzclFault> list=null;
@@ -457,7 +429,8 @@ public class GzclFaultAction extends DispatchAction {
 				}
 				sql+="  and de.state!='处理中' order by de.happen_Time desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<GzclFault>();

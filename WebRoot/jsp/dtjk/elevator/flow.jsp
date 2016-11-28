@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -25,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-	<form id="form"  method="post"  encType="multipart/form-data">
+	<form id="form"   action="<%=path %>/elevatorAction.do?method=updateFlow"  method="post"  encType="multipart/form-data">
 		<div class="con">
 			<p class="user">电梯流量</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
@@ -34,35 +37,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table_con">
 					<p class="fill">
 					<label for="user">电梯注册号&nbsp;:&nbsp;</label>
-					<input type="" name="" id="user" value="" placeholder="请输入"/>
+					<input type="hidden" id="elevatorId"  name="elevator.id"  value="${list.id}" />
+					<input  name="elevator.registerid"  id="registerid" value="${list.registerid}" readonly="readonly"/>
 				</p>
 				<p class="fill">
 					<label for="code">识别码&nbsp;:&nbsp;</label>
-					<input type="text" id="code" placeholder="请输入"/>
+						<input type="text"  id="distinguishid"  name="elevator.distinguishid"  placeholder="请输入"  value="${list.distinguishid}" />
 				</p>
 				<p class="fill">
 					<label for="unit">电梯使用单位&nbsp;:&nbsp;</label>
-					<input type="text" id="unit" placeholder="请输入"/>
+						<input type="hidden"  id="useUnitId"  name="elevator.useUnitId.id"    value="${list.useUnitId.id}" />
+						<input type="text"  id="useUnitId1"   placeholder="请选择"   value="${list.useUnitId.name}"  readonly="readonly" />
+					
 				</p>
 				<p class="fill">
 					<label for="start_end">开始时间&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"   id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<input type="text"  class="Wdate"  name="flowStart"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  value="<fmt:formatDate value="${list.flowStart}"  pattern='yyyy-MM-dd'/>" >
 				</p>
 				<p class="fill">
 					<label for="start_end">结束时间&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"  	 id="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<input type="text"  class="Wdate"  	 name="flowEnd"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" value="<fmt:formatDate value="${list.flowEnd}"  pattern='yyyy-MM-dd'/>" >
 				</p>
 				<p class="fill">
 					<label for="place">总流量额&nbsp;:&nbsp;</label>
-					<input type="text" id="place" placeholder="请输入"/>
+					<input type="text" id="flowTotal" name="elevator.flowTotal"  value="${list.flowTotal}" />
 				</p>
 				<p class="fill">
 					<label for="wb_unit">单月使用额&nbsp;:&nbsp;</label>
-					<input type="text" placeholder="请输入"/>
+					<input type="text" id="flowNum" name="elevator.flowNum" value="${list.flowNum}" />
 				</p>
 				<p class="fill">
 					<label for="wb_unit">剩余流量&nbsp;:&nbsp;</label>
-					<input type="text" placeholder="请输入"/>
+					<input type="text" id="flowSurplus" name="elevator.flowSurplus" value="${list.flowSurplus}" />
 				</p>
 					<div class="keep clearfix">
 				<!-- 	<input type="button"  class="fl"  value="保存"   onclick="add();"/> -->	

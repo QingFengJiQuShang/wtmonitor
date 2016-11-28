@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		setTimeout('myrefresh()',30000); //指定30秒刷新一次s
 </script>
 	<body>
-			
+			<c:if test="${!empty records }">
 				<div class="show clearfix" style="width: 100%;">
 				
 				
@@ -71,6 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</ul>
 				</div>
 		</div>
+		</c:if>
 	</body>
 	<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/comm.js" type="text/javascript" charset="utf-8"></script>

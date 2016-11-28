@@ -97,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.state}</td>
 									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
 									<td  style="color: blue; "  onclick="findById('${list.id}','3');">${list.period}</td>
-									<td><a href="<%=path %>/jsp/dtjk/elevator/flow.jsp"   style="color: blue; ">0</a></td>
+									<td><a href="javascript:void(0);"  onclick="findById('${list.id}','4');" style="color: blue; ">${list.flowSurplus}</a></td>
 									<td><a href="<%=path %>/jsp/dtjk/service/serviceList.jsp"   style="color: blue; ">0</a></td>
 									<td>
 										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','2');"/>

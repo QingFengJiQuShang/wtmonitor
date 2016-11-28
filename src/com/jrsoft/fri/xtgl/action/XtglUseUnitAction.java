@@ -78,26 +78,11 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(name!=null&&!name.equals("")){
-			hql+=" and name like '%"+name+"%'";
-		}
-		if(liaisons!=null&&!liaisons.equals("")){
-			hql+=" and liaisons like '%"+liaisons+"%'";
-		}
-		if(type!=null&&!type.equals("")){
-			hql+=" and type like '%"+type+"%'";
-		}
-		hql+="order by id ";
-		List<XtglUseUnit> XtglUseUnits=useUnitService.queryAll(hql);
-		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(XtglUseUnits.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<XtglUseUnit> list=null;
@@ -116,7 +101,8 @@ public class XtglUseUnitAction  extends DispatchAction  {
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<XtglUseUnit>();
@@ -326,26 +312,11 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(name!=null&&!name.equals("")){
-			hql+=" and name like '%"+name+"%'";
-		}
-		if(liaisons!=null&&!liaisons.equals("")){
-			hql+=" and liaisons like '%"+liaisons+"%'";
-		}
-		if(type!=null&&!type.equals("")){
-			hql+=" and type like '%"+type+"%'";
-		}
-		hql+="order by id ";
-		List<XtglUseUnit> XtglUseUnits=useUnitService.queryAll(hql);
-		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(XtglUseUnits.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<XtglUseUnit> list=null;
@@ -364,7 +335,8 @@ public class XtglUseUnitAction  extends DispatchAction  {
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<XtglUseUnit>();

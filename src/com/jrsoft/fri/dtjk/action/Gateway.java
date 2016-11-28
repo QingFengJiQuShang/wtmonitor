@@ -316,12 +316,11 @@ public class Gateway {
 				push.setFlag("0");
 				pushService.save(push);		//生成提醒记录
 				
-				Tip tip=new Tip();
-				String word="";
+				//Tip tip=new Tip();
+				//String word="";
 				//word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n电梯品牌："+list.getBrand()+"\n电梯型号："+list.getModel()+"\n安装地址："+list.getInstallPlace()+"\n故障类型:"+fault.getFault()+"\n";
-				word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n安装地址："+list.getInstallPlace()+"\n"+command+"\n";
-
-				tip.show("报警", word);
+				//word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n安装地址："+list.getInstallPlace()+"\n"+command+"\n";
+				//tip.show("报警", word);
     				 try {
     					 os.write("e00101e0".getBytes());
     				} catch (IOException e) {

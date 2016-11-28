@@ -39,7 +39,7 @@ public class ServerInputThread  extends Thread
 
         }catch (IOException e) {
         	e.printStackTrace();
-        	run();
+        	//run();
         } catch (Exception e) {
         	e.printStackTrace();
         	run();

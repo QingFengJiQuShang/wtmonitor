@@ -105,34 +105,12 @@ public class DtjkElevatorAction extends DispatchAction{
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and registerid like '%"+registerid+"%'";
-		}
-		if(distinguishid!=null&&!distinguishid.equals("")){
-			hql+=" and distinguishid like '%"+distinguishid+"%'";
-		}
-		if(useUnitName!=null&&!useUnitName.equals("")){
-			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
-		}
-		if(brand!=null&&!brand.equals("")){
-			hql+=" and brand like '%"+brand+"%'";
-		}
-		if(numbers!=null&&!numbers.equals("")){
-			hql+=" and numbers like '%"+numbers+"%'";
-		}
-		hql+="order by id ";
-		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
-		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(DtjkElevators.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
-		
 		List<DtjkElevator> list=null;
 		Connection conn=DBEntity.getInstance().getConnection();
 				
@@ -160,7 +138,8 @@ public class DtjkElevatorAction extends DispatchAction{
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkElevator>();
@@ -180,6 +159,7 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
 					elevator.setPeriod(rs.getString("period"));
+					elevator.setFlowSurplus(rs.getString("flow_Surplus")==null?"0":rs.getString("flow_Surplus"));
 					String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNum(n);
@@ -187,7 +167,6 @@ public class DtjkElevatorAction extends DispatchAction{
 					list.add(elevator);
 					
 				}
-				
 				request.setAttribute("registerid", registerid);
 				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("useUnitName", useUnitName);
@@ -235,32 +214,12 @@ public class DtjkElevatorAction extends DispatchAction{
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and registerid like '%"+registerid+"%'";
-		}
-		if(distinguishid!=null&&!distinguishid.equals("")){
-			hql+=" and distinguishid like '%"+distinguishid+"%'";
-		}
-		if(useUnitName!=null&&!useUnitName.equals("")){
-			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
-		}
-		if(brand!=null&&!brand.equals("")){
-			hql+=" and brand like '%"+brand+"%'";
-		}
-		if(numbers!=null&&!numbers.equals("")){
-			hql+=" and numbers like '%"+numbers+"%'";
-		}
-		hql+="order by id ";
-		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
 		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(DtjkElevators.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<DtjkElevator> list=null;
@@ -290,7 +249,8 @@ public class DtjkElevatorAction extends DispatchAction{
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkElevator>();
@@ -360,32 +320,11 @@ public class DtjkElevatorAction extends DispatchAction{
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and registerid like '%"+registerid+"%'";
-		}
-		if(distinguishid!=null&&!distinguishid.equals("")){
-			hql+=" and distinguishid like '%"+distinguishid+"%'";
-		}
-		if(useUnitName!=null&&!useUnitName.equals("")){
-			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
-		}
-		if(brand!=null&&!brand.equals("")){
-			hql+=" and brand like '%"+brand+"%'";
-		}
-		if(numbers!=null&&!numbers.equals("")){
-			hql+=" and numbers like '%"+numbers+"%'";
-		}
-		hql+="order by id ";
-		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
-		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(DtjkElevators.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<DtjkElevator> list=null;
@@ -415,7 +354,8 @@ public class DtjkElevatorAction extends DispatchAction{
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkElevator>();
@@ -489,32 +429,11 @@ public class DtjkElevatorAction extends DispatchAction{
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and registerid like '%"+registerid+"%'";
-		}
-		if(distinguishid!=null&&!distinguishid.equals("")){
-			hql+=" and distinguishid like '%"+distinguishid+"%'";
-		}
-		if(useUnitName!=null&&!useUnitName.equals("")){
-			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
-		}
-		if(brand!=null&&!brand.equals("")){
-			hql+=" and brand like '%"+brand+"%'";
-		}
-		if(numbers!=null&&!numbers.equals("")){
-			hql+=" and numbers like '%"+numbers+"%'";
-		}
-		hql+="order by id ";
-		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
-		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(DtjkElevators.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<DtjkElevator> list=null;
@@ -544,7 +463,8 @@ public class DtjkElevatorAction extends DispatchAction{
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkElevator>();
@@ -602,6 +522,8 @@ public class DtjkElevatorAction extends DispatchAction{
 			return	new ActionForward("/jsp/dtjk/elevator/updateElevator.jsp");
 		}else if(flag.equals("3")){
 			return	new ActionForward("/jsp/dtjk/period/period.jsp");
+		}else if(flag.equals("4")){
+			return	new ActionForward("/jsp/dtjk/elevator/flow.jsp");
 		}else{
 			return	new ActionForward("/jsp/dtjk/elevator/detailElevator.jsp");
 		}
@@ -690,7 +612,35 @@ public class DtjkElevatorAction extends DispatchAction{
 		return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	
-	
+	/**
+	 * 修改电梯 流量
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  updateFlow(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		String flowStart=request.getParameter("flowStart");
+		String flowEnd=request.getParameter("flowEnd");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		DtjkFrom DtjkFrom=(DtjkFrom)form;
+		DtjkElevator elevator =DtjkFrom.getElevator();
+		DtjkElevator entity =elevatorService.get(elevator.getId());
+		
+		if(entity.getId()!=null){
+			entity.setFlowTotal(elevator.getFlowTotal());
+			entity.setFlowNum(elevator.getFlowNum());
+			entity.setFlowSurplus(elevator.getFlowSurplus());
+			if(flowStart!=null&&!flowStart.equals("") )
+				entity.setFlowStart(df.parse(flowStart));
+			if(flowEnd!=null&&!flowEnd.equals("") )
+				entity.setFlowEnd(df.parse(flowEnd));
+			elevatorService.update(entity);
+		}
+		
+		return	new ActionForward("/elevatorAction.do?method=query");
+	}
 	
 	/**
 	 * 删除电梯

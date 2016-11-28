@@ -118,5 +118,21 @@
         <property name="period" type="java.lang.String">
             <column name="PERIOD" length="200" />
         </property>
+        
+        <property name="flowStart" type="java.util.Date">
+            <column name="FLOW_START" length="7" />
+        </property>
+        <property name="flowEnd" type="java.util.Date">
+            <column name="FLOW_END" length="7" />
+        </property>
+        <property name="flowTotal" type="java.lang.String">
+            <column name="FLOW_TOTAL" length="200" />
+        </property>
+        <property name="flowNum" type="java.lang.String">
+            <column name="FLOW_NUM" length="200" />
+        </property>
+        <property name="flowSurplus" type="java.lang.String">
+            <column name="FLOW_SURPLUS" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

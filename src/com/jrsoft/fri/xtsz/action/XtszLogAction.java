@@ -66,26 +66,12 @@ public class XtszLogAction extends DispatchAction {
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(username!=null&&!username.equals("")){
-			hql+=" and userName like '%"+username+"%'";
-		}
-		if(begintime!=null&&!begintime.equals("")){
-			hql+=" and foundTime  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
-		}
-		if(endtime!=null&&!endtime.equals("")){
-			hql+=" and foundTime  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
-		}
-		hql+="order by foundTime desc ";
-		List<XtszLog> DtjkElevators=logService.queryAll(hql);
 		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(DtjkElevators.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<XtszLog> list=null;
@@ -104,7 +90,8 @@ public class XtszLogAction extends DispatchAction {
 				}
 				sql+=" order by de.found_Time desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<XtszLog>();

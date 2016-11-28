@@ -22,6 +22,7 @@ import org.apache.struts.actions.DispatchAction;
 
 import smart.sys.platform.dao.DBEntity;
 
+import com.jrsoft.fri.common.utils.StringUtils;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
@@ -50,6 +51,10 @@ public class XtglUsersAction extends DispatchAction {
 			throws Exception {
 		XtglForm XtglFrom=(XtglForm)form;
 		XtglUsers elevator =XtglFrom.getUsers();
+		if(elevator.getPassword()!=null&&!elevator.getPassword().equals("")){
+			elevator.setPassword(StringUtils.encodeBase64(elevator.getPassword()));
+		}
+		
 		if(elevator.getProvince().equals("全选择")){
 			elevator.setProvince("");
 		}
@@ -94,27 +99,11 @@ public class XtglUsersAction extends DispatchAction {
 		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(name!=null&&!name.equals("")){
-			hql+=" and name like '%"+name+"%'";
-		}
-		if(unit!=null&&!unit.equals("")){
-			hql+=" and unit like '%"+unit+"%'";
-		}
-		if(province!=null&&!province.equals("")&&!province.equals("请选择")){
-			hql+=" and province like '%"+province+"%'";
-		}
-		if(city!=null&&!city.equals("")&&!city.equals("请选择")){
-			hql+=" and city like '%"+city+"%'";
-		}
-		hql+="order by id ";
-		List<XtglUsers> XtglUserss=usersService.queryAll(hql);
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(XtglUserss.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<XtglUsers> list=null;
@@ -137,7 +126,8 @@ public class XtglUsersAction extends DispatchAction {
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<XtglUsers>();
@@ -204,6 +194,10 @@ public class XtglUsersAction extends DispatchAction {
 			elevator.setUnit(unit.getUnit());
 			elevator.setProvince(unit.getProvince());
 			elevator.setCity(unit.getCity());
+			if(elevator.getPassword()!=null&&!elevator.getPassword().equals("")){
+				elevator.setPassword(StringUtils.encodeBase64(elevator.getPassword()));
+			}
+			
 			if(elevator.getProvince().equals("全选择")){
 				elevator.setProvince("");
 			}

@@ -62,7 +62,7 @@ public class DtjkRecordAction extends DispatchAction {
 			DtjkRecord records=record.get(0);
 			request.setAttribute("records", records);
 		}
-		if(flag.equals("1"))
+		if(flag.equals("1")&&flag!=null)
 			return	new ActionForward("/jsp/dtjk/monitor/left.jsp");
 		else
 			return	new ActionForward("/jsp/dtjk/monitor/monitorDetail.jsp");
@@ -98,30 +98,12 @@ public class DtjkRecordAction extends DispatchAction {
 		 }
 
 		Page  page=new Page();
-		String sql1="select  count(de.id)  from dtjk_record de  where  1=1 " ;
-		if(elevatorId!=null&&!elevatorId.equals("")){
-			sql1+=" and elevator_Id = '"+elevatorId+"'";
-		}
-		if(direction!=null&&!direction.equals("")){
-			sql1+=" and direction = '"+direction+"'";
-		}
-		if(people!=null&&!people.equals("")){
-			sql1+=" and people = '"+people+"'";
-		}
-		if(door!=null&&!door.equals("")){
-			sql1+=" and door = '"+door+"'";
-		}
-		sql1+=" order by de.found_time desc  ";	
-		int siz=	DBEntity.getInstance().queryDataCount(sql1);
-		
-		
 		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(siz);//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<DtjkRecord> list=null;
@@ -142,8 +124,9 @@ public class DtjkRecordAction extends DispatchAction {
 					sql+=" and door = '"+door+"'";
 				}
 				sql+=" order by de.found_time desc  ";	
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				String sql2="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
 				PreparedStatement sta = conn.prepareStatement(sql2);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkRecord>();

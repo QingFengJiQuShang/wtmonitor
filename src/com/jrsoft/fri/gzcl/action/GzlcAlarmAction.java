@@ -103,26 +103,12 @@ public class GzlcAlarmAction  extends DispatchAction {
 		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and elevatorId.registerid like '%"+registerid+"%'";
-		}
-		if(place!=null&&!place.equals("")){
-			hql+=" and elevatorId.installPlace like '%"+place+"%'";
-		}
-		if(time!=null&&!time.equals("")){
-			hql+=" and time  =to_date('" + time+ "','yyyy-MM-dd')";
-		}
-		hql+="order by time desc ";
-		List<GzlcAlarm> GzlcAlarms=alarmService.queryAll(hql);
-		
 		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(GzlcAlarms.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<GzlcAlarm> list=null;
@@ -143,6 +129,8 @@ public class GzlcAlarmAction  extends DispatchAction {
 					sql+=" and de.time  =to_date('" + time+ "','yyyy-MM-dd')";
 				}
 				sql+=" order by de.time desc";	
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				
 				PreparedStatement sta = conn.prepareStatement(sql1);

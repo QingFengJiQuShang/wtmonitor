@@ -241,8 +241,8 @@
 		
 	}	
 	  //编辑
-		  function findById(id){
-    		  window.location.href="<%=path %>/recordAction.do?method=findByMonitor&id="+id;
+		  function findById(id,flag){
+    		  window.location.href="<%=path %>/recordAction.do?method=findByMonitor&id="+id+"&flag=0";
          }
 	  
 	  //区域
