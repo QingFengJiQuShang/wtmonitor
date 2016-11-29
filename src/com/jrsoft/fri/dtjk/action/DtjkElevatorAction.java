@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -70,6 +71,20 @@ public class DtjkElevatorAction extends DispatchAction{
 		elevatorService.save(elevator);
 	    return	new ActionForward("/elevatorAction.do?method=query");
 	}
+	
+	/**
+	 * 判断电梯是否离线
+	 * @throws Exception 
+	 */
+	public void judge( ) throws Exception{
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.MINUTE, -10);							//10分钟前
+		String sql="update DTJK_ELEVATOR set   state='离线' where state='正常' and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss') ) ";
+		DBEntity.getInstance().executeSql(sql);
+		
+	}
 	/**
 	 * 查询 电梯列表
 	 * @param request
@@ -86,6 +101,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		String brand=request.getParameter("brand");
 		String numbers=request.getParameter("numbers");
 		
+		 judge( ) ;	//判断电梯是否离线
 		 if(registerid!=null){
 			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
 		 }

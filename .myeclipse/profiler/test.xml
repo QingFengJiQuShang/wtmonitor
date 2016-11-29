@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="profiler.settings.instrument.empty.methods">true</entry>
+<entry key="ProfilerCPUSettings_profile_runnables">true</entry>
+<entry key="ProfilerCPUSettings_filter_type">2</entry>
+<entry key="ProfilerMemorySettings_track_every">10</entry>
+<entry key="ProfilerMemorySettings_mode">4</entry>
+<entry key="ProfilerCPUSettings_root_classes">com.jrsoft.fri.common.core.action.**
+com.jrsoft.fri.common.core.bean.**
+com.jrsoft.fri.common.core.dao.**
+com.jrsoft.fri.common.core.form.**
+com.jrsoft.fri.common.core.service.**
+com.jrsoft.fri.common.exp.**
+com.jrsoft.fri.common.utils.**
+com.jrsoft.fri.cs.**
+com.jrsoft.fri.dtjk.action.**
+com.jrsoft.fri.dtjk.dao.**
+com.jrsoft.fri.dtjk.entity.**
+com.jrsoft.fri.dtjk.from.**
+com.jrsoft.fri.dtjk.service.**
+com.jrsoft.fri.gzcl.action.**
+com.jrsoft.fri.gzcl.dao.**
+com.jrsoft.fri.gzcl.entity.**
+com.jrsoft.fri.gzcl.from.**
+com.jrsoft.fri.gzcl.service.**
+com.jrsoft.fri.xtgl.action.**
+com.jrsoft.fri.xtgl.dao.**
+com.jrsoft.fri.xtgl.entity.**
+com.jrsoft.fri.xtgl.from.**
+com.jrsoft.fri.xtgl.service.**
+com.jrsoft.fri.xtsz.action.**
+com.jrsoft.fri.xtsz.dao.**
+com.jrsoft.fri.xtsz.entity.**
+com.jrsoft.fri.xtsz.from.**
+com.jrsoft.fri.xtsz.service.**
+smart.sys.log.csv.**
+smart.sys.log.log.action.**
+smart.sys.log.log.dao.**
+smart.sys.log.log.po.**
+smart.sys.log.log.service.**
+smart.sys.log.main.**
+smart.sys.platform.converters.**
+smart.sys.platform.dao.**
+smart.sys.platform.exception.**
+smart.sys.platform.export.**
+smart.sys.platform.filters.**
+smart.sys.platform.log.**
+smart.sys.platform.plugins.**
+smart.sys.platform.servlets.**
+smart.sys.platform.springUtils.**
+smart.sys.platform.utils.**
+tcpip.**
+</entry>
+<entry key="ProfilerCPUSettings_filter_value">com.jrsoft.fri.common.core.action.*,
+com.jrsoft.fri.common.core.bean.*,
+com.jrsoft.fri.common.core.dao.*,
+com.jrsoft.fri.common.core.form.*,
+com.jrsoft.fri.common.core.service.*,
+com.jrsoft.fri.common.exp.*,
+com.jrsoft.fri.common.utils.*,
+com.jrsoft.fri.cs.*,
+com.jrsoft.fri.dtjk.action.*,
+com.jrsoft.fri.dtjk.dao.*,
+com.jrsoft.fri.dtjk.entity.*,
+com.jrsoft.fri.dtjk.from.*,
+com.jrsoft.fri.dtjk.service.*,
+com.jrsoft.fri.gzcl.action.*,
+com.jrsoft.fri.gzcl.dao.*,
+com.jrsoft.fri.gzcl.entity.*,
+com.jrsoft.fri.gzcl.from.*,
+com.jrsoft.fri.gzcl.service.*,
+com.jrsoft.fri.xtgl.action.*,
+com.jrsoft.fri.xtgl.dao.*,
+com.jrsoft.fri.xtgl.entity.*,
+com.jrsoft.fri.xtgl.from.*,
+com.jrsoft.fri.xtgl.service.*,
+com.jrsoft.fri.xtsz.action.*,
+com.jrsoft.fri.xtsz.dao.*,
+com.jrsoft.fri.xtsz.entity.*,
+com.jrsoft.fri.xtsz.from.*,
+com.jrsoft.fri.xtsz.service.*,
+smart.sys.log.csv.*,
+smart.sys.log.log.action.*,
+smart.sys.log.log.dao.*,
+smart.sys.log.log.po.*,
+smart.sys.log.log.service.*,
+smart.sys.log.main.*,
+smart.sys.platform.converters.*,
+smart.sys.platform.dao.*,
+smart.sys.platform.exception.*,
+smart.sys.platform.export.*,
+smart.sys.platform.filters.*,
+smart.sys.platform.log.*,
+smart.sys.platform.plugins.*,
+smart.sys.platform.servlets.*,
+smart.sys.platform.springUtils.*,
+smart.sys.platform.utils.*,
+tcpip.*</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">true</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+<entry key="ProfilerMemorySettings_stacktraces">-1</entry>
+</properties>

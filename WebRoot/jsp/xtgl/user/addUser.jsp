@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="logn">登录名&nbsp;:&nbsp;</label>
-						<input type="text" id="logn"  name="users.loginname"  />
+						<input type="text" id="logn"  name="users.loginname"  onblur="skip();" />
 					</p>
 					<p class="fill">
 						<label for="password">密码&nbsp;:&nbsp;</label>

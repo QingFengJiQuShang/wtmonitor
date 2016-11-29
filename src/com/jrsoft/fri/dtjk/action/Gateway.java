@@ -6,6 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
 import smart.sys.platform.springUtils.SpringBeanUtil;
 import tcpip.byteUtil;
 
@@ -111,11 +114,12 @@ public class Gateway {
         byteUtil util=new byteUtil();
         String str = util.BytesHexString(buffer);
         System.out.println(str);
-        Log logAction=new Log();
-        XtszLog log=new XtszLog();
-        log.setFoundTime(new Date());
-        log.setUserName("电梯终端");
-        
+        //判断命令长度
+        if(length(str)){
+        	Log logAction=new Log();
+            XtszLog log=new XtszLog();
+            log.setFoundTime(new Date());
+            log.setUserName("电梯终端");
         	DtjkGateway gateway=new DtjkGateway();   //终端静态记录
     		DtjkRecord record=new DtjkRecord();     //终端上报记录
     		Ask ask=new Ask();     				//请求命令
@@ -161,6 +165,18 @@ public class Gateway {
     			//保存 上报的运行数据
     			recordService.save(record);
     			
+    			String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
+				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+				//修改 电梯上报时间
+				if(elevators.size()>0){
+    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
+    				entity.setReportTime(new Date());
+    				//修改电梯离线状态为正常状态
+    				if(entity.getState().equals("离线")){
+    					entity.setState("正常");
+    				}
+    				elevatorService.update(entity);
+				}
     			//维保人员不为空时，生成维保记录
     			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("检修中")){
     				DtjkMaintenanceRecords records=new DtjkMaintenanceRecords();
@@ -176,8 +192,7 @@ public class Gateway {
     					records.setUserId(null);//维保人id
     					records.setUnitId(null);//维保单位id
     				}
-    				String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
-    				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+    				
     				if(elevators.size()>0){
     					records.setUseUnitId(elevators.get(0).getUseUnitId());//使用单位id
     					records.setElevatorId(elevators.get(0));//维保电梯Id
@@ -193,10 +208,9 @@ public class Gateway {
     				}
     				recordsService.save(records);
     			}
-    			
+    			//维保人员不为空时，
     			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("正常")){
-    				String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
-    				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+    				
     				if(elevators.size()>0){
 	    				//修改电梯的维保状态和维保时间
 	    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
@@ -248,7 +262,11 @@ public class Gateway {
     				gatewayService.update(gateway);
     				
     			}
-    			
+    			 try {
+					 os.write("e00101e0".getBytes());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
     		}  else if(type.equalsIgnoreCase("21")){    //报警
     			
     			 
@@ -275,7 +293,7 @@ public class Gateway {
     				 }
     				 System.out.println(people);
     				 String floor  =str.substring(76,78); //楼层
-    				 floor="	当前楼层："+ Integer.parseInt(floor,16);
+    				 floor="	当前楼层："+  (byte)Integer.parseInt(floor,16);
     				 System.out.println(floor);				 
     				 
     				 String door  =str.substring(78,80); // 门
@@ -344,7 +362,7 @@ public class Gateway {
     			//生成发送命令
     			String elevatorIds=str.substring(8,48); 
     			String serialNumbers=str.substring(48,70); 
-    			 SimpleDateFormat df=new SimpleDateFormat("yyyyMMdd");
+    			 SimpleDateFormat df=new SimpleDateFormat("yyMMdd");
     			 SimpleDateFormat df1=new SimpleDateFormat("HHmmss");
     			 String date="";
     			 String m="1140"+elevatorIds+serialNumbers;
@@ -429,7 +447,7 @@ public class Gateway {
 		    		     		}
 	    	    			 }
     			 }
-    			String len=Integer.toHexString(m.length());
+    			String len=Integer.toHexString(m.length()/2);
     			m="e0"+len+m+"f0";
     			System.out.println("发送请求命令："+m);
        			os.write(m.getBytes());
@@ -442,6 +460,11 @@ public class Gateway {
     				e.printStackTrace();
     			}
     		}
+        }else{
+        	 System.out.println("长度错误：e0031102f0");
+			 os.write("e0031102f0".getBytes());
+        }
+        	
        
 		
 	
@@ -498,7 +521,7 @@ public class Gateway {
 		  for( int i=0; i<hex.length()-1; i+=2 ){
 		      String output = hex.substring(i, (i + 2));
 		      int decimal = Integer.parseInt(output);
-		      if(decimal>9){
+		      if(decimal>15){
 		    	  temp.append(Integer.toHexString(decimal)); 
 		      }else{
 		    	  temp.append("0"+Integer.toHexString(decimal));
@@ -624,7 +647,9 @@ public class Gateway {
 		}
 		 //当前楼层
 		if(command.equalsIgnoreCase("33")){
-			int floor=Integer.parseInt(content, 16);
+			int floor = (byte) Integer.parseInt(content, 16); 
+			if(floor<=0)
+				floor=floor-1;
 			record.setFloor(Integer.toString(floor));
 			System.out.println("当前楼层："+floor);
 		}
@@ -812,4 +837,21 @@ public class Gateway {
 
 		  return temp.toString();
 	 }
+	
+	 
+	//判断命令长度
+	 public static  Boolean length(String hex){
+		 String str=null;
+		 str=StringUtils.substringBetween(hex,"e0","f0" );
+		 String length=str.substring(0, 2);
+		 str=str.substring(2);
+		 int len=Integer.parseInt(length, 16)*2;
+		 if(len==str.length()){
+			 return true;
+		 }else{
+			 return false;
+		 }
+		 
+	 }
+	 
 }

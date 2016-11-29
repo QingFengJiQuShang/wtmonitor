@@ -46,9 +46,10 @@ public class IndexAction  extends DispatchAction{
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
-		
+		 judge( );
 		//正常电梯数量
-		String hql=" where  1=1 and state='正常' and userid.id='"+user.getId()+"' " ;
+		String hql=" where  1=1 and state='正常' " ;
+			//	"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators=elevatorService.queryAll(hql);
 		String str="[";
 		int i=0;
@@ -65,7 +66,8 @@ public class IndexAction  extends DispatchAction{
 		request.setAttribute("str", str);
 		
 		//故障电梯数量
-		String hql1=" where  1=1 and state='故障' and userid.id='"+user.getId()+"' " ;
+		String hql1=" where  1=1 and state='故障' " ;
+				//"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators1=elevatorService.queryAll(hql1);
 		String str1="[";
 		 i=0;
@@ -74,14 +76,15 @@ public class IndexAction  extends DispatchAction{
 				String [] label=elevator.getLabel().split(",");
 				str1+="["+label[0]+","+label[1]+"]";
 				i++;
-				if(i!=elevators.size())
+				if(i!=elevators1.size())
 					str1+=",";
 			}
 		}
 		str1+="]";
 		request.setAttribute("str1", str1);
 		//离线电梯数量
-		String hql2=" where  1=1 and state='离线' and userid.id='"+user.getId()+"' " ;
+		String hql2=" where  1=1 and state='离线' " ;
+				//"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators2=elevatorService.queryAll(hql2);
 		String str2="[";
 		 i=0;
@@ -90,7 +93,7 @@ public class IndexAction  extends DispatchAction{
 				String [] label=elevator.getLabel().split(",");
 				str2+="["+label[0]+","+label[1]+"]";
 				i++;
-				if(i!=elevators.size())
+				if(i!=elevators2.size())
 					str2+=",";
 			}
 		}
@@ -100,9 +103,9 @@ public class IndexAction  extends DispatchAction{
 		//正常电梯数量
 		index.setNormalNum(elevators.size());
 		//离线电梯数量
-		index.setOffLineNum(elevators1.size());
+		index.setOffLineNum(elevators2.size());
 		//故障电梯数量
-		index.setFaultNum(elevators2.size());
+		index.setFaultNum(elevators1.size());
 		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar c = Calendar.getInstance();
@@ -146,6 +149,18 @@ public class IndexAction  extends DispatchAction{
 		JsonUtil.ajaxOutPutJson(response, cell);
 	}
 	
-	
+	/**
+	 * 判断电梯是否离线
+	 * @throws Exception 
+	 */
+	public void judge( ) throws Exception{
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		c.add(Calendar.MINUTE, -10);							//10分钟前
+		String sql="update DTJK_ELEVATOR set   state='离线' where state='正常' and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss') ) ";
+		DBEntity.getInstance().executeSql(sql);
+		
+	}
 	
 }

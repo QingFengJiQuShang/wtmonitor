@@ -134,5 +134,8 @@
         <property name="flowSurplus" type="java.lang.String">
             <column name="FLOW_SURPLUS" length="200" />
         </property>
+        <property name="reportTime" type="java.util.Date">
+            <column name="REPORT_TIME" length="7" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -108,7 +108,7 @@ function toMain(flag){
 			   window.main.location="<%=path%>/logAction.do?method=query";
 		   }
 		   if(flag==62){
-			   window.main.location="<%=path%>/jsp/xtsz/help/help.jsp";
+			   window.main.location="<%=path%>/jsp/xtsz/help/addHelp.jsp";
 		   }
 		   if(flag==63){
 			   window.main.location="<%=path%>/jsp/xtsz/message/messageList.jsp";
@@ -236,8 +236,6 @@ function toMain(flag){
 		</audio>
 
 </audio>
-		<div class="bottom"><a target="_blank" href="http://blog.csdn.net/sohighthesky/archive/2009/11/10/4795886.aspx">查看</a>
-		</div>
 	</div>
 	<!--sheyMsg end-->
 	</body>
@@ -306,6 +304,7 @@ var g=function(id){return document.getElementById(id)};
 		
 	}
 	
+	  
 	</script>
 
 </html>

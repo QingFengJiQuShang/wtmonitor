@@ -34,11 +34,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table_con">
 					<p class="fill">
 						<label for="name">用户名&nbsp;:&nbsp;</label>
+						<input type="hidden" id="name" name="users.id"  value="${list.id}"  />	
 						<input type="text" id="name" name="users.name"  value="${list.name}"  />
 					</p>
 					<p class="fill">
 						<label for="logn">登录名&nbsp;:&nbsp;</label>
-						<input type="text" id="logn"  name="users.loginname"    value="${list.loginname}" />
+						<input type="hidden" id="logn1"   value="${list.loginname}"   />
+						<input type="text" id="logn"  name="users.loginname"    value="${list.loginname}"  onblur="skip1();" />
 					</p>
 					<p class="fill">
 						<label for="password">密码&nbsp;:&nbsp;</label>

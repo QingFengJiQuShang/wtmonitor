@@ -33,7 +33,9 @@
 		if(labe!=""){
 			var lab=labe.split(",");
 			map.centerAndZoom(new BMap.Point(lab[0], lab[1]), 14);
+			var markers = new BMap.Marker(new BMap.Point(lab[0], lab[1])); //lng为经度,lat为纬度 
 			map.enableScrollWheelZoom(true);
+			map.addOverlay(markers);
 		}else{
 			var geolocation = new BMap.Geolocation();
 			geolocation.getCurrentPosition(function(r){
@@ -45,7 +47,6 @@
 					
 					var point = new BMap.Point(r.point.lng,r.point.lat);
 					map.centerAndZoom(point,12);
-					
 					var geoc = new BMap.Geocoder();    
 					
 					geoc.getLocation(point, function(rs){

@@ -41,6 +41,16 @@ public class ServerInputThread  extends Thread
         	e.printStackTrace();
         	//run();
         } catch (Exception e) {
+        	 OutputStream os;
+			try {
+				os = socket.getOutputStream();
+				System.out.println("√¸¡Ó¥ÌŒÛ£∫e0021102f0");
+				 os.write("e0021102f0".getBytes());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
         	e.printStackTrace();
         	run();
 		}

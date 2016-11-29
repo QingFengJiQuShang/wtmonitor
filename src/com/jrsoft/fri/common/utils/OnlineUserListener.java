@@ -15,7 +15,8 @@ public class OnlineUserListener implements HttpSessionListener {
 	public void sessionCreated(HttpSessionEvent se) {
 		// TODO Auto-generated method stub
 		System.out.println("kaishi---------------------------");
-		se.getSession().setMaxInactiveInterval(1200);//单位是苗
+		se.getSession().setMaxInactiveInterval(-1);//单位是苗
+		//se.getSession().setMaxInactiveInterval(1200);//单位是苗
 		//session.setMaxInactiveInterval(int i) 
 		
 	}

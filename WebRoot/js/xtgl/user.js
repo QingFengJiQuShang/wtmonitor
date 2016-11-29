@@ -48,9 +48,7 @@
 			 
     		  window.location.href="usersAction.do?method=export"+gotoUrl ();
          }
-		  
-		  
-		  
+		 
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";

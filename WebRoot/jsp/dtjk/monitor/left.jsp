@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 function myrefresh(){
 			window.location.reload();
 		}
-		setTimeout('myrefresh()',30000); //指定30秒刷新一次s
+		setTimeout('myrefresh()',10000); //指定10秒刷新一次s
 </script>
 	<body>
 			<c:if test="${!empty records }">

@@ -2,7 +2,44 @@ $(".manage").click(function() {
 	$(this).children("i").toggleClass("jia");
 	$(this).next().toggle()
 })
-
+ //新增用户时 判断用户名是否存在
+		  function skip(){
+			var loginname=document.getElementById("logn").value;
+			$.ajax({
+					     mtype:'post',
+			             url: "usersAction.do?method=onlyUser",
+			             data: {"loginname":loginname},
+			             dataType: "text",
+			             success: function(data){
+			                       if(data==0) {
+			                    	   alert("该用户名已存在，请重新输入！");
+			                    	   $("#logn").focus();
+			                      }
+			               }
+			    });
+	}
+		  
+//修改用户时，判断用户名是否存在
+		  function skip1(){
+			 var loginname1=document.getElementById("logn1").value;
+			var loginname=document.getElementById("logn").value;
+			if(loginname!=loginname1){
+				$.ajax({
+					     mtype:'post',
+			             url: "usersAction.do?method=onlyUser",
+			             data: {"loginname":loginname},
+			             dataType: "text",
+			             success: function(data){
+			                       if(data==0) {
+			                    	   alert("该用户名已存在，请重新输入！");
+			                    	   $("#logn").focus();
+			                      }
+			               }
+			    });
+			}
+			
+	}
+		  
 //用户管理
 $("input[name=selected]").click(function() {
 	var sure = $(this).prop("checked");

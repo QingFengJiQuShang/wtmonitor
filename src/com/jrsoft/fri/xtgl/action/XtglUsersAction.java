@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,17 +12,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-
 import smart.sys.platform.dao.DBEntity;
-
 import com.jrsoft.fri.common.utils.StringUtils;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
@@ -39,7 +36,35 @@ public class XtglUsersAction extends DispatchAction {
 	public void setUsersService(XtglUsersService usersService) {
 		this.usersService = usersService;
 	}
-	
+	/**
+	   * 验证 判断登录名唯一
+	   * @param request
+	   * @param respons
+	   * @param productList
+	   * @param productSeries
+	   * @param productImageList
+	 * @throws Exception 
+	   */
+		public void onlyUser(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception{
+			
+			String loginname=request.getParameter("loginname");   //用户名
+				//生成联系人编号
+				String hql=" where 1=1 and   loginname = '"+loginname+"'  order by id asc ";
+				List<XtglUsers> content=usersService.query(hql);	
+				PrintWriter out;
+				try {
+					if(content.size()>0){
+						out = response.getWriter();
+						out.write("0"); 
+					}else{
+						out = response.getWriter();
+						out.write("1"); 
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	}
 	/**
 	 * 新增 系统用户信息
 	 * @param request
@@ -166,6 +191,8 @@ public class XtglUsersAction extends DispatchAction {
 		String id=request.getParameter("id");
 		String flag=request.getParameter("flag");
 		XtglUsers list=usersService.get(Long.parseLong(id));
+		String password=StringUtils.decodeBase64(list.getPassword());
+		list.setPassword(password);
 		request.setAttribute("list", list);
 		if(flag.equals("1")){
 			return	new ActionForward("/jsp/xtgl/user/update.jsp");
@@ -194,8 +221,8 @@ public class XtglUsersAction extends DispatchAction {
 			elevator.setUnit(unit.getUnit());
 			elevator.setProvince(unit.getProvince());
 			elevator.setCity(unit.getCity());
-			if(elevator.getPassword()!=null&&!elevator.getPassword().equals("")){
-				elevator.setPassword(StringUtils.encodeBase64(elevator.getPassword()));
+			if(unit.getPassword()!=null&&!unit.getPassword().equals("")){
+				elevator.setPassword(StringUtils.encodeBase64(unit.getPassword()));
 			}
 			
 			if(elevator.getProvince().equals("全选择")){
