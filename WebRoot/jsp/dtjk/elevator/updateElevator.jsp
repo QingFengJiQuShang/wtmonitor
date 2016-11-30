@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="hidden"  id="id"  name="elevator.id"  value="${list.id}"  />
 						<input type="hidden"  id="userid"  name="elevator.userid.id"   value="${list.userid.id}"  />
 						<input type="hidden"  id="gatewayId"  name="elevator.gatewayId.id"   value="${list.gatewayId.id}"  />
-						<input type="text"  placeholder="请输入"  id="registerid"  name="elevator.registerid"   value="${list.registerid}" />
+						<input type="text"  placeholder="请输入"  id="registerid"  name="elevator.registerid"   value="${list.registerid}" onblur="skip();"/>
 					</p>
 					<p>
 						<label for="style">类型&nbsp;:&nbsp;</label>
@@ -239,5 +239,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 		});
 	});
+      
+       //新增电梯时 判断电梯注册号是否存在
+		  function skip(){
+				var registerid=document.getElementById("registerid").value;
+				if(submit(registerid)==true){
+					$.ajax({
+						     mtype:'post',
+				             url: "elevatorAction.do?method=onlyRegisterid",
+				             data: {"registerid":registerid},
+				             dataType: "text",
+				             success: function(data){
+				                       if(data==0) {
+				                    	   alert("该电梯注册号已存在，请重新输入！");
+				                    	   $("#registerid").focus();
+				                      }
+				               }
+				    });
+				}
+	}
+		 function submit(registerid){
+				if(registerid.length!=20&&registerid!=""){
+					alert("电梯注册号长度为20位，请重新输入！");
+					$("#registerid").focus();
+					return false;
+				}
+				return true;
+		 }
      </script>
 </html>

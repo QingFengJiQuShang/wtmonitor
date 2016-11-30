@@ -238,22 +238,22 @@ showNameRelDate=function(beginDate,endDate,title){
 /** 重置modDialog高度 **/
 reSetHeight=function(){
 	var height = $(window.document).height();
-	$('#modDialog',window.parent.document).height(height+20);
+	$('#main',window.parent.document).height(height+20);
 }
 /** 重置modDialog高度 **/
 reSetHeight1=function(){
 	var height = $(window.document).height();
-	$('#modDialog',window.parent.document).height(height-20);
+	$('#main',window.parent.document).height(height-20);
 }
 /** 重置modDialog高度 **/
 reSetHeight2=function(){
 	var height = $(window.document).height();
-	$('#modDialog',window.parent.document).height(height+50);
+	$('#main',window.parent.document).height(height+50);
 }
 /** 重置modDialog高度 **/
 reSetHeight3=function(){
 	var height = $(window.document).height();
-	$('#modDialog',window.parent.document).height(height+3);
+	$('#main',window.parent.document).height(height+3);
 }
 
 //将阿拉伯数字转换成中国大写

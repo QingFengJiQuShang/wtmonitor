@@ -1,16 +1,11 @@
 package com.jrsoft.fri.xtgl.action;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,14 +15,16 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.common.utils.StringUtils;
-import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
+import com.jrsoft.fri.xtgl.entity.XtglAuthority;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
+import com.jrsoft.fri.xtgl.service.XtglAuthorityService;
 import com.jrsoft.fri.xtgl.service.XtglUsersService;
 
 public class XtglUsersAction extends DispatchAction {
 	private XtglUsersService usersService;
+	private XtglAuthorityService authorityService;
 
 	public XtglUsersService getUsersService() {
 		return usersService;
@@ -36,6 +33,15 @@ public class XtglUsersAction extends DispatchAction {
 	public void setUsersService(XtglUsersService usersService) {
 		this.usersService = usersService;
 	}
+	
+	public XtglAuthorityService getAuthorityService() {
+		return authorityService;
+	}
+
+	public void setAuthorityService(XtglAuthorityService authorityService) {
+		this.authorityService = authorityService;
+	}
+
 	/**
 	   * 验证 判断登录名唯一
 	   * @param request
@@ -61,7 +67,6 @@ public class XtglUsersAction extends DispatchAction {
 						out.write("1"); 
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	}
@@ -87,6 +92,17 @@ public class XtglUsersAction extends DispatchAction {
 			elevator.setCity("");
 		}
 		usersService.save(elevator);
+		//保存权限
+		String [] authority=request.getParameterValues("authority");
+		if(authority!=null){
+			for(String key:authority){
+				XtglAuthority xtglAuthority=new XtglAuthority();
+				xtglAuthority.setUsersId(elevator.getId());
+				xtglAuthority.setKey(key);
+				authorityService.save(xtglAuthority);
+			}
+		}
+		
 	    return	new ActionForward("/usersAction.do?method=query");
 	}
 	/**
@@ -194,6 +210,11 @@ public class XtglUsersAction extends DispatchAction {
 		String password=StringUtils.decodeBase64(list.getPassword());
 		list.setPassword(password);
 		request.setAttribute("list", list);
+		
+		String hql=" where 1=1 and usersId='"+id+"' ";
+		List<XtglAuthority> authority=authorityService.query(hql);
+		request.setAttribute("authority", authority);
+		
 		if(flag.equals("1")){
 			return	new ActionForward("/jsp/xtgl/user/update.jsp");
 		}else{

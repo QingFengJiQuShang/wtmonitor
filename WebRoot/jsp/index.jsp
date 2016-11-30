@@ -256,7 +256,9 @@ function toMain(flag){
 var g=function(id){return document.getElementById(id)};
 
 	setInterval('push()',10000); //指定30秒刷新一次s
+
 	function push (){
+		<%if(user!=null ){%>
 		$.ajax({
 				 mtype:'post',
 				 url: '<%=path%>/pushAction.do?method=push',
@@ -273,7 +275,7 @@ var g=function(id){return document.getElementById(id)};
 									msg.hide();
 								}
 				        	  document.getElementById('pushId').value=json[0].id;
-				         	  document.getElementById('news').innerHTML ="注册号："+json[0].registerid+"<br/>识别码："+json[0].distinguishid+"<br/>安装地址："+json[0].installPlace+"<br/>"+json[0].faultType+"<br/>";
+				         	  document.getElementById('news').innerHTML ="注册号："+json[0].registerid+"<br/>识别码："+json[0].distinguishid+"<br/>安装地址："+json[0].installPlace+"<br/>"+json[0].faultType+"<br/><br/>";
 				          	  document.getElementById('music').play();		//开始播放
 				          }
 				          
@@ -283,7 +285,7 @@ var g=function(id){return document.getElementById(id)};
 					}
 		 });
 		
-		
+		<%}%>
 	}
 								
 	function clsoePush (){

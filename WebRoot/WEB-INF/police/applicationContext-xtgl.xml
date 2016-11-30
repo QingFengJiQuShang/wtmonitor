@@ -10,6 +10,7 @@
 <!-- 系统用户 -->
 	<bean name="/usersAction" class="com.jrsoft.fri.xtgl.action.XtglUsersAction">
 		<property name="usersService" ref="usersService" />
+		<property name="authorityService"  ref="authorityService" />
 	</bean>
 	<bean id="usersService" class="com.jrsoft.fri.xtgl.service.XtglUsersServiceImpl">
 		<property name="usersDao"  ref="usersDao" />
@@ -67,5 +68,15 @@
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
     <!-- 救援单位 -->
+    
+    	<!-- 系统权限 -->
+	
+	<bean id="authorityService" class="com.jrsoft.fri.xtgl.service.XtglAuthorityServiceImpl">
+		<property name="authorityDao"  ref="authorityDao" />
+	</bean>
+	<bean id="authorityDao" class="com.jrsoft.fri.xtgl.dao.XtglAuthorityDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 系统权限 -->
 	
 	</beans>

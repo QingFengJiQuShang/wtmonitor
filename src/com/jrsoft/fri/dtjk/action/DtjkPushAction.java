@@ -25,6 +25,7 @@ import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkMaintenanceRecords;
 import com.jrsoft.fri.dtjk.entity.DtjkPush;
 import com.jrsoft.fri.dtjk.service.DtjkPushService;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 
 public class DtjkPushAction  extends DispatchAction{
 	
@@ -45,23 +46,28 @@ public class DtjkPushAction  extends DispatchAction{
 	 */
 	public void push(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response ){
 		System.out.println("报警提醒");
-		String hql=" where  1=1 and flag!='2'  " ;
-		List<DtjkPush> elevators=pushService.queryAll(hql);
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		JSONArray rows = new JSONArray();
-		
-		if(elevators.size()>0){
-			JSONObject cell = new JSONObject();
-			DtjkPush elevator=elevators.get(0);
-			cell.put("id", elevator.getId());		//电梯id
-			cell.put("registerid", elevator.getRegisterid()==null?"":elevator.getRegisterid());		//电梯注册号
-			cell.put("distinguishid", elevator.getDistinguishid()==null?"":elevator.getDistinguishid());		//识别码
-			cell.put("installPlace", elevator.getInstallPlace()==null?"":elevator.getInstallPlace());		//安装地点
-			cell.put("faultType", elevator.getFaultType()==null?"":elevator.getFaultType());		//故障类型
-			//修改提醒状态
-			elevator.setFlag("1");
-			pushService.update(elevator);
-			rows.add(cell);
+		if(user!=null){
+
+			String hql=" where  1=1 and flag!='2'  " ;
+			List<DtjkPush> elevators=pushService.queryAll(hql);
+			if(elevators.size()>0){
+				JSONObject cell = new JSONObject();
+				DtjkPush elevator=elevators.get(0);
+				cell.put("id", elevator.getId());		//电梯id
+				cell.put("registerid", elevator.getRegisterid()==null?"":elevator.getRegisterid());		//电梯注册号
+				cell.put("distinguishid", elevator.getDistinguishid()==null?"":elevator.getDistinguishid());		//识别码
+				cell.put("installPlace", elevator.getInstallPlace()==null?"":elevator.getInstallPlace());		//安装地点
+				cell.put("faultType", elevator.getFaultType()==null?"":elevator.getFaultType());		//故障类型
+				//修改提醒状态
+				elevator.setFlag("1");
+				pushService.update(elevator);
+				rows.add(cell);
+			}
 		}
+		
+		
 		JsonUtil.ajaxOutPutJson(response, rows);
 	}
 	

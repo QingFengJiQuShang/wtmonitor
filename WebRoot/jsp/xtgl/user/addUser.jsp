@@ -63,45 +63,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="power" class="fl">权限管理&nbsp;:&nbsp;</label>
 						<div class="choose">
 							<div class="">
-								<p class="manage">用户权限分配 <i class="jia"></i></p>
+								<p class="manage">电梯监控权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<input type="checkbox" name="selected" class="selected" id="user_ll" value="1" />
-									<label for="user_ll">选择浏览</label>
-									<input type="checkbox" name="selected" id="user_xg" value="2" />
+									<input type="checkbox" name="authority" class="selected" id="selected" value="dtjk_check" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="authority" id="selected" value="dtjk_update" />
 									<label for="user_xg">修改</label> <br>
-									<input type="checkbox" name="selected" id="user_del" value="3" />
+									<input type="checkbox" name="authority" id="selected" value="dtjk_del" />
 									<label for="user_del">删除</label>
-									<input type="checkbox" name="selected" id="user_add" value="4" />
+									<input type="checkbox" name="authority" id="selected" value="dtjk_add" />
 									<label for="user_add">增加</label>
 									<input type="checkbox"  name="controlAll" id="controlAll" />
 									<label for="controlAll">全选</label>
 								</p>
 							</div>
 							<div class="">
-								<p class="manage">电梯监控权限分配 <i class="jia"></i></p>
+								<p class="manage">故障管理权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<input type="checkbox" name="selectedjk" class="selected" id="user_ll" value="1" />
-									<label for="user_ll">选择浏览</label>
-									<input type="checkbox" name="selectedjk" id="user_xg" value="2" />
+									<input type="checkbox" name="authority" class="selected" id="selectedjk" value="gzgl_check" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="authority" id="selectedjk" value="gzgl_update" />
 									<label for="user_xg">修改</label> <br>
-									<input type="checkbox" name="selectedjk" id="user_del" value="3" />
+									<input type="checkbox" name="authority" id="selectedjk" value="gzgl_del" />
 									<label for="user_del">删除</label>
-									<input type="checkbox" name="selectedjk" id="user_add" value="4" />
+									<input type="checkbox" name="authority" id="selectedjk" value="gzgl_add" />
 									<label for="user_add">增加</label>
-									<input type="checkbox"  name="controlAlljk" id="controlAlljk" />
+									<input type="checkbox"  id="controlAlljk" />
 									<label for="controlAll">全选</label>
 								</p>
 							</div>		
 							<div class="">
-								<p class="manage">故障管理权限分配 <i class="jia"></i></p>
+								<p class="manage">用户管理权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<input type="checkbox" name="selectedgz" class="selected" id="user_ll" value="1" />
-									<label for="user_ll">选择浏览</label>
-									<input type="checkbox" name="selectedgz" id="user_xg" value="2" />
+									<input type="checkbox" name="authority" class="selected" id="selectedgz" value="yhgl_check" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="authority" id="selectedgz" value="yhgl_update" />
 									<label for="user_xg">修改</label> <br>
-									<input type="checkbox" name="selectedgz" id="user_del" value="3" />
+									<input type="checkbox" name="authority" id="selectedgz" value="yhgl_del" />
 									<label for="user_del">删除</label>
-									<input type="checkbox" name="selectedgz" id="user_add" value="4" />
+									<input type="checkbox" name="authority" id="selectedgz" value="yhgl_add" />
 									<label for="user_add">增加</label>
 									<input type="checkbox"  name="controlAllgz" id="controlAllgz" />
 									<label for="controlAll">全选</label>
@@ -110,13 +110,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="">
 								<p class="manage">统计分析权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<input type="checkbox" name="selectedtj" class="selected" id="user_ll" value="1" />
-									<label for="user_ll">选择浏览</label>
-									<input type="checkbox" name="selectedtj" id="user_xg" value="2" />
+									<input type="checkbox" name="selectedtj" class="selected" id="selectedtj" value="1" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="selectedtj" id="selectedtj" value="2" />
 									<label for="user_xg">修改</label> <br>
-									<input type="checkbox" name="selectedtj" id="user_del" value="3" />
+									<input type="checkbox" name="selectedtj" id="selectedtj" value="3" />
 									<label for="user_del">删除</label>
-									<input type="checkbox" name="selectedtj" id="user_add" value="4" />
+									<input type="checkbox" name="selectedtj" id="selectedtj" value="4" />
 									<label for="user_add">增加</label>
 									<input type="checkbox"  name="controlAlltj" id="controlAlltj" />
 									<label for="controlAll">全选</label>
@@ -126,13 +126,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<div class="">
 								<p class="manage">系统设置权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<input type="checkbox" name="selectedxt" class="selected" id="user_ll" value="1" />
-									<label for="user_ll">选择浏览</label>
-									<input type="checkbox" name="selectedxt" id="user_xg" value="2" />
+									<input type="checkbox" name="selectedxt" class="selected" id="selectedxt" value="1" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="selectedxt" id="selectedxt" value="2" />
 									<label for="user_xg">修改</label> <br>
-									<input type="checkbox" name="selectedxt" id="user_del" value="3" />
+									<input type="checkbox" name="selectedxt" id="selectedxt" value="3" />
 									<label for="user_del">删除</label>
-									<input type="checkbox" name="selectedxt" id="user_add" value="4" />
+									<input type="checkbox" name="selectedxt" id="selectedxt" value="4" />
 									<label for="user_add">增加</label>
 									<input type="checkbox"  name="controlAllxt" id="controlAllxt" />
 									<label for="controlAll">全选</label>
@@ -141,10 +141,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div>
 
 					</div>
-					<div class="keep clearfix">
-						<button class="fl"  onclick="add();">保存</button>
-						<button class="fr">取消</button>
-					</div>
+					<p class="or clearfix">
+						<input type="button"  value="保存"  onclick="add();">
+						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
+					</p>
 				</div>
 
 			</div>
@@ -159,5 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	$('#form').submit();
      }
      addressInit('cmbProvince', 'cmbCity', 'cmbArea','请选择','请选择','请选择');
+     
+	
      </script>
 </html>

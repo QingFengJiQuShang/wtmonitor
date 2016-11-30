@@ -1,7 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglAuthority"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("authority");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -64,63 +67,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="power" class="fl">权限管理&nbsp;:&nbsp;</label>
 						<div class="choose">
 							<div class="">
-								<p class="manage">用户权限分配 <i class="jia"></i></p>
+								<p class="manage">电梯监控权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<span class="fl wei">选择浏览</span>
-									<span class="fl wei">修改</span>
-									<span class="fl wei">删除</span>
-									<span class="fl wei">增加</span>
-									<span class="fl all">全选</span>
+									<input type="checkbox" name="authority" class="selected" id="selected" value="dtjk_check" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="authority" id="selected" value="dtjk_update" />
+									<label for="user_xg">修改</label> <br>
+									<input type="checkbox" name="authority" id="selected" value="dtjk_del" />
+									<label for="user_del">删除</label>
+									<input type="checkbox" name="authority" id="selected" value="dtjk_add" />
+									<label for="user_add">增加</label>
+									<input type="checkbox"  name="controlAll" id="controlAll" />
+									<label for="controlAll">全选</label>
 								</p>
 							</div>
 							<div class="">
 								<p class="manage">故障管理权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<span class="fl wei">选择浏览1</span>
-									<span class="fl wei">修改</span>
-									<span class="fl wei">删除</span>
-									<span class="fl wei">增加</span>
-									<span class="fl all">全选</span>
+									<input type="checkbox" name="authority" class="selected" id="selectedjk" value="gzgl_check" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="authority" id="selectedjk" value="gzgl_update" />
+									<label for="user_xg">修改</label> <br>
+									<input type="checkbox" name="authority" id="selectedjk" value="gzgl_del" />
+									<label for="user_del">删除</label>
+									<input type="checkbox" name="authority" id="selectedjk" value="gzgl_add" />
+									<label for="user_add">增加</label>
+									<input type="checkbox"  id="controlAlljk" />
+									<label for="controlAll">全选</label>
+								</p>
+							</div>		
+							<div class="">
+								<p class="manage">用户管理权限分配 <i class="jia"></i></p>
+								<p class="select clearfix">
+									<input type="checkbox" name="authority" class="selected" id="selectedgz" value="yhgl_check" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="authority" id="selectedgz" value="yhgl_update" />
+									<label for="user_xg">修改</label> <br>
+									<input type="checkbox" name="authority" id="selectedgz" value="yhgl_del" />
+									<label for="user_del">删除</label>
+									<input type="checkbox" name="authority" id="selectedgz" value="yhgl_add" />
+									<label for="user_add">增加</label>
+									<input type="checkbox"  name="controlAllgz" id="controlAllgz" />
+									<label for="controlAll">全选</label>
 								</p>
 							</div>
 							<div class="">
 								<p class="manage">统计分析权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<span class="fl wei">选择浏览1</span>
-									<span class="fl wei">修改</span>
-									<span class="fl wei">删除</span>
-									<span class="fl wei">增加</span>
-									<span class="fl all">全选</span>
+									<input type="checkbox" name="selectedtj" class="selected" id="selectedtj" value="1" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="selectedtj" id="selectedtj" value="2" />
+									<label for="user_xg">修改</label> <br>
+									<input type="checkbox" name="selectedtj" id="selectedtj" value="3" />
+									<label for="user_del">删除</label>
+									<input type="checkbox" name="selectedtj" id="selectedtj" value="4" />
+									<label for="user_add">增加</label>
+									<input type="checkbox"  name="controlAlltj" id="controlAlltj" />
+									<label for="controlAll">全选</label>
 								</p>
 							</div>
-							<div class="">
-								<p class="manage">电梯监控权限分配 <i class="jia"></i></p>
-								<p class="select clearfix">
-									<span class="fl wei">选择浏览1</span>
-									<span class="fl wei">修改</span>
-									<span class="fl wei">删除</span>
-									<span class="fl wei">增加</span>
-									<span class="fl all">全选</span>
-								</p>
-							</div>		
+							
 							<div class="">
 								<p class="manage">系统设置权限分配 <i class="jia"></i></p>
 								<p class="select clearfix">
-									<span class="fl wei">选择浏览1</span>
-									<span class="fl wei">修改</span>
-									<span class="fl wei">删除</span>
-									<span class="fl wei">增加</span>
-									<span class="fl all">全选</span>
-								</p>
-							</div>
-							<div class="">
-								<p class="manage">系统帮助权限分配 <i class="jia"></i></p>
-								<p class="select clearfix">
-									<span class="fl wei">选择浏览1</span>
-									<span class="fl wei">修改</span>
-									<span class="fl wei">删除</span>
-									<span class="fl wei">增加</span>
-									<span class="fl all">全选</span>
+									<input type="checkbox" name="selectedxt" class="selected" id="selectedxt" value="1" />
+									<label for="user_ll">查看</label>
+									<input type="checkbox" name="selectedxt" id="selectedxt" value="2" />
+									<label for="user_xg">修改</label> <br>
+									<input type="checkbox" name="selectedxt" id="selectedxt" value="3" />
+									<label for="user_del">删除</label>
+									<input type="checkbox" name="selectedxt" id="selectedxt" value="4" />
+									<label for="user_add">增加</label>
+									<input type="checkbox"  name="controlAllxt" id="controlAllxt" />
+									<label for="controlAll">全选</label>
 								</p>
 							</div>
 						</div>
@@ -144,5 +163,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	$('#form').submit();
      }
      addressInit('cmbProvince', 'cmbCity', 'cmbArea','${list.province}','${list.city}','${list.area}');
+     
+       var obj=document.getElementsByName("authority");
+	    <%for(int i=0;i<authority.size();i++){%>
+			    	 for(var j=0;j<obj.length;j++){
+					    	if(obj[j].value=='<%=authority.get(i).getKey()%>'){
+								 obj[j].checked = true;
+							}
+					}
+	  <%  } %>
      </script>
 </html>

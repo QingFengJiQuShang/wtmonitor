@@ -1,7 +1,10 @@
 $(".manage").click(function() {
 	$(this).children("i").toggleClass("jia");
-	$(this).next().toggle()
+	$(this).next().toggle();
 })
+
+
+
  //新增用户时 判断用户名是否存在
 		  function skip(){
 			var loginname=document.getElementById("logn").value;
@@ -47,11 +50,11 @@ $("input[name=selected]").click(function() {
 
 	var selected = $(this).siblings("input[name=selected]").length;
 	if(yes == selected) {
-		$(this).siblings("input[name='controlAll']").prop({
+		$(this).siblings("input[id='controlAll']").prop({
 			"checked": true
 		});
 	} else {
-		$(this).siblings("input[name='controlAll']").prop({
+		$(this).siblings("input[id='controlAll']").prop({
 			"checked": false
 		});
 	}
@@ -59,27 +62,27 @@ $("input[name=selected]").click(function() {
 $("#controlAll").click(function() {
 	var sure = $(this).prop("checked");
 	if(sure == true) {
-		$("input[name='selected']").prop({
+		$("input[id='selected']").prop({
 			"checked": true
 		});
 	} else {
-		$("input[name='selected']").prop({
+		$("input[id='selected']").prop({
 			"checked": false
 		});
 	}
 })
 //电梯监控
-$("input[name=selectedjk]").click(function() {
+$("input[id=selectedjk]").click(function() {
 	var sure = $(this).prop("checked");
 	var yes = $(this).siblings("input:checkbox:checked").length;
 
-	var selected = $(this).siblings("input[name=selectedjk]").length;
+	var selected = $(this).siblings("input[id=selectedjk]").length;
 	if(yes == selected) {
-		$(this).siblings("input[name='controlAlljk']").prop({
+		$(this).siblings("input[id='controlAlljk']").prop({
 			"checked": true
 		});
 	} else {
-		$(this).siblings("input[name='controlAlljk']").prop({
+		$(this).siblings("input[id='controlAlljk']").prop({
 			"checked": false
 		});
 	}
@@ -87,28 +90,28 @@ $("input[name=selectedjk]").click(function() {
 $("#controlAlljk").click(function() {
 	var sure = $(this).prop("checked");
 	if(sure == true) {
-		$("input[name='selectedjk']").prop({
+		$("input[id='selectedjk']").prop({
 			"checked": true
 		});
 	} else {
-		$("input[name='selectedjk']").prop({
+		$("input[id='selectedjk']").prop({
 			"checked": false
 		});
 	}
 })
 
 //故障管理
-$("input[name=selectedgz]").click(function() {
+$("input[id=selectedgz]").click(function() {
 	var sure = $(this).prop("checked");
 	var yes = $(this).siblings("input:checkbox:checked").length;
 
-	var selected = $(this).siblings("input[name=selectedgz]").length;
+	var selected = $(this).siblings("input[id=selectedgz]").length;
 	if(yes == selected) {
-		$(this).siblings("input[name='controlAllgz']").prop({
+		$(this).siblings("input[id='controlAllgz']").prop({
 			"checked": true
 		});
 	} else {
-		$(this).siblings("input[name='controlAllgz']").prop({
+		$(this).siblings("input[id='controlAllgz']").prop({
 			"checked": false
 		});
 	}
@@ -116,11 +119,11 @@ $("input[name=selectedgz]").click(function() {
 $("#controlAllgz").click(function() {
 	var sure = $(this).prop("checked");
 	if(sure == true) {
-		$("input[name='selectedgz']").prop({
+		$("input[id='selectedgz']").prop({
 			"checked": true
 		});
 	} else {
-		$("input[name='selectedgz']").prop({
+		$("input[id='selectedgz']").prop({
 			"checked": false
 		});
 	}
@@ -128,17 +131,17 @@ $("#controlAllgz").click(function() {
 
 
 //统计分析
-$("input[name=selectedtj]").click(function() {
+$("input[id=selectedtj]").click(function() {
 	var sure = $(this).prop("checked");
 	var yes = $(this).siblings("input:checkbox:checked").length;
 
-	var selected = $(this).siblings("input[name=selectedtj]").length;
+	var selected = $(this).siblings("input[id=selectedtj]").length;
 	if(yes == selected) {
-		$(this).siblings("input[name='controlAlltj']").prop({
+		$(this).siblings("input[id='controlAlltj']").prop({
 			"checked": true
 		});
 	} else {
-		$(this).siblings("input[name='controlAlltj']").prop({
+		$(this).siblings("input[id='controlAlltj']").prop({
 			"checked": false
 		});
 	}
@@ -146,28 +149,28 @@ $("input[name=selectedtj]").click(function() {
 $("#controlAlltj").click(function() {
 	var sure = $(this).prop("checked");
 	if(sure == true) {
-		$("input[name='selectedtj']").prop({
+		$("input[id='selectedtj']").prop({
 			"checked": true
 		});
 	} else {
-		$("input[name='selectedtj']").prop({
+		$("input[id='selectedtj']").prop({
 			"checked": false
 		});
 	}
 })
 
 //系统设置
-$("input[name=selectedxt]").click(function() {
+$("input[id=selectedxt]").click(function() {
 	var sure = $(this).prop("checked");
 	var yes = $(this).siblings("input:checkbox:checked").length;
 
-	var selected = $(this).siblings("input[name=selectedxt]").length;
+	var selected = $(this).siblings("input[id=selectedxt]").length;
 	if(yes == selected) {
-		$(this).siblings("input[name='controlAllxt']").prop({
+		$(this).siblings("input[id='controlAllxt']").prop({
 			"checked": true
 		});
 	} else {
-		$(this).siblings("input[name='controlAllxt']").prop({
+		$(this).siblings("input[id='controlAllxt']").prop({
 			"checked": false
 		});
 	}
@@ -175,11 +178,11 @@ $("input[name=selectedxt]").click(function() {
 $("#controlAllxt").click(function() {
 	var sure = $(this).prop("checked");
 	if(sure == true) {
-		$("input[name='selectedxt']").prop({
+		$("input[id='selectedxt']").prop({
 			"checked": true
 		});
 	} else {
-		$("input[name='selectedxt']").prop({
+		$("input[id='selectedxt']").prop({
 			"checked": false
 		});
 	}

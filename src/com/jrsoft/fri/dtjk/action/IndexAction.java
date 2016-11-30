@@ -158,7 +158,7 @@ public class IndexAction  extends DispatchAction{
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		c.add(Calendar.MINUTE, -10);							//10分钟前
-		String sql="update DTJK_ELEVATOR set   state='离线' where state='正常' and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss') ) ";
+		String sql="update DTJK_ELEVATOR set   state='离线' where ( state='正常' or  state is null ) and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss') ) ";
 		DBEntity.getInstance().executeSql(sql);
 		
 	}

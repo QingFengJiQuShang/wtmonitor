@@ -1,5 +1,6 @@
 package com.jrsoft.fri.xtgl.from;
 import com.jrsoft.fri.common.core.form.BaseForm;
+import com.jrsoft.fri.xtgl.entity.XtglAuthority;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
 import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
@@ -17,6 +18,7 @@ public class XtglForm  extends BaseForm{
 	private  XtglMaintenanceUsers maintenanceUsers=new XtglMaintenanceUsers(); 
 	private  XtglRescueUnit rescueUnit=new XtglRescueUnit();
 	private  XtglUseUnit unit=new XtglUseUnit();
+	
 	
 	public XtglUsers getUsers() {
 		return users;
@@ -57,5 +59,6 @@ public class XtglForm  extends BaseForm{
 	public void setUnit(XtglUseUnit unit) {
 		this.unit = unit;
 	}
+
 	
 }

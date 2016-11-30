@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,7 +37,35 @@ public class DtjkElevatorAction extends DispatchAction{
 	public void setElevatorService(DtjkElevatorService elevatorService) {
 		this.elevatorService = elevatorService;
 	}
-	
+
+	/**
+	   * 验证 注册号唯一
+	   * @param request
+	   * @param respons
+	   * @param productList
+	   * @param productSeries
+	   * @param productImageList
+	 * @throws Exception 
+	   */
+		public void onlyRegisterid(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception{
+			
+			String registerid=request.getParameter("registerid");   //用户名
+				//生成联系人编号
+				String hql=" where 1=1 and   registerid = '"+registerid+"'  order by id asc ";
+				List<DtjkElevator> content=elevatorService.query(hql);	
+				PrintWriter out;
+				try {
+					if(content.size()>0){
+						out = response.getWriter();
+						out.write("0"); 
+					}else{
+						out = response.getWriter();
+						out.write("1"); 
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	}
 
 	/**
 	 * 新增 电梯信息
