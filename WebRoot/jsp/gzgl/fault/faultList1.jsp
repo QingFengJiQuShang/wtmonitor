@@ -92,9 +92,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.dutyName}</td>
 									<td>${list.state }</td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','2');"/>
-										<img src="<%=path%>/img/compile.png"  onclick="findById('${list.id}','1');"/>
-						<!-- 		<img src="<%=path%>/img/del.png" alt="" class="del_one" onclick="del('${list.id}');"/> -->		
+										<img src="<%=path%>/img/content.png"   title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
+								<!--		<img src="<%=path%>/img/compile.png"  onclick="findById('${list.id}','1');"/>
+						 				<img src="<%=path%>/img/del.png" alt="" class="del_one" onclick="del('${list.id}');"/> -->		
 									</td>
 								</tr>
 								</c:forEach>

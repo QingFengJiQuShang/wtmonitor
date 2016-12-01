@@ -1,10 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -57,8 +61,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="table">
 					<div class="or clearfix">
+						<%if(Authority.haveRigth(user.getId(),"dtjk_add")) {%>
 						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
+						<%} %>
+						<%if(Authority.haveRigth(user.getId(),"dtjk_del")) {%>
 						<p class="fl del">批量删除</p>
+						<%} %>
 						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
 					</div>
 				<div class="table_con">
@@ -96,13 +104,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.numbers}</td>
 									<td>${list.state}</td>
 									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
-									<td  style="color: blue; "  onclick="findById('${list.id}','3');">${list.period}</td>
-									<td><a href="javascript:void(0);"  onclick="findById('${list.id}','4');" style="color: blue; ">${list.flowSurplus}</a></td>
+									<td  style="color: blue; " <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','3');"   <%} %>>${list.period}</td>
+									<td><a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a></td>
 									<td><a href="<%=path %>/jsp/dtjk/service/serviceList.jsp"   style="color: blue; ">0</a></td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','2');"/>
-										<img src="<%=path%>/img/compile.png"  onclick="findById('${list.id}','1');"/>
-										<img src="<%=path%>/img/del.png" alt="" class="del_one" onclick="del('${list.id}');"/>
+										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
+										<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>
+										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"  onclick="findById('${list.id}','1');"/>
+										<%} %>
+										<%if(Authority.haveRigth(user.getId(),"dtjk_del")) {%>
+										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"  class="del_one" onclick="del('${list.id}');"/>
+										<%} %>
 									</td>
 								</tr>
 								</c:forEach>

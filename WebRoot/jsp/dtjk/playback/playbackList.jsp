@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.door}</td>
 									<td>${list.heartbeat}</td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}');"/>
+										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}');"/>
 										</td>
 								</tr>
 								</c:forEach>

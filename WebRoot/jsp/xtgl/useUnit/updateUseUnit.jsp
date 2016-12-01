@@ -58,10 +58,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="area">使用单位地址&nbsp;:&nbsp;</label>
 						<input type="text" id="address"  name="unit.address"  value="${list.address}" />
 					</p>
-					<div class="keep clearfix">
-						<button class="fl"    onclick="add();">保存</button>
-						<button class="fr"   onclick="history.go(-1); ">取消</button>
-					</div>
+					<p class="or clearfix">
+						<input type="button"  value="保存"  onclick="add();">
+						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
+					</p>
 				</div>
 
 			</div>

@@ -11,6 +11,6 @@ public interface XtglAuthorityDao  extends BaseDao<XtglAuthority, String>{
 	 * @param key ×ÊÔ´ÔªËØkey
 	 * @return
 	 */
-	public boolean getByUser(String userId,String key);
+	public boolean getByUser(Long userId,String key);
 
 }

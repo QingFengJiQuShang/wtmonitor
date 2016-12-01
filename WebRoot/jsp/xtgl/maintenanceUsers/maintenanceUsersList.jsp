@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -6,6 +8,8 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String unitId=request.getParameter("unitId");
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -47,8 +51,12 @@ String unitId=request.getParameter("unitId");
 				</div>
 				<div class="table">
 					<div class="or clearfix">
+						<%if(Authority.haveRigth(user.getId(),"yhgl_add")) {%>
 						<p class="fl add"    onclick="add('<%=unitId %>');"><img src="<%=path%>/img/add.png" />新增</p>
+						<%} %>
+						<%if(Authority.haveRigth(user.getId(),"yhgl_del")) {%>
 						<p class="fl del">批量删除</p>
+						<%} %>
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
 					</div>
 				<div class="table_con">
@@ -78,9 +86,13 @@ String unitId=request.getParameter("unitId");
 									<td>${list.validity }</td>
 									<td>${list.cardNumber}</td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','2');"/>
-										<img src="<%=path%>/img/compile.png"  onclick="findById('${list.id}','1');"/>
-										<img src="<%=path%>/img/del.png" alt="" class="del_one" onclick="del('${list.id}');"/>
+										<img src="<%=path%>/img/content.png" title="详情"  alt="详情" onclick="findById('${list.id}','2');"/>
+										<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>
+										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改" onclick="findById('${list.id}','1');"/>
+										<%} %>
+										<%if(Authority.haveRigth(user.getId(),"yhgl_del")) {%>
+										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"  class="del_one" onclick="del('${list.id}');"/>
+										<%} %>
 									</td>
 								</tr>
 								</c:forEach>

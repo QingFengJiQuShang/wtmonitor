@@ -145,10 +145,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 						</div>
 
 					</div>
-					<div class="keep clearfix">
-						<button class="fl"  onclick="add();">保存</button>
-						<button class="fr">取消</button>
-					</div>
+					<p class="or clearfix">
+						<input type="button"  value="保存"  onclick="add();">
+						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
+					</p>
 				</div>
 
 			</div>

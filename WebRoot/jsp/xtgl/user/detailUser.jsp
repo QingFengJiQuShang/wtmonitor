@@ -1,10 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@page import="com.jrsoft.fri.xtgl.entity.XtglAuthority"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@page import="com.sun.java_cup.internal.runtime.virtual_parse_stack"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglAuthority"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("authority");
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 %>
 
@@ -141,7 +144,9 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 
 					</div>
 					<div class="keep clearfix">
+						<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>
 						<button class="fl"  onclick="findById('${list.id}','1');">修改</button>
+						<%} %>
 						<button class="fr"  onclick="history.go(-1); ">取消</button>
 					</div>
 				</div>
@@ -153,6 +158,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/ssq.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/xtgl/add_user.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtgl/user.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
   
 	    var obj=document.getElementsByName("authority");

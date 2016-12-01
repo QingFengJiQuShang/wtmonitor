@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.hssf.record.chart.BarRecord;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -102,7 +104,6 @@ public class XtglUsersAction extends DispatchAction {
 				authorityService.save(xtglAuthority);
 			}
 		}
-		
 	    return	new ActionForward("/usersAction.do?method=query");
 	}
 	/**
@@ -253,6 +254,21 @@ public class XtglUsersAction extends DispatchAction {
 				elevator.setCity("");
 			}
 			usersService.update(elevator);
+			
+			//修改用户权限
+			//删除已有的权限
+			String sql="delete xtgl_authority where users_Id='"+elevator.getId()+"' ";
+			DBEntity.getInstance().executeSql(sql);
+			//重新保存权限
+			String [] authority=request.getParameterValues("authority");
+			if(authority!=null){			
+				for(String key:authority){
+					XtglAuthority xtglAuthority=new XtglAuthority();
+					xtglAuthority.setUsersId(elevator.getId());
+					xtglAuthority.setKey(key);
+					authorityService.save(xtglAuthority);
+				}
+			}
 		}
 		return	new ActionForward("/usersAction.do?method=query");
 	}

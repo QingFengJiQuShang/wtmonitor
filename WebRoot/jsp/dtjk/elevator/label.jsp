@@ -29,6 +29,8 @@
 	<script type="text/javascript">
 		// 百度地图API功能
 		var map = new BMap.Map("allmap");
+		var point = new BMap.Point(116.403906,39.915175);
+		map.centerAndZoom(point, 12); 
 		var labe=window.parent.document.getElementById("<%=id%>").value;
 		if(labe!=""){
 			var lab=labe.split(",");

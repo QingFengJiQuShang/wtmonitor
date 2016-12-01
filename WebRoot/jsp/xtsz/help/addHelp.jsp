@@ -39,7 +39,6 @@ response.setCharacterEncoding("utf-8");
 			<div class="table_con">
 	    			<script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
 					<div class="keep clearfix">
-					<button onclick=" UE.getEditor('editor').setHeight(300)">设置高度为300默认关闭了自动长高</button>
 						<button class="fl"  onclick="add();">保存</button>
 						<button class="fr">取消</button>
 					</div>

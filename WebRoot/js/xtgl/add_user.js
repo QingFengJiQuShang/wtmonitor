@@ -1,6 +1,21 @@
+
 $(".manage").click(function() {
-	$(this).children("i").toggleClass("jia");
 	$(this).next().toggle();
+	$(this).parent("div").siblings().children(".select").hide();
+	$(this).parent("div").siblings().children(".manage").children("i").removeClass("jian").addClass("jia");
+	var display = $(this).next().css('display');
+	if(display == 'none') {
+		$(this).children("i").removeClass("jian").addClass("jia");
+		var height = $(window.document).height();
+		$('#main',window.parent.document).height(height-40);
+	} else {
+		
+		$(this).children("i").removeClass("jia").addClass("jian")
+		var height = $(window.document).height();
+		$('#main',window.parent.document).height(height+40);
+		
+	}
+
 })
 
 

@@ -20,7 +20,7 @@ public class Authority {
 	 * @param key ×ÊÔ´ÔªËØkey
 	 * @return
 	 */
-	public boolean haveRigth(String userId,String key){
+	public static boolean haveRigth(Long userId,String key){
 		
 		return authorityService.getByUser(userId, key);
 	}

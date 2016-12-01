@@ -131,21 +131,21 @@ public class DtjkElevatorAction extends DispatchAction{
 		String numbers=request.getParameter("numbers");
 		
 		 judge( ) ;	//判断电梯是否离线
-		 if(registerid!=null){
-			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(distinguishid!=null){
-			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(useUnitName!=null){
-			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(brand!=null){
-			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(numbers!=null){
-			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-		 }
+//		 if(registerid!=null){
+//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(distinguishid!=null){
+//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(useUnitName!=null){
+//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(brand!=null){
+//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(numbers!=null){
+//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+//		 }
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -176,10 +176,10 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
 				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand de.like '%"+brand+"%'";
+					sql+=" and de.brand like '%"+brand+"%'";
 				}
 				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers like '%"+numbers+"%'";
+					sql+=" and de.numbers = '"+numbers+"'";
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -240,21 +240,21 @@ public class DtjkElevatorAction extends DispatchAction{
 		String brand=request.getParameter("brand");
 		String numbers=request.getParameter("numbers");
 		
-		 if(registerid!=null){
-			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(distinguishid!=null){
-			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(useUnitName!=null){
-			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(brand!=null){
-			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(numbers!=null){
-			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-		 }
+//		 if(registerid!=null){
+//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(distinguishid!=null){
+//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(useUnitName!=null){
+//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(brand!=null){
+//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(numbers!=null){
+//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+//		 }
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -287,10 +287,10 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
 				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand de.like '%"+brand+"%'";
+					sql+=" and de.brand like '%"+brand+"%'";
 				}
 				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers like '%"+numbers+"%'";
+					sql+=" and de.numbers = '"+numbers+"'";
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -346,21 +346,21 @@ public class DtjkElevatorAction extends DispatchAction{
 		String brand=request.getParameter("brand");
 		String numbers=request.getParameter("numbers");
 		
-		 if(registerid!=null){
-			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(distinguishid!=null){
-			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(useUnitName!=null){
-			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(brand!=null){
-			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(numbers!=null){
-			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-		 }
+//		 if(registerid!=null){
+//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(distinguishid!=null){
+//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(useUnitName!=null){
+//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(brand!=null){
+//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(numbers!=null){
+//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+//		 }
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -392,10 +392,10 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
 				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand de.like '%"+brand+"%'";
+					sql+=" and de.brand like '%"+brand+"%'";
 				}
 				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers like '%"+numbers+"%'";
+					sql+=" and de.numbers = '"+numbers+"'";
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -455,21 +455,21 @@ public class DtjkElevatorAction extends DispatchAction{
 		String brand=request.getParameter("brand");
 		String numbers=request.getParameter("numbers");
 		
-		 if(registerid!=null){
-			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(distinguishid!=null){
-			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(useUnitName!=null){
-			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(brand!=null){
-			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(numbers!=null){
-			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-		 }
+//		 if(registerid!=null){
+//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(distinguishid!=null){
+//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(useUnitName!=null){
+//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(brand!=null){
+//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(numbers!=null){
+//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
+//		 }
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -501,10 +501,10 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
 				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand de.like '%"+brand+"%'";
+					sql+=" and de.brand like '%"+brand+"%'";
 				}
 				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers like '%"+numbers+"%'";
+					sql+=" and de.numbers = '"+numbers+"'";
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -823,15 +823,15 @@ public class DtjkElevatorAction extends DispatchAction{
 		String installPlace=request.getParameter("installPlace");
 		String useUnitName=request.getParameter("useUnitName");
 		
-		 if(registerid!=null){
-			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(useUnitName!=null){
-			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(installPlace!=null){
-			 installPlace=new String(installPlace.getBytes("iso-8859-1"),"utf-8");
-		 }
+//		 if(registerid!=null){
+//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(useUnitName!=null){
+//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
+//		 }
+//		 if(installPlace!=null){
+//			 installPlace=new String(installPlace.getBytes("iso-8859-1"),"utf-8");
+//		 }
 		String num=request.getParameter("num");   //当前页
 		
 

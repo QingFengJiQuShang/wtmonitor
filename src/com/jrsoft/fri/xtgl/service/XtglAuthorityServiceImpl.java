@@ -24,7 +24,7 @@ public class XtglAuthorityServiceImpl  extends BaseServiceImpl<XtglAuthority> im
 	 * @return
 	 */
 	@Override
-	public boolean getByUser(String userId, String key) {
+	public boolean getByUser(Long userId, String key) {
 		
 		return authorityDao.getByUser(userId, key);
 	}

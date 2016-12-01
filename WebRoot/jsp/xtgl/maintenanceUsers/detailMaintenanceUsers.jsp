@@ -1,8 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String unitId=request.getParameter("unitId");
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -45,10 +49,12 @@ String unitId=request.getParameter("unitId");
 					<p class="fill">
 						<label for="address">维保卡号&nbsp;:&nbsp;</label>${list.cardNumber }
 					</p>
-					<div class="keep clearfix">
-						<button class="fl"  onclick="findById('${list.id}','1');">修改</button>
-						<button class="fr"   onclick="history.go(-1); ">取消</button>
-					</div>
+					<p class="or clearfix">
+						<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>
+						<input type="button"  value="修改"    onclick="findById('${list.id}','1');" >
+						<%} %>
+						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
+					</p>
 				</div>
 
 			</div>

@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td><a href="<%=path %>/recordsAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numRecords}</a></td>
 									<td><a href="<%=path %>/inspectionAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numYearly}</a></td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.registerid}');"/>
+										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
 										</td>
 								</tr>
 								</c:forEach>
@@ -128,5 +128,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/dtjk/playback.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/dtjk/elevator.js" type="text/javascript" charset="utf-8"></script>
 </html>

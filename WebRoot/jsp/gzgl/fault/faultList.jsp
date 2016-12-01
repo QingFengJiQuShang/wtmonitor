@@ -1,10 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -92,8 +95,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.dutyName}</td>
 									<td>${list.state }</td>
 									<td>
-										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','2');"/>
-										<img src="<%=path%>/img/compile.png"  onclick="findById('${list.id}','1');"/>
+									
+										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
+										<%if(Authority.haveRigth(user.getId(),"gzgl_update")) {%>
+										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改" onclick="findById('${list.id}','1');"/>
+										<%} %>
 						<!-- 		<img src="<%=path%>/img/del.png" alt="" class="del_one" onclick="del('${list.id}');"/> -->		
 									</td>
 								</tr>

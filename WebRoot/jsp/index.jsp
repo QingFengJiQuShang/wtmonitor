@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
 <%@page import="com.jrsoft.fri.cs.Tip"%>
 <%
 	String path = request.getContextPath();
@@ -154,35 +155,41 @@ function toMain(flag){
 			<li class="list-item"   onclick="toMain('1')">
 				<p class="one active" data="<%=path %>/">首页</p>
 			</li>
+			<%if(Authority.haveRigth(user.getId(),"dtjk_check")) {%>
 			<li class="list-item"  >
 				<p class="one grade" >
 					<i class=""></i>电梯监控</p>
 				<div class="next">
-					<p  onclick="toMain('21')">电梯列表</p>
-					<p  onclick="toMain('22')">电梯监控</p>
-					<p  onclick="toMain('23')">电梯回放</p>
-					<p  onclick="toMain('24')">电梯管理</p>
+					<p  class="two"  onclick="toMain('21')">电梯列表</p>
+					<p  class="two"  onclick="toMain('22')">电梯监控</p>
+					<p  class="two"  onclick="toMain('23')">电梯回放</p>
+					<p  class="two" onclick="toMain('24')">电梯管理</p>
 				</div>
 			</li>
+			<%} %>
+			<%if(Authority.haveRigth(user.getId(),"gzgl_check")) {%>
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>故障管理</p>
 				<div class="next">
-					<p	 onclick="toMain('41')">人工接警</p>
-					<p	 onclick="toMain('42')">当前故障</p>
-					<p	 onclick="toMain('43')">历史故障</p>
+					<p	 class="two"  onclick="toMain('41')">人工接警</p>
+					<p	 class="two"  onclick="toMain('42')">当前故障</p>
+					<p	 class="two" onclick="toMain('43')">历史故障</p>
 				</div>
 			</li>
+			<%} %>
+			<%if(Authority.haveRigth(user.getId(),"yhgl_check")) {%>
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>用户管理</p>
 				<div class="next">
-					<p	 onclick="toMain('31')">系统用户</p>
-					<p	 onclick="toMain('32')">使用单位</p>
-					<p	 onclick="toMain('33')">维保单位</p>
-					<p	 onclick="toMain('34')">救援单位</p>
+					<p	 class="two"  onclick="toMain('31')">系统用户</p>
+					<p	 class="two"  onclick="toMain('32')">使用单位</p>
+					<p	 class="two"  onclick="toMain('33')">维保单位</p>
+					<p	 class="two"  onclick="toMain('34')">救援单位</p>
 				</div>
 			</li>
+			<%} %>
 				<li class="list-item">
 				<p class="one">
 					<i class=""></i>保险管理</p>
@@ -194,26 +201,27 @@ function toMain(flag){
 					<p class="two" onclick="toMain(75)">品牌保险统计</p>
 				</div>
 			</li>
+			
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>统计分析</p>
 				<div class="next">
-					<p	 onclick="toMain('51')">故障统计</p>
-					<p	 onclick="toMain('52')">救援统计</p>
-					<p	 onclick="toMain('53')">电梯品牌统计</p>
-					<p	 onclick="toMain('54')">维保单位统计</p>
-					<p	 onclick="toMain('55')">使用单位统计</p>
+					<p	 class="two"   onclick="toMain('51')">故障统计</p>
+					<p	 class="two"   onclick="toMain('52')">救援统计</p>
+					<p	  class="two"  onclick="toMain('53')">电梯品牌统计</p>
+					<p	  class="two"  onclick="toMain('54')">维保单位统计</p>
+					<p	  class="two"  onclick="toMain('55')">使用单位统计</p>
 				</div>
 			</li>
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>系统设置</p>
 				<div class="next">
-					<p	 onclick="toMain('61')">操作日志</p>
-					<p	 onclick="toMain('62')">系统帮助</p>
-					<p	 onclick="toMain('63')">短信警告</p>
-					<p	 onclick="toMain('64')">短信权限</p>
-					<p	 onclick="toMain('65')">短信日志</p>
+					<p	 class="two"  onclick="toMain('61')">操作日志</p>
+					<p	 class="two"  onclick="toMain('62')">系统帮助</p>
+					<p	 class="two"  onclick="toMain('63')">短信警告</p>
+					<p	 class="two"  onclick="toMain('64')">短信权限</p>
+					<p	 class="two"  onclick="toMain('65')">短信日志</p>
 				</div>
 			</li>
 		</ul>
