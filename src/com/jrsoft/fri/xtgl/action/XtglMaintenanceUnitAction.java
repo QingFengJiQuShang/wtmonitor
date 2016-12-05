@@ -19,9 +19,11 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitService;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class XtglMaintenanceUnitAction  extends DispatchAction {
 	private XtglMaintenanceUnitService maintenanceUnitService;
@@ -47,6 +49,10 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 		XtglForm XtglFrom=(XtglForm)form;
 		XtglMaintenanceUnit elevator =XtglFrom.getMaintenanceUnit();
 		maintenanceUnitService.save(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加维保单位，单位名称："+elevator.getName(), "1");
 	    return	new ActionForward("/maintenanceUnitAction.do?method=query");
 	}
 	/**
@@ -173,6 +179,10 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 			elevator.setCorporation(unit.getCorporation());
 			maintenanceUnitService.update(elevator);
 		}
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改维保单位，单位名称："+elevator.getName(), "1");
 		return	new ActionForward("/maintenanceUnitAction.do?method=query");
 	}
 	
@@ -189,7 +199,13 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 	public ActionForward  delEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
+		XtglMaintenanceUnit elevator=maintenanceUnitService.get(id);
+
 		maintenanceUnitService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除维保单位，单位名称："+elevator.getName(), "1");
 		 return	new ActionForward("/maintenanceUnitAction.do?method=query");
 	}
 	/**
@@ -205,7 +221,12 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				XtglMaintenanceUnit elevator=maintenanceUnitService.get(Long.parseLong(arr[i]));
 				maintenanceUnitService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除维保单位，单位名称："+elevator.getName(), "1");
 			}
 		}
 		 return	new ActionForward("/maintenanceUnitAction.do?method=query");

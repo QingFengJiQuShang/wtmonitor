@@ -23,7 +23,9 @@ import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.from.GzclForm;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class GzclFaultAction extends DispatchAction {
 	
@@ -49,6 +51,11 @@ public class GzclFaultAction extends DispatchAction {
 		GzclForm GzclForm=(GzclForm)form;
 		GzclFault elevator =GzclForm.getFault();
 		faultService.save(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加当前故障", "1");
+		
 	    return	new ActionForward("/faultAction.do?method=query");
 	}
 	/**
@@ -199,7 +206,10 @@ public class GzclFaultAction extends DispatchAction {
 			DBEntity.getInstance().executeSql(sql);
 		}
 		//DtjkElevator elevator=e
-		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改当前故障", "1");
 		
 		return	new ActionForward("/faultAction.do?method=query");
 	}
@@ -218,6 +228,10 @@ public class GzclFaultAction extends DispatchAction {
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		faultService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除当前故障", "1");
 		 return	new ActionForward("/faultAction.do?method=query");
 	}
 	/**
@@ -234,6 +248,10 @@ public class GzclFaultAction extends DispatchAction {
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
 				faultService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除当前故障", "1");
 			}
 		}
 		 return	new ActionForward("/faultAction.do?method=query");

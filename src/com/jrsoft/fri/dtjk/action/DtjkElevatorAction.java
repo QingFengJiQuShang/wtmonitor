@@ -26,6 +26,8 @@ import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtsz.action.Log;
+import com.jrsoft.fri.xtsz.entity.XtszLog;
 
 public class DtjkElevatorAction extends DispatchAction{
 	private DtjkElevatorService elevatorService;
@@ -98,6 +100,11 @@ public class DtjkElevatorAction extends DispatchAction{
 			elevator.setInstallTime(df.parse(installTime));
 		elevator.setState("正常");
 		elevatorService.save(elevator);
+		
+		System.out.println(request.getRemoteAddr());
+		//生成 操作日志
+		Log log=new Log();
+        log.addLog(user.getName(), "添加电梯，电梯注册号："+elevator.getRegisterid(), "1");
 	    return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	
@@ -632,7 +639,10 @@ public class DtjkElevatorAction extends DispatchAction{
 				entity.setInstallTime(df.parse(installTime));
 			elevatorService.update(entity);
 		}
-		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改电梯，电梯注册号："+elevator.getRegisterid(), "1");
 		return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	
@@ -653,7 +663,10 @@ public class DtjkElevatorAction extends DispatchAction{
 			entity.setPeriod(elevator.getPeriod());
 			elevatorService.update(entity);
 		}
-		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改电梯上报周期，电梯注册号："+elevator.getRegisterid(), "1");
 		return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	
@@ -683,7 +696,10 @@ public class DtjkElevatorAction extends DispatchAction{
 				entity.setFlowEnd(df.parse(flowEnd));
 			elevatorService.update(entity);
 		}
-		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改电梯流量，电梯注册号："+elevator.getRegisterid(), "1");
 		return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	
@@ -697,7 +713,12 @@ public class DtjkElevatorAction extends DispatchAction{
 	public ActionForward  delEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
+		DtjkElevator entity =elevatorService.get(id);
 		elevatorService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除电梯，电梯注册号："+entity.getRegisterid(), "1");
 		 return	new ActionForward("/elevatorAction.do?method=query");
 	}
 	/**
@@ -713,7 +734,13 @@ public class DtjkElevatorAction extends DispatchAction{
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				DtjkElevator entity =elevatorService.get(Long.parseLong(arr[i]));
 				elevatorService.delete(Long.parseLong(arr[i]));
+				
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除电梯，电梯注册号："+entity.getRegisterid(), "1");
 			}
 		}
 		 return	new ActionForward("/elevatorAction.do?method=query");

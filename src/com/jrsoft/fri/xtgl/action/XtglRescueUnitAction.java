@@ -21,9 +21,11 @@ import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
 import com.jrsoft.fri.xtgl.service.XtglRescueUnitService;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class XtglRescueUnitAction  extends DispatchAction  {
 	private XtglRescueUnitService rescueUnitService;
@@ -48,6 +50,10 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 		XtglForm XtglForm=(XtglForm)form;
 		XtglRescueUnit elevator =XtglForm.getRescueUnit();
 		rescueUnitService.save(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加救援单位，单位名称："+elevator.getName(), "1");
 	    return	new ActionForward("/rescueUnitAction.do?method=query");
 	}
 	/**
@@ -171,6 +177,10 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 			
 			rescueUnitService.update(useUnit);
 		}
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改救援单位，单位名称："+useUnit.getName(), "1");
 		return	new ActionForward("/rescueUnitAction.do?method=query");
 	}
 	
@@ -187,7 +197,14 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 	public ActionForward  delEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
+		XtglRescueUnit useUnit=rescueUnitService.get(id);
 		rescueUnitService.delete(id);
+		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除救援单位，单位名称："+useUnit.getName(), "1");
+		
 		 return	new ActionForward("/rescueUnitAction.do?method=query");
 	}
 	/**
@@ -203,7 +220,12 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				XtglRescueUnit useUnit=rescueUnitService.get(Long.parseLong(arr[i]));
 				rescueUnitService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除救援单位，单位名称："+useUnit.getName(), "1");
 			}
 		}
 		 return	new ActionForward("/rescueUnitAction.do?method=query");

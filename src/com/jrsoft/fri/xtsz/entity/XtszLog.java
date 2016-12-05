@@ -14,7 +14,7 @@ public class XtszLog implements java.io.Serializable {
 	private Date foundTime;			//操作时间
 	private String userName;		//操作人
 	private String content;			//操作日志
-
+	private String flag;					//日志类型 0,通信日志 1，操作日志，2
 	
 	private String begintime;
 	private String endtime;
@@ -25,10 +25,11 @@ public class XtszLog implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public XtszLog(Date foundTime, String userName, String content) {
+	public XtszLog(Date foundTime, String userName, String content,String flag) {
 		this.foundTime = foundTime;
 		this.userName = userName;
 		this.content = content;
+		this.flag=flag;
 	}
 
 	// Property accessors
@@ -63,6 +64,14 @@ public class XtszLog implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getFlag() {
+		return flag;
+	}
+
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
 	public String getBegintime() {

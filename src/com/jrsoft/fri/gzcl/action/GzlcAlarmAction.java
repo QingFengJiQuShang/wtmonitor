@@ -33,6 +33,7 @@ import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class GzlcAlarmAction  extends DispatchAction {
 	
@@ -83,6 +84,13 @@ public class GzlcAlarmAction  extends DispatchAction {
 		fault.setState("处理中");
 		fault.setDutyId(user);
 		faultService.save(fault);
+		
+		//生成 操作日志
+		Log log=new Log();
+		log.addLog(user.getName(), "添加人工接警", "1");
+        log.addLog(user.getName(), "添加当前故障", "1");
+		
+		
 	    return	new ActionForward("/alarmAction.do?method=query");
 	}
 	/**
@@ -198,6 +206,10 @@ public class GzlcAlarmAction  extends DispatchAction {
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		unit.setTime(df.parse(time));
 		alarmService.update(unit);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+		log.addLog(user.getName(), "修改人工接警", "1");
 		return	new ActionForward("/alarmAction.do?method=query");
 	}
 	
@@ -215,6 +227,10 @@ public class GzlcAlarmAction  extends DispatchAction {
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		alarmService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+		log.addLog(user.getName(), "删除人工接警", "1");
 		 return	new ActionForward("/alarmAction.do?method=query");
 	}
 	/**
@@ -231,6 +247,10 @@ public class GzlcAlarmAction  extends DispatchAction {
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
 				alarmService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+				log.addLog(user.getName(), "删除人工接警", "1");
 			}
 		}
 		 return	new ActionForward("/alarmAction.do?method=query");

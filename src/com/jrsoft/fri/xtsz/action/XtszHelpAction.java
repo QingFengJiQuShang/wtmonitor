@@ -13,6 +13,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
+
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtsz.entity.XtszHelp;
 import com.jrsoft.fri.xtsz.from.XtszFrom;
@@ -42,6 +44,10 @@ public class XtszHelpAction extends DispatchAction {
 		XtszHelp elevator =from.getHelp();
 		
 		helpService.save(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加系统帮助，标题："+elevator.getTitle(), "1");
 	    return	new ActionForward("/helpAction.do?method=query");
 	}
 	
@@ -139,7 +145,10 @@ public class XtszHelpAction extends DispatchAction {
 			entity.setContent(elevator.getContent());
 			helpService.update(entity);
 		}
-		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改系统帮助，标题："+elevator.getTitle(), "1");
 		return	new ActionForward("/helpAction.do?method=query");
 	}
 	
@@ -153,7 +162,12 @@ public class XtszHelpAction extends DispatchAction {
 	public ActionForward  delEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
+		XtszHelp entity =helpService.get(id);
 		helpService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除系统帮助，标题："+entity.getTitle(), "1");
 		 return	new ActionForward("/helpAction.do?method=query");
 	}
 	/**
@@ -169,7 +183,12 @@ public class XtszHelpAction extends DispatchAction {
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				XtszHelp entity =helpService.get(Long.parseLong(arr[i]));
 				helpService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除系统帮助，标题："+entity.getTitle(), "1");
 			}
 		}
 			return	new ActionForward("/helpAction.do?method=query");

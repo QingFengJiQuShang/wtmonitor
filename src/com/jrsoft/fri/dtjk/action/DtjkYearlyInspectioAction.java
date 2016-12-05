@@ -27,7 +27,9 @@ import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkYearlyInspectionService;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtsz.action.Log;
 
 
 public class DtjkYearlyInspectioAction extends DispatchAction {
@@ -83,6 +85,12 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		entity.setYearlyTime(new Date());
 		entity.setYearlyState(elevator.getResult());
 		elevatorService.update(entity);
+		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加电梯年检记录，电梯注册号："+entity.getRegisterid(), "1");
+		
 	    return	new ActionForward("/inspectionAction.do?method=query&elevatorId="+elevator.getElevatorId().getId());
 	}
 	/**
@@ -210,6 +218,12 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		unit.setTime(df.parse(time));
 			
 		inspectionService.update(unit);
+		DtjkElevator entity =elevatorService.get(unit.getElevatorId().getId());
+
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加电梯年检记录，电梯注册号："+entity.getRegisterid(), "1");
 		return	new ActionForward("/inspectionAction.do?method=query&elevatorId="+unit.getElevatorId().getId());
 	}
 	
@@ -227,7 +241,14 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		String elevatorId=request.getParameter("elevatorId");
+		DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
 		inspectionService.delete(id);
+		
+
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除电梯年检记录，电梯注册号："+entity.getRegisterid(), "1");
 		 return	new ActionForward("/inspectionAction.do?method=query&elevatorId="+elevatorId);
 	}
 	/**
@@ -245,7 +266,12 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
 				inspectionService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除电梯年检记录，电梯注册号："+entity.getRegisterid(), "1");
 			}
 		}
 		 return	new ActionForward("/inspectionAction.do?method=query&elevatorId="+elevatorId);

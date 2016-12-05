@@ -23,6 +23,7 @@ import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
 import com.jrsoft.fri.xtgl.service.XtglAuthorityService;
 import com.jrsoft.fri.xtgl.service.XtglUsersService;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class XtglUsersAction extends DispatchAction {
 	private XtglUsersService usersService;
@@ -104,6 +105,12 @@ public class XtglUsersAction extends DispatchAction {
 				authorityService.save(xtglAuthority);
 			}
 		}
+		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加系统用户，用户名称："+elevator.getName(), "1");
+		
 	    return	new ActionForward("/usersAction.do?method=query");
 	}
 	/**
@@ -270,6 +277,10 @@ public class XtglUsersAction extends DispatchAction {
 				}
 			}
 		}
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改系统用户，用户名称："+elevator.getName(), "1");
 		return	new ActionForward("/usersAction.do?method=query");
 	}
 	
@@ -286,7 +297,12 @@ public class XtglUsersAction extends DispatchAction {
 	public ActionForward  delEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
+		XtglUsers elevator=usersService.get(id);
 		usersService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除系统用户，用户名称："+elevator.getName(), "1");
 		 return	new ActionForward("/usersAction.do?method=query");
 	}
 	/**
@@ -302,7 +318,12 @@ public class XtglUsersAction extends DispatchAction {
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				XtglUsers elevator=usersService.get(Long.parseLong(arr[i]));
 				usersService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除系统用户，用户名称："+elevator.getName(), "1");
 			}
 		}
 		 return	new ActionForward("/usersAction.do?method=query");

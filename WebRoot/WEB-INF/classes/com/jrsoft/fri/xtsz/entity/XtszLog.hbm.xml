@@ -21,5 +21,8 @@
         <property name="content" type="java.lang.String">
             <column name="CONTENT" length="2000" />
         </property>
+        <property name="flag" type="java.lang.String">
+            <column name="flag" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

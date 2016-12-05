@@ -19,9 +19,11 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
 import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
+import com.jrsoft.fri.xtsz.action.Log;
 
 import smart.sys.platform.dao.DBEntity;
 
@@ -48,6 +50,10 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		XtglForm XtglForm=(XtglForm)form;
 		XtglUseUnit elevator =XtglForm.getUnit();
 		useUnitService.save(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加使用单位，单位名称："+elevator.getName(), "1");
 	    return	new ActionForward("/useUnitAction.do?method=query");
 	}
 	/**
@@ -170,6 +176,10 @@ public class XtglUseUnitAction  extends DispatchAction  {
 			
 			useUnitService.update(useUnit);
 		}
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改使用单位，单位名称："+useUnit.getName(), "1");
 		return	new ActionForward("/useUnitAction.do?method=query");
 	}
 	
@@ -186,7 +196,13 @@ public class XtglUseUnitAction  extends DispatchAction  {
 	public ActionForward  delEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
+		XtglUseUnit useUnit=useUnitService.get(id);
+
 		useUnitService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除使用单位，单位名称："+useUnit.getName(), "1");
 		 return	new ActionForward("/useUnitAction.do?method=query");
 	}
 	/**
@@ -202,7 +218,12 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				XtglUseUnit useUnit=useUnitService.get(Long.parseLong(arr[i]));
 				useUnitService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除使用单位，单位名称："+useUnit.getName(), "1");
 			}
 		}
 		 return	new ActionForward("/useUnitAction.do?method=query");

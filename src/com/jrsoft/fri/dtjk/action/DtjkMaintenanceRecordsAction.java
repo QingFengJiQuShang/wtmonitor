@@ -27,7 +27,9 @@ import com.jrsoft.fri.dtjk.service.DtjkMaintenanceRecordsService;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class DtjkMaintenanceRecordsAction extends DispatchAction {
 	
@@ -85,6 +87,11 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 		entity.setMaintenanceTime(new Date());
 		entity.setMaintenanceState("正常");
 		elevatorService.update(entity);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加电梯维保记录，电梯注册号："+elevator.getRegisterid(), "1");
+		
 	    return	new ActionForward("/recordsAction.do?method=query&elevatorId="+elevator.getElevatorId().getId());
 	}
 	/**
@@ -218,6 +225,10 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 		elevator.setTime(df.parse(time));
 		
 		recordsService.update(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改电梯维保记录，电梯注册号："+elevator.getRegisterid(), "1");
 		return	new ActionForward("/recordsAction.do?method=query&elevatorId="+elevator.getElevatorId().getId());
 	}
 	
@@ -235,7 +246,12 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		String elevatorId=request.getParameter("elevatorId");
+		DtjkElevator entity =elevatorService.get(id);
 		recordsService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除电梯维保记录，电梯注册号："+entity.getRegisterid(), "1");
 		 return	new ActionForward("/recordsAction.do?method=query&elevatorId="+elevatorId);
 	}
 	/**
@@ -251,7 +267,13 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				DtjkElevator entity =elevatorService.get(Long.parseLong(arr[i]));
 				recordsService.delete(Long.parseLong(arr[i]));
+				
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除电梯维保记录，电梯注册号："+entity.getRegisterid(), "1");
 			}
 		}
 		 return	new ActionForward("/recordsAction.do?method=query");

@@ -31,6 +31,7 @@ import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitService;
 import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
 import com.jrsoft.fri.xtgl.service.XtglUsersService;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class DtjkPhoneAction extends DispatchAction{
 	private DtjkPhoneService phoneService;
@@ -128,6 +129,11 @@ public class DtjkPhoneAction extends DispatchAction{
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkPhone elevator =DtjkFrom.getPh();
 		phoneService.save(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加电梯白名单，电话号码："+elevator.getPhone(), "1");
+		
 	    return	new ActionForward("/phoneAction.do?method=query&elevatorId="+elevator.getElevatorId().getId());
 	}
 	/**
@@ -247,7 +253,10 @@ public class DtjkPhoneAction extends DispatchAction{
 			entity.setPhone(elevator.getPhone());
 			phoneService.save(entity);
 		}
-		
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "修改电梯白名单，电话号码："+elevator.getPhone(), "1");
 	    return	new ActionForward("/phoneAction.do?method=query&elevatorId="+elevator.getElevatorId().getId());
 	}
 	
@@ -263,7 +272,12 @@ public class DtjkPhoneAction extends DispatchAction{
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		String elevatorId=request.getParameter("elevatorId");
+		DtjkPhone entity=phoneService.get(id);
 		phoneService.delete(id);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "删除电梯白名单，电话号码："+entity.getPhone(), "1");
 		 return	new ActionForward("/phoneAction.do?method=query&elevatorId"+elevatorId);
 	}
 	/**
@@ -280,7 +294,12 @@ public class DtjkPhoneAction extends DispatchAction{
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
+				DtjkPhone entity=phoneService.get(Long.parseLong(arr[i]));
 				phoneService.delete(Long.parseLong(arr[i]));
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "删除电梯白名单，电话号码："+entity.getPhone(), "1");
 			}
 		}
 		 return	new ActionForward("/phoneAction.do?method=query&elevatorId"+elevatorId);

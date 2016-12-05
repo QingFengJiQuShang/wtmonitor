@@ -118,6 +118,7 @@ public class Gateway {
         if(length(str)){
         	Log logAction=new Log();
             XtszLog log=new XtszLog();
+            log.setFlag("0");
             log.setFoundTime(new Date());
             log.setUserName("µçÌÝÖÕ¶Ë");
         	DtjkGateway gateway=new DtjkGateway();   //ÖÕ¶Ë¾²Ì¬¼ÇÂ¼
