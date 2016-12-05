@@ -1,9 +1,11 @@
 @charset "utf-8";
-html,body {
+html,
+body {
 	width: 100%;
 	height: 100%;
 	background-color: #d0e5f8;
 }
+
 .warp {
 	position: fixed;
 	width: 100%;
@@ -14,6 +16,7 @@ html,body {
 	left: 0;
 	margin: auto;
 }
+
 .warp .con {
 	position: absolute;
 	top: 0;
@@ -25,38 +28,48 @@ html,body {
 	height: 200px;
 	background-color: #0d6cbe;
 }
+
 .right {
 	position: relative;
 	width: 50%;
 	height: 100%;
 	margin-left: 40%;
 }
+
 .right>p {
-    position: absolute;
-    top: -180px;
-    left: -72px;
-    right: 0;
-    bottom: 0;
-    margin: 0 auto;
-    z-index: 0;
-    width: 500px;
-    height: 420px;
-    padding-top: 80px;
-    font-size: 40px;
-    color: #fff;
-    text-align: center;
-    background: url(../img/index2.png) no-repeat;
-    background-size: 100% 100%;
+	position: absolute;
+	top: -180px;
+	left: -72px;
+	right: 0;
+	bottom: 0;
+	margin: 0 auto;
+	z-index: 0;
+	width: 500px;
+	height: 420px;
+	padding-top: 80px;
+	font-size: 40px;
+	color: #fff;
+	text-align: center;
+	background: url(../img/index2.png) no-repeat center;
+	-webkit-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	background-size: 100% 100%;
 }
+
 .right div {
-    width: 65%;
-    height: 100%;
-    background: url(../img/index1.png) no-repeat;
-    background-size: 100% 102%;
-    background-position-y: -2px;
-    position: absolute;
-    z-index: 99;
+	width: 65%;
+	height: 100%;
+	background-position-y: -2px;
+	position: absolute;
+	z-index: 99;
+	background: url(../img/index1.png) no-repeat center;
+	-webkit-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	background-size: 100% 100%;
 }
+
 .right div p {
 	width: 65%;
 	height: 40px;
@@ -64,40 +77,50 @@ html,body {
 	font-size: 14px;
 	margin: 0 auto;
 }
+
 .right div p:nth-child(1) {
-	margin-top: 5%;
+	margin: 5% auto 0;
 }
+
 .right div p span {
 	color: transparent;
 }
+
 .right div p label {
-	color: #3798e9;	
+	color: #3798e9;
 }
+
 .right div p input {
 	width: 185px;
 	height: 25px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
 	border-radius: 5px;
-    box-shadow: inset 0px 1px 4px #000;
+	box-shadow: inset 0px 1px 4px #000;
 }
+
 .right div p:nth-child(3) input {
 	width: 100px;
 }
+
 .right div p:nth-child(3) img {
 	width: 80px;
 	height: 30px;
 	vertical-align: middle;
 }
+
 .right>img {
-    width: 200px;
-    position: absolute;
-    right: 76px;
-    z-index: 99;
+	width: 200px;
+	position: absolute;
+	right: 76px;
+	z-index: 99;
 }
+
 .logn {
 	display: block;
 	width: 30%;
 	height: 30px;
-	margin: 0 auto;
+	margin: 8px auto 0;
 	line-height: 30px;
 	background-color: #1266ae;
 	color: #fff;
@@ -107,3 +130,7 @@ html,body {
 	border-radius: 5px;
 }
 
+html,
+body {
+	min-width: 1200px;
+}

@@ -7,7 +7,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-<!-- 系统设置 -->
+<!-- 网关通信日志 -->
 	<bean name="/logAction" class="com.jrsoft.fri.xtsz.action.XtszLogAction">
 		<property name="logService" ref="logService" />
 	</bean>
@@ -17,6 +17,16 @@
 	<bean id="logDao" class="com.jrsoft.fri.xtsz.dao.XtszLogDaoImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
-    <!-- 系统设置 -->
-	
+    <!-- 网关通信日志 -->
+	<!-- 系统帮助 -->
+	<bean name="/helpAction" class="com.jrsoft.fri.xtsz.action.XtszHelpAction">
+		<property name="helpService" ref="helpService" />
+	</bean>
+	<bean id="helpService" class="com.jrsoft.fri.xtsz.service.XtszHelpServiceImpl">
+		<property name="helpDao"  ref="helpDao" />
+	</bean>
+	<bean id="helpDao" class="com.jrsoft.fri.xtsz.dao.XtszHelpDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 系统帮助 -->
 	</beans>

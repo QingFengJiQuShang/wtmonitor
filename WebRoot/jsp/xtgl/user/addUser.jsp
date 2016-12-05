@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="power" class="fl">权限管理&nbsp;:&nbsp;</label>
 						<div class="choose">
 							<div class="">
-								<p class="manage">电梯监控权限分配 <i class="jia"></i></p>
+								<p class="manage">电梯监控权限分配 <i class="jia" ></i></p>
 								<p class="select clearfix">
 									<input type="checkbox" name="authority" class="selected" id="selected" value="dtjk_check" />
 									<label for="user_ll">查看</label>
@@ -160,6 +160,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      }
      addressInit('cmbProvince', 'cmbCity', 'cmbArea','请选择','请选择','请选择');
      
+		var height = $(window.document).height();
+		$('#main',window.parent.document).height(height+40);
 	
      </script>
 </html>

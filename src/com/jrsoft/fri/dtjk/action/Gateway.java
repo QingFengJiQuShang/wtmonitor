@@ -200,6 +200,7 @@ public class Gateway {
     					//修改电梯的维保状态和维保时间
         				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
         				entity.setMaintenanceTime(new Date());
+        				entity.setState("故障");
         				entity.setMaintenanceState("正常");
         				elevatorService.update(entity);
     				}else{
@@ -216,6 +217,7 @@ public class Gateway {
 	    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
 	    				entity.setMaintenanceTime(new Date());
 	    				entity.setMaintenanceState("正常");
+	    				entity.setState("9常");
 	    				elevatorService.update(entity);
     				}
     			}

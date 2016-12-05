@@ -1,13 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
-<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -15,7 +13,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
   <head>
     <base href="<%=basePath%>">
     
-    <title>使用单位</title>
+    <title>系统帮助</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -25,77 +23,54 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
+		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
+		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 	</head>
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">使用单位</p>
+			<p class="user">系统帮助</p>
 			<div class="warp">
-				<div class="select clearfix">
+				<div class="select">
+				<div class="clearfix">
+				
 					<p class="fl">
-						<label for="user">单位名称&nbsp;:&nbsp;</label>
-						<input type="text" id="name" placeholder="请输入"  value="${name}" />
+						<label for="unit">标题&nbsp;:&nbsp;</label>
+						<input type="text" id="title"    value="${title}"  />	
 					</p>
-					<p class="fl">
-						<label for="unit">单位类型&nbsp;:&nbsp;</label>
-						<select name="type" id="type">
-							<option value="">请选择</option>
-							<option <c:if test="${type=='物业'}">selected="selected" </c:if> value="物业">物业</option>
-							<option <c:if test="${type=='政府'}">selected="selected" </c:if> value="政府">政府</option>
-							<option <c:if test="${type=='事业单位'}">selected="selected" </c:if> value="事业单位">事业单位</option>
-						
-						</select>				
-					</p>
-					<p class="fl">
-						<label for="man">联系人&nbsp;:&nbsp;</label>
-						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
-					</p>
+					
+					
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
+					<div class="table">
 					<div class="or clearfix">
-						<%if(Authority.haveRigth(user.getId(),"yhgl_add")) {%>
-						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
-						<%} %>
-						<%if(Authority.haveRigth(user.getId(),"yhgl_del")) {%>
-						<p class="fl del">批量删除</p>&nbsp;&nbsp;
-						<%} %>
-						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
+							<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
+							<p class="fl del">批量删除</p>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
-								<th class="all">
-									<i></i>
-								</th>
-								<th>序列</th>
-								<th>使用单位名称</th>
-								<th>使用单位类型</th>
-								<th>联系人</th>
-								<th>联系人电话</th>
-								<th>使用单位地址</th>
-								<th>操作</th>
+							<th  style="width: 30px;">序列</th>
+							<th >标题</th>
+							<th style="width: 100px;">操作</th>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
-									<td class="wei">
-										<i class=""><input type="hidden" value="${list.id}" /></i>
-									</td>
 									<td>${s.index + 1 }</td>
-									<td>${list.name }</td>
-									<td>${list.type }</td>
-									<td>${list.liaisons }</td>
-									<td>${list.phone }</td>
-									<td>${list.address}</td>
+									<td>&nbsp;&nbsp;${list.title}&nbsp;&nbsp;</td>
+									
 									<td>
-										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
-										<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>
-										<img src="<%=path%>/img/compile.png" title="修改"  alt="修改"  onclick="findById('${list.id}','1');"/>
-										<%} %>
-										<%if(Authority.haveRigth(user.getId(),"yhgl_del")) {%>
-										<img src="<%=path%>/img/del.png"  title="删除"  alt="删除"   class="del_one" onclick="del('${list.id}');"/>
-										<%} %>
+										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}');"/>
+										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>
+										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"  class="del_one" onclick="del('${list.id}');"/>
+										
 									</td>
 								</tr>
 								</c:forEach>
@@ -131,5 +106,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/xtgl/useUnit.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtsz/help.js" type="text/javascript" charset="utf-8"></script>
+	 <script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
+
 </html>

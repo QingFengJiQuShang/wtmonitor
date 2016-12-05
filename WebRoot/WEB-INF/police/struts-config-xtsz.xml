@@ -6,11 +6,15 @@
 		<form-bean name="XtszFrom" type="com.jrsoft.fri.xtsz.from.XtszFrom" />
    </form-beans>
 		<action-mappings>
-	  <!-- 操作日志-->
+	  <!-- 网关通信日志 -->
 	<action path="/logAction" name="XtszFrom"
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
-
+ <!-- 系统帮助 -->
+	<action path="/helpAction" name="XtszFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	</action-mappings>
 </struts-config>

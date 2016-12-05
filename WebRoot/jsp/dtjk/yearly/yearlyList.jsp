@@ -120,17 +120,17 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<div class="page">
 								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
 								
-								<c:if test="${page.pageNum==0}">
+								<c:if test="${page.pageNum==0||page.countSize==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
-							 	 <c:if test="${page.pageNum!=0}">
+							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
 							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
 								
-								<c:if test="${page.pageNum+1==page.countSize}">
+								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>
-		                        <c:if test="${page.pageNum+1!=page.countSize}">
+		                        <c:if test="${page.pageNum+1!=page.countSize&&page.countSize!=0}">
 		                        		<a href="javascript:void(0);"  title="下一页"  onclick="fenye('${page.pageNum+1}')"  style="background-color: #00AAEE;color: #fff;">></a>
 		                    	</c:if>
 								<a href="javascript:void(0);" class="mo" title="尾页"  onclick="fenye('${page.countSize-1}')"  style="background-color: #00AAEE;color: #fff;">>></a>

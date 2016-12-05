@@ -109,7 +109,7 @@ function toMain(flag){
 			   window.main.location="<%=path%>/logAction.do?method=query";
 		   }
 		   if(flag==62){
-			   window.main.location="<%=path%>/jsp/xtsz/help/addHelp.jsp";
+			   window.main.location="<%=path%>/helpAction.do?method=query";
 		   }
 		   if(flag==63){
 			   window.main.location="<%=path%>/jsp/xtsz/message/messageList.jsp";
@@ -263,7 +263,7 @@ function toMain(flag){
 		
 var g=function(id){return document.getElementById(id)};
 
-	setInterval('push()',10000); //指定30秒刷新一次s
+	//setInterval('push()',10000); //指定30秒刷新一次s
 
 	function push (){
 		<%if(user!=null ){%>

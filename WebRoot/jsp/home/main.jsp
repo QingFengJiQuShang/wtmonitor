@@ -247,5 +247,11 @@
 	  
 	  //区域
 	  	addressInit('province', 'city', 'area');
+	  
+	  var height = $(window.document).height();
+		$('#allmap').css({
+			"height":height-140
+		});
 	</script>
+
 </html>

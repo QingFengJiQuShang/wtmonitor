@@ -5,14 +5,9 @@ $(".manage").click(function() {
 	$(this).parent("div").siblings().children(".manage").children("i").removeClass("jian").addClass("jia");
 	var display = $(this).next().css('display');
 	if(display == 'none') {
-		$(this).children("i").removeClass("jian").addClass("jia");
-		var height = $(window.document).height();
-		$('#main',window.parent.document).height(height-40);
+		$(this).children("i").addClass("jia");
 	} else {
-		
-		$(this).children("i").removeClass("jia").addClass("jian")
-		var height = $(window.document).height();
-		$('#main',window.parent.document).height(height+40);
+		$(this).children("i").removeClass("jia");
 		
 	}
 

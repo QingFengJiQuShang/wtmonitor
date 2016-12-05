@@ -31,17 +31,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body  >
-	<form id="form"  action="<%=path %>/helpAction.do?method=addEntity"  method="post"  encType="multipart/form-data">
+	<form id="form"  action="<%=path %>/helpAction.do?method=updateEntity"  method="post"  encType="multipart/form-data">
 		<div class="con">
 			<p class="user">系统帮助</p>
 			<p class="back" onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table_con">
 			        <p class="fill">
 						<label for="name">标题&nbsp;:&nbsp;</label>
-						<input type="text" id="title" name="help.title"/>
-						<input type="hidden"  id="content" name="help.content">
+						<input type="hidden" id="id" name="help.id" value="${list.id}"/>
+						<input type="text" id="title" name="help.title" value="${list.title}"/>
+						<input type="hidden"  id="content" name="help.content"  >
 					</p>
-	    			<script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
+	    			<script id="editor" type="text/plain" style="width:1024px;height:300px;">${list.content}</script>
 					<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">

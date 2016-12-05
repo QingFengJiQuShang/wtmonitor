@@ -31,37 +31,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body  >
-	<form id="form"  action="<%=path %>/helpAction.do?method=addEntity"  method="post"  encType="multipart/form-data">
 		<div class="con">
 			<p class="user">系统帮助</p>
 			<p class="back" onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table_con">
 			        <p class="fill">
 						<label for="name">标题&nbsp;:&nbsp;</label>
-						<input type="text" id="title" name="help.title"/>
-						<input type="hidden"  id="content" name="help.content">
+						${list.title}
 					</p>
-	    			<script id="editor" type="text/plain" style="width:1024px;height:300px;"></script>
-					<p class="or clearfix">
-						<input type="button"  value="保存"  onclick="add();">
-						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
+					<p class="fill">
+					   ${list.content}
 					</p>
+					<div class="keep clearfix">
+						<button class="fl"  onclick="findById('${list.id}','1');">修改</button>
+						<button class="fr">取消</button>
+					</div>
 				</div>
 		</div>
 		<p></p>
-		</form>
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path %>/js/ssq.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/xtgl/add_user.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtsz/help.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-//实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
- 	
-function add(){
-			document.getElementById("content").value=UE.getEditor('editor').getContent();
-		 	$('#form').submit();
-     }
+
+
      </script>
 </html>
