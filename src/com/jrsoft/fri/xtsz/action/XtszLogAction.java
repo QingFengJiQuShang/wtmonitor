@@ -44,7 +44,7 @@ public class XtszLogAction extends DispatchAction {
 	}
 
 	/**
-	 * 查询 电梯列表
+	 * 查询 操作日志
 	 * @param request
 	 * @param response
 	 * @param region
@@ -54,6 +54,7 @@ public class XtszLogAction extends DispatchAction {
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String flag=request.getParameter("flag");
 		String username=request.getParameter("username");
 		String begintime=request.getParameter("begintime");
 		String endtime=request.getParameter("endtime");
@@ -63,8 +64,6 @@ public class XtszLogAction extends DispatchAction {
 		 }
 
 		String num=request.getParameter("num");   //当前页
-		
-
 		Page  page=new Page();
 		
 		if(num!=null&&!num.equals("")){
@@ -88,6 +87,12 @@ public class XtszLogAction extends DispatchAction {
 				if(endtime!=null&&!endtime.equals("")){
 					sql+=" and de.found_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
 				}
+				if(flag.equals("0")){
+					sql+=" and de.flag  ='" + flag+ "' or de.flag is null ";
+				}else{
+					sql+=" and de.flag  ='" + flag+ "' ";
+				}
+				
 				sql+=" order by de.found_Time desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
@@ -111,6 +116,7 @@ public class XtszLogAction extends DispatchAction {
 				if(begintime!=null){
 					request.setAttribute("begintime", df.parse( begintime));
 				}
+				request.setAttribute("flag", flag);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
@@ -148,6 +154,7 @@ public class XtszLogAction extends DispatchAction {
 		String username=request.getParameter("username");
 		String begintime=request.getParameter("begintime");
 		String endtime=request.getParameter("endtime");
+		String flag=request.getParameter("flag");
 		XtszLog fault=new XtszLog();
 		 if(username!=null)
 			 fault.setUserName(username);
@@ -155,7 +162,8 @@ public class XtszLogAction extends DispatchAction {
 			 fault.setBegintime(begintime);
 		 if(endtime!=null)	 
 			 fault.setEndtime(endtime);
-		
+		 if(flag!=null)	 
+			 fault.setFlag(flag);
 		try {
 			String dates = new SimpleDateFormat("yyyyMMddHHmmss")
 					.format(new Date());

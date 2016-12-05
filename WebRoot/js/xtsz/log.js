@@ -2,7 +2,7 @@
 			 var username= document.getElementById("username").value;
 			 var begintime= document.getElementById("begintime").value;
 			 var endtime= document.getElementById("endtime").value;
-
+			var flag= document.getElementById("flag").value;
 			  var url="";
 			  if(username!=""){
 				  url=url+"&username="+username;
@@ -13,6 +13,10 @@
 			if(endtime!=""){
 				  url=url+"&endtime="+endtime;
 			  }
+			if(flag!=""){
+				  url=url+"&flag="+flag;
+			  }
+			
 			  return url;
 		  }
 	   //模糊查询

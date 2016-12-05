@@ -41,6 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 					<p class="fl">
 						<label for="unit">操作人员&nbsp;:&nbsp;</label>
+						<input type="hidden" id="flag"    value="${flag}"  />	
 						<input type="text" id="username"    value="${username}"  />	
 					</p>
 					<p class="fl"  style="width: 450px;">

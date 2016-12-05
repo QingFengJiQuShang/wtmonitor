@@ -106,18 +106,21 @@ function toMain(flag){
 			   window.main.location="<%=path%>/jsp/count/useNuit.jsp";
 		   }
 		   if(flag==61){
-			   window.main.location="<%=path%>/logAction.do?method=query";
+			   window.main.location="<%=path%>/logAction.do?method=query&flag=1";
 		   }
 		   if(flag==62){
-			   window.main.location="<%=path%>/helpAction.do?method=query";
+			   window.main.location="<%=path%>/logAction.do?method=query&flag=0";
 		   }
 		   if(flag==63){
-			   window.main.location="<%=path%>/jsp/xtsz/message/messageList.jsp";
+			   window.main.location="<%=path%>/helpAction.do?method=query";
 		   }
 		   if(flag==64){
-			   window.main.location="<%=path%>/jsp/xtsz/message/jurisdiction.jsp";
+			   window.main.location="<%=path%>/jsp/xtsz/message/messageList.jsp";
 		   }
 		   if(flag==65){
+			   window.main.location="<%=path%>/jsp/xtsz/message/jurisdiction.jsp";
+		   }
+		   if(flag==66){
 			   window.main.location="<%=path%>/jsp/xtsz/message/messageLog.jsp";
 		   }
 		   
@@ -218,10 +221,11 @@ function toMain(flag){
 					<i class=""></i>系统设置</p>
 				<div class="next">
 					<p	 class="two"  onclick="toMain('61')">操作日志</p>
-					<p	 class="two"  onclick="toMain('62')">系统帮助</p>
-					<p	 class="two"  onclick="toMain('63')">短信警告</p>
-					<p	 class="two"  onclick="toMain('64')">短信权限</p>
-					<p	 class="two"  onclick="toMain('65')">短信日志</p>
+					<p	 class="two"  onclick="toMain('62')">通信日志</p>
+					<p	 class="two"  onclick="toMain('63')">系统帮助</p>
+					<p	 class="two"  onclick="toMain('64')">短信警告</p>
+					<p	 class="two"  onclick="toMain('65')">短信权限</p>
+					<p	 class="two"  onclick="toMain('66')">短信日志</p>
 				</div>
 			</li>
 		</ul>

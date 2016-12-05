@@ -66,6 +66,11 @@ public class XtszLogDaoImpl  extends BaseDaoImpl< XtszLog, String> implements  X
 					if(entity.getEndtime()!=null&&!entity.getEndtime().equals("")){
 						sql+=" and de.found_Time  <=to_date('" + entity.getEndtime()+ "','yyyy-MM-dd hh24:mi:ss')";
 					}
+					if(entity.getFlag().equals("0")){
+						sql+=" and de.flag  ='" + entity.getFlag()+ "' or de.flag is null ";
+					}else{
+						sql+=" and de.flag  ='" + entity.getFlag()+ "' ";
+					}
 					sql+=" order by de.found_Time desc";		
 					
 					PreparedStatement sta = conn.prepareStatement(sql);
