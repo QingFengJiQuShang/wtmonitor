@@ -1,10 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglAuthority"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("authority");
 
 %>
 
@@ -22,14 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
-		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
-		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
-		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
-		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
-		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
+		
 		<style type="text/css">
 			.warp {
 				padding: 10px 0;
@@ -87,66 +84,68 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="con" id="user">
 			<p class="user">短信权限</p>			
 			<div class="warp">
+				<form id="form" action="<%=path %>/usersAction.do?method=updateMessage" method="post"  encType="multipart/form-data">
+			
 				<div class="level">
 					<p>使用单位权限</p>
 					<div class="level_tow clearfix">
 						<p class="fl">
-							<input type="checkbox" name="speed" id="speed"/>
+							<input type="checkbox" name="authority" id="authority"  value="sy_01"/>
 							<label for="speed" >超速</lael>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="kun"/>
+							<input type="checkbox" name="authority" id="kun" value="sy_02"/>
 							<label for="kun">困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="rush"/>
-							<label for="rush">冲顶</label>
+							<input type="checkbox" name="authority" id="rush"  value="sy_03"/>
+							<label for="rush">门关不上</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="end"/>
-							<label for="end">蹲底</label>
+							<input type="checkbox" name="authority" id="end"  value="sy_04"/>
+							<label for="end">冲顶困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="stop"/>
-							<label for="stop">停电</label>
-						</p>
-						<p></p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="colse"/>
-							<label for="colse">门关不上</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="open"/>
-							<label for="open">开门走梯</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="rush_kun"/>
-							<label for="rush_kun">冲顶困人</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="end_kun"/>
-							<label for="end_kun">蹲底困人</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="loding"/>
-							<label for="loding">运动中开门</label>
+							<input type="checkbox" name="authority" id="stop"  value="sy_05"/>
+							<label for="stop">冲顶</label>
 						</p>
 						<p></p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="open_or"/>
-							<label for="open_or">非平层开门</label>
+							<input type="checkbox" name="authority" id="colse"  value="sy_06"/>
+							<label for="colse">蹲底困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="arrive"/>
-							<label for="arrive">开门不到位</label>
+							<input type="checkbox" name="authority" id="open"  value="sy_07"/>
+							<label for="open">蹲底</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="or_kun"/>
-							<label for="or_kun">非平层困人</label>
+							<input type="checkbox" name="authority" id="rush_kun"  value="sy_08"/>
+							<label for="rush_kun">开门走梯</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="or_stop"/>
-							<label for="or_stop">非平层停梯</label>
+							<input type="checkbox" name="authority" id="end_kun"  value="sy_09"/>
+							<label for="end_kun">运动中开门</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="loding"  value="sy_0a"/>
+							<label for="loding">非平层困人</label>
+						</p>
+						<p></p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="open_or"  value="sy_0b"/>
+							<label for="open_or">非平层停梯</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="arrive"  value="sy_0c"/>
+							<label for="arrive">停电</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_kun"  value="sy_0d"/>
+							<label for="or_kun">开门不到位</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_stop"  value="sy_10"/>
+							<label for="or_stop">非平层开门</label>
 						</p>
 					</div>
 				</div>
@@ -154,62 +153,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>维保单位权限</p>
 					<div class="level_tow clearfix">
 						<p class="fl">
-							<input type="checkbox" name="speed" id="speed2"/>
-							<label for="speed2" >超速</lael>
+							<input type="checkbox" name="authority" id="authority"  value="wb_01"/>
+							<label for="speed" >超速</lael>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="kun2"/>
-							<label for="kun2">困人</label>
+							<input type="checkbox" name="authority" id="kun" value="wb_02"/>
+							<label for="kun">困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="rush2"/>
-							<label for="rush2">冲顶</label>
+							<input type="checkbox" name="authority" id="rush"  value="wb_03"/>
+							<label for="rush">门关不上</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="end2"/>
-							<label for="end2">蹲底</label>
+							<input type="checkbox" name="authority" id="end"  value="wb_04"/>
+							<label for="end">冲顶困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="stop2"/>
-							<label for="stop2">停电</label>
-						</p>
-						<p></p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="colse2"/>
-							<label for="colse2">门关不上</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="open2"/>
-							<label for="open2">开门走梯</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="rush_kun2"/>
-							<label for="rush_kun2">冲顶困人</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="end_kun2"/>
-							<label for="end_kun2">蹲底困人</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="loding2"/>
-							<label for="loding2">运动中开门</label>
+							<input type="checkbox" name="authority" id="stop"  value="wb_05"/>
+							<label for="stop">冲顶</label>
 						</p>
 						<p></p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="open_or2"/>
-							<label for="open_or2">非平层开门</label>
+							<input type="checkbox" name="authority" id="colse"  value="wb_06"/>
+							<label for="colse">蹲底困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="arrive2"/>
-							<label for="arrive2">开门不到位</label>
+							<input type="checkbox" name="authority" id="open"  value="wb_07"/>
+							<label for="open">蹲底</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="or_kun2"/>
-							<label for="or_kun2">非平层困人</label>
+							<input type="checkbox" name="authority" id="rush_kun"  value="wb_08"/>
+							<label for="rush_kun">开门走梯</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="or_stop2"/>
-							<label for="or_stop2">非平层停梯</label>
+							<input type="checkbox" name="authority" id="end_kun"  value="wb_09"/>
+							<label for="end_kun">运动中开门</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="loding"  value="wb_0a"/>
+							<label for="loding">非平层困人</label>
+						</p>
+						<p></p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="open_or"  value="wb_0b"/>
+							<label for="open_or">非平层停梯</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="arrive"  value="wb_0c"/>
+							<label for="arrive">停电</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_kun"  value="wb_0d"/>
+							<label for="or_kun">开门不到位</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_stop"  value="wb_10"/>
+							<label for="or_stop">非平层开门</label>
 						</p>
 					</div>
 				</div>
@@ -217,73 +216,88 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>系统用户权限</p>
 					<div class="level_tow clearfix">
 						<p class="fl">
-							<input type="checkbox" name="speed" id="speed3"/>
-							<label for="speed3" >超速</lael>
+							<input type="checkbox" name="authority" id="authority"  value="xt_01"/>
+							<label for="speed" >超速</lael>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="kun3"/>
-							<label for="kun3">困人</label>
+							<input type="checkbox" name="authority" id="kun" value="xt_02"/>
+							<label for="kun">困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="rush3"/>
-							<label for="rush3">冲顶</label>
+							<input type="checkbox" name="authority" id="rush"  value="xt_03"/>
+							<label for="rush">门关不上</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="end3"/>
-							<label for="end3">蹲底</label>
+							<input type="checkbox" name="authority" id="end"  value="xt_04"/>
+							<label for="end">冲顶困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="stop3"/>
-							<label for="stop3">停电</label>
-						</p>
-						<p></p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="colse3"/>
-							<label for="colse3">门关不上</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="open3"/>
-							<label for="open3">开门走梯</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="rush_kun3"/>
-							<label for="rush_kun3">冲顶困人</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="end_kun3"/>
-							<label for="end_kun3">蹲底困人</label>
-						</p>
-						<p class="fl">
-							<input type="checkbox" name="selected" id="loding3"/>
-							<label for="loding3">运动中开门</label>
+							<input type="checkbox" name="authority" id="stop"  value="xt_05"/>
+							<label for="stop">冲顶</label>
 						</p>
 						<p></p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="open_or3"/>
-							<label for="open_or3">非平层开门</label>
+							<input type="checkbox" name="authority" id="colse"  value="xt_06"/>
+							<label for="colse">蹲底困人</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="arrive3"/>
-							<label for="arrive3">开门不到位</label>
+							<input type="checkbox" name="authority" id="open"  value="xt_07"/>
+							<label for="open">蹲底</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="or_kun3"/>
-							<label for="or_kun3">非平层困人</label>
+							<input type="checkbox" name="authority" id="rush_kun"  value="xt_08"/>
+							<label for="rush_kun">开门走梯</label>
 						</p>
 						<p class="fl">
-							<input type="checkbox" name="selected" id="or_stop3"/>
-							<label for="or_stop3">非平层停梯</label>
+							<input type="checkbox" name="authority" id="end_kun"  value="xt_09"/>
+							<label for="end_kun">运动中开门</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="loding"  value="xt_0a"/>
+							<label for="loding">非平层困人</label>
+						</p>
+						<p></p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="open_or"  value="xt_0b"/>
+							<label for="open_or">非平层停梯</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="arrive"  value="xt_0c"/>
+							<label for="arrive">停电</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_kun"  value="xt_0d"/>
+							<label for="or_kun">开门不到位</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_stop"  value="xt_10"/>
+							<label for="or_stop">非平层开门</label>
 						</p>
 					</div>
 				</div>
-				<div class="or clearfix">
-					<button class="fr">保存</button>
-					<button class="fl">取消</button>
-				</div>
+				<p class="or clearfix">
+						<input type="button"  value="保存"  onclick="add();">
+						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
+					</p>
+				</form>
+	</div>
 	</div>
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
 	 <script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+		function add(){
+		 	$('#form').submit();
+     }
 
+		  var obj=document.getElementsByName("authority");
+	    <%for(int i=0;i<authority.size();i++){%>
+			    	 for(var j=0;j<obj.length;j++){
+					    	if(obj[j].value=='<%=authority.get(i).getKey()%>'){
+								 obj[j].checked = true;
+							}
+					}
+	  <%  } %>
+</script>
 </html>

@@ -22,7 +22,7 @@ public class XtglAuthorityDaoImpl  extends BaseDaoImpl< XtglAuthority, String> i
 	 */
 	@Override
 	public boolean getByUser(Long userId, String key) {
-		String hql = " from XtglAuthority e where e.usersId=:usersId and e.key=:key ";
+		String hql = " from XtglAuthority e where ( e.flag='0' or e.flag is null ) and e.usersId=:usersId and e.key=:key ";
 		Query q = this.getSession(true).createQuery(hql);
 		q.setLong("usersId", userId);
 		q.setString("key", key);

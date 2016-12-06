@@ -44,8 +44,8 @@ public class ServerInputThread  extends Thread
         	 OutputStream os;
 			try {
 				os = socket.getOutputStream();
-				System.out.println("ÃüÁî´íÎó£ºe0021102f0");
-				 os.write("e0021102f0".getBytes());
+				System.out.println("ÃüÁî´íÎó£ºE0021103F0");
+				 os.write(byteUtil.hexStringToByte("E0021103F0"));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

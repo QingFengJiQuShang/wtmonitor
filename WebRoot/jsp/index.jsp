@@ -118,7 +118,7 @@ function toMain(flag){
 			   window.main.location="<%=path%>/jsp/xtsz/message/messageList.jsp";
 		   }
 		   if(flag==65){
-			   window.main.location="<%=path%>/jsp/xtsz/message/jurisdiction.jsp";
+			   window.main.location="<%=path%>/usersAction.do?method=findByMessage";
 		   }
 		   if(flag==66){
 			   window.main.location="<%=path%>/jsp/xtsz/message/messageLog.jsp";

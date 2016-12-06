@@ -102,6 +102,7 @@ public class XtglUsersAction extends DispatchAction {
 				XtglAuthority xtglAuthority=new XtglAuthority();
 				xtglAuthority.setUsersId(elevator.getId());
 				xtglAuthority.setKey(key);
+				xtglAuthority.setFlag("0");
 				authorityService.save(xtglAuthority);
 			}
 		}
@@ -219,7 +220,7 @@ public class XtglUsersAction extends DispatchAction {
 		list.setPassword(password);
 		request.setAttribute("list", list);
 		
-		String hql=" where 1=1 and usersId='"+id+"' ";
+		String hql=" where 1=1 and ( flag='0' or flag is null ) and  usersId='"+id+"' ";
 		List<XtglAuthority> authority=authorityService.query(hql);
 		request.setAttribute("authority", authority);
 		
@@ -264,7 +265,7 @@ public class XtglUsersAction extends DispatchAction {
 			
 			//修改用户权限
 			//删除已有的权限
-			String sql="delete xtgl_authority where users_Id='"+elevator.getId()+"' ";
+			String sql="delete xtgl_authority where ( flag='0' or flag is null ) and  users_Id='"+elevator.getId()+"' ";
 			DBEntity.getInstance().executeSql(sql);
 			//重新保存权限
 			String [] authority=request.getParameterValues("authority");
@@ -273,6 +274,7 @@ public class XtglUsersAction extends DispatchAction {
 					XtglAuthority xtglAuthority=new XtglAuthority();
 					xtglAuthority.setUsersId(elevator.getId());
 					xtglAuthority.setKey(key);
+					xtglAuthority.setFlag("0");
 					authorityService.save(xtglAuthority);
 				}
 			}
@@ -284,7 +286,53 @@ public class XtglUsersAction extends DispatchAction {
 		return	new ActionForward("/usersAction.do?method=query");
 	}
 	
-	
+	/**
+	 * 编辑 查看 短信权限
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  findByMessage(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		
+		String hql=" where 1=1 and  flag='1'  ";
+		List<XtglAuthority> authority=authorityService.query(hql);
+		request.setAttribute("authority", authority);
+		
+		
+		return	new ActionForward("/jsp/xtsz/message/jurisdiction.jsp");
+	}
+	/**
+	 * 修改短信权限
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  updateMessage (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		
+			//修改用户权限
+			//删除已有的权限
+			String sql="delete xtgl_authority where  flag='1'   ";
+			DBEntity.getInstance().executeSql(sql);
+			//重新保存权限
+			String [] authority=request.getParameterValues("authority");
+			if(authority!=null){			
+				for(String key:authority){
+					XtglAuthority xtglAuthority=new XtglAuthority();
+					xtglAuthority.setKey(key);
+					xtglAuthority.setFlag("1");
+					authorityService.save(xtglAuthority);
+				}
+			}
+			//生成 操作日志
+			XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+			Log log=new Log();
+	        log.addLog(user.getName(), "修改短信权限", "1");
+			return	new ActionForward("/usersAction.do?method=findByMessage");
+	}
 	
 	
 	/**

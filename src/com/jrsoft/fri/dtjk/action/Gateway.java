@@ -131,6 +131,16 @@ public class Gateway {
     		 elevatorId=convertHexToString(elevatorId);
     		System.out.println("电梯id："+elevatorId);
     		
+    		String hql2=" where 1=1 and  registerid = '"+elevatorId+"'";
+			List<DtjkElevator> elevators=elevatorService.queryAll(hql2);
+			//根据电梯注册号，判断改电梯是否存在，否终止方法
+			if(elevators.size()==0){
+				 System.out.println("命令错误：E0021102F0");
+				 os.write(byteUtil.hexStringToByte("E0021102F0"));
+				 return;
+			}
+    		
+    		
     		String serialNumber=str.substring(48,70); 
     		serialNumber=convertHexToString(serialNumber);
     		System.out.println("网关id："+serialNumber);
@@ -151,7 +161,7 @@ public class Gateway {
     				
     				i=i+4+decimal;   //更改i
     				String end =str.substring(i,i+2); //判断是否结束
-    				if(end.equalsIgnoreCase("f0")){
+    				if(end.equalsIgnoreCase("F0")){
     					break;
     				}
     			}
@@ -166,8 +176,8 @@ public class Gateway {
     			//保存 上报的运行数据
     			recordService.save(record);
     			
-    			String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
-				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+    	//		String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
+		//		List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
 				//修改 电梯上报时间
 				if(elevators.size()>0){
     				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
@@ -237,7 +247,7 @@ public class Gateway {
     				
     				i=i+4+decimal;   //更改i
     				String end =str.substring(i,i+2); //判断是否结束
-    				if(end.equalsIgnoreCase("f0")){
+    				if(end.equalsIgnoreCase("F0")){
     					break;
     				}
     			}
@@ -249,8 +259,8 @@ public class Gateway {
     			//num等于0 说明该终端未记录，重新保存
     			if(list.size()==0){
     				gatewayService.save(gateway);
-    				String hql1="where registerid='"+elevatorId+"'";
-    				List<DtjkElevator> elevators=elevatorService.query(hql1);
+    	//			String hql1="where registerid='"+elevatorId+"'";
+    	//			List<DtjkElevator> elevators=elevatorService.query(hql1);
     				if(elevators.size()>0){
     					DtjkElevator elevator=elevators.get(0);
     					elevator.setGatewayId(gateway);
@@ -266,7 +276,8 @@ public class Gateway {
     				
     			}
     			 try {
-					 os.write("e00101e0".getBytes());
+					 os.write("E0021101F0".getBytes());
+					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -315,27 +326,29 @@ public class Gateway {
        			  fault.setState("处理中");
        			  fault.setFault(command+state+people+floor+door);
        			  fault.setDutyId(null);
-       			String hql1=" where 1=1 and  registerid = '"+elevatorId+"'";
-				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+      // 			String hql1=" where 1=1 and  registerid = '"+elevatorId+"'";
+		//		List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
 				DtjkElevator list=null;
 				DtjkPush push=new DtjkPush();
 				if(elevators.size()>0){
 					fault.setElevatorId(elevators.get(0));//维保电梯Id
 					push.setElevatorId(elevators.get(0));
 					list=elevators.get(0);
+					list.setState("故障");
+					elevatorService.update(list);	//修改电梯运行状态
+					push.setRegisterid(elevatorId);
+					push.setDistinguishid(serialNumber);
+					push.setInstallPlace(list.getInstallPlace());
+					push.setFaultType(command);
+					push.setFlag("0");
+					pushService.save(push);		//生成提醒记录
 				}else{
 					fault.setElevatorId(null);//维保电梯Id
 					push.setElevatorId(null);
 				}
 				faultService.save(fault);		//生成当前故障
-				list.setState("故障");
-				elevatorService.update(list);	//修改电梯运行状态
-				push.setRegisterid(elevatorId);
-				push.setDistinguishid(serialNumber);
-				push.setInstallPlace(list.getInstallPlace());
-				push.setFaultType(command);
-				push.setFlag("0");
-				pushService.save(push);		//生成提醒记录
+				
+				
 				
 				//Tip tip=new Tip();
 				//String word="";
@@ -343,7 +356,9 @@ public class Gateway {
 				//word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n安装地址："+list.getInstallPlace()+"\n"+command+"\n";
 				//tip.show("报警", word);
     				 try {
-    					 os.write("e00101e0".getBytes());
+    					 //os.write("E0021101F0".getBytes());
+    		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
+
     				} catch (IOException e) {
     					e.printStackTrace();
     				}
@@ -358,7 +373,7 @@ public class Gateway {
     				
     				i=i+4+decimal;   //更改i
     				String end =str.substring(i,i+2); //判断是否结束
-    				if(end.equalsIgnoreCase("f0")){
+    				if(end.equalsIgnoreCase("F0")){
     					break;
     				}
     			}
@@ -397,8 +412,8 @@ public class Gateway {
         	     			}
     	     			}
     			 }
-    			 String hql1=" where 1=1 and  registerid = '"+elevatorId+"'";
- 				List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+   // 			 String hql1=" where 1=1 and  registerid = '"+elevatorId+"'";
+ 	//			List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
     				 if(elevators.size()>0){
     					 DtjkElevator elevator=elevators.get(0);
     					 String hql=" where  1=1 and elevatorId='"+elevator.getId()+"' " ;
@@ -451,21 +466,24 @@ public class Gateway {
 	    	    			 }
     			 }
     			String len=Integer.toHexString(m.length()/2);
-    			m="e0"+len+m+"f0";
-    			System.out.println("发送请求命令："+m);
-       			os.write(m.getBytes());
-
+    			m="E0"+len+m+"F0";
+    			System.out.println("发送请求命令："+m.toUpperCase());
+       			//os.write(m.getBytes());
+       			os.write(byteUtil.hexStringToByte(m.toUpperCase()));
     		}else{   
     			try {
-    				 System.out.println("命令错误：e0021102f0");
-    				 os.write("e0021102f0".getBytes());
+    				 System.out.println("命令错误：E0021102F0");
+    				 os.write(byteUtil.hexStringToByte("E0021102F0"));
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
     		}
         }else{
-        	 System.out.println("长度错误：e0031102f0");
-			 os.write("e0031102f0".getBytes());
+        	 System.out.println("长度错误：E0021103F0");
+        	// System.out.println(convertHexToString("E0021103F0").getBytes());      	 
+			 os.write(byteUtil.hexStringToByte("E0021103F0"));
+			//  byte[] result = {-32,1,17,3,-16};
+			// os.write(result.clone());
         }
         	
        

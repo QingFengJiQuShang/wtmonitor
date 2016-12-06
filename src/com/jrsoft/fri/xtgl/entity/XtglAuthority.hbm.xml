@@ -18,5 +18,8 @@
         <property name="key" type="java.lang.String">
             <column name="KEY" length="50" />
         </property>
+        <property name="flag" type="java.lang.String">
+            <column name="FLAG" length="50" />
+        </property>
     </class>
 </hibernate-mapping>
