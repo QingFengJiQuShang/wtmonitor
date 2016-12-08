@@ -13,7 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>操作日志</title>
+    <title>短信日志</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -34,70 +34,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">短信警告</p>
+			<p class="user">短信日志</p>
 			<div class="warp">
 				<div class="select">
 				<div class="clearfix">
-				
-					<p class="fl"  >
-						<label for="user">开始时间&nbsp;:&nbsp;</label>
+						<p class="fl">
+							<label for="unit">手机号&nbsp;:&nbsp;</label>
+							<input type="hidden" id="flag"    value="${flag}"  />	
+							<input type="text" id="phone"    value="${phone}"  />	
+						</p>
+					<p class="fl"  style="width: 450px;">
+						<label for="user">发送时间&nbsp;:&nbsp;</label>
 							<input  class="Wdate"   id="begintime"  name="begintime"   value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
-						
-					</p>
-					<p class="fl"  >
-						<label for="user">结束时间&nbsp;:&nbsp;</label>
+						--
 						<input  class="Wdate"   id="endtime"  name="endtime"   value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
 					</p>
-					
 					<button class="fl"  onclick="query();">查询</button>
+					
 				</div>
 				<div class="table">
 					<div class="table">
 					<div class="or clearfix">
-							
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
-								<th>序号</th>
-								<th>用户手机号码</th>
-								<th>发送状态</th>
-								<th>发送时间</th>
-								<th>内容</th>
+							<th  style="width: 30px;">序列</th>
+							<th style="width: 150px;">用户手机号码</th>
+							<th style="width: 150px;">发送时间</th>
+							<th style="width: 100px;">发送状态</th>
+							<th>内容</th>
+							<th>操作</th>
 							</thead>
 							<tbody>
+							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
-									<td>序号</td>
-									<td>用户手机号码</td>
-									<td>发送状态</td>
-									<td>发送时间</td>
-									<td>内容</td>
-									
+									<td>${s.index + 1 }</td>
+									<td>&nbsp;&nbsp;${list.phone}&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;<fmt:formatDate value="${list.time }"  pattern='yyyy-MM-dd HH:mm:ss'/>&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;${list.state }&nbsp;&nbsp;</td>
+									<td>${list.content }</td>
+									<td>
+										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','0');"/>
+										
+									</td>
 								</tr>
-								<tr>
-									<td>序号</td>
-									<td>用户手机号码</td>
-									<td>发送状态</td>
-									<td>发送时间</td>
-									<td>内容</td>
+								</c:forEach>
 								
-								</tr>
-								<tr>
-									<td>序号</td>
-									<td>用户手机号码</td>
-									<td>发送状态</td>
-									<td>发送时间</td>
-									<td>内容</td>
-								
-								</tr>
-								<tr>
-									<td>序号</td>
-									<td>用户手机号码</td>
-									<td>发送状态</td>
-									<td>发送时间</td>
-									<td>内容</td>
-									
-								</tr>
 							</tbody>
 						</table>
 						<div class="choose">
@@ -129,6 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtsz/message.js" type="text/javascript" charset="utf-8"></script>
 	 <script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

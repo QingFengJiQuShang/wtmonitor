@@ -147,6 +147,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 							<input type="checkbox" name="authority" id="or_stop"  value="sy_10"/>
 							<label for="or_stop">非平层开门</label>
 						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_stop"  value="sy_00"/>
+							<label for="or_stop">自动发送</label>
+						</p>
 					</div>
 				</div>
 				<div class="level">
@@ -210,6 +214,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 							<input type="checkbox" name="authority" id="or_stop"  value="wb_10"/>
 							<label for="or_stop">非平层开门</label>
 						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_stop"  value="wb_00"/>
+							<label for="or_stop">自动发送</label>
+						</p>
 					</div>
 				</div>
 				<div class="level">
@@ -272,6 +280,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 						<p class="fl">
 							<input type="checkbox" name="authority" id="or_stop"  value="xt_10"/>
 							<label for="or_stop">非平层开门</label>
+						</p>
+						<p class="fl">
+							<input type="checkbox" name="authority" id="or_stop"  value="xt_00"/>
+							<label for="or_stop">自动发送</label>
 						</p>
 					</div>
 				</div>

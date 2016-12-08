@@ -16,5 +16,10 @@
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
+	<!-- 报警短信 -->
+	<action path="/messageAction" name="XtszFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	</action-mappings>
 </struts-config>

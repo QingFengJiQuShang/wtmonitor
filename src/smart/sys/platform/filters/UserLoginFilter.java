@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -63,14 +64,21 @@ public class UserLoginFilter extends HttpServlet implements Filter {
 			HttpSession userSession = request.getSession();
 			String url = ((HttpServletRequest) req).getRequestURL().toString().trim();
 			String urlCode = StringUtils.encodeBase64(url);
+			RequestDispatcher rd = request.getRequestDispatcher(loginPage);  
+
 			if (userSession.getAttribute("user")== null
 					&& url.indexOf("userLogin") < 0
 					&& url.indexOf("login.jsp") < 0
 					//||(userSession.getAttribute("user")== null&&((url.substring(url.length()-11,url.length())).equals("/PoliceFri/")||(url.substring(url.length()-10,url.length())).equals("/PoliceFri")))
 					) {
 				//response.sendRedirect(url_err + "?url=" + urlCode);
-				request.getRequestDispatcher(loginPage).forward(request, response);
-				log.error("\u8bf7\u6c42"+url+"\u65f6 \u7528\u6237\u672a\u767b\u5f55\uff01**********\u91cd\u65b0\u767b\u5f55");	//"请求"+url+"时 用户未登录！**********重新登录"
+				//request.getRequestDispatcher(loginPage).forward(request, response);
+				//log.error("\u8bf7\u6c42"+url+"\u65f6 \u7528\u6237\u672a\u767b\u5f55\uff01**********\u91cd\u65b0\u767b\u5f55");	//"请求"+url+"时 用户未登录！**********重新登录"
+				try {
+					rd.forward(request, response);  
+					//log.error("\u8bbf\u95ee\u540e\u53f0"+url+"\u65f6 \u672a\u53d1\u73b0\u767b\u5f55\u7ba1\u7406\u5458\uff01**********\u5df2\u62e6\u622a \u91cd\u65b0\u767b\u5f55");	//"访问后台"+url+"时 未发现登录管理员！**********已拦截 重新登录"
+					return;
+				} catch (Exception e) { }
 			} else {
 				chain.doFilter(req, res);
 				
@@ -89,8 +97,13 @@ public class UserLoginFilter extends HttpServlet implements Filter {
 				    		//appMap.remove(key);
 				    	}else{//如果用户名相同，ip不同，停止访问
 				    		//appMap.remove(user.getLoginname()+user.getPassword()+"userkey");
-				    		request.getRequestDispatcher(loginPage + "?url=" + urlCode).forward(request, response);
-							log.error("\u8bf7\u6c42"+url+"\u65f6 \u7528\u6237\u672a\u767b\u5f55\uff01**********\u91cd\u65b0\u767b\u5f55");	//"请求"+url+"时 用户未登录！**********重新登录"
+				    		//request.getRequestDispatcher(loginPage + "?url=" + urlCode).forward(request, response);
+							//log.error("\u8bf7\u6c42"+url+"\u65f6 \u7528\u6237\u672a\u767b\u5f55\uff01**********\u91cd\u65b0\u767b\u5f55");	//"请求"+url+"时 用户未登录！**********重新登录"
+							try {
+								rd.forward(request, response);  
+								//log.error("\u8bbf\u95ee\u540e\u53f0"+url+"\u65f6 \u672a\u53d1\u73b0\u767b\u5f55\u7ba1\u7406\u5458\uff01**********\u5df2\u62e6\u622a \u91cd\u65b0\u767b\u5f55");	//"访问后台"+url+"时 未发现登录管理员！**********已拦截 重新登录"
+								return;
+							} catch (Exception e) { }
 				    	}
 					}
 				}

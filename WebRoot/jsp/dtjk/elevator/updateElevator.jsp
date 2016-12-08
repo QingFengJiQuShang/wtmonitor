@@ -159,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>
 						<label for="datetimepicker3">生产日期&nbsp;:&nbsp;</label>
 						<input type="text"  id="manufactureTime"  name="manufactureTime" class="form-control" placeholder="请选择" value="<fmt:formatDate value="${list.manufactureTime}"  pattern='yyyy-MM-dd'/>" />
-						<fmt:formatDate value="${list.manufactureTime}"  pattern='yyyy-MM-dd'/>
+						
 						
 					</p>
 					

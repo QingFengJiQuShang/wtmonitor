@@ -28,9 +28,11 @@ import com.jrsoft.fri.dtjk.service.DtjkPushService;
 import com.jrsoft.fri.dtjk.service.DtjkRecordService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
+import com.jrsoft.fri.xtgl.action.Authority;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
 import com.jrsoft.fri.xtsz.action.Log;
+import com.jrsoft.fri.xtsz.action.Message;
 import com.jrsoft.fri.xtsz.entity.XtszLog;
 
 public class Gateway {
@@ -228,7 +230,7 @@ public class Gateway {
 	    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
 	    				entity.setMaintenanceTime(new Date());
 	    				entity.setMaintenanceState("正常");
-	    				entity.setState("9常");
+	    				entity.setState("正常");
 	    				elevatorService.update(entity);
     				}
     			}
@@ -282,10 +284,12 @@ public class Gateway {
 					e.printStackTrace();
 				}
     		}  else if(type.equalsIgnoreCase("21")){    //报警
-    			
+    			 
     			 
     			//循环  解析命令
     				 String command =str.substring(70,72); //故障代码
+    				 String types=command;     //
+    				 String order=warning(command);
     				 command="故障类型："+ warning(command);
     				 System.out.println(command);
     				 
@@ -348,13 +352,6 @@ public class Gateway {
 				}
 				faultService.save(fault);		//生成当前故障
 				
-				
-				
-				//Tip tip=new Tip();
-				//String word="";
-				//word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n电梯品牌："+list.getBrand()+"\n电梯型号："+list.getModel()+"\n安装地址："+list.getInstallPlace()+"\n故障类型:"+fault.getFault()+"\n";
-				//word="注册号："+elevatorId+"\n识别码："+serialNumber+"\n安装地址："+list.getInstallPlace()+"\n"+command+"\n";
-				//tip.show("报警", word);
     				 try {
     					 //os.write("E0021101F0".getBytes());
     		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
@@ -362,6 +359,11 @@ public class Gateway {
     				} catch (IOException e) {
     					e.printStackTrace();
     				}
+    			//生成报警短信 
+    				if(elevators.size()>0){
+    					Message.addMessage(types,order,elevators.get(0));
+    				}
+    				
     		}  else if(type.equalsIgnoreCase("22")){    //请求数据	
     			//循环  解析命令
     			for( int i=70; i<str.length()-1; i=i ){
@@ -427,7 +429,7 @@ public class Gateway {
 	    		     			date=convertStringToHex(phone.getPhone());
 	    		     			m+="630b"+date;
 	    		     		}else{
-	    		     			m+="620100";
+	    		     			m+="630b0000000000000000000000";
 	    		     		}
     	    			 }
     	    			//  白名单
@@ -438,7 +440,7 @@ public class Gateway {
 	    		     			date=convertStringToHex(phone.getPhone());
 	    		     			m+="640b"+date;
 	    		     		}else{
-	    		     			m+="620100";
+	    		     			m+="640b0000000000000000000000";
 	    		     		}
     	    			 }
 	    		     	//  白名单
@@ -449,7 +451,7 @@ public class Gateway {
 		    		     			date=convertStringToHex(phone.getPhone());
 		    		     			m+="650b"+date;
 		    		     		}else{
-		    		     			m+="620100";
+		    		     			m+="650b0000000000000000000000";
 		    		     		}
 	    	    			 }
 	    		     	//  白名单
@@ -461,7 +463,7 @@ public class Gateway {
 		    		     			ask.setWhite4("660b"+date);
 		    		     			m+="660b"+date;
 		    		     		}else{
-		    		     			m+="620100";
+		    		     			m+="660b0000000000000000000000";
 		    		     		}
 	    	    			 }
     			 }

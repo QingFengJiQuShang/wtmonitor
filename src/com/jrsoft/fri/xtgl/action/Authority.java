@@ -24,6 +24,14 @@ public class Authority {
 		
 		return authorityService.getByUser(userId, key);
 	}
-
+	/**
+	 * 查看用户是否拥有key资源元素  短信权限
+	 * @param key 资源元素key
+	 * @return
+	 */
+	public static boolean haveMessage(String key){
+		
+		return authorityService.getByMessage( key);
+	}
 
 }

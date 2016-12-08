@@ -12,5 +12,12 @@ public interface XtglAuthorityService   extends BaseService<XtglAuthority>{
 	 * @return
 	 */
 	public boolean getByUser(Long userId,String key);
+	
+	/**
+	 * 查看 是否拥有key资源元素   短信权限
+	 * @param key 资源元素key
+	 * @return
+	 */
+	public boolean getByMessage(String key);
 
 }

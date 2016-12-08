@@ -115,13 +115,13 @@ function toMain(flag){
 			   window.main.location="<%=path%>/helpAction.do?method=query";
 		   }
 		   if(flag==64){
-			   window.main.location="<%=path%>/jsp/xtsz/message/messageList.jsp";
+			   window.main.location="<%=path%>/messageAction.do?method=query&flag=0";
 		   }
 		   if(flag==65){
 			   window.main.location="<%=path%>/usersAction.do?method=findByMessage";
 		   }
 		   if(flag==66){
-			   window.main.location="<%=path%>/jsp/xtsz/message/messageLog.jsp";
+			   window.main.location="<%=path%>/messageAction.do?method=query&flag=1";
 		   }
 		   
 		    if(flag==71){
@@ -204,18 +204,6 @@ function toMain(flag){
 					<p class="two" onclick="toMain(75)">品牌保险统计</p>
 				</div>
 			</li>
-			
-			<li class="list-item">
-				<p class="one grade"   >
-					<i class=""></i>统计分析</p>
-				<div class="next">
-					<p	 class="two"   onclick="toMain('51')">故障统计</p>
-					<p	 class="two"   onclick="toMain('52')">救援统计</p>
-					<p	  class="two"  onclick="toMain('53')">电梯品牌统计</p>
-					<p	  class="two"  onclick="toMain('54')">维保单位统计</p>
-					<p	  class="two"  onclick="toMain('55')">使用单位统计</p>
-				</div>
-			</li>
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>系统设置</p>
@@ -228,6 +216,18 @@ function toMain(flag){
 					<p	 class="two"  onclick="toMain('66')">短信日志</p>
 				</div>
 			</li>
+			<li class="list-item">
+				<p class="one grade"   >
+					<i class=""></i>统计分析</p>
+				<div class="next">
+					<p	 class="two"   onclick="toMain('51')">故障统计</p>
+					<p	 class="two"   onclick="toMain('52')">救援统计</p>
+					<p	  class="two"  onclick="toMain('53')">电梯品牌统计</p>
+					<p	  class="two"  onclick="toMain('54')">维保单位统计</p>
+					<p	  class="two"  onclick="toMain('55')">使用单位统计</p>
+				</div>
+			</li>
+			
 		</ul>
 		<iframe src="<%=path%>/indexAction.do?method=query" id="main"  name="main"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0" onLoad="iFrameHeight()" width="100%" height=""   style="margin-top: -2px; overflow-x:hidden;  ">
 			
@@ -246,8 +246,6 @@ function toMain(flag){
 		<audio  id="music"   loop="loop"> 
 			<source src="<%=path%>/music/music.mp3" type="audio/mpeg" /> 
 		</audio>
-
-</audio>
 	</div>
 	<!--sheyMsg end-->
 	</body>
@@ -270,8 +268,9 @@ var g=function(id){return document.getElementById(id)};
 	//setInterval('push()',10000); //指定30秒刷新一次s
 
 	function push (){
-		<%if(user!=null ){%>
-		$.ajax({
+		var pushId= document.getElementById("pushId").value;
+		if(pushId==""){
+			$.ajax({
 				 mtype:'post',
 				 url: '<%=path%>/pushAction.do?method=push',
 				 data:'',
@@ -296,8 +295,9 @@ var g=function(id){return document.getElementById(id)};
 							alert("操作失败!");
 					}
 		 });
+		}
 		
-		<%}%>
+		
 	}
 								
 	function clsoePush (){
@@ -318,7 +318,8 @@ var g=function(id){return document.getElementById(id)};
 		
 	}
 	
-	  
+	  var height = $(window.document).height();
+		$('#main',window.parent.document).height(height);
 	</script>
 
 </html>

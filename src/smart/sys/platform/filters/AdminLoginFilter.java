@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -52,12 +53,15 @@ public class AdminLoginFilter extends HttpServlet implements Filter {
 			res.setContentType("text/html;charset=GBK");
 			HttpSession userSession = request.getSession();
 			String url = ((HttpServletRequest) req).getRequestURL().toString().trim();
-			String urlCode = StringUtils.encodeBase64(url);
 			String url_err = "/login.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(url_err);  
 			if (userSession.getAttribute("admin") == null
 					&& url.indexOf("login.jsp") < 0) {
-				request.getRequestDispatcher(url_err + "?url=" + urlCode).forward(request, response);
-				log.error("\u8bbf\u95ee\u540e\u53f0"+url+"\u65f6 \u672a\u53d1\u73b0\u767b\u5f55\u7ba1\u7406\u5458\uff01**********\u5df2\u62e6\u622a \u91cd\u65b0\u767b\u5f55");	//"访问后台"+url+"时 未发现登录管理员！**********已拦截 重新登录"
+				try {
+					rd.forward(request, response);  
+					//log.error("\u8bbf\u95ee\u540e\u53f0"+url+"\u65f6 \u672a\u53d1\u73b0\u767b\u5f55\u7ba1\u7406\u5458\uff01**********\u5df2\u62e6\u622a \u91cd\u65b0\u767b\u5f55");	//"访问后台"+url+"时 未发现登录管理员！**********已拦截 重新登录"
+					return;
+				} catch (Exception e) { }
 			} else {
 				chain.doFilter(req, res);
 			}

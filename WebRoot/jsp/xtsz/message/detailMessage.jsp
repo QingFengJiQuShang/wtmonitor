@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -53,44 +56,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-	<form id="form"   action="<%=path %>/messageAction.do?method=updateEntity"  method="post"  encType="multipart/form-data">
 		<div class="con">
 			<p class="user">短信警告</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
-				<p class="add">修改短信警告</p>
+				<p class="add">查询短信警告</p>
 				<div class="table_con">
 				
 				<p class="fill">
 					<label for="phone">客户手机号码&nbsp;:&nbsp;</label>
-					<input type="hidden" name="message.id" id="id" value="${list.id}" />
-					<input type="" name="message.phone" id="phone" value="${list.phone}" />
+					${list.phone}
 				</p>
 				<p class="fill">
 					<label for="state">发送状态&nbsp;:&nbsp;</label>
-					<input  name="message.state" id="state" value="${list.state}"  readonly="readonly"/>
+					${list.state}
 				</p>
+				<c:if test="${list.state=='已发送'}">
+					<p class="fill">
+						<label for="state">发送时间&nbsp;:&nbsp;</label>
+						<fmt:formatDate value="${list.time }"  pattern='yyyy-MM-dd HH:mm:ss'/>
+					</p>
+				</c:if>
 				<p class="fill textarea">
-					<label for="con">发送内容&nbsp;:&nbsp;</label>
-					<textarea name="message.content" rows="3" cols="40">${list.content}</textarea>
+					<label for="con">发送内容&nbsp;:&nbsp;</label>${list.content}
 				</p>
 				
 					
-					<p class="or clearfix">
-						<input type="button"  class="fl"  value="保存"   onclick="add();"/>
-						<input type="button"  class="fl"  value="取消"   onclick="history.go(-1); " style="float: right;"/>
+					<div class="keep clearfix">
+						<c:if test="${list.state=='未发送'}">
+						<button class="fl"    onclick="findById('${list.id}','1');">修改</button>
+						</c:if>
+						<button class="fr"   onclick="history.go(-1); ">取消</button>
 					</div>
 				</div>
 
 			</div>
 		</div>
-		</form>
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtsz/message.js" type="text/javascript" charset="utf-8"></script>
+
 <script type="text/javascript">
-     function add(){
-		 	$('#form').submit();
-     }
+     
      
      </script>
 </html>

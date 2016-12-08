@@ -29,4 +29,18 @@
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
     <!-- 系统帮助 -->
+    
+    <!-- 报警短信 -->
+	<bean name="/messageAction" class="com.jrsoft.fri.xtsz.action.XtszMessageAction">
+		<property name="messageService" ref="messageService" />
+	</bean>
+	<bean id="messageService" class="com.jrsoft.fri.xtsz.service.XtszMessageServiceImpl">
+		<property name="messageDao"  ref="messageDao" />
+	</bean>
+	<bean id="messageDao" class="com.jrsoft.fri.xtsz.dao.XtszMessageDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 报警短信 -->
+    
+    
 	</beans>
