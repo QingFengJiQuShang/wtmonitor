@@ -137,5 +137,8 @@
         <property name="reportTime" type="java.util.Date">
             <column name="REPORT_TIME" length="7" />
         </property>
+        <property name="delflag" type="java.lang.String">
+            <column name="DELFLAG" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

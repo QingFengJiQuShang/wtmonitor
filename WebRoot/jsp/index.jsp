@@ -318,8 +318,7 @@ var g=function(id){return document.getElementById(id)};
 		
 	}
 	
-	  var height = $(window.document).height();
-		$('#main',window.parent.document).height(height);
+	 
 	</script>
 
 </html>

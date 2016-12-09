@@ -57,7 +57,7 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 			" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 			" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 			" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-			" where  1=1 " ;
+			" where  1=1   and de.delflag!='1' " ;
 				
 			if(elevator.getRegisterid()!=null&&!elevator.getRegisterid().equals("")){
 				sql+=" and de.registerid like '%"+elevator.getRegisterid()+"%'";

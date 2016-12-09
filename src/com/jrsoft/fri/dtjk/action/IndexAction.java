@@ -1,6 +1,8 @@
 package com.jrsoft.fri.dtjk.action;
 
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,7 +50,7 @@ public class IndexAction  extends DispatchAction{
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		 judge( );
 		//正常电梯数量
-		String hql=" where  1=1 and state='正常' " ;
+		String hql=" where  1=1 and state='正常' and delflag!='1'  " ;
 			//	"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators=elevatorService.queryAll(hql);
 		String str="[";
@@ -66,7 +68,7 @@ public class IndexAction  extends DispatchAction{
 		request.setAttribute("str", str);
 		
 		//故障电梯数量
-		String hql1=" where  1=1 and state='故障' " ;
+		String hql1=" where  1=1 and state='故障'  and delflag!='1'  " ;
 				//"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators1=elevatorService.queryAll(hql1);
 		String str1="[";
@@ -83,7 +85,7 @@ public class IndexAction  extends DispatchAction{
 		str1+="]";
 		request.setAttribute("str1", str1);
 		//离线电梯数量
-		String hql2=" where  1=1 and state='离线' " ;
+		String hql2=" where  1=1 and state='离线'  and delflag!='1'  " ;
 				//"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators2=elevatorService.queryAll(hql2);
 		String str2="[";
@@ -112,13 +114,13 @@ public class IndexAction  extends DispatchAction{
 		c.setTime(new Date());
 		c.add(Calendar.DATE, -20);							//20天前日期
 		
-		String sql="select count(*)  from Dtjk_Elevator de where  1=1  and maintenance_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
+		String sql="select count(*)  from Dtjk_Elevator de where  1=1  and delflag!='1'  and maintenance_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
 		int n=DBEntity.getInstance().queryDataCount(sql);
 		index.setMaintenanceNum(n);
 		
 		c.setTime(new Date());
 		c.add(Calendar.YEAR, -1);  //加一年
-		 sql="select count(*)  from Dtjk_Elevator de where  1=1  and yearly_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
+		 sql="select count(*)  from Dtjk_Elevator de where  1=1  and delflag!='1'  and yearly_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
 		 n=DBEntity.getInstance().queryDataCount(sql);
 		index.setYearlyNum(n);
 		request.setAttribute("index", index);
@@ -131,7 +133,7 @@ public class IndexAction  extends DispatchAction{
 	 */
 	public void findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response ){
 		String label=request.getParameter("label");
-		String hql=" where  1=1 and label='"+label+"'  " ;
+		String hql=" where  1=1 and delflag!='1'  and label='"+label+"'  " ;
 		List<DtjkElevator> elevators=elevatorService.queryAll(hql);
 		
 		JSONObject cell = new JSONObject();
@@ -158,9 +160,33 @@ public class IndexAction  extends DispatchAction{
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		c.add(Calendar.MINUTE, -10);							//10分钟前
-		String sql="update DTJK_ELEVATOR set   state='离线' where ( state='正常' or  state is null ) and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss') ) ";
+		String sql="update DTJK_ELEVATOR set   state='离线' where ( state='正常' or  state is null ) and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')  ) and delflag!='1'  ";
 		DBEntity.getInstance().executeSql(sql);
 		
+	}
+	
+
+	/**
+	   * 根据注册号 查询 经纬度
+	   * @param request
+	   * @param respons
+	   * @param productList
+	   * @param productSeries
+	   * @param productImageList
+	 * @throws Exception 
+	   */
+		public void onlyRegisterid(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception{
+			
+			String registerid=request.getParameter("registerid");   //用户名
+				//生成联系人编号
+				String hql=" where 1=1 and   registerid = '"+registerid+"' and delflag!='1'  order by id asc ";
+				List<DtjkElevator> content=elevatorService.query(hql);	
+				JSONObject cell = new JSONObject();
+				if(content.size()>0){
+					cell.put("label", content.get(0).getLabel());
+				}
+				JsonUtil.ajaxOutPutJson(response, cell);
+				
 	}
 	
 }

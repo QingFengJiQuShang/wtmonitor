@@ -27,12 +27,18 @@
 	
 	<body>
 	
-		<div class="con">
+		<div class="con"  id="con">
+		<div class="erweima"  style="display: none;" > 
+  		<div id="rightArrow"></div>
+  		<div id="floatDivBoxs"><img src="<%=path %>/img/index_logo.png" style="width: 150px;"/></div>
+    </div>
 			<p class="select" >
-				区域：<select id="province" name="province"  onblur="theLocation('province');"></select>
-				<select id="city" name="city"	 onblur="theLocation('city');"></select>
+				区域：<select id="province" name="province"  onclick="theLocation('province');"></select>
+				<select id="city" name="city"	 onclick="theLocation('city');"></select>
 				<select id="area" name="area"  style="display: none;"></select>
-				输入框：<input type="text" id="suggestId" size="20" value="" style="width:150px;height: 30px;" />
+				地址：<input type="text" id="suggestId" size="20" value="" style="width:150px;height: 30px;" />
+				
+				注册号：<input type="text" id="registerid"  onblur="byId();"  size="20" value="" style="width:150px;height: 30px;" />
 			</p>
 			<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 			<html>
@@ -43,7 +49,8 @@
 			
 			
 			<div id="allmap"  ></div>
-			<ul class="clearfix list_num">
+			
+	    <ul class="clearfix list_num">
 				<li class="fl list-item" >
 					<p class="name">在线电梯电梯数量</p>
 					<p class="num">${index.normalNum}</p>
@@ -95,6 +102,8 @@
 	<script src="<%=path %>/js/PCASClass.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/ssq.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=9gdzSjQZTjIbIGLxFnAOnxwa"></script>
+		<script type="text/javascript" src="<%=path %>/js/zzsc.js"></script>
+	
 	<script type="text/javascript">
 	addressInit('province', 'city', 'area','${province}','${city}','请选择');
 		// 百度地图API功能
@@ -194,7 +203,7 @@
 	});
 
 	function setPlace(){
-		map.clearOverlays();    //清除地图上所有覆盖物
+		//map.clearOverlays();    //清除地图上所有覆盖物
 		function myFun(){
 			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
 			map.centerAndZoom(pp, 18);
@@ -245,13 +254,35 @@
     		  window.location.href="<%=path %>/recordAction.do?method=findByMonitor&id="+id+"&flag=0";
          }
 	  
+	  //根据注册号查询
+		  function byId(id,flag){
+		  		var registerid = document.getElementById("registerid").value;
+		         $.ajax({
+				     mtype:'post',
+		             url: "<%=path%>/indexAction.do?method=onlyRegisterid",
+		             data: "registerid="+registerid,
+		             success: function(rs){
+		            	 if(rs!=null){
+		            		var label= rs.label.split(",");
+							var point = new BMap.Point(label[0], label[1]);
+							map.centerAndZoom(point, 15); 
+		            	 }
+					        
+		             }
+		   		 });
+	  
+	  }
+	  
+	  
 	  //区域
 	  	addressInit('province', 'city', 'area');
 	  
 	  var height = $(window.document).height();
+	  //alert(height);
 		$('#allmap').css({
-			"height":height-140
+			"height":height*0.82
 		});
+		var height = $(window.document).height();
 	</script>
 
 </html>

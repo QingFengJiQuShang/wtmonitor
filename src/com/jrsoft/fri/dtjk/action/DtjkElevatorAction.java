@@ -52,7 +52,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		public void onlyRegisterid(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception{
 			
 			String registerid=request.getParameter("registerid");   //用户名
-				//生成联系人编号
+				//查询注册号
 				String hql=" where 1=1 and   registerid = '"+registerid+"'  order by id asc ";
 				List<DtjkElevator> content=elevatorService.query(hql);	
 				PrintWriter out;
@@ -99,6 +99,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		if(installTime!=null&&!installTime.equals("") )
 			elevator.setInstallTime(df.parse(installTime));
 		elevator.setState("正常");
+		elevator.setDelflag("0");
 		elevatorService.save(elevator);
 		
 		System.out.println(request.getRemoteAddr());
@@ -117,7 +118,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		c.add(Calendar.MINUTE, -10);							//10分钟前
-		String sql="update DTJK_ELEVATOR set   state='离线' where state='正常' and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss') ) ";
+		String sql="update DTJK_ELEVATOR set   state='离线' where state='正常' and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss') ) and delflag!='1'  ";
 		DBEntity.getInstance().executeSql(sql);
 		
 	}
@@ -172,7 +173,7 @@ public class DtjkElevatorAction extends DispatchAction{
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-						" where  1=1 " ;
+						" where  1=1  and de.delflag!='1' " ;
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -283,7 +284,7 @@ public class DtjkElevatorAction extends DispatchAction{
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-						" where  1=1 " ;
+						" where  1=1   and de.delflag!='1' " ;
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -388,7 +389,7 @@ public class DtjkElevatorAction extends DispatchAction{
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-						" where  1=1 " ;
+						" where  1=1   and de.delflag!='1' " ;
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -497,7 +498,7 @@ public class DtjkElevatorAction extends DispatchAction{
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-						" where  1=1 " ;
+						" where  1=1   and de.delflag!='1' " ;
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -714,7 +715,9 @@ public class DtjkElevatorAction extends DispatchAction{
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		DtjkElevator entity =elevatorService.get(id);
-		elevatorService.delete(id);
+		//elevatorService.delete(id);
+		entity.setDelflag("1");
+		elevatorService.update(entity);
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
@@ -735,8 +738,9 @@ public class DtjkElevatorAction extends DispatchAction{
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
 				DtjkElevator entity =elevatorService.get(Long.parseLong(arr[i]));
-				elevatorService.delete(Long.parseLong(arr[i]));
-				
+				//elevatorService.delete(Long.parseLong(arr[i]));
+				entity.setDelflag("1");
+				elevatorService.update(entity);
 				//生成 操作日志
 				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				Log log=new Log();
@@ -860,30 +864,14 @@ public class DtjkElevatorAction extends DispatchAction{
 //			 installPlace=new String(installPlace.getBytes("iso-8859-1"),"utf-8");
 //		 }
 		String num=request.getParameter("num");   //当前页
-		
 
 		Page  page=new Page();
-		String hql=" where  1=1 " ;
-		if(registerid!=null&&!registerid.equals("")){
-			hql+=" and registerid like '%"+registerid+"%'";
-		}
-		if(installPlace!=null&&!installPlace.equals("")){
-			hql+=" and installPlace like '%"+installPlace+"%'";
-		}
-		if(useUnitName!=null&&!useUnitName.equals("")){
-			hql+=" and maintenanceUnitId.name like '%"+useUnitName+"%'";
-		}
 		
-		hql+="order by id ";
-		List<DtjkElevator> DtjkElevators=elevatorService.queryAll(hql);
-		
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCount(DtjkElevators.size());//总记录数
 		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<DtjkElevator> list=null;
@@ -895,7 +883,7 @@ public class DtjkElevatorAction extends DispatchAction{
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-						" where  1=1 " ;
+						" where  1=1   and de.delflag!='1' " ;
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -907,7 +895,8 @@ public class DtjkElevatorAction extends DispatchAction{
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
-				
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkElevator>();

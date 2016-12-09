@@ -133,7 +133,7 @@ public class Gateway {
     		 elevatorId=convertHexToString(elevatorId);
     		System.out.println("电梯id："+elevatorId);
     		
-    		String hql2=" where 1=1 and  registerid = '"+elevatorId+"'";
+    		String hql2=" where 1=1 and  registerid = '"+elevatorId+"' and delflag!='1' ";
 			List<DtjkElevator> elevators=elevatorService.queryAll(hql2);
 			//根据电梯注册号，判断改电梯是否存在，否终止方法
 			if(elevators.size()==0){
@@ -418,7 +418,7 @@ public class Gateway {
  	//			List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
     				 if(elevators.size()>0){
     					 DtjkElevator elevator=elevators.get(0);
-    					 String hql=" where  1=1 and elevatorId='"+elevator.getId()+"' " ;
+    					 String hql=" where  1=1 and delflag!='1' and elevatorId='"+elevator.getId()+"' " ;
     		     		 List<DtjkPhone>  phones=phoneService.queryAll(hql);
     		     		 
     		     	//  白名单
@@ -671,8 +671,8 @@ public class Gateway {
 		 //当前楼层
 		if(command.equalsIgnoreCase("33")){
 			int floor = (byte) Integer.parseInt(content, 16); 
-			if(floor<=0)
-				floor=floor-1;
+//			if(floor<=0)
+//				floor=floor-1;
 			record.setFloor(Integer.toString(floor));
 			System.out.println("当前楼层："+floor);
 		}
