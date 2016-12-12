@@ -143,6 +143,7 @@ public class IndexAction  extends DispatchAction{
 			cell.put("registerid", elevator.getRegisterid()==null?"":elevator.getRegisterid());		//电梯注册号
 			cell.put("distinguishid", elevator.getDistinguishid()==null?"":elevator.getDistinguishid());		//识别码
 			cell.put("useUnitName",elevator.getUseUnitId()==null?"":elevator.getUseUnitId().getName());		//使用单位名称
+			cell.put("maintenanceUnitName",elevator.getMaintenanceUnitId()==null?"":elevator.getMaintenanceUnitId().getName());		//使用单位名称
 			cell.put("brand", elevator.getBrand()==null?"":elevator.getBrand());			//电梯品牌
 			cell.put("model", elevator.getModel()==null?"":elevator.getModel());			//电梯型号
 			cell.put("installPlace", elevator.getInstallPlace()==null?"":elevator.getInstallPlace());		//安装地点

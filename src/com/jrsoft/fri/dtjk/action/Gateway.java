@@ -6,13 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-
 import smart.sys.platform.springUtils.SpringBeanUtil;
 import tcpip.byteUtil;
-
-import com.jrsoft.fri.cs.Tip;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
 import com.jrsoft.fri.dtjk.entity.DtjkMaintenanceRecords;

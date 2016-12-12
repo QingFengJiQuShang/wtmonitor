@@ -28,10 +28,7 @@
 	<body>
 	
 		<div class="con"  id="con">
-		<div class="erweima"  style="display: none;" > 
-  		<div id="rightArrow"></div>
-  		<div id="floatDivBoxs"><img src="<%=path %>/img/index_logo.png" style="width: 150px;"/></div>
-    </div>
+		
 			<p class="select" >
 				区域：<select id="province" name="province"  onclick="theLocation('province');"></select>
 				<select id="city" name="city"	 onclick="theLocation('city');"></select>
@@ -102,7 +99,6 @@
 	<script src="<%=path %>/js/PCASClass.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/ssq.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=9gdzSjQZTjIbIGLxFnAOnxwa"></script>
-		<script type="text/javascript" src="<%=path %>/js/zzsc.js"></script>
 	
 	<script type="text/javascript">
 	addressInit('province', 'city', 'area','${province}','${city}','请选择');
@@ -242,6 +238,7 @@
 			         txt+="电梯品牌："+data.brand+"<br/>";
 			         txt+="电梯型号："+data.model+"<br/>";
 			         txt+="使用单位："+data.useUnitName+"<br/>";
+			         txt+="维保单位："+data.maintenanceUnitName+"<br/>";
 			         txt+="安装地点："+data.installPlace+"<br/>";
 			         var infoWindow = new BMap.InfoWindow(txt, opts);  // 创建信息窗口对象 
 					map.openInfoWindow(infoWindow,point); //开启信息窗口
