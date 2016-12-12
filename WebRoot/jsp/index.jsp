@@ -91,7 +91,7 @@ function toMain(flag){
 		   }
 		   
 		    if(flag==51){
-			   window.main.location="<%=path%>/jsp/count/fault.jsp";
+			   window.main.location="<%=path%>/countAction.do?method=faultCount";
 		   }
 		   if(flag==52){
 			   window.main.location="<%=path%>/jsp/count/rescue.jsp";

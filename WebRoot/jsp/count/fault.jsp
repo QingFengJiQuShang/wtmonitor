@@ -42,12 +42,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fl">
 						<label for="user">开始时间&nbsp;:&nbsp;</label>
-						<input  class="Wdate"   id="start"  name="start"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+						<input  class="Wdate"   id="begintime"  name="begintime"  value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 					</p>
 					
 					<p class="fl">
 						<label for="man">结束时间&nbsp;:&nbsp;</label>
-					<input  class="Wdate"   id="time_end"  name="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
+					<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
@@ -58,38 +58,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table_con">
 						<div class="fl">
 							<table border="" cellspacing="" cellpadding="">
-								<caption>时间<span>&nbsp;:&nbsp;1016-01-0-1至2016-03-31</span></caption>
+								<caption>故障总数：${gz }&nbsp;&nbsp;&nbsp;&nbsp;
+													电梯总数：${zong }&nbsp;&nbsp;&nbsp;&nbsp;
+													故障发生率：${gzl }%&nbsp;&nbsp;&nbsp;&nbsp;
+								</caption>
 								<thead>
-									<th>故障类型</th>
-									<th>故障次数</th>
-									<th>电梯数</th>
-									<th>故障发生率</th>
+									<th style="width: 100px;">故障类型</th>
+									<th style="width: 100px;">故障次数</th>
+									<th style="width: 100px;">故障发生率</th>
 								</thead>
 								<tbody>
+								<c:forEach items="${counts}" var="counts" varStatus="s">
 									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
+										<td>${counts.faultType}</td>
+										<td>${counts.faultNum}</td>
+										<td>${counts.incidence}%</td>
 									</tr>
-									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
-									</tr>
-									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
-									</tr>
-									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
-									</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -124,35 +109,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				option = {
 					tooltip: {
 						trigger: 'item',
-						formatter: "{a} <br/>{b} : {c} ({d}%)"
+						formatter: "{a} <br/>{b} : {c}% "
 					},
 					legend: {
 						orient: 'vertical',
 						x: 'right',
 						y: 'center',
-						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+						data:${title}
 					},
 					series: [{
-						name: '访问来源',
+						name: '故障发生率',
 						type: 'pie',
 						radius: '55%',
 						center: ['50%', '60%'],
-						data: [{
-							value: 335,
-							name: '直接访问'
-						}, {
-							value: 310,
-							name: '邮件营销'
-						}, {
-							value: 234,
-							name: '联盟广告'
-						}, {
-							value: 135,
-							name: '视频广告'
-						}, {
-							value: 1548,
-							name: '搜索引擎'
-						}]
+						data: ${rows}
 					}]
 				};
 
@@ -160,7 +130,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				myChart.setOption(option);
 			}
 		);
-	
+	//模糊查询
+		function query(){
+			 var begintime= document.getElementById("begintime").value;
+			 var endtime= document.getElementById("endtime").value;
+    		  window.location.href="<%=path%>/countAction.do?method=faultCount&begintime="+begintime+"&endtime="+endtime;
+		  }
 	</script>
 
 </html>

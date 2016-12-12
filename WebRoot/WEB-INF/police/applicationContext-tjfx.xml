@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+    <!-- 统计分析 -->
+	<bean name="/countAction" class="com.jrsoft.fri.tjfx.action.CountAction">
+		<property name="elevatorService" ref="elevatorService" />
+		<property name="maintenanceUnitService" ref="maintenanceUnitService" />
+		<property name="maintenanceUsersService" ref="maintenanceUsersService" />
+		<property name="faultService" ref="gzclFaultService" />
+		<property name="rescueUnitService" ref="xtglRescueUnitService" />
+		<property name="usersService" ref="usersService" />
+		<property name="useUnitService" ref="useUnitService" />
+	</bean>
+    <!-- 统计分析  -->
+    
+    
+    
+   
+	
+	</beans>
