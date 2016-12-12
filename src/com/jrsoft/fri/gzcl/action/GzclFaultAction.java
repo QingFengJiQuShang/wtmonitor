@@ -23,20 +23,30 @@ import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.from.GzclForm;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
+import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtgl.service.XtglRescueUnitService;
 import com.jrsoft.fri.xtsz.action.Log;
 
 public class GzclFaultAction extends DispatchAction {
 	
 	private GzclFaultService faultService;
-
+	private XtglRescueUnitService rescueUnitService;
 	public GzclFaultService getFaultService() {
 		return faultService;
 	}
 
 	public void setFaultService(GzclFaultService faultService) {
 		this.faultService = faultService;
+	}
+
+	public XtglRescueUnitService getRescueUnitService() {
+		return rescueUnitService;
+	}
+
+	public void setRescueUnitService(XtglRescueUnitService rescueUnitService) {
+		this.rescueUnitService = rescueUnitService;
 	}
 
 	/**
@@ -159,6 +169,16 @@ public class GzclFaultAction extends DispatchAction {
 		String flag=request.getParameter("flag");
 		GzclFault list=faultService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
+		List<XtglRescueUnit> unitId=new ArrayList<XtglRescueUnit>();
+		if(list.getUnitId()!=null&&!list.getUnitId().equals("")){
+			String  arr []=list.getUnitId().split(",");
+			for(int i=0;i<arr.length;i++){
+				XtglRescueUnit unit =rescueUnitService.get(Long.parseLong(arr[i]));
+				unitId.add(unit);
+			}
+		}
+		request.setAttribute("unitId", unitId);
+		
 		if(flag.equals("1")){
 			return	new ActionForward("/jsp/gzgl/fault/updateFault.jsp");
 		}else{
@@ -182,7 +202,7 @@ public class GzclFaultAction extends DispatchAction {
 		String unitId="";
 		if(unitIds!=null){
 			for(String u:unitIds){
-				unitId=u+"<br/>";
+				unitId+=u+",";
 			}
 		}
 		

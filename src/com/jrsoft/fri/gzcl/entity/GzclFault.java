@@ -27,6 +27,7 @@ public class GzclFault implements java.io.Serializable {
 	 private XtglUsers dutyId=new XtglUsers();			//值班人
 	private String flag;					//是否是当前故障标示
 	private String state;			//状态
+	private String faultType;  		//故障类型 
 	// Constructors
 	private String registerid;			//电梯注册号
 	private String distinguishid;			//识别码
@@ -43,7 +44,7 @@ public class GzclFault implements java.io.Serializable {
 	public GzclFault(DtjkElevator elevatorId, String fault, String handle,
 			Date happenTime, String type, Date alarmTime,
 			Date arriveTime, Date successTime, String unitId,
-			String numbers, XtglUsers dutyId, String flag,String state) {
+			String numbers, XtglUsers dutyId, String flag,String state,String faultType) {
 		this.elevatorId = elevatorId;
 		this.fault = fault;
 		this.handle = handle;
@@ -56,6 +57,7 @@ public class GzclFault implements java.io.Serializable {
 		this.numbers = numbers;
 		this.dutyId = dutyId;
 		this.flag = flag;
+		this.faultType=faultType;
 	}
 
 	// Property accessors
@@ -218,6 +220,14 @@ public class GzclFault implements java.io.Serializable {
 
 	public void setEndtime(String endtime) {
 		this.endtime = endtime;
+	}
+
+	public String getFaultType() {
+		return faultType;
+	}
+
+	public void setFaultType(String faultType) {
+		this.faultType = faultType;
 	}
 
 }

@@ -65,16 +65,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th  style="width: 30px;">序列</th>
 							<th style="width: 150px;">操作时间</th>
 							<th style="width: 100px;">操作人员</th>
-							<th>操作内容</th>
+							<th style="width: 700px;">操作内容</th>
 							<th>操作</th>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
-									<td>${s.index + 1 }</td>
-									<td>&nbsp;&nbsp;<fmt:formatDate value="${list.foundTime }"  pattern='yyyy-MM-dd HH:mm:ss'/>&nbsp;&nbsp;</td>
-									<td>&nbsp;&nbsp;${list.userName }&nbsp;&nbsp;</td>
-									<td>${list.content }</td>
+									<td style="width: 30px;">${s.index + 1 }</td>
+									<td style="width: 150px;">&nbsp;&nbsp;<fmt:formatDate value="${list.foundTime }"  pattern='yyyy-MM-dd HH:mm:ss'/>&nbsp;&nbsp;</td>
+									<td style="width: 100px;">&nbsp;&nbsp;${list.userName }&nbsp;&nbsp;</td>
+									<td  style="width: 700px;">
+									<c:if test="${fn:length(list.content)>70 }">  
+				                         ${fn:substring(list.content, 0, 70)}...  
+				                   </c:if>  
+				                  <c:if test="${fn:length(list.content)<=70 }">  
+				                         ${list.content }  
+				                   </c:if>  </td>
 									<td>
 										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}');"/>
 										

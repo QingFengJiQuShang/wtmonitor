@@ -11,6 +11,7 @@
 	<bean name="/alarmAction" class="com.jrsoft.fri.gzcl.action.GzlcAlarmAction">
 		<property name="alarmService" ref="gzlcAlarmService" />
 		<property name="faultService" ref="gzclFaultService" />
+		<property name="elevatorService" ref="elevatorService" />
 	</bean>
 	<bean id="gzlcAlarmService" class="com.jrsoft.fri.gzcl.service.GzlcAlarmServiceImpl">
 		<property name="alarmDao"  ref="gzlcAlarmDao" />
@@ -21,6 +22,7 @@
      <!-- 当前故障-->
 	<bean name="/faultAction" class="com.jrsoft.fri.gzcl.action.GzclFaultAction">
 		<property name="faultService" ref="gzclFaultService" />
+		<property name="rescueUnitService" ref="xtglRescueUnitService" />
 	</bean>
 	<bean id="gzclFaultService" class="com.jrsoft.fri.gzcl.service.GzclFaultServiceImpl">
 		<property name="faultDao"  ref="gzclFaultDao" />

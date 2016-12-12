@@ -51,5 +51,8 @@
          <property name="state" type="java.lang.String">
             <column name="STATE" length="200" />
         </property>
+         <property name="faultType" type="java.lang.String">
+            <column name="FAULT_TYPE" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -66,11 +66,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="area">故障问题&nbsp;:&nbsp;</label>
-						<input type="text" id="fault"  name="alarm.fault"  />
+						<!-- 
+						<input type="text" id="fault"  name="alarm.fault"  /> -->
+						<select id="fault"  name="alarm.fault"  />
+							<option  value="">请选择</option>
+						    <option  value="超速">超速</option>
+						    <option  value="困人">困人</option>
+						    <option  value="门关不上">门关不上</option>
+						    <option  value="冲顶困人">冲顶困人</option>
+						    <option  value="冲顶">冲顶</option>
+						    <option  value="蹲底困人">蹲底困人</option>
+						    <option  value="蹲底">蹲底</option>
+						    <option  value="开门走梯">开门走梯</option>
+						    <option  value="运动中开门">运动中开门</option>
+						    <option  value="非平层困人">非平层困人</option>
+						    <option  value="非平层停梯">非平层停梯</option>
+						    <option  value="停电">停电</option>
+						     <option  value="开门不到位">开门不到位</option>
+						    <option  value="非平层开门">非平层开门</option>
+						</select>
 					</p>
 					<p class="fill">
 						<label for="area">故障描述&nbsp;:&nbsp;</label>
-						<input type="text" id="describe"  name="alarm.describe"  />
+						<textarea rows="3" cols="50" id="describe"  name="alarm.describe"  ></textarea>
 					</p>
 					<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">

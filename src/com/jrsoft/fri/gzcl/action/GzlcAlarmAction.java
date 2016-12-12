@@ -24,6 +24,8 @@ import org.apache.struts.actions.DispatchAction;
 
 import smart.sys.platform.dao.DBEntity;
 
+import com.jrsoft.fri.dtjk.entity.DtjkElevator;
+import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.entity.GzlcAlarm;
 import com.jrsoft.fri.gzcl.from.GzclForm;
@@ -39,6 +41,7 @@ public class GzlcAlarmAction  extends DispatchAction {
 	
 	private GzlcAlarmService alarmService ;
 	private GzclFaultService faultService;
+	private DtjkElevatorService elevatorService;
 	public GzlcAlarmService getAlarmService() {
 		return alarmService;
 	}
@@ -53,6 +56,14 @@ public class GzlcAlarmAction  extends DispatchAction {
 
 	public void setFaultService(GzclFaultService faultService) {
 		this.faultService = faultService;
+	}
+
+	public DtjkElevatorService getElevatorService() {
+		return elevatorService;
+	}
+
+	public void setElevatorService(DtjkElevatorService elevatorService) {
+		this.elevatorService = elevatorService;
 	}
 
 	/**
@@ -76,15 +87,19 @@ public class GzlcAlarmAction  extends DispatchAction {
 		//生成当前故障
 		GzclFault fault=new GzclFault();
 		fault.setElevatorId(elevator.getElevatorId());
-		fault.setFault(elevator.getFault());
+		fault.setFault(elevator.getDescribe());
 		fault.setAlarmTime(elevator.getTime());
 		fault.setHappenTime(elevator.getHappenTime());
+		fault.setFaultType(elevator.getFault());
 		fault.setNumbers("0");
 		fault.setType("人工接警");
 		fault.setState("处理中");
 		fault.setDutyId(user);
 		faultService.save(fault);
-		
+		//修改电梯当前运行状态
+		DtjkElevator list=elevatorService.get(elevator.getElevatorId().getId());
+		list.setState("故障");
+		elevatorService.update(list);
 		//生成 操作日志
 		Log log=new Log();
 		log.addLog(user.getName(), "添加人工接警", "1");

@@ -163,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 }
 	 for(var i=0; i<id.length; i+=1){
 		 if(name[i]!=""){
-			  $('#${id1}',window.parent.document).append("<option value='"+id[i]+"'>"+name[i]+"</option>");	 
+			  $('#${id1}',window.parent.document).append("<option value='"+id[i]+"' selected='selected' >"+name[i]+"</option>");	 
 			window.parent.document.getElementById('${id}').focus();
 		 }
   			

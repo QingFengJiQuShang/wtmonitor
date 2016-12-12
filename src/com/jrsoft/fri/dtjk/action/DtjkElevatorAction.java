@@ -603,7 +603,7 @@ public class DtjkElevatorAction extends DispatchAction{
 			entity.setDistinguishid(elevator.getDistinguishid());
 			entity.setBrand(elevator.getBrand());
 			entity.setModel(elevator.getModel());
-			entity.setState(elevator.getState());
+			//entity.setState(elevator.getState());
 			entity.setType(elevator.getType());
 			entity.setNumbers(elevator.getNumbers());
 			entity.setLabel(elevator.getLabel());

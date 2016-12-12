@@ -75,6 +75,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</select>	
 					</p>
 					<p class="fill">
+						<label for="area">故障问题&nbsp;:&nbsp;</label>
+						<input type="text" id="faultType"  name="alarm.faultType"  value="${list.faultType}"  readonly="readonly"/> 
+						
+					</p>
+					<p class="fill">
 						<label for="man">故障信息&nbsp;:&nbsp;</label>
 						<textarea  id="fault"  name="fault.fault"   rows="3" cols="30">${list.fault}</textarea>
 						
@@ -94,7 +99,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="man">施救单位&nbsp;:&nbsp;</label>
-							<select multiple style="WIDTH: 10em; height: 100px;" name="unitId" id="unitId"  >
+							<select multiple="multiple" style="WIDTH: 10em; height: 100px;" name="unitId"  id="unitId"  >
+								<c:forEach items="${unitId}" var="unitId" varStatus="s">
+									<option value="${unitId.id }" selected="selected">${unitId.name }</option>
+								</c:forEach>
+								
 					    	</select>
 					    	<input style="width: 60px;" type="button" id="msdept" value="选择" onClick="selectRescueUnit('handle','unitId')">
 					    	<input style="width: 60px;" type="button" id="msuser2" value="移除" onClick="closeMultiRescueUnit('unitId')">
@@ -128,6 +137,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	<script src="<%=path%>/js/gzcl/fault.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
      function add(){
+    	 var selectedComs = document.getElementById("selectedComs");
+		for(var i=0;i<selectedComs.length;i++){
+			selectedComs.options[i].selected = true;
+		}
 		 	$('#form').submit();
      }
     

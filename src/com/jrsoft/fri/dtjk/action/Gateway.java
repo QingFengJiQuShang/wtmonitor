@@ -291,11 +291,11 @@ public class Gateway {
     				 
     				 String state =str.substring(72,74); //状态
     				 if(state.equalsIgnoreCase("00")){
-    					 state="	运行状态：上行";
+    					 state="运行状态：上行";
     				 }else if(state.equalsIgnoreCase("01")){
-    					 state="	运行状态：下行";
+    					 state="运行状态：下行";
     				 }else{
-    					 state="	运行状态：静止";
+    					 state="运行状态：静止";
     				 }
 					 System.out.println(state);
 
@@ -324,7 +324,8 @@ public class Gateway {
        			  fault.setAlarmTime(new Date());
        			  fault.setType("自动接警");
        			  fault.setState("处理中");
-       			  fault.setFault(command+state+people+floor+door);
+       			  fault.setFaultType(order);
+       			  fault.setFault(state+people+floor+door);
        			  fault.setDutyId(null);
       // 			String hql1=" where 1=1 and  registerid = '"+elevatorId+"'";
 		//		List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
