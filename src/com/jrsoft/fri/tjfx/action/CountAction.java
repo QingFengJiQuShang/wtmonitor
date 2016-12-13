@@ -189,13 +189,8 @@ public class CountAction  extends DispatchAction{
 		String hql=" where 1=1 ";
 		List<XtglRescueUnit> list=rescueUnitService.query(hql);
 		List<RescueCount> counts=new ArrayList<RescueCount>();
-		JSONArray rows = new JSONArray();				//救援到达时间详细数据
-		JSONArray rows1 = new JSONArray();				//救援完成时间详细数据
-		JSONArray title = new JSONArray();				//饼状图 标题
+		
 		for(int i=0;i<list.size();i++){
-			title.add(list.get(i).getName() );
-			JSONObject json = new JSONObject(); 
-			JSONObject json1 = new JSONObject(); 
 			RescueCount count=new RescueCount();
 			count.setName(list.get(i).getName());
 			//查询 救援到达时间和救援完成时间
@@ -215,14 +210,8 @@ public class CountAction  extends DispatchAction{
 			}
 			count.setArriveTime(df.format(arriveTime/rescues.size()));
 			count.setSuccessTime(df.format(successTime/rescues.size()));
-			json.put("value",count.getArriveTime() );
-			json.put("name",count.getName() );
-			json1.put("value",count.getSuccessTime() );
-			json1.put("name",count.getName() );
 			count.setNum(rescues.size());
 			counts.add(count);
-			rows.add(json);
-			rows1.add(json1);
 		}
 		if(endtime!=null&&!endtime.equals("")){
 			request.setAttribute("endtime", sdf.parse( endtime));
@@ -230,9 +219,7 @@ public class CountAction  extends DispatchAction{
 		if(begintime!=null&&!begintime.equals("")){
 			request.setAttribute("begintime", sdf.parse( begintime));
 		}
-		request.setAttribute("rows",rows.toString() );
-		request.setAttribute("rows1",rows1.toString() );
-		request.setAttribute("title",title.toString() );
+		
 		request.setAttribute("counts", counts);
 	    return	new ActionForward("/jsp/count/rescue.jsp");
 	}

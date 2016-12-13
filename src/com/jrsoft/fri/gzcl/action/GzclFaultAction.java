@@ -207,48 +207,52 @@ public class GzclFaultAction extends DispatchAction {
 			throws Exception {
 		GzclForm GzclForm=(GzclForm)form;
 		GzclFault unit =GzclForm.getFault();
+		GzclFault fault=faultService.get(unit.getId());
+		if(fault!=null){
+					String happenTime=request.getParameter("happenTime");
+					String alarmTime=request.getParameter("alarmTime");
+					String arriveTime=request.getParameter("arriveTime");
+					String successTime=request.getParameter("successTime");
+					SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					if(happenTime !=null&&!happenTime.equals(""))
+						fault.setHappenTime(df.parse(happenTime));
+					if(alarmTime !=null&&!alarmTime.equals(""))
+						fault.setAlarmTime(df.parse(alarmTime));
+					if(arriveTime !=null&&!arriveTime.equals(""))
+						fault.setArriveTime(df.parse(arriveTime));
+					if(successTime !=null&&!successTime.equals(""))
+						fault.setSuccessTime(df.parse(successTime));
+					fault.setFaultType(unit.getFaultType());
+					fault.setFault(unit.getFault());
+					fault.setNumbers(unit.getNumbers());
+					fault.setFaultType(unit.getFaultType());
+					fault.setFaultType(unit.getFaultType());
+					faultService.update(fault);
 		
-		
-		String happenTime=request.getParameter("happenTime");
-		String alarmTime=request.getParameter("alarmTime");
-		String arriveTime=request.getParameter("arriveTime");
-		String successTime=request.getParameter("successTime");
-		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(happenTime !=null&&!happenTime.equals(""))
-			unit.setHappenTime(df.parse(happenTime));
-		if(alarmTime !=null&&!alarmTime.equals(""))
-			unit.setAlarmTime(df.parse(alarmTime));
-		if(arriveTime !=null&&!arriveTime.equals(""))
-			unit.setArriveTime(df.parse(arriveTime));
-		if(successTime !=null&&!successTime.equals(""))
-			unit.setSuccessTime(df.parse(successTime));
-		
-		faultService.update(unit);
-		
-		//删除已有的关系，重新建立关系
-		String sql1="delete Gzcl_Rescue where fault_Id='"+unit.getId()+"'";
-	   DBEntity.getInstance().executeSql(sql1);	
-		String[] unitIds=request.getParameterValues("unitId");
-		if(unitIds!=null){
-			for(String u:unitIds){
-				GzclRescue rescue=new GzclRescue();
-				rescue.setFaultId(unit);
-				rescue.setRescueUnitId(rescueUnitService.get(Long.parseLong(u)));
-				gzclRescueService.save(rescue);
+				//删除已有的关系，重新建立关系
+				String sql1="delete Gzcl_Rescue where fault_Id='"+unit.getId()+"'";
+			   DBEntity.getInstance().executeSql(sql1);	
+				String[] unitIds=request.getParameterValues("unitId");
+				if(unitIds!=null){
+					for(String u:unitIds){
+						GzclRescue rescue=new GzclRescue();
+						rescue.setFaultId(unit);
+						rescue.setRescueUnitId(rescueUnitService.get(Long.parseLong(u)));
+						gzclRescueService.save(rescue);
+					}
+				}
+				
+				
+				if(!unit.getState().equals("处理中")){
+					String sql="update dtjk_elevator set state='正常' where id='"+unit.getElevatorId().getId()+"' ";
+					DBEntity.getInstance().executeSql(sql);
+				}
+				//DtjkElevator elevator=e
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "修改当前故障", "1");
 			}
-		}
-		
-		
-		if(!unit.getState().equals("处理中")){
-			String sql="update dtjk_elevator set state='正常' where id='"+unit.getElevatorId().getId()+"' ";
-			DBEntity.getInstance().executeSql(sql);
-		}
-		//DtjkElevator elevator=e
-		//生成 操作日志
-		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
-		Log log=new Log();
-        log.addLog(user.getName(), "修改当前故障", "1");
-		
 		return	new ActionForward("/faultAction.do?method=query");
 	}
 	

@@ -78,12 +78,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</tbody>
 							</table>
 						</div>
-						<div style="width: 33%;height:400px;float: left;">
-								<div class="fr" id="fr"  style="width: 100%;height:200px;"></div>
-								<div  id="mian" class="mian"  style="width: 100%;height:200px;"></div>
+						<div  class="fr" id="fr"   style="width: 33%;height:400px;float: left;">
 						</div>
-						<divstyle="width: 33%;height:200px; float: left;">
-
+						<div   id="mian" class="mian"  style="width: 33%;height:400px; float: left;">
 						</div>
 					</div>
 				</div>

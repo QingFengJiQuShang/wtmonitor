@@ -59,16 +59,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="man">故障发生时间&nbsp;:&nbsp;</label>
-						<input  class="Wdate"   name="happenTime"   value="<fmt:formatDate value="${list.happenTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" > 
+						<input  class="Wdate"   name="happenTime"   value="<fmt:formatDate value="${list.happenTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly"> 
 						
 					</p>
 					<p class="fill">
 						<label for="man">接警时间&nbsp;:&nbsp;</label>
-						<input  class="Wdate"   id="alarmTime"  name="alarmTime"   value="<fmt:formatDate value="${list.alarmTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"    onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
+						<input  class="Wdate"   id="alarmTime"  name="alarmTime"   value="<fmt:formatDate value="${list.alarmTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"    onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly">
 					</p>
 					<p class="fill">
 						<label for="man">接警类型&nbsp;:&nbsp;</label>
-						<select name="fault.type" id="type">
+						<select name="fault.type" id="type"  >
 							<option value="">请选择</option>
 							<option <c:if test="${list.type=='人工接警'}">selected="selected" </c:if> value="人工接警">人工接警</option>
 							<option <c:if test="${list.type=='自动接警'}">selected="selected" </c:if> value="自动接警">自动接警</option>
@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="area">故障问题&nbsp;:&nbsp;</label>
-						<input type="text" id="faultType"  name="alarm.faultType"  value="${list.faultType}"  readonly="readonly"/> 
+						<input type="text" id="faultType"  name="fault.faultType"  value="${list.faultType}"  readonly="readonly"/> 
 						
 					</p>
 					<p class="fill">

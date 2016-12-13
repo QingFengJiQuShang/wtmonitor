@@ -1,7 +1,14 @@
 package com.jrsoft.fri.dtjk.action;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -112,6 +119,9 @@ public class Gateway {
         byteUtil util=new byteUtil();
         String str = util.BytesHexString(buffer);
         System.out.println(str);
+		SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		write("");
+		write(d.format(new Date())+"\t"+str);
         //判断命令长度
         if(length(str)){
         	Log logAction=new Log();
@@ -124,15 +134,18 @@ public class Gateway {
     		Ask ask=new Ask();     				//请求命令
     		String type=str.substring(6,8); 
     		System.out.println("数据类型："+judgeType(type));
+    		write(d.format(new Date())+"\t"+type);
     		
     		String elevatorId=str.substring(8,48); 
     		 elevatorId=convertHexToString(elevatorId);
     		System.out.println("电梯id："+elevatorId);
+    		write(d.format(new Date())+"\t"+elevatorId);
     		
     		String hql2=" where 1=1 and  registerid = '"+elevatorId+"' and delflag!='1' ";
 			List<DtjkElevator> elevators=elevatorService.queryAll(hql2);
 			//根据电梯注册号，判断改电梯是否存在，否终止方法
 			if(elevators.size()==0){
+				write(d.format(new Date())+"\tE0021102F0\t电梯注册号不存在！");
 				 System.out.println("命令错误：E0021102F0");
 				 os.write(byteUtil.hexStringToByte("E0021102F0"));
 				 return;
@@ -276,6 +289,7 @@ public class Gateway {
     			 try {
 					 os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
+					 write(d.format(new Date())+"\tE0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -352,7 +366,7 @@ public class Gateway {
     				 try {
     					 //os.write("E0021101F0".getBytes());
     		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
-
+    		       		write(d.format(new Date())+"\tE0021101F0");
     				} catch (IOException e) {
     					e.printStackTrace();
     				}
@@ -469,16 +483,19 @@ public class Gateway {
     			System.out.println("发送请求命令："+m.toUpperCase());
        			//os.write(m.getBytes());
        			os.write(byteUtil.hexStringToByte(m.toUpperCase()));
+       			write(d.format(new Date())+"\t"+m.toUpperCase());
     		}else{   
     			try {
     				 System.out.println("命令错误：E0021102F0");
     				 os.write(byteUtil.hexStringToByte("E0021102F0"));
+    				 write(d.format(new Date())+"\tE0021102F0");
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
     		}
         }else{
         	 System.out.println("长度错误：E0021103F0");
+        	 write(d.format(new Date())+"\tE0021103F0");
         	// System.out.println(convertHexToString("E0021103F0").getBytes());      	 
 			 os.write(byteUtil.hexStringToByte("E0021103F0"));
 			//  byte[] result = {-32,1,17,3,-16};
@@ -873,5 +890,26 @@ public class Gateway {
 		 }
 		 
 	 }
-	 
+	 /**
+		 * java 写人txt文本
+		 * @param content		写入内容
+		 */
+		public static void write(String content) {  
+
+			String filePath="D:/test.txt";
+			BufferedWriter out = null;
+			try {
+				out = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(filePath, true)));
+				out.write(content+"\r\n");
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 }
