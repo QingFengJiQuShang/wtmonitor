@@ -21,8 +21,10 @@ import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
+import com.jrsoft.fri.gzcl.entity.GzclRescue;
 import com.jrsoft.fri.gzcl.from.GzclForm;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
+import com.jrsoft.fri.gzcl.service.GzclRescueService;
 import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
@@ -33,6 +35,7 @@ public class GzclFaultAction extends DispatchAction {
 	
 	private GzclFaultService faultService;
 	private XtglRescueUnitService rescueUnitService;
+	private GzclRescueService gzclRescueService;
 	public GzclFaultService getFaultService() {
 		return faultService;
 	}
@@ -47,6 +50,14 @@ public class GzclFaultAction extends DispatchAction {
 
 	public void setRescueUnitService(XtglRescueUnitService rescueUnitService) {
 		this.rescueUnitService = rescueUnitService;
+	}
+
+	public GzclRescueService getGzclRescueService() {
+		return gzclRescueService;
+	}
+
+	public void setGzclRescueService(GzclRescueService gzclRescueService) {
+		this.gzclRescueService = gzclRescueService;
 	}
 
 	/**
@@ -171,12 +182,10 @@ public class GzclFaultAction extends DispatchAction {
 		GzclFault list=faultService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
 		List<XtglRescueUnit> unitId=new ArrayList<XtglRescueUnit>();
-		if(list.getUnitId()!=null&&!list.getUnitId().equals("")){
-			String  arr []=list.getUnitId().split(",");
-			for(int i=0;i<arr.length;i++){
-				XtglRescueUnit unit =rescueUnitService.get(Long.parseLong(arr[i]));
-				unitId.add(unit);
-			}
+		String hql=" where  fault_Id='"+list.getId()+"'";
+		List<GzclRescue> rescues=gzclRescueService.query(hql);
+		for(int i=0;i<rescues.size();i++){
+			unitId.add(rescues.get(i).getRescueUnitId());
 		}
 		request.setAttribute("unitId", unitId);
 		
@@ -199,13 +208,6 @@ public class GzclFaultAction extends DispatchAction {
 		GzclForm GzclForm=(GzclForm)form;
 		GzclFault unit =GzclForm.getFault();
 		
-		String[] unitIds=request.getParameterValues("unitId");
-		String unitId="";
-		if(unitIds!=null){
-			for(String u:unitIds){
-				unitId+=u+",";
-			}
-		}
 		
 		String happenTime=request.getParameter("happenTime");
 		String alarmTime=request.getParameter("alarmTime");
@@ -220,8 +222,23 @@ public class GzclFaultAction extends DispatchAction {
 			unit.setArriveTime(df.parse(arriveTime));
 		if(successTime !=null&&!successTime.equals(""))
 			unit.setSuccessTime(df.parse(successTime));
-		unit.setUnitId(unitId);
+		
 		faultService.update(unit);
+		
+		//删除已有的关系，重新建立关系
+		String sql1="delete Gzcl_Rescue where fault_Id='"+unit.getId()+"'";
+	   DBEntity.getInstance().executeSql(sql1);	
+		String[] unitIds=request.getParameterValues("unitId");
+		if(unitIds!=null){
+			for(String u:unitIds){
+				GzclRescue rescue=new GzclRescue();
+				rescue.setFaultId(unit);
+				rescue.setRescueUnitId(rescueUnitService.get(Long.parseLong(u)));
+				gzclRescueService.save(rescue);
+			}
+		}
+		
+		
 		if(!unit.getState().equals("处理中")){
 			String sql="update dtjk_elevator set state='正常' where id='"+unit.getElevatorId().getId()+"' ";
 			DBEntity.getInstance().executeSql(sql);

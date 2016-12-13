@@ -415,7 +415,7 @@ public class Gateway {
  	//			List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
     				 if(elevators.size()>0){
     					 DtjkElevator elevator=elevators.get(0);
-    					 String hql=" where  1=1 and delflag!='1' and elevatorId='"+elevator.getId()+"' " ;
+    					 String hql=" where  1=1  and elevatorId='"+elevator.getId()+"' " ;
     		     		 List<DtjkPhone>  phones=phoneService.queryAll(hql);
     		     		 
     		     	//  °×Ãûµ¥

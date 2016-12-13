@@ -137,10 +137,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	<script src="<%=path%>/js/gzcl/fault.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
      function add(){
-    	 var selectedComs = document.getElementById("selectedComs");
-		for(var i=0;i<selectedComs.length;i++){
-			selectedComs.options[i].selected = true;
-		}
 		 	$('#form').submit();
      }
     

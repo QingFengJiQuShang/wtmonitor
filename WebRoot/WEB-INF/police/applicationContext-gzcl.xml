@@ -23,11 +23,20 @@
 	<bean name="/faultAction" class="com.jrsoft.fri.gzcl.action.GzclFaultAction">
 		<property name="faultService" ref="gzclFaultService" />
 		<property name="rescueUnitService" ref="xtglRescueUnitService" />
+		<property name="gzclRescueService" ref="gzclRescueService" />
 	</bean>
 	<bean id="gzclFaultService" class="com.jrsoft.fri.gzcl.service.GzclFaultServiceImpl">
 		<property name="faultDao"  ref="gzclFaultDao" />
 	</bean>
 	<bean id="gzclFaultDao" class="com.jrsoft.fri.gzcl.dao.GzclFaultDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	 <!-- 故障救援单位关系-->
+	<bean id="gzclRescueService" class="com.jrsoft.fri.gzcl.service.GzclRescueServiceImpl">
+		<property name="gzclRescueDao"  ref="gzclRescueDao" />
+	</bean>
+	<bean id="gzclRescueDao" class="com.jrsoft.fri.gzcl.dao.GzclRescueDaoImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
 	</beans>

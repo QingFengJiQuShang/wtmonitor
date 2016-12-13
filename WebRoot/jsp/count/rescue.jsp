@@ -58,45 +58,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table_con">
 						<div class="fl" style="width: 33%;">
 							<table border="" cellspacing="" cellpadding="">
-								<caption>时间<span>&nbsp;:&nbsp;1016-01-0-1至2016-03-31</span></caption>
+								<caption></caption>
 								<thead>
-									<th>故障类型</th>
-									<th>故障次数</th>
-									<th>电梯数</th>
-									<th>故障发生率</th>
+									<th style="width: 150px;">救援单位</th>
+									<th>平均救援到达时间</th>
+									<th>平均救援完成时间</th>
+									<th>救援次数</th>
 								</thead>
 								<tbody>
+									<c:forEach items="${counts}" var="counts" varStatus="s">
 									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
+										<td>${counts.name}</td>
+										<td>${counts.arriveTime}分钟</td>
+										<td>${counts.successTime}分钟</td>
+										<td>${counts.num}</td>
 									</tr>
-									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
-									</tr>
-									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
-									</tr>
-									<tr>
-										<td>故障类型</td>
-										<td>故障次数</td>
-										<td>电梯数</td>
-										<td>故障发生率</td>
-									</tr>
+									</c:forEach>
+									
 								</tbody>
 							</table>
 						</div>
-						<div class="fr" id="fr" style="width: 33%;height:400px;float: left;">
-
+						<div style="width: 33%;height:400px;float: left;">
+								<div class="fr" id="fr"  style="width: 100%;height:200px;"></div>
+								<div  id="mian" class="mian"  style="width: 100%;height:200px;"></div>
 						</div>
-						<div id="mian" class="mian" style="width: 33%;height:400px; float: left;">
+						<divstyle="width: 33%;height:200px; float: left;">
 
 						</div>
 					</div>
@@ -128,68 +114,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				option = {
 					tooltip: {
 						trigger: 'item',
-						formatter: "{a} <br/>{b} : {c} ({d}%)"
+						formatter: "{a} <br/>救援单位：{b} <br/>平均救援到达时间: {c} 分钟"
 					},
 					legend: {
 						orient: 'vertical',
 						x: 'left',
-						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+						data: ${title}
 					},
 					series: [{
-						name: '救援到达时间占比分布',
+						name: '平均救援到达时间占比分布',
 						type: 'pie',
-						radius: '55%',
-						center: ['50%', '60%'],
-						data: [{
-							value: 335,
-							name: '直接访问'
-						}, {
-							value: 310,
-							name: '邮件营销'
-						}, {
-							value: 234,
-							name: '联盟广告'
-						}, {
-							value: 135,
-							name: '视频广告'
-						}, {
-							value: 1548,
-							name: '搜索引擎'
-						}]
+						radius: '30%',
+						center: ['50%', '30%'],
+						data: ${rows}
 					}]
 				};
 //设置数据
 				option2 = {
 					tooltip: {
 						trigger: 'item',
-						formatter: "{a} <br/>{b} : {c} ({d}%)"
+						formatter: "{a} <br/>救援单位：{b} <br/>平均救援完成时间: {c} 分钟"
 					},
 					legend: {
 						orient: 'vertical',
 						x: 'left',
-						data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+						data: ${title}
 					},
 					series: [{
-						name: '救援成功时间占比分布',
+						name: '平均救援成功时间占比分布',
 						type: 'pie',
-						radius: '55%',
-						center: ['50%', '60%'],
-						data: [{
-							value: 335,
-							name: '直接访问'
-						}, {
-							value: 310,
-							name: '邮件营销'
-						}, {
-							value: 234,
-							name: '联盟广告'
-						}, {
-							value: 135,
-							name: '视频广告'
-						}, {
-							value: 1548,
-							name: '搜索引擎'
-						}]
+						radius: '30%',
+						center: ['50%', '30%'],
+						data: ${rows1}
 					}]
 				};
 				// 为echarts对象加载数据 

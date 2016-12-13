@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,11 @@ import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
+import com.jrsoft.fri.gzcl.entity.GzclRescue;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
+import com.jrsoft.fri.gzcl.service.GzclRescueService;
 import com.jrsoft.fri.tjfx.from.FaultCount;
+import com.jrsoft.fri.tjfx.from.RescueCount;
 import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitService;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
@@ -40,6 +44,8 @@ public class CountAction  extends DispatchAction{
 	private XtglRescueUnitService rescueUnitService;
 	private XtglUsersService usersService;
 	private XtglUseUnitService useUnitService;
+	private GzclRescueService gzclRescueService;
+
 	
 	public DtjkElevatorService getElevatorService() {
 		return elevatorService;
@@ -85,6 +91,13 @@ public class CountAction  extends DispatchAction{
 	public void setUseUnitService(XtglUseUnitService useUnitService) {
 		this.useUnitService = useUnitService;
 	}
+	public GzclRescueService getGzclRescueService() {
+		return gzclRescueService;
+	}
+	public void setGzclRescueService(GzclRescueService gzclRescueService) {
+		this.gzclRescueService = gzclRescueService;
+	}
+	
 	
 	/**
 	 * 故障统计
@@ -158,6 +171,8 @@ public class CountAction  extends DispatchAction{
 	    return	new ActionForward("/jsp/count/fault.jsp");
 	}
 	
+	
+	
 	/**
 	 * 救援统计
 	 * @param request
@@ -169,12 +184,45 @@ public class CountAction  extends DispatchAction{
 			throws Exception {
 		String begintime=request.getParameter("begintime");
 		String endtime=request.getParameter("endtime");
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		DecimalFormat    df   = new DecimalFormat("0.00");   
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");		
+		DecimalFormat    df   = new DecimalFormat("0.0");   
 		String hql=" where 1=1 ";
 		List<XtglRescueUnit> list=rescueUnitService.query(hql);
+		List<RescueCount> counts=new ArrayList<RescueCount>();
+		JSONArray rows = new JSONArray();				//救援到达时间详细数据
+		JSONArray rows1 = new JSONArray();				//救援完成时间详细数据
+		JSONArray title = new JSONArray();				//饼状图 标题
 		for(int i=0;i<list.size();i++){
-			String hql1="where ";
+			title.add(list.get(i).getName() );
+			JSONObject json = new JSONObject(); 
+			JSONObject json1 = new JSONObject(); 
+			RescueCount count=new RescueCount();
+			count.setName(list.get(i).getName());
+			//查询 救援到达时间和救援完成时间
+			String hql1=" where rescueUnitId = '"+list.get(i).getId()+"'";
+			List<GzclRescue> rescues=gzclRescueService.query(hql1);
+			
+			double  arriveTime=0;
+			double successTime=0;
+			
+			for(GzclRescue g:rescues){
+				if(g.getFaultId().getArriveTime()!=null&&g.getFaultId().getHappenTime()!=null&&g.getFaultId().getSuccessTime()!=null){
+					long arrive=(g.getFaultId().getArriveTime().getTime()-g.getFaultId().getHappenTime().getTime());
+					arriveTime+= arrive /(1000*60);  		 //  救援到达时间  分钟
+					long success=(g.getFaultId().getSuccessTime().getTime()-g.getFaultId().getArriveTime().getTime());
+					successTime+= success /(1000*60);  		 //  救援成功时间  分钟
+				}
+			}
+			count.setArriveTime(df.format(arriveTime/rescues.size()));
+			count.setSuccessTime(df.format(successTime/rescues.size()));
+			json.put("value",count.getArriveTime() );
+			json.put("name",count.getName() );
+			json1.put("value",count.getSuccessTime() );
+			json1.put("name",count.getName() );
+			count.setNum(rescues.size());
+			counts.add(count);
+			rows.add(json);
+			rows1.add(json1);
 		}
 		if(endtime!=null&&!endtime.equals("")){
 			request.setAttribute("endtime", sdf.parse( endtime));
@@ -182,6 +230,10 @@ public class CountAction  extends DispatchAction{
 		if(begintime!=null&&!begintime.equals("")){
 			request.setAttribute("begintime", sdf.parse( begintime));
 		}
+		request.setAttribute("rows",rows.toString() );
+		request.setAttribute("rows1",rows1.toString() );
+		request.setAttribute("title",title.toString() );
+		request.setAttribute("counts", counts);
 	    return	new ActionForward("/jsp/count/rescue.jsp");
 	}
 
