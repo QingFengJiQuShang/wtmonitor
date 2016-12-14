@@ -3,6 +3,7 @@ package com.jrsoft.fri.dtjk.action;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,6 +15,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import smart.sys.platform.springUtils.SpringBeanUtil;
 import tcpip.byteUtil;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
@@ -120,8 +128,6 @@ public class Gateway {
         String str = util.BytesHexString(buffer);
         System.out.println(str);
 		SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		write("");
-		write(d.format(new Date())+"\t"+str);
         //判断命令长度
         if(length(str)){
         	Log logAction=new Log();
@@ -134,20 +140,19 @@ public class Gateway {
     		Ask ask=new Ask();     				//请求命令
     		String type=str.substring(6,8); 
     		System.out.println("数据类型："+judgeType(type));
-    		write(d.format(new Date())+"\t"+type);
     		
     		String elevatorId=str.substring(8,48); 
     		 elevatorId=convertHexToString(elevatorId);
     		System.out.println("电梯id："+elevatorId);
-    		write(d.format(new Date())+"\t"+elevatorId);
     		
     		String hql2=" where 1=1 and  registerid = '"+elevatorId+"' and delflag!='1' ";
 			List<DtjkElevator> elevators=elevatorService.queryAll(hql2);
 			//根据电梯注册号，判断改电梯是否存在，否终止方法
 			if(elevators.size()==0){
-				write(d.format(new Date())+"\tE0021102F0\t电梯注册号不存在！");
 				 System.out.println("命令错误：E0021102F0");
 				 os.write(byteUtil.hexStringToByte("E0021102F0"));
+				 String[] b={d.format(new Date()),type,elevatorId,str,"E0021102F0"};
+				CreateWorkbook(b);
 				 return;
 			}
     		
@@ -243,7 +248,14 @@ public class Gateway {
 	    				elevatorService.update(entity);
     				}
     			}
-
+    			try {
+					 //os.write("E0021101F0".getBytes());
+					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
+					 String[] b={d.format(new Date()),type,elevatorId,str,"E0021101F0"};
+					CreateWorkbook(b);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
     			
     		}  else if(type.equalsIgnoreCase("23")){    //上报静态数据
     			gateway.setElevatorId(elevatorId);
@@ -287,9 +299,10 @@ public class Gateway {
     				
     			}
     			 try {
-					 os.write("E0021101F0".getBytes());
+					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
-					 write(d.format(new Date())+"\tE0021101F0");
+					 String[] b={d.format(new Date()),type,elevatorId,str,"E0021101F0"};
+					CreateWorkbook(b);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -366,7 +379,8 @@ public class Gateway {
     				 try {
     					 //os.write("E0021101F0".getBytes());
     		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
-    		       		write(d.format(new Date())+"\tE0021101F0");
+    		       		String[] b={d.format(new Date()),type,elevatorId,str};
+    					CreateWorkbook(b);
     				} catch (IOException e) {
     					e.printStackTrace();
     				}
@@ -483,23 +497,23 @@ public class Gateway {
     			System.out.println("发送请求命令："+m.toUpperCase());
        			//os.write(m.getBytes());
        			os.write(byteUtil.hexStringToByte(m.toUpperCase()));
-       			write(d.format(new Date())+"\t"+m.toUpperCase());
+       			String[] b={d.format(new Date()),type,elevatorId,str};
+				CreateWorkbook(b);
     		}else{   
     			try {
     				 System.out.println("命令错误：E0021102F0");
     				 os.write(byteUtil.hexStringToByte("E0021102F0"));
-    				 write(d.format(new Date())+"\tE0021102F0");
+    				 String[] b={d.format(new Date()),type,elevatorId,str,"E0021102F0"};
+    				CreateWorkbook(b);
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
     		}
         }else{
         	 System.out.println("长度错误：E0021103F0");
-        	 write(d.format(new Date())+"\tE0021103F0");
-        	// System.out.println(convertHexToString("E0021103F0").getBytes());      	 
 			 os.write(byteUtil.hexStringToByte("E0021103F0"));
-			//  byte[] result = {-32,1,17,3,-16};
-			// os.write(result.clone());
+			 String[] b={d.format(new Date()),"","",str,"E0021103F0"};
+				CreateWorkbook(b);
         }
         	
        
@@ -911,5 +925,92 @@ public class Gateway {
 					e.printStackTrace();
 				}
 			}
+		}
+		
+		/**
+		 * 向excel中追加数据
+		 * @param a
+		 */
+		public static void CreateWorkbook(String[] a) {
+			String url="D:/网关通信命令.xls";
+			File file=new File(url);
+	        try {
+	            if (!file.exists()) { //判断文件是否已存在，如果没有存在则创建新文件
+	            	export(url);
+	            } 
+	            	// 输出流  
+	            	   FileInputStream is = new FileInputStream(file);  
+	            	   HSSFWorkbook wb =new HSSFWorkbook(is); 
+	            	   HSSFCellStyle style = wb.createCellStyle(); // 样式对象
+		   //    			style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+		   //    			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+	            	   HSSFSheet sheet1 = wb.getSheetAt(0);  
+	            	   HSSFRow row = sheet1.createRow(sheet1.getLastRowNum() + 1);  
+	            	   row.setRowStyle(style);
+	            	   row.setHeightInPoints((short) 25);  
+	            	   // 给这一行赋值  
+	            	   row.createCell(0).setCellValue(a[0]);  
+	            	   row.createCell(1).setCellValue(a[1]);  
+	            	   row.createCell(2).setCellValue(a[2]);  
+	            	   row.createCell(3).setCellValue(a[3]);  
+	            	   row.createCell(4).setCellValue(a[4]);  
+	            	   FileOutputStream os = new FileOutputStream(file);  
+	            	   wb.write(os);  
+	            	   is.close();  
+	            	   os.close();  
+	        } catch (Exception e) {  
+	            e.printStackTrace();  
+	        }  
+	       
+	    }
+		
+		/**
+		 * 创建一个excel
+		 * @param filePath 创建路径
+		 */
+		public static void export(String filePath) {
+			try {
+				HSSFWorkbook workbook = new HSSFWorkbook();
+				// 在Excel工作簿中建一工作表，其名为缺省值
+				HSSFSheet sheet = null;
+				HSSFRow row = null;
+				HSSFCell cell = null;
+				sheet = workbook.createSheet("网关通信信息");
+				HSSFCellStyle style = workbook.createCellStyle(); // 样式对象
+				style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+				style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+				/**
+				 * 设置字体
+				 */
+				HSSFFont f = workbook.createFont();
+				f.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+				style.setFont(f);		
+				String[] top_arraydis = {"时间","命令类型","电梯注册号","原始命令","回复命令"};
+					
+					row = sheet.createRow(0);// 创建一行
+					for (int c = 0; c < top_arraydis.length; c++) {
+						cell = row.createCell((short) c);// 创建格 字段 
+						cell.setCellValue("中文");
+						cell.setCellStyle(style);
+						cell.setCellValue(top_arraydis[c]);
+					}
+					
+				// 新建一输出文件流
+					sheet.setColumnWidth((short)0,(short)5000);
+					sheet.setColumnWidth((short)1,(short)5000); 
+					sheet.setColumnWidth((short)2,(short)7000); 
+					sheet.setColumnWidth((short)3,(short)20000); 
+					sheet.setColumnWidth((short)4,(short)5000); 
+				FileOutputStream fOut = new FileOutputStream(filePath);
+				workbook.write(fOut);
+				fOut.flush();
+				// 操作结束，关闭文件
+				fOut.close();
+				return;
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("已运行 xlCreate() : " + e);
+			}
+			
 		}
 }

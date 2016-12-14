@@ -54,6 +54,9 @@ public class ServerInputThread  extends Thread
 				 os.write(byteUtil.hexStringToByte("E0021103F0"));
 				 SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				 Gateway.write(d.format(new Date())+"\tE0021103F0");
+				 
+				 String[] b={d.format(new Date()),"","","","E0021103F0"};
+				 Gateway.CreateWorkbook(b);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
