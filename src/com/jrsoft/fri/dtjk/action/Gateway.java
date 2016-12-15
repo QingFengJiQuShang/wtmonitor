@@ -122,11 +122,16 @@ public class Gateway {
 	public static void setPushService(DtjkPushService pushService) {
 		Gateway.pushService = pushService;
 	}
+	
+	private static String str;
+	private static String type;
+	private static String elevatorId;
 
 	public void query(byte[] buffer,OutputStream os ) throws Exception{
         byteUtil util=new byteUtil();
         String str = util.BytesHexString(buffer);
         System.out.println(str);
+        this.str=str;
 		SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //判断命令长度
         if(length(str)){
@@ -140,10 +145,11 @@ public class Gateway {
     		Ask ask=new Ask();     				//请求命令
     		String type=str.substring(6,8); 
     		System.out.println("数据类型："+judgeType(type));
-    		
+    		 this.type=type;
     		String elevatorId=str.substring(8,48); 
     		 elevatorId=convertHexToString(elevatorId);
     		System.out.println("电梯id："+elevatorId);
+    		this.elevatorId=elevatorId;
     		
     		String hql2=" where 1=1 and  registerid = '"+elevatorId+"' and delflag!='1' ";
 			List<DtjkElevator> elevators=elevatorService.queryAll(hql2);
@@ -151,8 +157,7 @@ public class Gateway {
 			if(elevators.size()==0){
 				 System.out.println("命令错误：E0021102F0");
 				 os.write(byteUtil.hexStringToByte("E0021102F0"));
-				 String[] b={d.format(new Date()),type,elevatorId,str,"E0021102F0"};
-				CreateWorkbook(b);
+				CreateWorkbook("E0021102F0");
 				 return;
 			}
     		
@@ -251,8 +256,7 @@ public class Gateway {
     			try {
 					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
-					 String[] b={d.format(new Date()),type,elevatorId,str,"E0021101F0"};
-					CreateWorkbook(b);
+					CreateWorkbook("E0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -301,8 +305,7 @@ public class Gateway {
     			 try {
 					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
-					 String[] b={d.format(new Date()),type,elevatorId,str,"E0021101F0"};
-					CreateWorkbook(b);
+					CreateWorkbook("E0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -379,8 +382,7 @@ public class Gateway {
     				 try {
     					 //os.write("E0021101F0".getBytes());
     		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
-    		       		String[] b={d.format(new Date()),type,elevatorId,str};
-    					CreateWorkbook(b);
+    					CreateWorkbook("E0021101F0");
     				} catch (IOException e) {
     					e.printStackTrace();
     				}
@@ -497,14 +499,12 @@ public class Gateway {
     			System.out.println("发送请求命令："+m.toUpperCase());
        			//os.write(m.getBytes());
        			os.write(byteUtil.hexStringToByte(m.toUpperCase()));
-       			String[] b={d.format(new Date()),type,elevatorId,str};
-				CreateWorkbook(b);
+				CreateWorkbook(m.toUpperCase());
     		}else{   
     			try {
     				 System.out.println("命令错误：E0021102F0");
     				 os.write(byteUtil.hexStringToByte("E0021102F0"));
-    				 String[] b={d.format(new Date()),type,elevatorId,str,"E0021102F0"};
-    				CreateWorkbook(b);
+    				CreateWorkbook("E0021102F0");
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
@@ -512,8 +512,7 @@ public class Gateway {
         }else{
         	 System.out.println("长度错误：E0021103F0");
 			 os.write(byteUtil.hexStringToByte("E0021103F0"));
-			 String[] b={d.format(new Date()),"","",str,"E0021103F0"};
-				CreateWorkbook(b);
+				CreateWorkbook("E0021103F0");
         }
         	
        
@@ -931,7 +930,9 @@ public class Gateway {
 		 * 向excel中追加数据
 		 * @param a
 		 */
-		public static void CreateWorkbook(String[] a) {
+		public static void CreateWorkbook(String cmd) {
+			SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			 String[] a={d.format(new Date()),type,elevatorId,str,cmd};
 			String url="D:/网关通信命令.xls";
 			File file=new File(url);
 	        try {
@@ -955,6 +956,9 @@ public class Gateway {
 	            	   row.createCell(3).setCellValue(a[3]);  
 	            	   row.createCell(4).setCellValue(a[4]);  
 	            	   FileOutputStream os = new FileOutputStream(file);  
+	            	   type=null;
+	            	   str=null;
+	            	   elevatorId=null;
 	            	   wb.write(os);  
 	            	   is.close();  
 	            	   os.close();  

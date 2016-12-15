@@ -50,13 +50,9 @@ public class ServerInputThread  extends Thread
         	 OutputStream os;
 			try {
 				os = socket.getOutputStream();
-				System.out.println("√¸¡Ó¥ÌŒÛ£∫E0021103F0");
-				 os.write(byteUtil.hexStringToByte("E0021103F0"));
-				 SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				 Gateway.write(d.format(new Date())+"\tE0021103F0");
-				 
-				 String[] b={d.format(new Date()),"","","","E0021103F0"};
-				 Gateway.CreateWorkbook(b);
+				System.out.println("√¸¡Ó¥ÌŒÛ£∫E0021102F0");
+				 os.write(byteUtil.hexStringToByte("E0021102F0"));
+				 Gateway.CreateWorkbook("E0021102F0");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
