@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
-<%@page import="com.jrsoft.fri.cs.Tip"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -97,7 +96,7 @@ function toMain(flag){
 			   window.main.location="<%=path%>/countAction.do?method=rescueCount";
 		   }
 		   if(flag==53){
-			   window.main.location="<%=path%>/jsp/count/brand.jsp";
+			   window.main.location="<%=path%>/countAction.do?method=brandCount";
 		   }
 		    if(flag==54){
 			   window.main.location="<%=path%>/jsp/count/Maintenance.jsp";

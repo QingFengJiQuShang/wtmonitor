@@ -42,12 +42,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fl">
 						<label for="user">开始时间&nbsp;:&nbsp;</label>
-						<input  class="Wdate"   id="start"  name="start"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+						<input  class="Wdate"   id="begintime"  name="begintime"  value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 					</p>
 					
 					<p class="fl">
 						<label for="man">结束时间&nbsp;:&nbsp;</label>
-					<input  class="Wdate"   id="time_end"  name="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
+						<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
+					</p>
+					<p class="fl">
+						<label for="man">救援单位&nbsp;:&nbsp;</label>
+						<input  id="unit"  name="unit"    value="${unit}"   >
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
@@ -111,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				option = {
 					tooltip: {
 						trigger: 'item',
-						formatter: "{a} <br/>救援单位：{b} <br/>平均救援到达时间: {c} 分钟"
+						formatter: "{a} <br/>救援到达时间：{b} 分钟内<br/>次数: {c} "
 					},
 					legend: {
 						orient: 'vertical',
@@ -119,10 +123,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						data: ${title}
 					},
 					series: [{
-						name: '平均救援到达时间占比分布',
+						name: '救援到达时间占比分布',
 						type: 'pie',
 						radius: '30%',
-						center: ['50%', '30%'],
+						center: ['50%', '50%'],
 						data: ${rows}
 					}]
 				};
@@ -130,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				option2 = {
 					tooltip: {
 						trigger: 'item',
-						formatter: "{a} <br/>救援单位：{b} <br/>平均救援完成时间: {c} 分钟"
+						formatter: "{a} <br/>救援完成时间：{b} 分钟内<br/>次数: {c} "
 					},
 					legend: {
 						orient: 'vertical',
@@ -138,19 +142,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						data: ${title}
 					},
 					series: [{
-						name: '平均救援成功时间占比分布',
+						name: '救援成功时间占比分布',
 						type: 'pie',
 						radius: '30%',
-						center: ['50%', '30%'],
+						center: ['50%', '50%'],
 						data: ${rows1}
 					}]
 				};
 				// 为echarts对象加载数据 
-				myChart.setOption(option);
-				myChart2.setOption(option2);
+				myChart.setOption(option2);
+				myChart2.setOption(option);
 			}
 		);
-	
+	//模糊查询
+		function query(){
+			 var begintime= document.getElementById("begintime").value;
+			 var endtime= document.getElementById("endtime").value;
+			 var unit= document.getElementById("unit").value;
+    		  window.location.href="<%=path%>/countAction.do?method=rescueCount&begintime="+begintime+"&endtime="+endtime+"&unit="+unit;
+		  }
 	</script>
 
 </html>
