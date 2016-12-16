@@ -42,12 +42,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fl">
 						<label for="user">开始时间&nbsp;:&nbsp;</label>
-						<input  class="Wdate"   id="start"  name="start"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+						<input  class="Wdate"   id="begintime"  name="begintime"  value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 					</p>
 					
 					<p class="fl">
 						<label for="man">结束时间&nbsp;:&nbsp;</label>
-					<input  class="Wdate"   id="time_end"  name="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
+						<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
@@ -59,51 +59,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<table border="" cellspacing="" cellpadding="">
 								<caption>时间<span>&nbsp;:&nbsp;1016-01-0-1至2016-03-31</span></caption>
 								<thead>
-									<th>维保单位</th>
-									<th>型号</th>
-									<th>电梯总数量</th>
-									<th>故障数量</th>
-									<th>无故障运行时间</th>
-									<th>故障发生次数</th>
-									<th>故障发生率</th>
+									<th style="width: 100px;">电梯品牌</th>
+									<th style="width: 100px;">电梯总数量</th>
+									<th style="width: 100px;">故障发生次数</th>
+									<th style="width: 100px;">无故障运行时间</th>
+									<th style="width: 100px;">故障发生率</th>
 								</thead>
 								<tbody>
+									<c:forEach items="${counts}" var="counts" varStatus="s">
 									<tr>
-										<td>维保单位</td>
-										<td>型号</td>
-										<td>电梯总数量</td>
-										<td>故障数量</td>
-										<td>无故障运行时间</td>
-										<td>故障发生次数</td>
-										<td>故障发生率</td>
+										<td>${counts.brand}</td>
+										<td>${counts.num}</td>
+										<td>${counts.faultNum}</td>
+										<td>${counts.time}小时</td>
+										<td>${counts.incidence}%</td>
 									</tr>
-									<tr>
-										<td>维保单位</td>
-										<td>型号</td>
-										<td>电梯总数量</td>
-										<td>故障数量</td>
-										<td>无故障运行时间</td>
-										<td>故障发生次数</td>
-										<td>故障发生率</td>
-									</tr>
-									<tr>
-										<td>维保单位</td>
-										<td>型号</td>
-										<td>电梯总数量</td>
-										<td>故障数量</td>
-										<td>无故障运行时间</td>
-										<td>故障发生次数</td>
-										<td>故障发生率</td>
-									</tr>
-									<tr>
-										<td>维保单位</td>
-										<td>型号</td>
-										<td>电梯总数量</td>
-										<td>故障数量</td>
-										<td>无故障运行时间</td>
-										<td>故障发生次数</td>
-										<td>故障发生率</td>
-									</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -138,25 +109,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				//设置数据
 				var option = {
 					title: {
-						text: '各维保单位平均无故障运行时间'
+						text: '各品牌平均无故障运行时间'
 							//						subtext: '纯属虚构'
 					},
 					tooltip: {
-						trigger: 'axis'
+						trigger: 'axis',
+						formatter: "电梯品牌：{b}<br/>{a} ：  {c} 小时 "
 					},
 					//设置坐标轴
 					xAxis: [{
+						"name": "电梯品牌",
 						type: 'category',
-						data: ["单位1", "单位2", "单位3", "单位4", "单位5", "单位6", "单位7", "单位8", "单位9", "单位10"]
+						data: ${title}
 					}],
 					yAxis: [{
 						type: 'value'
 					}],
 					//设置数据
 					series: [{
-						"name": "数量",
+						"name": "平均无故障运行时间",
 						"type": "bar",
-						"data": [5,23, 20,12, 40,10, 10,20, 24,10, 20,10, 24,10, 32,20, 60],
+						"data": ${rows} 
 					}]
 				};
 
@@ -164,7 +137,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				myChart.setOption(option);
 			}
 		);
-
+	//模糊查询
+		function query(){
+			 var begintime= document.getElementById("begintime").value;
+			 var endtime= document.getElementById("endtime").value;
+    		  window.location.href="<%=path%>/countAction.do?method=maintenanceUnitCount&begintime="+begintime+"&endtime="+endtime;
+		  }
 	
 	</script>
 

@@ -99,10 +99,10 @@ function toMain(flag){
 			   window.main.location="<%=path%>/countAction.do?method=brandCount";
 		   }
 		    if(flag==54){
-			   window.main.location="<%=path%>/jsp/count/Maintenance.jsp";
+			   window.main.location="<%=path%>/countAction.do?method=maintenanceUnitCount";
 		   }
 		     if(flag==55){
-			   window.main.location="<%=path%>/jsp/count/useNuit.jsp";
+			   window.main.location="<%=path%>/countAction.do?method=useUnitCount";
 		   }
 		   if(flag==61){
 			   window.main.location="<%=path%>/logAction.do?method=query&flag=1";

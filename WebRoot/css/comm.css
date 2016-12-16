@@ -46,10 +46,10 @@ body {
 
 .list .list-item .one {
 	position: relative;
-	height: 58px;
+	height: 48px;
 	font-size: 20px;
 	color: #fff;
-	line-height: 58px;
+	line-height: 48px;
 	text-align: center;
 	cursor: pointer;
 }

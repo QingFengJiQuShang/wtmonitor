@@ -381,4 +381,197 @@ public class CountAction  extends DispatchAction{
 	}
 	
 
+	/**
+	 * 维保单位统计
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  maintenanceUnitCount(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		String begintime=request.getParameter("begintime");	
+		String endtime=request.getParameter("endtime");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");		
+		DecimalFormat    df   = new DecimalFormat("0.00");   
+		
+		Connection conn=DBEntity.getInstance().getConnection();																	//故障总数
+		
+		String sql="select distinct de.maintenance_Unit_Id,x.name  from dtjk_elevator  de   left join Xtgl_Maintenance_Unit x on x.id=de.maintenance_Unit_Id  where de.delflag='0'  " ;
+		 
+		PreparedStatement sta = conn.prepareStatement(sql);
+		ResultSet rs = sta.executeQuery();
+		List<BrandCount> counts=new ArrayList<BrandCount>();
+		JSONArray rows = new JSONArray();				//详细数据
+		JSONArray title = new JSONArray();				//饼状图 标题
+		while(rs.next()){
+			BrandCount count=new BrandCount();
+			 count.setBrand(rs.getString("name"));						//电梯品牌
+			 sql="select count(de.id) from dtjk_elevator de  where de.delflag='0' ";
+			 if(rs.getString("maintenance_Unit_Id")!=null){
+				 sql+= "and de.maintenance_Unit_Id='"+rs.getString("maintenance_Unit_Id")+"' " ;
+			 }else{
+				 sql+= "and de.maintenance_Unit_Id is null " ;
+			 }
+			 int num=DBEntity.getInstance().queryDataCount(sql); 	
+			 count.setNum(num);						//品牌电梯数量
+			 sql="select count(g.id) from gzcl_fault g   left join dtjk_elevator de on de.id=g.elevator_Id  where de.delflag='0'  " ;
+			 if(rs.getString("maintenance_Unit_Id")!=null){
+				 sql+= "and de.maintenance_Unit_Id='"+rs.getString("maintenance_Unit_Id")+"' " ;
+			 }else{
+				 sql+= "and de.maintenance_Unit_Id is null " ;
+			 }
+			 if(begintime!=null&&!begintime.equals("")){
+					sql+=" and g.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				if(endtime!=null&&!endtime.equals("")){
+					sql+=" and g.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+			 int faultNum=DBEntity.getInstance().queryDataCount(sql);
+			 count.setFaultNum(faultNum);						//故障次数
+			 float l= (float)faultNum/num;
+			 String incidence=df.format(l*100);														//故障率
+			 count.setIncidence(incidence);				//故障发生率
+			 String begin="";
+			 String end="";
+			 	if(begintime!=null&&!begintime.equals("")){
+			 		begin="to_date('" +sdf.format(sdf.parse(begintime)) + "','yyyy-MM-dd')";
+				}else{
+					begin="de.install_time";
+				}
+				if(endtime!=null&&!endtime.equals("")){
+					end=sdf.format(sdf.parse(endtime)) ;
+				}else{
+					end=sdf.format(new Date()) ;
+				}
+			 sql="select sum(to_date('" +end+ "','yyyy-MM-dd')-"+begin+") from dtjk_elevator de where de.delflag='0' ";
+			 if(rs.getString("maintenance_Unit_Id")!=null){
+				 sql+= "and de.maintenance_Unit_Id='"+rs.getString("maintenance_Unit_Id")+"' " ;
+			 }else{
+				 sql+= "and de.maintenance_Unit_Id is null " ;
+			 }
+			 
+			 int time=DBEntity.getInstance().queryDataCount(sql); 	
+			 if(time!=0&&num!=0&&faultNum!=0){
+				 count.setTime(df.format((time*num)/faultNum));
+				 rows.add((time*num)/faultNum);
+			 }else{
+				 count.setTime("0");
+				 rows.add(0);
+			 }
+			 
+			 counts.add(count);
+			 title.add(count.getBrand()==null?"":count.getBrand());
+		}
+		
+		
+		if(endtime!=null&&!endtime.equals("")){
+			request.setAttribute("endtime", sdf.parse( endtime));
+		}
+		if(begintime!=null&&!begintime.equals("")){
+			request.setAttribute("begintime", sdf.parse( begintime));
+		}
+		request.setAttribute("rows", rows);
+		request.setAttribute("title", title);
+		request.setAttribute("counts", counts);
+	    return	new ActionForward("/jsp/count/Maintenance.jsp");
+	}
+	
+
+	/**
+	 * 使用单位统计
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  useUnitCount(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		String begintime=request.getParameter("begintime");	
+		String endtime=request.getParameter("endtime");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");		
+		DecimalFormat    df   = new DecimalFormat("0.00");   
+		
+		Connection conn=DBEntity.getInstance().getConnection();																	//故障总数
+		
+		String sql="select distinct de.use_Unit_Id,x.name  from dtjk_elevator  de  left join Xtgl_Use_Unit x on x.id=de.use_unit_id   where de.delflag='0'  " ;
+		 
+		PreparedStatement sta = conn.prepareStatement(sql);
+		ResultSet rs = sta.executeQuery();
+		List<BrandCount> counts=new ArrayList<BrandCount>();
+		JSONArray rows = new JSONArray();				//详细数据
+		JSONArray title = new JSONArray();				//饼状图 标题
+		while(rs.next()){
+			BrandCount count=new BrandCount();
+			 count.setBrand(rs.getString("name"));						//电梯品牌
+			 sql="select count(de.id) from dtjk_elevator de where de.delflag='0' ";
+			 if(rs.getString("use_Unit_Id")!=null){
+				 sql+= "and de.use_Unit_Id='"+rs.getString("use_Unit_Id")+"' " ;
+			 }else{
+				 sql+= "and de.use_Unit_Id is null " ;
+			 }
+			 int num=DBEntity.getInstance().queryDataCount(sql); 	
+			 count.setNum(num);						//品牌电梯数量
+			 sql="select count(g.id) from gzcl_fault g   left join dtjk_elevator de on de.id=g.elevator_Id  where de.delflag='0'  " ;
+			 if(rs.getString("use_Unit_Id")!=null){
+				 sql+= "and de.use_Unit_Id='"+rs.getString("use_Unit_Id")+"' " ;
+			 }else{
+				 sql+= "and de.use_Unit_Id is null " ;
+			 }
+			 if(begintime!=null&&!begintime.equals("")){
+					sql+=" and g.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				if(endtime!=null&&!endtime.equals("")){
+					sql+=" and g.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+			 int faultNum=DBEntity.getInstance().queryDataCount(sql);
+			 count.setFaultNum(faultNum);						//故障次数
+			 float l= (float)faultNum/num;
+			 String incidence=df.format(l*100);														//故障率
+			 count.setIncidence(incidence);				//故障发生率
+			 String begin="";
+			 String end="";
+			 	if(begintime!=null&&!begintime.equals("")){
+			 		begin="to_date('" +sdf.format(sdf.parse(begintime)) + "','yyyy-MM-dd')";
+				}else{
+					begin="de.install_time";
+				}
+				if(endtime!=null&&!endtime.equals("")){
+					end=sdf.format(sdf.parse(endtime)) ;
+				}else{
+					end=sdf.format(new Date()) ;
+				}
+			 sql="select sum(to_date('" +end+ "','yyyy-MM-dd')-"+begin+") from dtjk_elevator de where de.delflag='0' ";
+			 if(rs.getString("use_Unit_Id")!=null){
+				 sql+= "and de.use_Unit_Id='"+rs.getString("use_Unit_Id")+"' " ;
+			 }else{
+				 sql+= "and de.use_Unit_Id is null " ;
+			 }
+			 
+			 int time=DBEntity.getInstance().queryDataCount(sql); 	
+			 if(time!=0&&num!=0&&faultNum!=0){
+				 count.setTime(df.format((time*num)/faultNum));
+				 rows.add((time*num)/faultNum);
+			 }else{
+				 count.setTime("0");
+				 rows.add(0);
+			 }
+			 
+			 counts.add(count);
+			 title.add(count.getBrand()==null?"":count.getBrand());
+		}
+		
+		
+		if(endtime!=null&&!endtime.equals("")){
+			request.setAttribute("endtime", sdf.parse( endtime));
+		}
+		if(begintime!=null&&!begintime.equals("")){
+			request.setAttribute("begintime", sdf.parse( begintime));
+		}
+		request.setAttribute("rows", rows);
+		request.setAttribute("title", title);
+		request.setAttribute("counts", counts);
+	    return	new ActionForward("/jsp/count/useNuit.jsp");
+	}
+
 }
