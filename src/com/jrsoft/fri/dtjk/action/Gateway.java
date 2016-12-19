@@ -392,6 +392,8 @@ public class Gateway {
     				}
     				
     		}  else if(type.equalsIgnoreCase("22")){    //请求数据	
+    			gateway.setElevatorId(elevatorId);
+    			gateway.setSerialNumber(serialNumber);
     			//循环  解析命令
     			for( int i=70; i<str.length()-1; i=i ){
     				 String command =str.substring(i,i+2); //命令类型 

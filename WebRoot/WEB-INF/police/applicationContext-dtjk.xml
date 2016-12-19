@@ -101,6 +101,18 @@
 	</bean>
     <!--电梯年检 -->
     
+    <!--电梯服务费-->
+	<bean name="/serviceAction" class="com.jrsoft.fri.dtjk.action.DtjkServiceAction">
+		<property name="serviceService" ref="serviceService" />
+		<property name="elevatorService" ref="elevatorService" />
+	</bean>
+	<bean id="serviceService" class="com.jrsoft.fri.dtjk.service.DtjkServiceServiceImpl">
+		<property name="serviceDao"  ref="serviceDao" />
+	</bean>
+	<bean id="serviceDao" class="com.jrsoft.fri.dtjk.dao.DtjkServiceDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!--电梯服务费 -->
     
     
    

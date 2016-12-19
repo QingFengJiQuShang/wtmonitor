@@ -31,6 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="select clearfix">
 					<p class="fl">
 						<label for="user">单位名称&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
 						<input type="text" id="name" placeholder="请输入"  value="${name}" />
 					</p>
 					<p class="fl">
@@ -51,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
+						<p class="fl add"   onclick="add('${elevatorId}');"><img src="<%=path%>/img/add.png" />新增</p>
 						<p class="fl del">批量删除</p>&nbsp;&nbsp;
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
 					</div>
@@ -65,93 +66,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<th>电梯注册号</th>
 								<th>识别码</th>
 								<th>电梯使用单位</th>
-								<th>服务时间</th>
+								<th>开始时间</th>
+								<th>结束时间</th>
 								<th>服务金额</th>
 								<th>服务类型</th>
 								<th>操作</th>
 							</thead>
 							<tbody>
-							<tr>
-									<td class="wei">
-										<i class=""></i>
-									</td>
-									<td>1</td>
-									<td>电梯注册号</td>
-									<td>识别码</td>
-									<td>电梯使用单位</td>
-									<td>服务时间</td>
-									<td>服务金额</td>
-									<td>服务类型</td>
-									<td>
-										<img src="<%=path %>/img/compile.png" onclick="lod(4)" />
-										<img src="<%=path %>/img/del.png" alt="" class="del_one" />
-									</td>
-								</tr>
+							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td class="wei">
-										<i class=""></i>
+										<i class=""><input type="hidden" value="${list.id}" /></i>
 									</td>
-									<td>1</td>
-									<td>电梯注册号</td>
-									<td>识别码</td>
-									<td>电梯使用单位</td>
-									<td>服务时间</td>
-									<td>服务金额</td>
-									<td>服务类型</td>
+									<td>${s.index + 1 }</td>
+									<td>${list.registerid }</td>
+									<td>${list.distinguishid }</td>
+									<td>${list.useUnitName }</td>
+									<td><fmt:formatDate value='${list.startTime}' pattern='yyyy-MM-dd'/></td>
+									<td><fmt:formatDate value='${list.endTime}' pattern='yyyy-MM-dd'/></td>
+									<td>${list.inspectionUnit}</td>
+									<td>${list.result}</td>
 									<td>
-										<img src="<%=path %>/img/compile.png" onclick="lod(4)" />
-										<img src="<%=path %>/img/del.png" alt="" class="del_one" />
+										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
+										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>
+										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"   class="del_one" onclick="del('${list.id}');"/>
+									
 									</td>
 								</tr>
-								<tr>
-									<td class="wei">
-										<i class=""></i>
-									</td>
-									<td>1</td>
-									<td>电梯注册号</td>
-									<td>识别码</td>
-									<td>电梯使用单位</td>
-									<td>服务时间</td>
-									<td>服务金额</td>
-									<td>服务类型</td>
-									<td>
-										<img src="<%=path %>/img/compile.png" onclick="lod(4)"/>
-										<img src="<%=path %>/img/del.png" alt="" class="del_one" />
-									</td>
-								</tr>
-								<tr>
-									<td class="wei">
-										<i class=""></i>
-									</td>
-									<td>1</td>
-									<td>电梯注册号</td>
-									<td>识别码</td>
-									<td>电梯使用单位</td>
-									<td>服务时间</td>
-									<td>服务金额</td>
-									<td>服务类型</td>
-									<td>
-										<img src="<%=path %>/img/compile.png" onclick="lod(4)"/>
-										<img src="<%=path %>/img/del.png" alt="" class="del_one" />
-									</td>
-								</tr>
-								<tr>
-									<td class="wei">
-										<i class=""></i>
-									</td>
-									<td>1</td>
-									<td>电梯注册号</td>
-									<td>识别码</td>
-									<td>电梯使用单位</td>
-									<td>服务时间</td>
-									<td>服务金额</td>
-									<td>服务类型</td>
-									<td>
-										<img src="<%=path %>/img/compile.png" onclick="lod(4)"/>
-										<img src="<%=path %>/img/del.png" alt="" class="del_one" />
-									</td>
-								</tr>
-								
+								</c:forEach>
 							</tbody>
 						</table>
 						<div class="choose">
@@ -183,6 +125,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/dtjk/service.js" type="text/javascript" charset="utf-8"></script>
+	
 	<script type="text/javascript">
 		//添加
 		function add(){

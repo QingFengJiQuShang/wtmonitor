@@ -47,7 +47,11 @@
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
-	
+	 <!-- 电梯服务费 -->
+	 <action path="/serviceAction"  name="DtjkFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	
 
 	</action-mappings>

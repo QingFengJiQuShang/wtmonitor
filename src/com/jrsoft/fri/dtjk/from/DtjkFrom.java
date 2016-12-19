@@ -7,6 +7,7 @@ import com.jrsoft.fri.dtjk.entity.DtjkMaintenanceRecords;
 import com.jrsoft.fri.dtjk.entity.DtjkPhone;
 import com.jrsoft.fri.dtjk.entity.DtjkPush;
 import com.jrsoft.fri.dtjk.entity.DtjkRecord;
+import com.jrsoft.fri.dtjk.entity.DtjkService;
 import com.jrsoft.fri.dtjk.entity.DtjkYearlyInspection;
 
 public class DtjkFrom   extends BaseForm {
@@ -21,6 +22,7 @@ public class DtjkFrom   extends BaseForm {
 	private DtjkYearlyInspection inspection=new DtjkYearlyInspection();
 	private DtjkPhone ph=new DtjkPhone();
 	private DtjkPush push=new DtjkPush();
+	private DtjkService service=new DtjkService();
 	
 	public DtjkElevator getElevator() {
 		return elevator;
@@ -66,6 +68,12 @@ public class DtjkFrom   extends BaseForm {
 	}
 	public void setPush(DtjkPush push) {
 		this.push = push;
+	}
+	public DtjkService getService() {
+		return service;
+	}
+	public void setService(DtjkService service) {
+		this.service = service;
 	}
 	
 }

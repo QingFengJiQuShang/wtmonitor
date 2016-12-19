@@ -58,9 +58,9 @@ public class DtjkElevator implements java.io.Serializable {
     private String period;				//上报周期
     private Date flowStart;				//流量开始时间
     private Date flowEnd;						//流量结束时间
-    private String flowTotal;				//流量总额
-    private String flowNum;				//流量使用额
-    private String flowSurplus;				//剩余流量
+    private Long flowTotal;				//流量总额
+    private Long flowNum;				//流量使用额
+    private Long flowSurplus;				//剩余流量
     private Date reportTime;				//上次上报时间
     private String delflag;						//删除标识 0未删除，1已删除
 	// Constructors
@@ -90,7 +90,7 @@ public class DtjkElevator implements java.io.Serializable {
 			String filialeAddress, String filialePhone, String filialeContact,
 			String serviceIfe, Date yearlyTime, Date maintenanceTime,
 			String remarks,XtglUsers userid,String period,Date flowStart,
-			Date flowEnd,String flowTotal,String flowNum,String flowSurplus,
+			Date flowEnd,Long flowTotal,Long flowNum,Long flowSurplus,
 			Date reportTime,String delflag) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
@@ -493,27 +493,27 @@ public class DtjkElevator implements java.io.Serializable {
 		this.flowEnd = flowEnd;
 	}
 
-	public String getFlowTotal() {
+	public Long getFlowTotal() {
 		return flowTotal;
 	}
 
-	public void setFlowTotal(String flowTotal) {
+	public void setFlowTotal(Long flowTotal) {
 		this.flowTotal = flowTotal;
 	}
 
-	public String getFlowNum() {
+	public Long getFlowNum() {
 		return flowNum;
 	}
 
-	public void setFlowNum(String flowNum) {
+	public void setFlowNum(Long flowNum) {
 		this.flowNum = flowNum;
 	}
 
-	public String getFlowSurplus() {
+	public Long getFlowSurplus() {
 		return flowSurplus;
 	}
 
-	public void setFlowSurplus(String flowSurplus) {
+	public void setFlowSurplus(Long flowSurplus) {
 		this.flowSurplus = flowSurplus;
 	}
 

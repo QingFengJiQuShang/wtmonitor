@@ -212,7 +212,7 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
 					elevator.setPeriod(rs.getString("period"));
-					elevator.setFlowSurplus(rs.getString("flow_Surplus")==null?"0":rs.getString("flow_Surplus"));
+					elevator.setFlowSurplus(rs.getLong("flow_Surplus"));
 					String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNum(n);

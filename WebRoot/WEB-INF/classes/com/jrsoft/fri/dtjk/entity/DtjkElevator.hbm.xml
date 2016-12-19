@@ -125,14 +125,14 @@
         <property name="flowEnd" type="java.util.Date">
             <column name="FLOW_END" length="7" />
         </property>
-        <property name="flowTotal" type="java.lang.String">
-            <column name="FLOW_TOTAL" length="200" />
+        <property name="flowTotal" type="java.lang.Long">
+            <column name="FLOW_TOTAL" precision="22" scale="0" />
         </property>
-        <property name="flowNum" type="java.lang.String">
-            <column name="FLOW_NUM" length="200" />
+        <property name="flowNum" type="java.lang.Long">
+            <column name="FLOW_NUM" precision="22" scale="0" />
         </property>
-        <property name="flowSurplus" type="java.lang.String">
-            <column name="FLOW_SURPLUS" length="200" />
+        <property name="flowSurplus" type="java.lang.Long">
+            <column name="FLOW_SURPLUS" precision="22" scale="0" />
         </property>
         <property name="reportTime" type="java.util.Date">
             <column name="REPORT_TIME" length="7" />

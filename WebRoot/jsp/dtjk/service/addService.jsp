@@ -34,15 +34,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table_con">
 					<p class="fill">
 					<label for="user">电梯注册号&nbsp;:&nbsp;</label>
-					<input type="" name="" id="user" value="" placeholder="请输入"/>
+					<input type="hidden" id="elevatorId"  name="inspection.elevatorId.id"  value="${list.id}" />
+						<input type="text"    value="${list.registerid}"  readonly="readonly"  />
 				</p>
 				<p class="fill">
 					<label for="code">识别码&nbsp;:&nbsp;</label>
-					<input type="text" id="code" placeholder="请输入"/>
+					<input type="text"    value="${list.distinguishid}"  readonly="readonly" />
 				</p>
 				<p class="fill">
 					<label for="unit">电梯使用单位&nbsp;:&nbsp;</label>
-					<input type="text" id="unit" placeholder="请输入"/>
+					<input type="text"  id="useUnitId"   value="${list.useUnitId.name}"  readonly="readonly" />
 				</p>
 				<p class="fill">
 					<label for="start_end">服务开始时间&nbsp;:&nbsp;</label>
