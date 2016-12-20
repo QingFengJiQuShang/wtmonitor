@@ -63,7 +63,6 @@ public class XtszMessageAction  extends DispatchAction {
 		}else{
 			page.setPageNum(0);//当前页数
 		}
-		page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
 		
 		List<XtszMessage> list=null;
 		Connection conn=DBEntity.getInstance().getConnection();
@@ -89,6 +88,8 @@ public class XtszMessageAction  extends DispatchAction {
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
 				page.setCount(siz);//总记录数
+				page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<XtszMessage>();
