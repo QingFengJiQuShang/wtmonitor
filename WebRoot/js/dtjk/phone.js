@@ -32,7 +32,9 @@
          }
 		//删除
 		  function del(id){
-    		  window.location.href="phoneAction.do?method=delEntity&id="+id+gotoUrl();
+			   if( confirm("确定删除这条电梯白名单记录？")){
+    		  	window.location.href="phoneAction.do?method=delEntity&id="+id+gotoUrl();
+    		  }
          }
 		  
 		 //下载  
@@ -44,12 +46,16 @@
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";
+	var len=0;
 	$(".wei").each(function() {
 			if($(this).children("i").hasClass("gou")) {
 				ids=ids+$(this).find("i").children().val()+",";
+				len++;
 			}
 		})
-	 window.location.href="phoneAction.do?method=deleteEntity&ids="+ids;
+		 if(len>0 && confirm("确定删除这 "+len+" 条记录？")){
+	 		window.location.href="phoneAction.do?method=deleteEntity&ids="+ids;
+	 	}
 })
 		  
 

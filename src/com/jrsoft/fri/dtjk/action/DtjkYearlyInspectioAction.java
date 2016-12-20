@@ -223,7 +223,7 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
-        log.addLog(user.getName(), "添加电梯年检记录，电梯注册号："+entity.getRegisterid(), "1");
+        log.addLog(user.getName(), "修改电梯年检记录，电梯注册号："+entity.getRegisterid(), "1");
 		return	new ActionForward("/inspectionAction.do?method=query&elevatorId="+unit.getElevatorId().getId());
 	}
 	

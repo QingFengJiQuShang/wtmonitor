@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -25,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-	<form id="form"  action="<%=path %>/serviceAction.do?method=addEntity"  method="post"  encType="multipart/form-data">
+	<form id="form"  action="<%=path %>/serviceAction.do?method=updateEntity"  method="post"  encType="multipart/form-data">
 		<div class="con">
 				<p class="user">电梯服务费</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
@@ -34,37 +37,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table_con">
 					<p class="fill">
 					<label for="user">电梯注册号&nbsp;:&nbsp;</label>
-					<input type="hidden" id="elevatorId"  name="service.elevatorId.id"  value="${list.id}" />
-						<input type="text"    value="${list.registerid}"  readonly="readonly"  />
+					<input type="hidden" id="id"  name="service.id"  value="${list.id}" />
+					<input type="hidden" id="elevatorId"  name="service.elevatorId.id"  value="${list.elevatorId.id}" />
+						<input type="text"    value="${list.elevatorId.registerid}"  readonly="readonly"  />
 				</p>
 				<p class="fill">
 					<label for="code">识别码&nbsp;:&nbsp;</label>
-					<input type="text"    value="${list.distinguishid}"  readonly="readonly" />
+					<input type="text"    value="${list.elevatorId.distinguishid}"  readonly="readonly" />
 				</p>
 				<p class="fill">
 					<label for="unit">电梯使用单位&nbsp;:&nbsp;</label>
-					<input type="text"  id="useUnitId"   value="${list.useUnitId.name}"  readonly="readonly" />
+					<input type="text"  id="useUnitId"   value="${list.elevatorId.useUnitId.name}"  readonly="readonly" />
 				</p>
 				<p class="fill">
 					<label for="start_end">服务开始时间&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"  name="startTime"  id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<input type="text"  class="Wdate"  name="startTime"  id="start_end"  value="<fmt:formatDate value='${list.startTime}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
 					<label for="start_end">服务结束时间&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"   name="endTime"  	 id="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<input type="text"  class="Wdate"   name="endTime"  	 id="time_end"  value="<fmt:formatDate value='${list.endTime}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
 					<label for="place">服务金额&nbsp;:&nbsp;</label>
-					<input type="text" id="place"  name="service.money"   placeholder="请输入"/>
+					<input type="text"  value="${list.money}" name="service.money"   placeholder="请输入"/>
 				</p>
 
 				<p class="fill">
 					<label for="wb_unit">服务类型&nbsp;:&nbsp;</label>
 					<select name="service.type">
 						<option value="">请选择</option>
-						<option value="年">年</option>
-						<option value="季">季</option>
-						<option value="月">月</option>
+						<option value="年"  <c:if test="${list.type=='年'}">selected="selected" </c:if>  >年</option>
+						<option value="季"  <c:if test="${list.type=='季'}">selected="selected" </c:if>>季</option>
+						<option value="月"  <c:if test="${list.type=='月'}">selected="selected" </c:if>>月</option>
 					</select>
 				</p>
 					<p class="or clearfix">

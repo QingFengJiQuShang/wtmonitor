@@ -39,7 +39,9 @@
          }
 		//删除
 		  function del(id){
-    		  window.location.href="maintenanceUsersAction.do?method=delEntity&id="+id+gotoUrl();
+			   if( confirm("确定删除这条维保人员记录？")){
+    		 	 window.location.href="maintenanceUsersAction.do?method=delEntity&id="+id+gotoUrl();
+    		  }
          }
 		    //下载  
 		  function exp(){
@@ -61,12 +63,16 @@
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";
+	var len=0;
 	$(".wei").each(function() {
 			if($(this).children("i").hasClass("gou")) {
 				ids=ids+$(this).find("i").children().val()+",";
+				len++;
 			}
-		})
-	 window.location.href="maintenanceUsersAction.do?method=deleteEntity&ids="+ids+gotoUrl();
+		}) 
+		if(len>0 && confirm("确定删除这 "+len+" 条记录？")){
+	 		window.location.href="maintenanceUsersAction.do?method=deleteEntity&ids="+ids+gotoUrl();
+	 	}
 })
 		  
 

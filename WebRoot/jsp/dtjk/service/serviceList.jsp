@@ -22,6 +22,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 	</head>
 
 	<body>
@@ -30,23 +32,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="warp">
 				<div class="select clearfix">
 					<p class="fl">
-						<label for="user">单位名称&nbsp;:&nbsp;</label>
+						<label for="unit">开始时间&nbsp;:&nbsp;</label>
 						<input type="hidden"  id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
-						<input type="text" id="name" placeholder="请输入"  value="${name}" />
+						<input type="text"  class="Wdate"  id="startTime"   value="<fmt:formatDate value='${startTime}' pattern='yyyy-MM-dd'/>"  id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+	
 					</p>
 					<p class="fl">
-						<label for="unit">单位类型&nbsp;:&nbsp;</label>
-						<select name="type" id="type">
-							<option value="">请选择</option>
-							<option <c:if test="${type=='物业'}">selected="selected" </c:if> value="物业">物业</option>
-							<option <c:if test="${type=='政府'}">selected="selected" </c:if> value="政府">政府</option>
-							<option <c:if test="${type=='事业单位'}">selected="selected" </c:if> value="事业单位">事业单位</option>
-						
-						</select>				
-					</p>
-					<p class="fl">
-						<label for="man">联系人&nbsp;:&nbsp;</label>
-						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
+						<label for="man">结束时间&nbsp;:&nbsp;</label>
+					<input type="text"  class="Wdate"   id="endTime"   value="<fmt:formatDate value='${endTime}' pattern='yyyy-MM-dd'/>"  	 id="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
@@ -84,8 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.useUnitName }</td>
 									<td><fmt:formatDate value='${list.startTime}' pattern='yyyy-MM-dd'/></td>
 									<td><fmt:formatDate value='${list.endTime}' pattern='yyyy-MM-dd'/></td>
-									<td>${list.inspectionUnit}</td>
-									<td>${list.result}</td>
+									<td>${list.money}</td>
+									<td>${list.type}</td>
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
 										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>
@@ -128,11 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="<%=path%>/js/dtjk/service.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript">
-		//添加
-		function add(){
-			  window.location="<%=path%>/jsp/dtjk/service/addService.jsp";
-			  
-		  }
+		
 	</script>
 
 

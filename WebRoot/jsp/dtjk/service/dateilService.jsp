@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -25,7 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-	<form id="form"  action="<%=path %>/serviceAction.do?method=addEntity"  method="post"  encType="multipart/form-data">
 		<div class="con">
 				<p class="user">电梯服务费</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
@@ -35,53 +36,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fill">
 					<label for="user">电梯注册号&nbsp;:&nbsp;</label>
 					<input type="hidden" id="elevatorId"  name="service.elevatorId.id"  value="${list.id}" />
-						<input type="text"    value="${list.registerid}"  readonly="readonly"  />
+						${list.elevatorId.registerid}
 				</p>
 				<p class="fill">
 					<label for="code">识别码&nbsp;:&nbsp;</label>
-					<input type="text"    value="${list.distinguishid}"  readonly="readonly" />
+					${list.elevatorId.distinguishid}
 				</p>
 				<p class="fill">
 					<label for="unit">电梯使用单位&nbsp;:&nbsp;</label>
-					<input type="text"  id="useUnitId"   value="${list.useUnitId.name}"  readonly="readonly" />
+					${list.elevatorId.useUnitId.name}
 				</p>
 				<p class="fill">
 					<label for="start_end">服务开始时间&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"  name="startTime"  id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<fmt:formatDate value='${list.startTime}' pattern='yyyy-MM-dd'/>
 				</p>
 				<p class="fill">
 					<label for="start_end">服务结束时间&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"   name="endTime"  	 id="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<fmt:formatDate value='${list.endTime}' pattern='yyyy-MM-dd'/>
 				</p>
 				<p class="fill">
 					<label for="place">服务金额&nbsp;:&nbsp;</label>
-					<input type="text" id="place"  name="service.money"   placeholder="请输入"/>
+					${list.money}
 				</p>
 
 				<p class="fill">
 					<label for="wb_unit">服务类型&nbsp;:&nbsp;</label>
-					<select name="service.type">
-						<option value="">请选择</option>
-						<option value="年">年</option>
-						<option value="季">季</option>
-						<option value="月">月</option>
-					</select>
+					${list.type}
 				</p>
 					<p class="or clearfix">
-						<input type="button"  value="保存"  onclick="add();">
+						<input type="button"  value="修改"   onclick="findById('${list.id}','1');" >
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
 					</p>
 				</div>
 
 			</div>
 		</div>
-		</form>
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-     function add(){
-		 	$('#form').submit();
-     }
-     
-     </script>
+	<script src="<%=path%>/js/dtjk/service.js" type="text/javascript" charset="utf-8"></script>
+
 </html>

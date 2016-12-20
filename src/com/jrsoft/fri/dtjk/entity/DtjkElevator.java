@@ -71,6 +71,7 @@ public class DtjkElevator implements java.io.Serializable {
     
     private int numRecords;  //维保记录数量
     private int numYearly;  //年检记录数量
+    private int numService;  //服务费记录数量
     private int num;  //上报记录数量
 	/** default constructor */
 	public DtjkElevator() {
@@ -531,6 +532,14 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setDelflag(String delflag) {
 		this.delflag = delflag;
+	}
+
+	public int getNumService() {
+		return numService;
+	}
+
+	public void setNumService(int numService) {
+		this.numService = numService;
 	}
 
 }

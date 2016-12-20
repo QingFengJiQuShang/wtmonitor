@@ -36,7 +36,9 @@
          }
 		//删除
 		  function del(id){
-    		  window.location.href="useUnitAction.do?method=delEntity&id="+id;
+			   if( confirm("确定删除这条使用单位记录？")){
+    		  		window.location.href="useUnitAction.do?method=delEntity&id="+id;
+    		  }
          }
 		    //下载  
 		  function exp(){
@@ -56,12 +58,16 @@
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";
+	var len=0;
 	$(".wei").each(function() {
 			if($(this).children("i").hasClass("gou")) {
 				ids=ids+$(this).find("i").children().val()+",";
+				len++;
 			}
 		})
-	 window.location.href="useUnitAction.do?method=deleteEntity&ids="+ids;
+		 if(len>0 && confirm("确定删除这 "+len+" 条记录？")){
+	 		window.location.href="useUnitAction.do?method=deleteEntity&ids="+ids;
+		 }
 })
 		  
 

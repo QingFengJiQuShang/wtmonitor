@@ -1,26 +1,17 @@
 	function gotoUrl (){
 			 var elevatorId= document.getElementById("elevatorId").value;
-			 var time= document.getElementById("time").value;
-			 
-			 var useUnitId= document.getElementById("useUnitId").value;
-			 var useUnitId1= document.getElementById("useUnitId1").value;
-			 var inspectionUnit= document.getElementById("inspectionUnit").value;
+			 var startTime= document.getElementById("startTime").value;
+			 var endTime= document.getElementById("endTime").value;
 
 			  var url="";
 			  if(elevatorId!=""){
 				  url=url+"&elevatorId="+elevatorId;
 			  }
-			  if(time!=""){
-				  url=url+"&time="+time;
+			  if(startTime!=""){
+				  url=url+"&startTime="+startTime;
 			  }
-			  if(useUnitId!=""){
-				  url=url+"&useUnitId="+useUnitId;
-			  }
-			  if(useUnitId1!=""){
-				  url=url+"&useUnitId1="+useUnitId1;
-			  }
-			  if(inspectionUnit!=""){
-				  url=url+"&inspectionUnit="+inspectionUnit;
+			  if(endTime!=""){
+				  url=url+"&endTime="+endTime;
 			  }
 			  return url;
 		  }
@@ -40,11 +31,13 @@
          }
 		  //编辑
 		  function findById(id,flag){
-    		  window.location.href="serviceAction.do?method=findById&id="+id+"&flag="+flag+gotoUrl();
+    		  window.location.href="serviceAction.do?method=findById&id="+id+"&flag="+flag;
          }
 		//删除
 		  function del(id){
-    		  window.location.href="serviceAction.do?method=delEntity&id="+id+gotoUrl();
+			  if( confirm("确定删除这条电梯服务费记录？")){
+    		  	window.location.href="serviceAction.do?method=delEntity&id="+id+gotoUrl();
+    		  }
          }
 		  
 		 //下载  
@@ -56,12 +49,16 @@
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";
+	var len=0;
 	$(".wei").each(function() {
 			if($(this).children("i").hasClass("gou")) {
 				ids=ids+$(this).find("i").children().val()+",";
+				len++;
 			}
 		})
-	 window.location.href="serviceAction.do?method=deleteEntity&ids="+ids;
+		 if(len>0 && confirm("确定删除这 "+len+" 条记录？")){
+			 window.location.href="serviceAction.do?method=deleteEntity&ids="+ids;
+		}
 })
 		  
 

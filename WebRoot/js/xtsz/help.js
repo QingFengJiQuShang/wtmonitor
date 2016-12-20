@@ -27,17 +27,23 @@
          }
 		//删除
 		  function del(id){
-    		  window.location.href="helpAction.do?method=delEntity&id="+id;
+			   if( confirm("确定删除这条系统帮助记录？")){
+    		  		window.location.href="helpAction.do?method=delEntity&id="+id;
+    		  }
          }
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";
+	var len=0;
 	$(".wei").each(function() {
 			if($(this).children("i").hasClass("gou")) {
 				ids=ids+$(this).find("i").children().val()+",";
+				len++;
 			}
 		})
-	 window.location.href="helpAction.do?method=deleteEntity&ids="+ids;
+		 if(len>0 && confirm("确定删除这 "+len+" 条记录？")){
+	 		window.location.href="helpAction.do?method=deleteEntity&ids="+ids;
+	 	 }
 })
 		  
 

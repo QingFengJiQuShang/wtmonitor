@@ -216,7 +216,9 @@ public class DtjkElevatorAction extends DispatchAction{
 					String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNum(n);
-					
+					String sql3="select count(*)  from Dtjk_Service de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
+					 n=DBEntity.getInstance().queryDataCount(sql3);
+					elevator.setNumService(n);
 					list.add(elevator);
 					
 				}
