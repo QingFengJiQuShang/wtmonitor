@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN" "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+<struts-config>
+	<form-beans>
+	
+		<form-bean name="BxglFrom" type="com.jrsoft.fri.bxgl.from.BxglFrom" />
+   </form-beans>
+		<action-mappings>
+	  <!-- 人工接警-->
+	<action path="/safeAction" name="BxglFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	 
+
+	</action-mappings>
+</struts-config>

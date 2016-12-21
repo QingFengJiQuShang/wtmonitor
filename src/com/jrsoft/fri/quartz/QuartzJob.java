@@ -33,7 +33,7 @@ public class QuartzJob implements Job {
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+ "启动定时任务：月初电梯修改流量");  
-		String sql="update DTJK_ELEVATOR t set t.flow_surplus=t.flow_surplus-t.flow_num where t.flow_surplus is not null and t.flow_num is not null ";
+		String sql="update DTJK_ELEVATOR t set t.flow_surplus=t.flow_surplus-t.flow_num where t.flow_surplus is not null and t.flow_num is not null and t.delflag!='1' ";
 		try {
 			DBEntity.getInstance().executeSql(sql);
 		} catch (Exception e) {

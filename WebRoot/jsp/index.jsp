@@ -124,13 +124,13 @@ function toMain(flag){
 		   }
 		   
 		    if(flag==71){
-			   window.main.location="<%=path%>/jsp/Insurance/uninsured/insuranceList.jsp";
+			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=1";
 		   }
 		   if(flag==72){
-			   window.main.location="<%=path%>/jsp/Insurance/paul/insuranceList.jsp";
+			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=3";
 		   }
 		    if(flag==73){
-			   window.main.location="<%=path%>/jsp/Insurance/offPaul/insuranceList.jsp";
+			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=2";
 		   }
 		    if(flag==74){
 			   window.main.location="<%=path%>/jsp/Insurance/count/count.jsp";

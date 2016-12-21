@@ -29,7 +29,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	</head>
 
 	<body>
-		<div class="con" id="user">
+		<div class="con" id="user" style="padding-top: 70px;">
 			<p class="user">维保单位</p>
 			<div class="warp">
 				<div class="select clearfix">

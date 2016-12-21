@@ -1,14 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
-<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
-
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -16,7 +12,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
   <head>
     <base href="<%=basePath%>">
     
-    <title>电梯列表</title>
+    <title>使用单位</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -25,49 +21,35 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/dtjk_comm.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
 	</head>
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">脱保电梯列表</p>
+			<p class="user">在保电梯</p>
 			<div class="warp">
-				<div class="select">
-				<div class="clearfix">
-					<p class="fl">
-						<label for="user">注册号&nbsp;:&nbsp;</label>
-						<input type="text" id="registerid"  value="${registerid}"  placeholder="请输入" />
+				<div class="select clearfix">
+				<p class="fl">
+						<label for="unit">区域&nbsp;:&nbsp;</label>
+						<select name="type" id="type">
+							<option value="">请选择</option>
+							
+						</select>				
 					</p>
 					<p class="fl">
-						<label for="code">识别码&nbsp;:&nbsp;</label>
-						<input type="text" id="distinguishid"  value="${distinguishid}" />
+						<label for="user">安装地址&nbsp;:&nbsp;</label>
+						<input type="text" id="name" placeholder="请输入"  value="${name}" />
 					</p>
+					
 					<p class="fl">
-						<label for="man">使用单位&nbsp;:&nbsp;</label>
-						<input type="text" id="useUnitName"  value="${useUnitName}" placeholder="请输入" />
-					</p>
-				</div>
-				<div class="clearfix">
-					<p class="fl">
-						<label for="brand">电梯品牌&nbsp;:&nbsp;</label>
-						<input type="text" id="brand" value="${brand}"  placeholder="请输入" />
-					</p>
-					<p class="fl">
-						<label for="num">总层数&nbsp;:&nbsp;</label>
-						<input type="text" id="numbers"  value="${numbers}" />
+						<label for="man">联系人&nbsp;:&nbsp;</label>
+						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						<%if(Authority.haveRigth(user.getId(),"dtjk_add")) {%>
-						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
-						<%} %>
-						<%if(Authority.haveRigth(user.getId(),"dtjk_del")) {%>
-						<p class="fl del">批量删除</p>
-						<%} %>
-						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
+						
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -75,32 +57,31 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								<th class="all">
 									<i></i>
 								</th>
-							<th>序列</th>
-							<th>电梯注册号</th>
-							<th>识别码</th>
-							<th>电梯使用单位</th>
-							<th>电梯安装单位</th>
-							<th>电梯品牌</th>
-							<th>电梯层数</th>
-							<th>电梯状态</th>
-							<th>操作</th>
+								<th>序列</th>
+								<th>保险开始日期</th>
+								<th>保险结束日期</th>
+								<th>保险金额</th>
+								<th>受益人</th>
+								<th>是否理赔</th>
+								<th>操作</th>
 							</thead>
-							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td class="wei">
 										<i class=""><input type="hidden" value="${list.id}" /></i>
 									</td>
 									<td>${s.index + 1 }</td>
-									<td>${list.registerid }</td>
-									<td>${list.distinguishid }</td>
-									<td>${list.useUnitName }</td>
-									<td>${list.installUnit }</td>
-									<td>${list.brand}</td>
-									<td>${list.numbers}</td>
+									<td><fmt:formatDate value='${list.startTime}' pattern='yyyy-MM-dd'/></td>
+									<td><fmt:formatDate value='${list.endTime}' pattern='yyyy-MM-dd'/></td>
+									<td>${list.money}</td>
+									<td>${list.beneficiary}</td>
 									<td>${list.state}</td>
-									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
+									<td>
+										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
+										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>
+										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"   class="del_one" onclick="del('${list.id}');"/>
 									
+									</td>
 								</tr>
 								</c:forEach>
 								
@@ -111,17 +92,17 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<div class="page">
 								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
 								
-								<c:if test="${page.pageNum==0||page.countSize==0}">
+								<c:if test="${page.pageNum==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
-							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
+							 	 <c:if test="${page.pageNum!=0}">
 							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
 								
-								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">
+								<c:if test="${page.pageNum+1==page.countSize}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>
-		                        <c:if test="${page.pageNum+1!=page.countSize&&page.countSize!=0}">
+		                        <c:if test="${page.pageNum+1!=page.countSize}">
 		                        		<a href="javascript:void(0);"  title="下一页"  onclick="fenye('${page.pageNum+1}')"  style="background-color: #00AAEE;color: #fff;">></a>
 		                    	</c:if>
 								<a href="javascript:void(0);" class="mo" title="尾页"  onclick="fenye('${page.countSize-1}')"  style="background-color: #00AAEE;color: #fff;">>></a>
@@ -135,5 +116,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/bxgl/elevator.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	
+	
+	</script>
+
 </html>

@@ -140,5 +140,11 @@
         <property name="delflag" type="java.lang.String">
             <column name="DELFLAG" length="50" />
         </property>
+        <property name="serviceState" type="java.lang.String">
+            <column name="SERVICE_STATE" length="50" />
+        </property>
+        <property name="safeState" type="java.lang.String">
+            <column name="SAFE_STATE" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -347,10 +347,15 @@ public class Gateway {
     					 door=" 	门状态：关门";
     				 }
 					 System.out.println(door);
-
+					 String date  =str.substring(80,86); // 日期
+					 date=dateString(hexToString(date)) ;
+					 String time=str.substring(86,92);
+					 time=timeString(hexToString(time));  //时间
+					// System.out.println(d.format(new Date()));
+					// System.out.println(d.format(d.parse("20"+date+" "+time)));
     			  //自动生成 当前故障
     			  GzclFault fault=new GzclFault();
-       			  fault.setHappenTime(new Date());
+       			  fault.setHappenTime(d.parse("20"+date+" "+time));
        			  fault.setAlarmTime(new Date());
        			  fault.setType("自动接警");
        			  fault.setState("处理中");
@@ -709,8 +714,8 @@ public class Gateway {
 		if(command.equalsIgnoreCase("37")){
 			String date=hexToString(content);
 			 date=dateString(date) ;
-			record.setGatewayDate(date);
-			System.out.println("终端日期："+date);
+			record.setGatewayDate("20"+date);
+			System.out.println("终端日期："+"20"+date);
 		}
 		//终端时间
 		if(command.equalsIgnoreCase("38")){

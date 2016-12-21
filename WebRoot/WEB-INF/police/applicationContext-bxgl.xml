@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+<!-- 电梯保险记录-->
+	<bean name="/safeAction" class="com.jrsoft.fri.bxgl.action.BxglSafeAction">
+		<property name="safeService" ref="safeService" />
+		<property name="elevatorService" ref="elevatorService" />
+	</bean>
+	<bean id="safeService" class="com.jrsoft.fri.bxgl.service.BxglSafeServiceImpl">
+		<property name="safeDao"  ref="safeDao" />
+	</bean>
+	<bean id="safeDao" class="com.jrsoft.fri.bxgl.dao.BxglSafeDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+     <!-- 电梯保险记录-->
+	</beans>

@@ -19,6 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 		<style>
 			select {
 				width: 153px;
@@ -56,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-	<form id="form"   method="post"  encType="multipart/form-data">
+	<form id="form"   action="<%=path %>/safeAction.do?method=addEntity"    method="post"  encType="multipart/form-data">
 		<div class="con">
 			<p class="user">保险单</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
@@ -66,26 +68,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				<p class="fill">
 					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>
-					<input type="text" readonly="readonly" id="start_end" placeholder="请选择" readonly="readonly" />
+					<input type="hidden" id="elevatorId"  name="safe.elevatorId.id"  value="${param.elevatorId}" />
+					
+					<input type="text"  class="Wdate"  name="startTime"  id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
 					<label for="start_end">保单结束日期&nbsp;:&nbsp;</label>
-					<input type="text" readonly="readonly" id="time_end" placeholder="请选择" readonly="readonly" />
+					<input type="text"  class="Wdate"   name="endTime"  	 id="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
 					<label for="unit">保险金额&nbsp;:&nbsp;</label>
-					<input type="text" id="unit" />
+					<input type="text" id="money"  name="safe.money"   placeholder="请输入"/>
 				</p>
 				<p class="fill">
 					<label for="place">受益人&nbsp;:&nbsp;</label>
-					<input type="text" id="place" />
+					<input type="text" id="beneficiary"  name="safe.beneficiary"  placeholder="请输入"/>
 				</p>
 
 				<p class="fill">
 					<label for="wb_unit">是否理赔&nbsp;:&nbsp;</label>
-					<select name="">
-						<option value="">否</option>
-						<option value="">是</option>
+					<select id="state" name="safe.state">
+						<option value="">请选择</option>
+						<option value="否">否</option>
+						<option value="是">是</option>
 					</select>
 				</p>
 				<p class="fill">
@@ -97,10 +102,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="file" id="sendimg" multiple class="sendimg" accept="image/gif;image/jpg;" />
 					</li>
 				</ul>
-					<div class="keep clearfix">
-						<button class="fl"    onclick="history.go(-1); ">保存</button>
-						<button class="fr"   onclick="history.go(-1); ">取消</button>
-					</div>
+					<p class="or clearfix">
+						<input type="button"  value="保存"  onclick="add();">
+						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
+					</p>
 				</div>
 
 			</div>
@@ -109,6 +114,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+  function add(){
+		 	$('#form').submit();
+     }
     //		图片格式
     var imgData = {};
     var  i = 0;

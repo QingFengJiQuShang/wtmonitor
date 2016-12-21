@@ -13,6 +13,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jrsoft.fri.quartz.QuartzJob;
 import com.jrsoft.fri.quartz.QuartzManager;
+import com.jrsoft.fri.quartz.SafeJob;
+import com.jrsoft.fri.quartz.ServiceState;
 
 import smart.sys.platform.springUtils.ContextHolder;
 import tcpip.MainServer;
@@ -40,6 +42,10 @@ public class InitSmartServlet extends HttpServlet {
 		
 		String job_name = "月初电梯修改流量";
 		QuartzManager.addJob(job_name, QuartzJob.class, "0 44 14 1 * ?");  
+		String job_name1 = "判断电梯服务状态";
+		QuartzManager.addJob(job_name1, ServiceState.class, "0 48 17 * * ?"); 
+		String job_name2 = "判断电梯保险状态";
+		QuartzManager.addJob(job_name2, SafeJob.class, "0 15 17 * * ?"); 
 	}
 	
 	/**

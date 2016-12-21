@@ -63,6 +63,8 @@ public class DtjkElevator implements java.io.Serializable {
     private Long flowSurplus;				//剩余流量
     private Date reportTime;				//上次上报时间
     private String delflag;						//删除标识 0未删除，1已删除
+    private String serviceState;			//服务状态 1 服务中   
+    private String safeState;					//保险状态 null 未保 0 脱保  1在保  
 	// Constructors
     
     private String useUnitName;			//使用单位名称
@@ -92,7 +94,7 @@ public class DtjkElevator implements java.io.Serializable {
 			String serviceIfe, Date yearlyTime, Date maintenanceTime,
 			String remarks,XtglUsers userid,String period,Date flowStart,
 			Date flowEnd,Long flowTotal,Long flowNum,Long flowSurplus,
-			Date reportTime,String delflag) {
+			Date reportTime,String delflag,String serviceState,String safeState) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -134,6 +136,8 @@ public class DtjkElevator implements java.io.Serializable {
 		this.flowSurplus=flowSurplus;
 		this.reportTime=reportTime;
 		this.delflag=delflag;
+		this.serviceState=serviceState;
+		this.safeState=safeState;
 	}
 
 	// Property accessors
@@ -540,6 +544,22 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setNumService(int numService) {
 		this.numService = numService;
+	}
+
+	public String getServiceState() {
+		return serviceState;
+	}
+
+	public void setServiceState(String serviceState) {
+		this.serviceState = serviceState;
+	}
+
+	public String getSafeState() {
+		return safeState;
+	}
+
+	public void setSafeState(String safeState) {
+		this.safeState = safeState;
 	}
 
 }
