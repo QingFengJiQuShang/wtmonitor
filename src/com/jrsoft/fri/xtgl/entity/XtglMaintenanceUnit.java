@@ -17,7 +17,11 @@ public class XtglMaintenanceUnit implements java.io.Serializable {
 	private String address;				//办公地点
 	private String code;				//公司代码
 	private String corporation;				//法人
+	private String province;			//省
+	private String city;						//市
+	private String area;					//区
 	private int num;   //维保人数
+	
 	// Constructors
 
 	/** default constructor */
@@ -26,7 +30,7 @@ public class XtglMaintenanceUnit implements java.io.Serializable {
 
 	/** full constructor */
 	public XtglMaintenanceUnit(String name, String liaisons, String phone,
-			String address, String code, String corporation, int num) {
+			String address, String code, String corporation, int num,String province,String city,String area) {
 		this.name = name;
 		this.liaisons = liaisons;
 		this.phone = phone;
@@ -34,6 +38,9 @@ public class XtglMaintenanceUnit implements java.io.Serializable {
 		this.code = code;
 		this.corporation = corporation;
 		this.num=num;
+		this.province=province;
+		this.city=city;
+		this.area=area;
 	}
 
 	// Property accessors
@@ -100,6 +107,30 @@ public class XtglMaintenanceUnit implements java.io.Serializable {
 
 	public void setNum(int num) {
 		this.num = num;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 }

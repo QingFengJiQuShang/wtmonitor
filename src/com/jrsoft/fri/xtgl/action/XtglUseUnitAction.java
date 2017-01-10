@@ -174,7 +174,10 @@ public class XtglUseUnitAction  extends DispatchAction  {
 			useUnit.setLiaisons(unit.getLiaisons());
 			useUnit.setPhone(unit.getPhone());
 			useUnit.setAddress(unit.getAddress());
-			
+			useUnit.setProvince(unit.getProvince());
+			useUnit.setCity(unit.getCity());
+			useUnit.setArea(unit.getArea());
+
 			useUnitService.update(useUnit);
 		}
 		//生成 操作日志

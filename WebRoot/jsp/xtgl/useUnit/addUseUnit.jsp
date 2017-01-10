@@ -19,6 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
+			<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+			<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		    <script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
 	
 	</head>
 
@@ -30,6 +33,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="table">
 				<p class="add">新增使用单位</p>
 				<div class="table_con">
+					<p class="fill">
+						<label for="logn">省&nbsp;:&nbsp;</label>
+						<select  name="unit.province"  id="province"   >
+						<option value="">请选择</option>
+						</select>
+					</p>
+					<p class="fill">
+						<label for="logn">市&nbsp;:&nbsp;</label>
+						<select  name="unit.city"  id="city" >
+						<option value="">请选择</option>
+						</select>
+					</p>
+					<p class="fill">
+						<label for="logn">区&nbsp;:&nbsp;</label>
+						<select  name="unit.area"  id="area" onclick="area();">
+							<option value="">请选择</option>
+						</select>
+					</p>
 					<p class="fill">
 						<label for="name">使用单位名称&nbsp;:&nbsp;</label>
 						<input type="text" id="name"  name="unit.name"  />

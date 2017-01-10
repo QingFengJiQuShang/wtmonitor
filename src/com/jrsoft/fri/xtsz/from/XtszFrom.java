@@ -1,6 +1,9 @@
 package com.jrsoft.fri.xtsz.from;
 
 import com.jrsoft.fri.common.core.form.BaseForm;
+import com.jrsoft.fri.xtsz.entity.Area;
+import com.jrsoft.fri.xtsz.entity.City;
+import com.jrsoft.fri.xtsz.entity.Province;
 import com.jrsoft.fri.xtsz.entity.XtszHelp;
 import com.jrsoft.fri.xtsz.entity.XtszLog;
 import com.jrsoft.fri.xtsz.entity.XtszMessage;
@@ -9,6 +12,9 @@ public class XtszFrom   extends BaseForm {
 	private XtszLog log=new XtszLog();
 	private XtszHelp help=new XtszHelp();
 	private XtszMessage message=new  XtszMessage();
+	private Area area=new  Area();
+	private City city=new  City();
+	private Province province=new  Province();
 
 	public XtszLog getLog() {
 		return log;
@@ -32,6 +38,30 @@ public class XtszFrom   extends BaseForm {
 
 	public void setMessage(XtszMessage message) {
 		this.message = message;
+	}
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public Province getProvince() {
+		return province;
+	}
+
+	public void setProvince(Province province) {
+		this.province = province;
 	}
 	
 	

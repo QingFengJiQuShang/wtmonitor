@@ -16,7 +16,9 @@ public class XtglRescueUnit implements java.io.Serializable {
 	private String liaisons;				//联络人
 	private String phone;				//联络电话
 	private String address;				//地址
-
+	private String province;			//省
+	private String city;						//市
+	private String area;					//区
 	// Constructors
 
 	/** default constructor */
@@ -25,12 +27,15 @@ public class XtglRescueUnit implements java.io.Serializable {
 
 	/** full constructor */
 	public XtglRescueUnit(String name, String type, String liaisons,
-			String phone, String address) {
+			String phone, String address,String province,String city,String area) {
 		this.name = name;
 		this.type = type;
 		this.liaisons = liaisons;
 		this.phone = phone;
 		this.address = address;
+		this.province=province;
+		this.city=city;
+		this.area=area;
 	}
 
 	// Property accessors
@@ -81,6 +86,30 @@ public class XtglRescueUnit implements java.io.Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 }

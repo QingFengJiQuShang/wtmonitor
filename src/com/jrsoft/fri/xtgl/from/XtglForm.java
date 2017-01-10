@@ -3,7 +3,11 @@ import com.jrsoft.fri.common.core.form.BaseForm;
 import com.jrsoft.fri.xtgl.entity.XtglAuthority;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglMakeUnit;
+import com.jrsoft.fri.xtgl.entity.XtglPropertyUnit;
+import com.jrsoft.fri.xtgl.entity.XtglRegionUnit;
 import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
+import com.jrsoft.fri.xtgl.entity.XtglSafeUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 
@@ -18,7 +22,11 @@ public class XtglForm  extends BaseForm{
 	private  XtglMaintenanceUsers maintenanceUsers=new XtglMaintenanceUsers(); 
 	private  XtglRescueUnit rescueUnit=new XtglRescueUnit();
 	private  XtglUseUnit unit=new XtglUseUnit();
-	
+	private  XtglSafeUnit safeUnit=new XtglSafeUnit();
+	private  XtglRegionUnit regionUnit=new XtglRegionUnit();
+	private  XtglPropertyUnit propertyUnit=new XtglPropertyUnit();
+	private  XtglMakeUnit makeUnit=new XtglMakeUnit();
+
 	
 	public XtglUsers getUsers() {
 		return users;
@@ -44,6 +52,16 @@ public class XtglForm  extends BaseForm{
 		this.maintenanceUsers = maintenanceUsers;
 	}
 
+	
+
+	public XtglUseUnit getUnit() {
+		return unit;
+	}
+
+	public void setUnit(XtglUseUnit unit) {
+		this.unit = unit;
+	}
+
 	public XtglRescueUnit getRescueUnit() {
 		return rescueUnit;
 	}
@@ -52,12 +70,40 @@ public class XtglForm  extends BaseForm{
 		this.rescueUnit = rescueUnit;
 	}
 
-	public XtglUseUnit getUnit() {
-		return unit;
+	public XtglSafeUnit getSafeUnit() {
+		return safeUnit;
 	}
 
-	public void setUnit(XtglUseUnit unit) {
-		this.unit = unit;
+	public void setSafeUnit(XtglSafeUnit safeUnit) {
+		this.safeUnit = safeUnit;
+	}
+
+	public XtglRegionUnit getRegionUnit() {
+		return regionUnit;
+	}
+
+	public void setRegionUnit(XtglRegionUnit regionUnit) {
+		this.regionUnit = regionUnit;
+	}
+
+	public XtglPropertyUnit getPropertyUnit() {
+		return propertyUnit;
+	}
+
+	public void setPropertyUnit(XtglPropertyUnit propertyUnit) {
+		this.propertyUnit = propertyUnit;
+	}
+
+	public XtglMakeUnit getMakeUnit() {
+		return makeUnit;
+	}
+
+	public void setMakeUnit(XtglMakeUnit makeUnit) {
+		this.makeUnit = makeUnit;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	

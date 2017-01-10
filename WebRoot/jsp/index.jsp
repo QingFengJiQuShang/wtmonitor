@@ -183,7 +183,7 @@ function toMain(flag){
 			<%if(Authority.haveRigth(user.getId(),"yhgl_check")) {%>
 			<li class="list-item">
 				<p class="one grade"   >
-					<i class=""></i>用户管理</p>
+					<i class=""></i>单位管理</p>
 				<div class="next">
 					<p	 class="two"  onclick="toMain('31')">系统用户</p>
 					<p	 class="two"  onclick="toMain('32')">使用单位</p>

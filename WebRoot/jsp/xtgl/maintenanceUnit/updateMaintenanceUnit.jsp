@@ -19,6 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
+		<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -29,6 +32,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="table">
 				<p class="add">修改维保单位</p>
 				<div class="table_con">
+					<p class="fill">
+						<label for="logn">省&nbsp;:&nbsp;</label>
+						<input type="hidden"   id="provinceid"  > 
+						<select  name="maintenanceUnit.province"  id="province"   >
+						<option value="">请选择</option>
+						<option value="${list.province}" selected="selected">${list.province}</option>
+						</select>
+					</p>
+					<p class="fill">
+						<label for="logn">市&nbsp;:&nbsp;</label>
+						<select  name="maintenanceUnit.city"  id="city" >
+						<option value="">请选择</option>
+						<option value="${list.city}"  selected="selected">${list.city}</option>
+						</select>
+					</p>
+					<p class="fill">
+						<label for="logn">区&nbsp;:&nbsp;</label>
+						<select  name="maintenanceUnit.area"  id="area" >
+							<option value="">请选择</option>
+							<option value="${list.area}"  selected="selected">${list.area}</option>
+						</select>
+					</p>
 					<p class="fill">
 						<label for="name">维保单位名称&nbsp;:&nbsp;</label>
 						<input type="hidden" id="id"  name="maintenanceUnit.id"  value="${list.id}"/>

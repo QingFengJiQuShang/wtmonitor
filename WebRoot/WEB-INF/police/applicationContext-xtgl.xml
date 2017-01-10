@@ -79,4 +79,49 @@
 	</bean>
     <!-- 系统权限 -->
 	
+	<!-- 制造单位 -->
+	<bean name="/makeUnitAction" class="com.jrsoft.fri.xtgl.action.XtglMakeUnitAction">
+		<property name="makeUnitService" ref="makeUnitService" />
+	</bean>
+	<bean id="makeUnitService" class="com.jrsoft.fri.xtgl.service.XtglMakeUnitServiceImpl">
+		<property name="makeUnitDao"  ref="makeUnitDao" />
+	</bean>
+	<bean id="makeUnitDao" class="com.jrsoft.fri.xtgl.dao.XtglMakeUnitDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 制造单位 -->
+    <!--物业单位 -->
+	<bean name="/propertyUnitAction" class="com.jrsoft.fri.xtgl.action.XtglPropertyUnitAction">
+		<property name="propertyUnitService" ref="propertyUnitService" />
+	</bean>
+	<bean id="propertyUnitService" class="com.jrsoft.fri.xtgl.service.XtglPropertyUnitServiceImpl">
+		<property name="propertyUnitDao"  ref="propertyUnitDao" />
+	</bean>
+	<bean id="propertyUnitDao" class="com.jrsoft.fri.xtgl.dao.XtglPropertyUnitDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 物业单位 -->
+    <!-- 区域单位 -->
+	<bean name="/regionUnitAction" class="com.jrsoft.fri.xtgl.action.XtglRegionUnitAction">
+		<property name="regionUnitService" ref="regionUnitService" />
+	</bean>
+	<bean id="regionUnitService" class="com.jrsoft.fri.xtgl.service.XtglRegionUnitServiceImpl">
+		<property name="regionUnitDao"  ref="regionUnitDao" />
+	</bean>
+	<bean id="regionUnitDao" class="com.jrsoft.fri.xtgl.dao.XtglRegionUnitDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 区域单位 -->
+    <!-- 保险单位 -->
+	<bean name="/safeUnitAction" class="com.jrsoft.fri.xtgl.action.XtglSafeUnitAction">
+		<property name="safeUnitService" ref="safeUnitService" />
+	</bean>
+	<bean id="safeUnitService" class="com.jrsoft.fri.xtgl.service.XtglSafeUnitServiceImpl">
+		<property name="safeUnitDao"  ref="safeUnitDao" />
+	</bean>
+	<bean id="safeUnitDao" class="com.jrsoft.fri.xtgl.dao.XtglSafeUnitDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 保险单位 -->
+	
 	</beans>

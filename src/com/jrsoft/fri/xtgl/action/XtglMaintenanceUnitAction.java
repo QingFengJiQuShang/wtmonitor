@@ -178,6 +178,9 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 			elevator.setAddress(unit.getAddress());
 			elevator.setCode(unit.getCode());
 			elevator.setCorporation(unit.getCorporation());
+			elevator.setProvince(unit.getProvince());
+			elevator.setCity(unit.getCity());
+			elevator.setArea(unit.getArea());
 			maintenanceUnitService.update(elevator);
 		}
 		//生成 操作日志

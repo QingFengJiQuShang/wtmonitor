@@ -33,6 +33,15 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<p class="add">查询救援单位</p>
 				<div class="table_con">
 					<p class="fill">
+						<label for="logn">省&nbsp;:&nbsp;</label>${list.province}
+					</p>
+					<p class="fill">
+						<label for="logn">市&nbsp;:&nbsp;</label>${list.city}
+					</p>
+					<p class="fill">
+						<label for="logn">区&nbsp;:&nbsp;</label>${list.area}
+					</p>
+					<p class="fill">
 						<label for="name">救援单位名称&nbsp;:&nbsp;</label>${list.name}
 					</p>
 					<p class="fill">

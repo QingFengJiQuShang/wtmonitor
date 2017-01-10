@@ -21,5 +21,20 @@
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
+	<!-- 省 -->
+	<action path="/provinceAction" name="XtszFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	<!-- 市 -->
+	<action path="/cityAction" name="XtszFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	<!-- 区 -->
+	<action path="/areaAction" name="XtszFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	</action-mappings>
 </struts-config>

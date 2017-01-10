@@ -42,5 +42,40 @@
 	</bean>
     <!-- 报警短信 -->
     
-    
+    <!-- 省 -->
+	<bean name="/provinceAction" class="com.jrsoft.fri.xtsz.action.ProvinceAction">
+		<property name="provinceService" ref="provinceService" />
+	</bean>
+	<bean id="provinceService" class="com.jrsoft.fri.xtsz.service.ProvinceServiceImpl">
+		<property name="provinceDao"  ref="provinceDao" />
+	</bean>
+	<bean id="provinceDao" class="com.jrsoft.fri.xtsz.dao.ProvinceDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 省-->
+    <!--市 -->
+	<bean name="/cityAction" class="com.jrsoft.fri.xtsz.action.CityAction">
+		<property name="cityService" ref="cityService" />
+		<property name="provinceService" ref="provinceService" />
+	</bean>
+	<bean id="cityService" class="com.jrsoft.fri.xtsz.service.CityServiceImpl">
+		<property name="cityDao"  ref="cityDao" />
+	</bean>
+	<bean id="cityDao" class="com.jrsoft.fri.xtsz.dao.CityDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 市 -->
+    <!-- 区-->
+	<bean name="/areaAction" class="com.jrsoft.fri.xtsz.action.AreaAction">
+		<property name="areaService" ref="areaService" />
+		<property name="cityService" ref="cityService" />
+		<property name="provinceService" ref="provinceService" />
+	</bean>
+	<bean id="areaService" class="com.jrsoft.fri.xtsz.service.AreaServiceImpl">
+		<property name="areaDao"  ref="areaDao" />
+	</bean>
+	<bean id="areaDao" class="com.jrsoft.fri.xtsz.dao.AreaDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 区 -->
 	</beans>

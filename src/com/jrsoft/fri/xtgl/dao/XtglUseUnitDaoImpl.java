@@ -132,5 +132,11 @@ public class XtglUseUnitDaoImpl  extends BaseDaoImpl< XtglUseUnit, String> imple
 		
 	}
 
+	@Override
+	public void exportModel(String filePath) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

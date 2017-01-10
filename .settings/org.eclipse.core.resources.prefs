@@ -1,4 +1,4 @@
-#Mon Dec 19 14:01:29 CST 2016
+#Mon Jan 09 17:38:54 CST 2017
 eclipse.preferences.version=1
 encoding//WebRoot/css/dtjk/list_details.css=UTF-8
 encoding//WebRoot/js=UTF-8
@@ -8,4 +8,5 @@ encoding//src/com/jrsoft/fri/common/exp/Excel.java=UTF-8
 encoding//src/com/jrsoft/fri/common/utils/ImpExcel.java=UTF-8
 encoding//src/com/jrsoft/fri/quartz=UTF-8
 encoding//src/com/jrsoft/fri/quartz/QuartzJob.java=UTF-8
+encoding//src/com/jrsoft/fri/xtgl/action/Upload.java=UTF-8
 encoding/WebRoot=UTF-8

@@ -175,7 +175,9 @@ public class XtglRescueUnitAction  extends DispatchAction  {
 			useUnit.setLiaisons(unit.getLiaisons());
 			useUnit.setPhone(unit.getPhone());
 			useUnit.setAddress(unit.getAddress());
-			
+			useUnit.setProvince(unit.getProvince());
+			useUnit.setCity(unit.getCity());
+			useUnit.setArea(unit.getArea());
 			rescueUnitService.update(useUnit);
 		}
 		//生成 操作日志

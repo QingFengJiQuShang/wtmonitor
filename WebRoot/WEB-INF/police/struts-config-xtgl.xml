@@ -34,5 +34,25 @@
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
+	<!-- 制造单位-->
+	<action path="/makeUnitAction" name="XtglForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	<!-- 物业单位-->
+	<action path="/propertyUnitAction" name="XtglForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	<!-- 区域单位-->
+	<action path="/regionUnitAction" name="XtglForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
+	<!-- 保险单位-->
+	<action path="/safeUnitAction" name="XtglForm"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	</action-mappings>
 </struts-config>
