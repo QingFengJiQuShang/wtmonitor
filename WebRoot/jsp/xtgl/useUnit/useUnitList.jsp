@@ -25,6 +25,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
+		<script src="<%=path%>/js/Share.js" type="text/javascript" charset="utf-8"></script>
+	<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
+	
 	</head>
 
 	<body>
@@ -61,6 +67,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<p class="fl del">批量删除</p>&nbsp;&nbsp;
 						<%} %>
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
+			<!-- 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p> -->
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -70,10 +77,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								</th>
 								<th>序列</th>
 								<th>使用单位名称</th>
-								<th>使用单位类型</th>
 								<th>联系人</th>
 								<th>联系人电话</th>
 								<th>使用单位地址</th>
+								<th>省</th>
+								<th>市</th>
+								<th>区</th>
 								<th>操作</th>
 							</thead>
 							<tbody>
@@ -84,10 +93,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.name }</td>
-									<td>${list.type }</td>
 									<td>${list.liaisons }</td>
 									<td>${list.phone }</td>
 									<td>${list.address}</td>
+									<td>${list.province}</td>
+									<td>${list.city}</td>
+									<td>${list.area}</td>
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>

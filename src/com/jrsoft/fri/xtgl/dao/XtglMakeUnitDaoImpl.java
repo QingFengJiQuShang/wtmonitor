@@ -54,7 +54,7 @@ public class XtglMakeUnitDaoImpl  extends BaseDaoImpl< XtglMakeUnit, String> imp
 			String[] top_arraydis = null;
 			Connection conn = DBEntity.getInstance().getConnection();
 			//查询服务订单
-			String sql="select dr.*  from Xtgl_Use_Unit dr where  1=1 " ;
+			String sql="select dr.*  from Xtgl_Make_Unit dr where  1=1 " ;
 			if(unit.getName()!=null&&!unit.getName().equals("")){
 				sql+=" and name like '%"+unit.getName()+"%'";
 			}
@@ -78,6 +78,9 @@ public class XtglMakeUnitDaoImpl  extends BaseDaoImpl< XtglMakeUnit, String> imp
 				elevators.setLiaisons(rs.getString("liaisons"));
 				elevators.setPhone(rs.getString("phone"));
 				elevators.setAddress(rs.getString("address"));
+				elevators.setProvince(rs.getString("province"));
+				elevators.setCity(rs.getString("city"));
+				elevators.setArea(rs.getString("area"));
 				list.add(elevators);
 				
 			}
@@ -101,8 +104,8 @@ public class XtglMakeUnitDaoImpl  extends BaseDaoImpl< XtglMakeUnit, String> imp
 						cell = row.createCell(j);// 创建格 字段
 						cell.setCellValue(e.getName());   //单位名称
 						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getType());   //单位类型
+			//			cell = row.createCell(++j);// 创建格 字段
+			//			cell.setCellValue(e.getType());   //单位类型
 			
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getLiaisons());   //联络人
@@ -113,6 +116,14 @@ public class XtglMakeUnitDaoImpl  extends BaseDaoImpl< XtglMakeUnit, String> imp
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getAddress());   //地址
 
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getProvince());   //省
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getCity());   //市
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getArea());   //区
 						j = 0;
 					}
 			}

@@ -76,6 +76,9 @@ public class XtglMaintenanceUnitDaoImpl  extends BaseDaoImpl< XtglMaintenanceUni
 				elevators.setAddress(rs.getString("address"));
 				elevators.setCode(rs.getString("code"));
 				elevators.setCorporation(rs.getString("corporation"));
+				elevators.setProvince(rs.getString("province"));
+				elevators.setCity(rs.getString("city"));
+				elevators.setArea(rs.getString("area"));
 				list.add(elevators);
 				
 			}
@@ -114,7 +117,15 @@ public class XtglMaintenanceUnitDaoImpl  extends BaseDaoImpl< XtglMaintenanceUni
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getCorporation());   //法人
 
+
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getProvince());   //省
 						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getCity());   //市
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getArea());   //区
 						
 						j = 0;
 					}

@@ -79,6 +79,18 @@ function toMain(flag){
 		    if(flag==34){
 			   window.main.location="<%=path%>/rescueUnitAction.do?method=query";
 		   }
+		    if(flag==35){
+			   window.main.location="<%=path%>/propertyUnitAction.do?method=query";
+		   }
+		    if(flag==36){
+			   window.main.location="<%=path%>/makeUnitAction.do?method=query";
+		   }
+		    if(flag==37){
+			   window.main.location="<%=path%>/safeUnitAction.do?method=query";
+		   }
+		    if(flag==38){
+			   window.main.location="<%=path%>/regionUnitAction.do?method=query";
+		   }
 		   if(flag==41){
 			   window.main.location="<%=path%>/alarmAction.do?method=query";
 		   }
@@ -189,6 +201,10 @@ function toMain(flag){
 					<p	 class="two"  onclick="toMain('32')">使用单位</p>
 					<p	 class="two"  onclick="toMain('33')">维保单位</p>
 					<p	 class="two"  onclick="toMain('34')">救援单位</p>
+					<p	 class="two"  onclick="toMain('35')">物业单位</p>
+					<p	 class="two"  onclick="toMain('36')">制造单位</p>
+					<p	 class="two"  onclick="toMain('37')">保险单位</p>
+					<p	 class="two"  onclick="toMain('38')">区域单位</p>
 				</div>
 			</li>
 			<%} %>

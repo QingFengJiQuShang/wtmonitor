@@ -79,6 +79,9 @@ public class XtglRescueUnitDaoImpl  extends BaseDaoImpl< XtglRescueUnit, String>
 				elevators.setLiaisons(rs.getString("liaisons"));
 				elevators.setPhone(rs.getString("phone"));
 				elevators.setAddress(rs.getString("address"));
+				elevators.setProvince(rs.getString("province"));
+				elevators.setCity(rs.getString("city"));
+				elevators.setArea(rs.getString("area"));
 				list.add(elevators);
 				
 			}
@@ -102,8 +105,8 @@ public class XtglRescueUnitDaoImpl  extends BaseDaoImpl< XtglRescueUnit, String>
 						cell = row.createCell(j);// 创建格 字段
 						cell.setCellValue(e.getName());   //单位名称
 						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getType());   //单位类型
+			//			cell = row.createCell(++j);// 创建格 字段
+			//			cell.setCellValue(e.getType());   //单位类型
 			
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getLiaisons());   //联络人
@@ -114,6 +117,14 @@ public class XtglRescueUnitDaoImpl  extends BaseDaoImpl< XtglRescueUnit, String>
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getAddress());   //地址
 
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getProvince());   //省
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getCity());   //市
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getArea());   //区
 						j = 0;
 					}
 			}

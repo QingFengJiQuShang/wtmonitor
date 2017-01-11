@@ -121,7 +121,9 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 					elevator.setAddress(rs.getString("address"));
 					elevator.setCode(rs.getString("code"));
 					elevator.setCorporation(rs.getString("corporation"));
-					
+					elevator.setProvince(rs.getString("province"));
+					elevator.setCity(rs.getString("city"));
+					elevator.setArea(rs.getString("area"));
 					String sql2="select count(*)  from Xtgl_maintenance_users de where  1=1  and unit_Id = '"+rs.getLong("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNum(n);

@@ -70,6 +70,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								<th>维保单位地址</th>
 								<th>公司代码</th>
 								<th>法人</th>
+								<th>省</th>
+								<th>市</th>
+								<th>区</th>
 								<th>维保人数量</th>
 								<th>操作</th>
 							</thead>
@@ -86,6 +89,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.address }</td>
 									<td>${list.code}</td>
 									<td>${list.corporation}</td>
+									<td>${list.province}</td>
+									<td>${list.city}</td>
+									<td>${list.area}</td>
 									<td><a href="<%=path %>/maintenanceUsersAction.do?method=query&unitId=${list.id}"   style="color: blue; ">${list.num}</a></td>
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>

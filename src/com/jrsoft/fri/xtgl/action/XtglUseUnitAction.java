@@ -121,7 +121,9 @@ public class XtglUseUnitAction  extends DispatchAction  {
 					useUnit.setLiaisons(rs.getString("liaisons"));
 					useUnit.setPhone(rs.getString("phone"));
 					useUnit.setAddress(rs.getString("address"));
-					
+					useUnit.setProvince(rs.getString("province"));
+					useUnit.setCity(rs.getString("city"));
+					useUnit.setArea(rs.getString("area"));
 					list.add(useUnit);
 					
 				}

@@ -15,7 +15,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
   <head>
     <base href="<%=basePath%>">
     
-    <title>救援单位</title>
+    <title>使用单位</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -29,7 +29,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">救援单位</p>
+			<p class="user">物业单位</p>
 			<div class="warp">
 				<div class="select clearfix">
 					<p class="fl">
@@ -58,7 +58,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
 						<%} %>
 						<%if(Authority.haveRigth(user.getId(),"yhgl_del")) {%>
-						<p class="fl del">批量删除</p>
+						<p class="fl del">批量删除</p>&nbsp;&nbsp;
 						<%} %>
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
 					</div>
@@ -69,14 +69,14 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<i></i>
 								</th>
 								<th>序列</th>
-								<th>救援单位名称</th>
-								<th>单位类型</th>
+								<th>使用单位名称</th>
 								<th>联系人</th>
 								<th>联系人电话</th>
-								<th>救援单位地址</th>
+								<th>使用单位地址</th>
 								<th>省</th>
 								<th>市</th>
 								<th>区</th>
+								
 								<th>操作</th>
 							</thead>
 							<tbody>
@@ -87,7 +87,6 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.name }</td>
-									<td>${list.type }</td>
 									<td>${list.liaisons }</td>
 									<td>${list.phone }</td>
 									<td>${list.address}</td>
@@ -95,12 +94,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.city}</td>
 									<td>${list.area}</td>
 									<td>
-										<img src="<%=path%>/img/content.png" title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
+										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>
-										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"  onclick="findById('${list.id}','1');"/>
+										<img src="<%=path%>/img/compile.png" title="修改"  alt="修改"  onclick="findById('${list.id}','1');"/>
 										<%} %>
 										<%if(Authority.haveRigth(user.getId(),"yhgl_del")) {%>
-										<img src="<%=path%>/img/del.png"  title="删除"  alt="删除"  class="del_one" onclick="del('${list.id}');"/>
+										<img src="<%=path%>/img/del.png"  title="删除"  alt="删除"   class="del_one" onclick="del('${list.id}');"/>
 										<%} %>
 									</td>
 								</tr>
@@ -137,5 +136,5 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/xtgl/rescueUnit.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtgl/propertyUnit.js" type="text/javascript" charset="utf-8"></script>
 </html>

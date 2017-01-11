@@ -5,7 +5,12 @@
 closeShow=function(){
 	window.parent.JqueryDialog.Close();
 }
-
+/**
+ * 上传页面
+ */
+upload=function(){
+	JqueryDialog.Open('文件上传', 'jsp/comm/upload.jsp', 600, 400);
+}
 /**
  * 选择地图标注
  */
