@@ -83,10 +83,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>电梯品牌</th>
 							<th>电梯层数</th>
 							<th>电梯状态</th>
-							<th>白名单</th>
+			<!-- 				<th>白名单</th>
 							<th>上报周期</th>
 							<th>剩余流量</th>
-							<th>服务费记录数</th>
+							<th>服务费记录数</th> -->
 							<th>操作</th>
 							</thead>
 							<tbody>
@@ -103,11 +103,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.brand}</td>
 									<td>${list.numbers}</td>
 									<td>${list.state}</td>
-									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
+					<!-- 				<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
 									<td  style="color: blue; " <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','3');"   <%} %>>${list.period}</td>
 									<td><a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a></td>
 									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
-									<td>
+						 -->			<td style="width: 150px;">
+						 				<img src="<%=path%>/img/compile.png"  title="网关"  alt="网关"  onclick="findById1('${list.registerid}');"/>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>
 										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"  onclick="findById('${list.id}','1');"/>

@@ -691,9 +691,12 @@ public class Gateway {
 			if(floor==0){
 				record.setDirection("上");
 				System.out.println("运行方向：上");
-			}else{
+			}else if(floor==1){
 				record.setDirection("下");
 				System.out.println("运行方向：下");
+			}else{
+				record.setDirection("静止");
+				System.out.println("运行方向：静止");
 			}
 		}
 		 //运行速度

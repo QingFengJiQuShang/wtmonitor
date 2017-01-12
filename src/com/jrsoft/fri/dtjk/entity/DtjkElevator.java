@@ -4,8 +4,11 @@ import java.util.Date;
 
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglMakeUnit;
+import com.jrsoft.fri.xtgl.entity.XtglPropertyUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * 电梯表
@@ -13,6 +16,10 @@ import com.jrsoft.fri.xtgl.entity.XtglUsers;
 
 /**
  * @author Ziliang
+ *
+ */
+/**
+ * @author Administrator
  *
  */
 public class DtjkElevator implements java.io.Serializable {
@@ -43,13 +50,6 @@ public class DtjkElevator implements java.io.Serializable {
 	private String installUnit;			//安装单位
 	private String installUser;			//安装人
 	private Date installTime;			//安装时间
-	private String manufacturer;			//制造商
-	private String manufacturerPhone;			//制作商电话
-	private String manufacturerAddress;			//制造商地址
-	private String manufacturerUrl;			//制造商网址
-	private String filialeAddress;			//制作商本地分公司地址
-	private String filialePhone;			//制造商本地分公司电话
-	private String filialeContact;			//制造商本地分公司联系人
 	private String serviceIfe;			//电梯使用年限
 	private Date yearlyTime;			//上次年检时间
 	private Date maintenanceTime;			//上次维保时间
@@ -65,6 +65,8 @@ public class DtjkElevator implements java.io.Serializable {
     private String delflag;						//删除标识 0未删除，1已删除
     private String serviceState;			//服务状态 1 服务中   
     private String safeState;					//保险状态 null 未保 0 脱保  1在保  
+    private  XtglPropertyUnit  propertyUnitId= new XtglPropertyUnit();		//物业单位
+    private  XtglMakeUnit makeUnitId=new XtglMakeUnit();				//制造单位
 	// Constructors
     
     private String useUnitName;			//使用单位名称
@@ -88,13 +90,11 @@ public class DtjkElevator implements java.io.Serializable {
 			String maintenanceState, String registerState, String speed,
 			XtglMaintenanceUsers maintenanceUsersId, String installPlace,
 			String installUnit, String installUser, Date installTime,
-			String manufacturer, String manufacturerPhone,
-			String manufacturerAddress, String manufacturerUrl,
-			String filialeAddress, String filialePhone, String filialeContact,
 			String serviceIfe, Date yearlyTime, Date maintenanceTime,
 			String remarks,XtglUsers userid,String period,Date flowStart,
 			Date flowEnd,Long flowTotal,Long flowNum,Long flowSurplus,
-			Date reportTime,String delflag,String serviceState,String safeState) {
+			Date reportTime,String delflag,String serviceState,String safeState,
+			XtglPropertyUnit  propertyUnitId,XtglMakeUnit makeUnitId) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -117,13 +117,6 @@ public class DtjkElevator implements java.io.Serializable {
 		this.installUnit = installUnit;
 		this.installUser = installUser;
 		this.installTime = installTime;
-		this.manufacturer = manufacturer;
-		this.manufacturerPhone = manufacturerPhone;
-		this.manufacturerAddress = manufacturerAddress;
-		this.manufacturerUrl = manufacturerUrl;
-		this.filialeAddress = filialeAddress;
-		this.filialePhone = filialePhone;
-		this.filialeContact = filialeContact;
 		this.serviceIfe = serviceIfe;
 		this.yearlyTime = yearlyTime;
 		this.maintenanceTime = maintenanceTime;
@@ -138,6 +131,8 @@ public class DtjkElevator implements java.io.Serializable {
 		this.delflag=delflag;
 		this.serviceState=serviceState;
 		this.safeState=safeState;
+		this.propertyUnitId=propertyUnitId;
+		this.makeUnitId=makeUnitId;
 	}
 
 	// Property accessors
@@ -292,62 +287,6 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setInstallTime(Date installTime) {
 		this.installTime = installTime;
-	}
-
-	public String getManufacturer() {
-		return this.manufacturer;
-	}
-
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
-	}
-
-	public String getManufacturerPhone() {
-		return this.manufacturerPhone;
-	}
-
-	public void setManufacturerPhone(String manufacturerPhone) {
-		this.manufacturerPhone = manufacturerPhone;
-	}
-
-	public String getManufacturerAddress() {
-		return this.manufacturerAddress;
-	}
-
-	public void setManufacturerAddress(String manufacturerAddress) {
-		this.manufacturerAddress = manufacturerAddress;
-	}
-
-	public String getManufacturerUrl() {
-		return this.manufacturerUrl;
-	}
-
-	public void setManufacturerUrl(String manufacturerUrl) {
-		this.manufacturerUrl = manufacturerUrl;
-	}
-
-	public String getFilialeAddress() {
-		return this.filialeAddress;
-	}
-
-	public void setFilialeAddress(String filialeAddress) {
-		this.filialeAddress = filialeAddress;
-	}
-
-	public String getFilialePhone() {
-		return this.filialePhone;
-	}
-
-	public void setFilialePhone(String filialePhone) {
-		this.filialePhone = filialePhone;
-	}
-
-	public String getFilialeContact() {
-		return this.filialeContact;
-	}
-
-	public void setFilialeContact(String filialeContact) {
-		this.filialeContact = filialeContact;
 	}
 
 	public String getServiceIfe() {
@@ -560,6 +499,22 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setSafeState(String safeState) {
 		this.safeState = safeState;
+	}
+
+	public XtglPropertyUnit getPropertyUnitId() {
+		return propertyUnitId;
+	}
+
+	public void setPropertyUnitId(XtglPropertyUnit propertyUnitId) {
+		this.propertyUnitId = propertyUnitId;
+	}
+
+	public XtglMakeUnit getMakeUnitId() {
+		return makeUnitId;
+	}
+
+	public void setMakeUnitId(XtglMakeUnit makeUnitId) {
+		this.makeUnitId = makeUnitId;
 	}
 
 }

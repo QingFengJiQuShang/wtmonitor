@@ -22,8 +22,10 @@ import org.apache.struts.actions.DispatchAction;
 
 import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
+import com.jrsoft.fri.dtjk.entity.DtjkGateway;
 import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
+import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtsz.action.Log;
@@ -31,13 +33,21 @@ import com.jrsoft.fri.xtsz.entity.XtszLog;
 
 public class DtjkElevatorAction extends DispatchAction{
 	private DtjkElevatorService elevatorService;
-
+	private DtjkGatewayService gatewayService;
 	public DtjkElevatorService getElevatorService() {
 		return elevatorService;
 	}
 
 	public void setElevatorService(DtjkElevatorService elevatorService) {
 		this.elevatorService = elevatorService;
+	}
+
+	public DtjkGatewayService getGatewayService() {
+		return gatewayService;
+	}
+
+	public void setGatewayService(DtjkGatewayService gatewayService) {
+		this.gatewayService = gatewayService;
 	}
 
 	/**
@@ -99,6 +109,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		if(installTime!=null&&!installTime.equals("") )
 			elevator.setInstallTime(df.parse(installTime));
 		elevator.setState("正常");
+		elevator.setPeriod("60");
 		elevator.setDelflag("0");
 		elevatorService.save(elevator);
 		
@@ -540,9 +551,16 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
-					
-					String sql2="select count(*)  from dtjk_maintenance_records de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
+					elevator.setPeriod(rs.getString("period")==null?"0":rs.getString("period"));
+					elevator.setFlowSurplus(rs.getLong("flow_Surplus"));
+					String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
+					elevator.setNum(n);
+					String sql3="select count(*)  from Dtjk_Service de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
+					 n=DBEntity.getInstance().queryDataCount(sql3);
+					elevator.setNumService(n);
+					 sql2="select count(*)  from dtjk_maintenance_records de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
+					 n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNumRecords(n);
 					sql2="select count(*)  from dtjk_yearly_inspection de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
 					n=DBEntity.getInstance().queryDataCount(sql2);
@@ -582,6 +600,19 @@ public class DtjkElevatorAction extends DispatchAction{
 		}else if(flag.equals("4")){
 			return	new ActionForward("/jsp/dtjk/elevator/flow.jsp");
 		}else{
+			String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+list.getId()+"'";
+			int n=DBEntity.getInstance().queryDataCount(sql2);
+			list.setNum(n);
+			String sql3="select count(*)  from Dtjk_Service de where  1=1  and elevator_id = '"+list.getId()+"'";
+			 n=DBEntity.getInstance().queryDataCount(sql3);
+			 list.setNumService(n);
+			//根据终端号查询该终端是否已记录
+			String hql=" where  1=1 and elevatorId='"+list.getRegisterid()+"' " ;
+			List<DtjkGateway> gateways=gatewayService.queryAll(hql);
+			if(gateways.size()>0){
+				request.setAttribute("gateway", gateways.get(0));
+			}
+			
 			return	new ActionForward("/jsp/dtjk/elevator/detailElevator.jsp");
 		}
 	}
@@ -621,15 +652,10 @@ public class DtjkElevatorAction extends DispatchAction{
 			entity.setInstallPlace(elevator.getInstallPlace());
 			entity.setInstallUnit(elevator.getInstallUnit());
 			entity.setInstallUser(elevator.getInstallUser());
-			entity.setManufacturer(elevator.getManufacturer());
-			entity.setManufacturerPhone(elevator.getManufacturerPhone());
-			entity.setManufacturerAddress(elevator.getManufacturerAddress());
-			entity.setManufacturerUrl(elevator.getManufacturerUrl());
-			entity.setFilialeAddress(elevator.getFilialeAddress());
-			entity.setFilialePhone(elevator.getFilialePhone());
-			entity.setFilialeContact(elevator.getFilialeContact());
 			entity.setServiceIfe(elevator.getServiceIfe());
 			entity.setRemarks(elevator.getRemarks());
+			entity.setPropertyUnitId(elevator.getPropertyUnitId());
+			entity.setMakeUnitId(elevator.getMakeUnitId());
 			if(elevator.getUseUnitId().getId()==0)
 				entity.setUseUnitId(null);
 			if(elevator.getGatewayId().getId()==0)
@@ -937,4 +963,27 @@ public class DtjkElevatorAction extends DispatchAction{
 		
 		 return	new ActionForward("/jsp/comm/selectElevator.jsp");
 		}
+	
+	/**
+	 * 批量 流量充值
+	 */
+	public ActionForward  rechargeEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		String ids=request.getParameter("ids");
+		Long num=Long.parseLong(request.getParameter("num"));
+		if(ids!=null&&!ids.equals("")){
+			String  arr []=ids.split(",");
+			for(int i=0;i<arr.length;i++){
+				DtjkElevator entity =elevatorService.get(Long.parseLong(arr[i]));
+				entity.setFlowSurplus((entity.getFlowSurplus()==null?0:entity.getFlowSurplus())+num);
+				elevatorService.update(entity);
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "充值对电梯流量，电梯注册号："+entity.getRegisterid(), "1");
+			}
+		}
+		 return	new ActionForward("/elevatorAction.do?method=query");
+		
+	}
 }

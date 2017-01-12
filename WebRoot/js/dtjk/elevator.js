@@ -40,6 +40,10 @@
 		  function findById(id,flag){
     		  window.location.href="elevatorAction.do?method=findById&id="+id+"&flag="+flag;
          }
+		    //编辑 网关
+		  function findById1(id){
+    		  window.location.href="gatewayAction.do?method=findById&elevatorId="+id;
+         }
 		//删除
 		  function del(id){
 			  if( confirm("确定删除这条电梯记录？")){
@@ -112,4 +116,19 @@ $(".all").on("click", function() {
 		$(this).children("i").addClass("gou")
 		$("tbody").find("i").addClass("gou")
 	}
+})
+    
+		  	//		批量充值流量
+$(".recharge").click(function() {
+	var ids="";
+	var len=0;
+	$(".wei").each(function() {
+			if($(this).children("i").hasClass("gou")) {
+				ids=ids+$(this).find("i").children().val()+",";
+				len++;
+			}
+		})
+		 if(len>0 && confirm("确定为这 "+len+" 条电梯记录进行流量充值？")){
+	 		window.location.href="jsp/dtjk/manage/recharge.jsp?ids="+ids;
+	 	}
 })

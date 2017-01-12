@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -22,10 +25,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/dtjk_comm.css" />
 		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
 
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
 		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
 		
 	
 	</head>
@@ -108,16 +112,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="hidden"  id="useUnitId"  name="elevator.useUnitId.id"   />
 						<input type="text"  id="useUnitId1"   placeholder="请选择" readonly="readonly"  onclick="selectUseUnitId('useUnitId','useUnitId1');"/>
 					</p>
-					
 					<p>
-						<label for="mount">安装人员&nbsp;:&nbsp;</label>
-						<input type="text"  id="installUser"  name="elevator.installUser"  placeholder="请输入" />
+						<label for="user">制造单位&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="makeUnitId"  name="elevator.makeUnitId.id"   />
+						<input type="text"  id="makeUnitId1"   placeholder="请选择" readonly="readonly"  onclick="selectMakeUnitId('makeUnitId','makeUnitId1');"/>
 					</p>
 					
 					<p>
-						<label for="datetimepicker4">使用年限&nbsp;:&nbsp;</label>
-						<input type="text"  id="serviceIfe"  name="elevator.serviceIfe" class="form-control" placeholder="请选择" />
+						<label for="time">安装时间&nbsp;:&nbsp;</label>
+						<input type="text"   class="Wdate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  id="installTime"  name="installTime"  placeholder="请输入"  />
+						
 					</p>
+					
 
 				</div>
 				<div class="fl fenzhi">
@@ -126,10 +132,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="hidden"  id="maintenanceUnitId"  name="elevator.maintenanceUnitId.id"  />
 						<input type="text"  id="maintenanceUnitId1"   placeholder="请输入" readonly="readonly" onclick="selectMaintenanceUnit('maintenanceUnitId','maintenanceUnitId1');"/>
 					</p>
-					
 					<p>
-						<label for="time">安装时间&nbsp;:&nbsp;</label>
-						<input type="text"  id="installTime"  name="installTime"  placeholder="请输入"  />
+						<label for="mount_user">安装单位&nbsp;:&nbsp;</label>
+						<input type="text"  id="installUnit"  name="elevator.installUnit" placeholder="请输入" />
+					</p>
+					<p>
+						<label for="datetimepicker3">生产日期&nbsp;:&nbsp;</label>
+						<input type="text"   class="Wdate"  id="manufactureTime"  name="manufactureTime"  class="form-control" placeholder="请选择" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" >
 					</p>
 					
 				</div>
@@ -144,60 +153,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="place">安装地点&nbsp;:&nbsp;</label>
 						<input type="text"  id="installPlace"  name="elevator.installPlace"  placeholder="请输入" />
 					</p>
+					<p>
+						<label for="datetimepicker4">使用年限&nbsp;:&nbsp;</label>
+						<input type="text"  id="serviceIfe"  name="elevator.serviceIfe" class="form-control" placeholder="请选择" />
+					</p>
 				</div>
 				<div class="fl fenzhi">
 					<p>
-						<label for="mount_user">安装单位&nbsp;:&nbsp;</label>
-						<input type="text"  id="installUnit"  name="elevator.installUnit" placeholder="请输入" />
+						<label for="mount_user">物业单位&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="propertyUnitId"  name="elevator.propertyUnitId.id"  />
+						<input type="text"  id="propertyUnitId1"  placeholder="请选择" readonly="readonly"   onclick="selectPropertyUnitId('propertyUnitId','propertyUnitId1');"/>
+					
+					</p>
+					<p>
+						<label for="mount">安装人员&nbsp;:&nbsp;</label>
+						<input type="text"  id="installUser"  name="elevator.installUser"  placeholder="请输入" />
 					</p>
 					
-					<p>
-						<label for="datetimepicker3">生产日期&nbsp;:&nbsp;</label>
-						<input type="text"  id="manufactureTime"  name="manufactureTime" class="form-control" placeholder="请选择">
-					</p>
+					
 					
 				</div>
 			</div>
-			<!--第三层-->
-			<div class="maker clearfix">
-				<p class="name">电梯制造商信息</p>
-				<div class="fl fenzhi">
-					<p>
-						<label for="maker">制造商&nbsp;:&nbsp;</label>
-						<input type="text"   id="manufacturer"  name="elevator.manufacturer" placeholder="请输入"/>
-					</p>
-					<p>
-						<label for="maker_web">制造商网站&nbsp;:&nbsp;</label>
-						<input type="text"  id="manufacturerUrl"  name="elevator.manufacturerUrl"   placeholder="请输入" />
-					</p>
-					<p>
-						<label for="make_phone">本地分公司电话&nbsp;:&nbsp;</label>
-						<input type="text"  id="filialePhone"  name="elevator.filialePhone" class="form-control" placeholder="请选择">
-					</p>
-				</div>
-				<div class="fl fenzhi">
-					<p>
-						<label for="maker_address">制造商地址&nbsp;:&nbsp;</label>
-						<input type="text"  id="manufacturerAddress"  name="elevator.manufacturerAddress"  placeholder="请输入"/>
-					</p>
-					<p>
-						<label for="maker">本地分公司地址&nbsp;:&nbsp;</label>
-						<input type="text"  id="filialeAddress"  name="elevator.filialeAddress" placeholder="请输入"/>
-					</p>
-					
-					
-				</div>
-				<div class="fl fenzhi">
-					<p>
-						<label for="maker_sure">制作商电话&nbsp;:&nbsp;</label>
-						<input type="text"  id="manufacturerPhone"  name="elevator.manufacturerPhone"  placeholder="请输入" />
-					</p>
-					<p>
-						<label for="make_men">本地分公司联系人&nbsp;:&nbsp;</label>
-						<input type="text"  id="filialeContact"  name="elevator.filialeContact" placeholder="请输入">
-					</p>
-				</div>
-			</div>
+			
 			<p class="or clearfix">
 				<input type="button"  value="保存"  onclick="add();">
 				<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">

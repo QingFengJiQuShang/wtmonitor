@@ -78,27 +78,6 @@
         <property name="installTime" type="java.util.Date">
             <column name="INSTALL_TIME" length="7" />
         </property>
-        <property name="manufacturer" type="java.lang.String">
-            <column name="MANUFACTURER" length="200" />
-        </property>
-        <property name="manufacturerPhone" type="java.lang.String">
-            <column name="`MANUFACTURER_PHONE`" length="200" />
-        </property>
-        <property name="manufacturerAddress" type="java.lang.String">
-            <column name="`MANUFACTURER_ADDRESS`" length="200" />
-        </property>
-        <property name="manufacturerUrl" type="java.lang.String">
-            <column name="MANUFACTURER_URL" length="200" />
-        </property>
-        <property name="filialeAddress" type="java.lang.String">
-            <column name="FILIALE_ADDRESS" length="200" />
-        </property>
-        <property name="filialePhone" type="java.lang.String">
-            <column name="FILIALE_PHONE" length="200" />
-        </property>
-        <property name="filialeContact" type="java.lang.String">
-            <column name="FILIALE_CONTACT" length="200" />
-        </property>
         <property name="serviceIfe" type="java.lang.String">
             <column name="SERVICE_IFE" length="200" />
         </property>
@@ -146,5 +125,11 @@
         <property name="safeState" type="java.lang.String">
             <column name="SAFE_STATE" length="50" />
         </property>
+        <many-to-one name="propertyUnitId" class="com.jrsoft.fri.xtgl.entity.XtglPropertyUnit" fetch="select">
+            <column name="PROPERTY_UNIT_ID" length="50" />
+        </many-to-one>
+        <many-to-one name="makeUnitId" class="com.jrsoft.fri.xtgl.entity.XtglMakeUnit" fetch="select">
+            <column name="MAKE_UNIT_ID" length="50" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

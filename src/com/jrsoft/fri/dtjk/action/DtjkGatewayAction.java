@@ -18,10 +18,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
+
+import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
 import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtsz.action.Log;
 
 public class DtjkGatewayAction  extends DispatchAction {
 	private DtjkGatewayService gatewayService;
@@ -34,6 +38,86 @@ public class DtjkGatewayAction  extends DispatchAction {
 		this.gatewayService = gatewayService;
 	}
 	
+	/**
+	 * 编辑 查看 网关 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		String elevatorId=request.getParameter("elevatorId");
+		//根据终端号查询该终端是否已记录
+		String hql=" where  1=1 and elevatorId='"+elevatorId+"' " ;
+		List<DtjkGateway> gateways=gatewayService.queryAll(hql);
+		if(gateways.size()>0){
+			request.setAttribute("list", gateways.get(0));
+			return	new ActionForward("/jsp/dtjk/elevator/updateGateway.jsp");
+		}else {
+			request.setAttribute("elevatorId", elevatorId);
+			return	new ActionForward("/jsp/dtjk/elevator/addGateway.jsp");
+		}
+		
+	}
+	
+	/**
+	 * 新增 网关信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  addEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		DtjkFrom DtjkFrom=(DtjkFrom)form;
+		DtjkGateway elevator =DtjkFrom.getGateway();
+		gatewayService.save(elevator);
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
+		System.out.println(request.getRemoteAddr());
+		//生成 操作日志
+		Log log=new Log();
+        log.addLog(user.getName(), "新增了电梯网关信息，电梯注册号："+elevator.getElevatorId(), "1");
+	    return	new ActionForward("/elevatorAction.do?method=query");
+	}
+	/**
+	 * 修改 网关信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  updateEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		DtjkFrom DtjkFrom=(DtjkFrom)form;
+		DtjkGateway elevator =DtjkFrom.getGateway();
+		DtjkGateway entity=gatewayService.get(elevator.getId());
+		if(entity!=null){
+			entity.setSerialNumber(elevator.getSerialNumber());
+			entity.setType(elevator.getType());
+			entity.setHardware(elevator.getHardware());
+			entity.setSoftware(elevator.getSoftware());
+			entity.setSim(elevator.getSim());
+			entity.setReport(elevator.getReport());
+			entity.setFloor(elevator.getFloor());
+			entity.setUpper(elevator.getUpper());
+			entity.setLower(elevator.getLower());
+			entity.setSpeed(elevator.getSpeed());
+			entity.setSpacing(elevator.getSpacing());
+			entity.setNetworking(elevator.getNetworking());
+			gatewayService.update(entity);
+			XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+			//生成 操作日志
+			Log log=new Log();
+	        log.addLog(user.getName(), "修改了电梯网关信息，电梯注册号："+elevator.getElevatorId(), "1");
+		   
+		}
+		
+		 return	new ActionForward("/elevatorAction.do?method=query");
+	}
 	
 	/**
 	 * 查询 电梯网关列表
@@ -174,20 +258,6 @@ public class DtjkGatewayAction  extends DispatchAction {
 		 return	new ActionForward("/jsp/dagl/gateway/gatewayList.jsp");
 		}
 	
-	/**
-	 * 编辑 查看 网关 
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	public ActionForward  findById(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
-			throws Exception {
-		String id=request.getParameter("id");
-		DtjkGateway list=gatewayService.get(Long.parseLong(id));
-		request.setAttribute("list", list);
-		return	new ActionForward("/jsp/dagl/gateway/updateGateway.jsp");
-	}
 	
 	
 	

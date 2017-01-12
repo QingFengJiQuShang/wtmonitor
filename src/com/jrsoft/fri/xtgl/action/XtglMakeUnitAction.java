@@ -350,7 +350,7 @@ public class XtglMakeUnitAction extends DispatchAction  {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*  from Xtgl_use_unit de where  1=1 " ;
+				String sql="select de.*  from Xtgl_Make_Unit de where  1=1 " ;
 				if(name!=null&&!name.equals("")){
 					sql+=" and name like '%"+name+"%'";
 				}
@@ -377,7 +377,9 @@ public class XtglMakeUnitAction extends DispatchAction  {
 					useUnit.setLiaisons(rs.getString("liaisons"));
 					useUnit.setPhone(rs.getString("phone"));
 					useUnit.setAddress(rs.getString("address"));
-					
+					useUnit.setProvince(rs.getString("province"));
+					useUnit.setCity(rs.getString("city"));
+					useUnit.setArea(rs.getString("area"));
 					list.add(useUnit);
 					
 				}
@@ -390,7 +392,7 @@ public class XtglMakeUnitAction extends DispatchAction  {
 				request.setAttribute("list", list);
 		
 		
-		 return	new ActionForward("/jsp/comm/selectUseUnitList.jsp");
+		 return	new ActionForward("/jsp/comm/selectMakeUnitList.jsp");
 		}
 
 }

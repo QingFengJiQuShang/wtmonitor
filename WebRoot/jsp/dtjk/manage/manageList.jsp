@@ -2,9 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -56,7 +60,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
-					<p></p>
+					<div class="or clearfix">
+						<p class="fl recharge">充值流量</p>
+					</div>
+				<div class="table">
+					
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
@@ -71,8 +79,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th>电梯品牌</th>
 							<th>电梯层数</th>
 							<th>电梯状态</th>
+							
 							<th>维保记录数</th>
 							<th>年检记录数</th>
+							<th>白名单</th>
+							<th>上报周期</th>
+							<th>剩余流量</th>
+							<th>服务费记录数</th>
 							<th>操作</th>
 							</thead>
 							<tbody>
@@ -91,6 +104,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${list.state}</td>
 									<td><a href="<%=path %>/recordsAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numRecords}</a></td>
 									<td><a href="<%=path %>/inspectionAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numYearly}</a></td>
+									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
+									<td  style="color: blue; " <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','3');"   <%} %>>${list.period}s</td>
+									<td><a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a></td>
+									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
+									
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
 										</td>

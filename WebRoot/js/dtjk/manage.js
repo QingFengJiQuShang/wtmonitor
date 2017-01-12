@@ -37,3 +37,6 @@
 			 // alert(id);
     		  window.location.href="recordAction.do?method=query&elevatorId="+id;
          }
+		  
+		
+		  

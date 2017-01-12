@@ -100,14 +100,7 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 				elevators.setInstallUnit(rs.getString("install_Unit"));   		//安装单位
 				elevators.setInstallUser(rs.getString("install_User"));   		//安装人
 				elevators.setInstallTime(df.parse(rs.getString("install_Time")));   		//安装时间
-				elevators.setManufacturer(rs.getString("manufacturer"));   		//制造商
-				elevators.setManufacturerPhone(rs.getString("manufacturer_Phone"));   		//制作商电话
-				elevators.setManufacturerAddress(rs.getString("manufacturer_Address"));   		//制造商地址
-				elevators.setManufacturerUrl(rs.getString("manufacturer_Url"));   		//制造商网址
-				elevators.setFilialeAddress(rs.getString("filiale_Address"));   		//制作商本地分公司地址
-				elevators.setFilialePhone(rs.getString("filiale_Phone"));   		//制造商本地分公司电话			
-				elevators.setFilialeContact(rs.getString("filiale_Contact"));   		//制造商本地分公司联系人
-				elevators.setServiceIfe(rs.getString("service_ife"));   		//电梯使用年限
+						elevators.setServiceIfe(rs.getString("service_ife"));   		//电梯使用年限
 				elevators.setRemarks(rs.getString("remarks"));   		//备注
 				elevators.setUseUnitName(rs.getString("useUnitName"));   		//维保状态
 				elevators.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));   		//维保状态
@@ -186,26 +179,7 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getServiceIfe());   //使用年限
 						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getManufacturer());   //制造商
 						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getManufacturerAddress());   //制造商地址
-						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getManufacturerPhone());   //制作商电话
-						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getManufacturerUrl());   //制造商网站
-						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getFilialeAddress());   //本地分公司地址
-						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getFilialeContact());   //本地分公司联系人
-						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getFilialePhone());   //本地分公司电话
 						
 						j = 0;
 					}

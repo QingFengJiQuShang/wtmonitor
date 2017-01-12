@@ -64,7 +64,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<p>
 						<label for="speed">电梯速度&nbsp;:&nbsp;</label>${list.speed}
 					</p>
-					
+					<p>
+						<label for="speed">剩余流量&nbsp;:&nbsp;</label>
+						<a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a>
+					</p>
 					
 					
 				</div>
@@ -75,6 +78,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<p>
 						<label for="num">总层数&nbsp;:&nbsp;</label>${list.numbers}
 					</p>
+					<p>
+						<label for="speed">白名单个数&nbsp;:&nbsp;</label>
+						<a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a>
+					</p>
 					
 				</div>
 				<div class="fl fenzhi">
@@ -84,88 +91,227 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<p>
 						<label for="">注册状态</label>${list.registerState}
 					</p>
-					
+					<p>
+						<label for="speed">服务费记录数&nbsp;:&nbsp;</label>
+						<a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a>
+					</p>
 				</div>
 			</div>
 			<!--第二层-->
 			<div class="record clearfix">
 				<p class="name">电梯安装信息</p>
 				<div class="fl fenzhi">
-					<p>
-						<label for="user">使用单位&nbsp;:&nbsp;</label>${list.useUnitId.name}
-					</p>
 					
 					<p>
-						<label for="mount">安装人员&nbsp;:&nbsp;</label>${list.installUser}
+						<label for="mount_user">安装单位&nbsp;:&nbsp;</label>
+						${list.installUnit}
+					</p>
+					<p>
+						<label for="datetimepicker3">生产日期&nbsp;:&nbsp;</label>
+						<fmt:formatDate value='${list.manufactureTime}' pattern='yyyy-MM-dd'/>
 					</p>
 					
-					<p>
-						<label for="datetimepicker4">使用年限&nbsp;:&nbsp;</label>${list.serviceIfe}
-					</p>
 
 				</div>
 				<div class="fl fenzhi">
-					<p onclick="tishi()">
-						<label for="weibao_user">维保单位&nbsp;:&nbsp;</label>${list.maintenanceUnitId.name}
+					<p>
+						<label for="place">安装地点&nbsp;:&nbsp;</label>
+						${list.installPlace}
+					</p>
+					<p>
+						<label for="datetimepicker4">使用年限&nbsp;:&nbsp;</label>
+						${list.serviceIfe}
 					</p>
 					
+					
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="mount">安装人员&nbsp;:&nbsp;</label>
+						${list.installUser}
+					</p>
+				</div>
+				<div class="fl fenzhi">
 					<p>
 						<label for="time">安装时间&nbsp;:&nbsp;</label>
-						<fmt:formatDate value="${list.installTime}"  pattern='yyyy-MM-dd'/>
+						<fmt:formatDate value='${list.installTime}' pattern='yyyy-MM-dd'/>
 					</p>
-					
-				</div>
-				<div class="fl fenzhi">
-					<p onclick="tishi()">
-						<label for="men">维保人&nbsp;:&nbsp;</label>${list.maintenanceUsersId.name}
-					</p>
-					
-					<p>
-						<label for="place">安装地点&nbsp;:&nbsp;</label>${list.installPlace}
-					</p>
-				</div>
-				<div class="fl fenzhi">
-					<p>
-						<label for="mount_user">安装单位&nbsp;:&nbsp;</label>${list.installUnit}
-					</p>
-					
-					<p>
-						<label for="datetimepicker3">生产日期&nbsp;:&nbsp;</label>
-						<fmt:formatDate value="${list.manufactureTime}"  pattern='yyyy-MM-dd'/>
-					</p>
-					
 				</div>
 			</div>
-			<!--第三层-->
-			<div class="maker clearfix">
-				<p class="name">电梯制造商信息</p>
+			<!--第二层-->
+			<div class="record clearfix">
+				<p class="name">使用单位</p>
 				<div class="fl fenzhi">
+					
 					<p>
-						<label for="maker">制造商&nbsp;:&nbsp;</label>${list.manufacturer}
-					</p>
-					<p>
-						<label for="maker_web">制造商网站&nbsp;:&nbsp;</label>${list.manufacturerUrl}
-					</p>
-					<p>
-						<label for="make_phone">本地分公司电话&nbsp;:&nbsp;</label>${list.filialePhone}
+						<label for="mount_user">单位名称&nbsp;:&nbsp;</label>
+						${list.useUnitId.name}
 					</p>
 				</div>
 				<div class="fl fenzhi">
 					<p>
-						<label for="maker_address">制造商地址&nbsp;:&nbsp;</label>${list.manufacturerAddress}
+						<label for="place">负责人&nbsp;:&nbsp;</label>
+						${list.useUnitId.liaisons}
 					</p>
-					<p>
-						<label for="maker">本地分公司地址&nbsp;:&nbsp;</label>${list.filialeAddress}
-					</p>
-					
-					
 				</div>
 				<div class="fl fenzhi">
 					<p>
-						<label for="maker_sure">制作商电话&nbsp;:&nbsp;</label>${list.manufacturerPhone}
+						<label for="mount">联系电话&nbsp;:&nbsp;</label>
+						${list.useUnitId.phone}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="time">地址&nbsp;:&nbsp;</label>
+						${list.useUnitId.address}
+					</p>
+				</div>
+			</div>
+			<!--第二层-->
+			<div class="record clearfix">
+				<p class="name">物业单位</p>
+				<div class="fl fenzhi">
+					
+					<p>
+						<label for="mount_user">单位名称&nbsp;:&nbsp;</label>
+						${list.propertyUnitId.name}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="place">负责人&nbsp;:&nbsp;</label>
+						${list.propertyUnitId.liaisons}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="mount">联系电话&nbsp;:&nbsp;</label>
+						${list.propertyUnitId.phone}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="time">地址&nbsp;:&nbsp;</label>
+						${list.propertyUnitId.address}
+					</p>
+				</div>
+			</div>
+			<!--第二层-->
+			<div class="record clearfix">
+				<p class="name">维保单位</p>
+				<div class="fl fenzhi">
+					
+					<p>
+						<label for="mount_user">单位名称&nbsp;:&nbsp;</label>
+						${list.maintenanceUnitId.name}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="place">负责人&nbsp;:&nbsp;</label>
+						${list.maintenanceUnitId.liaisons}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="mount">联系电话&nbsp;:&nbsp;</label>
+						${list.maintenanceUnitId.phone}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="time">地址&nbsp;:&nbsp;</label>
+						${list.maintenanceUnitId.address}
+					</p>
+				</div>
+			</div>
+			<!--第二层-->
+			<div class="record clearfix">
+				<p class="name">维保人</p>
+				<div class="fl fenzhi">
+					
+					<p>
+						<label for="mount_user">姓名&nbsp;:&nbsp;</label>
+						${list.maintenanceUsersId.name}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="place">手机&nbsp;:&nbsp;</label>
+						${list.maintenanceUsersId.phone}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="mount">ID卡号&nbsp;:&nbsp;</label>
+						${list.maintenanceUsersId.cardNumber}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="time"></label>
+					</p>
+				</div>
+			</div>
+			<!--第二层-->
+			<div class="record clearfix">
+				<p class="name">制造单位</p>
+				<div class="fl fenzhi">
+					
+					<p>
+						<label for="mount_user">单位名称&nbsp;:&nbsp;</label>
+						${list.makeUnitId.name}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="place">负责人&nbsp;:&nbsp;</label>
+						${list.makeUnitId.liaisons}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="mount">联系电话&nbsp;:&nbsp;</label>
+						${list.makeUnitId.phone}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="time">地址&nbsp;:&nbsp;</label>
+						${list.makeUnitId.address}
+					</p>
+				</div>
+			</div>
+			<!--第二层-->
+			<div class="record clearfix">
+				<p class="name">网关信息</p>
+				<div class="fl fenzhi">
+					
+					<p>
+						<label for="mount_user">网关编码&nbsp;:&nbsp;</label>
+						${gateway.serialNumber}
 					</p>
 					<p>
-						<label for="make_men">本地分公司联系人&nbsp;:&nbsp;</label>${list.filialeContact}
+						<label for="mount_user">网关类型&nbsp;:&nbsp;</label>
+						${gateway.type}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="place">网关SIM&nbsp;:&nbsp;</label>
+						${gateway.sim}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="mount">硬件版本&nbsp;:&nbsp;</label>
+						${gateway.hardware}
+					</p>
+				</div>
+				<div class="fl fenzhi">
+					<p>
+						<label for="time">软件版本&nbsp;:&nbsp;</label>
+						${gateway.software}
 					</p>
 				</div>
 			</div>

@@ -11,11 +11,13 @@
 <!-- 首页 -->
 	<bean name="/indexAction" class="com.jrsoft.fri.dtjk.action.IndexAction">
 		<property name="elevatorService" ref="elevatorService" />
+		
 	</bean>
 <!-- 首页 -->
 <!-- 电梯 -->
 	<bean name="/elevatorAction" class="com.jrsoft.fri.dtjk.action.DtjkElevatorAction">
 		<property name="elevatorService" ref="elevatorService" />
+		<property name="gatewayService" ref="gatewayService" />
 	</bean>
 	<bean id="elevatorService" class="com.jrsoft.fri.dtjk.service.DtjkElevatorServiceImpl">
 		<property name="elevatorDao"  ref="elevatorDao" />

@@ -50,6 +50,22 @@ closeMultiRescueUnit=function(id){
 selectElevator=function(id,id1,id2){
 	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query1&id='+id+"&id1="+id1+"&id2="+id2, 1000, 500);
 }
+
+/**
+ * 选择制造单位
+ */
+selectMakeUnitId=function(id,id1){
+	JqueryDialog.Open('制造单位', 'makeUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+}
+
+
+/**
+ * 选择物业单位
+ */
+selectPropertyUnitId=function(id,id1){
+	JqueryDialog.Open('物业单位', 'propertyUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+}
+
 /**
  * 选择维保人员
  */
