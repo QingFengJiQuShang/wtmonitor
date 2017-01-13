@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>电梯监控</title>
+    <title>多台监控</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="<%=path %>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/comm.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/dtjk/list_details.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/dtjk/list_more.css" />
 	<script type="text/javascript">
 		 function myrefresh(){
 			window.location.reload();
@@ -31,82 +31,86 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-		
-				
+		<div class="con">
+			<p class="user">电梯监控</p>
+			<div class="warp">
 				<ul class="list_more clearfix">
-					<li>
+				  <c:forEach items="${list}" var="list" varStatus="s">
+				   			<li class="fl">
 						<div class="whole">
+							<p class="info clearfix">
+								<span class="xuhao fl">${s.index + 1 }</span>
+								<span class="zhuc fl">电梯注册号:${list.elevator.registerid }</span>
+								<span class="code fl">识别号:${list.elevator.distinguishid }</span>
+							</p>
 							<ul class="show clearfix">
 								<li class="img fl">
 									<span class="normal">
-									<c:if test="${list.state!='维保' and list.state!='故障' }">正常</c:if>
-									<c:if test="${list.state=='故障'}">故障</c:if>
-									<c:if test="${list.state=='维保'}">维保</c:if>
+									<c:if test="${list.elevator.state!='维保' and list.elevator.state!='故障' }">正常</c:if>
+									<c:if test="${list.elevator.state=='故障'}">故障</c:if>
+									<c:if test="${list.elevator.state=='维保'}">维保</c:if>
 									</span>
 									<span class="on_line">
-									<c:if test="${list.state!='离线'}">正常</c:if>
-									<c:if test="${list.state=='离线'}">离线</c:if>
+									<c:if test="${list.elevator.state!='离线'}">正常</c:if>
+									<c:if test="${list.elevator.state=='离线'}">离线</c:if>
 									</span>
-									<span class="loding">${records.floor }</span>
+									<span class="loding">${list.record.floor }</span>
 									<span class="or dianti_down"></span>
-									<c:if test="${records.direction!='上行'}">
+									<c:if test="${list.record.direction!='上行'}">
 									<img class="up" src="<%=path %>/img/arrow_down_gray.png">
 									<img class="down" src="<%=path %>/img/arrow_up_red.png">
 									</c:if>
-									<c:if test="${records.direction=='下行'}">
+									<c:if test="${list.record.direction=='下行'}">
 									<img class="up" src="<%=path %>/img/arrow_down_red.png">
 									<img class="down" src="<%=path %>/img/arrow_up.png">
 									</c:if>
-									<c:if test="${records.direction!='下行' and records.direction!='上行'}">
+									<c:if test="${list.record.direction!='下行' and list.record.direction!='上行'}">
 									<img class="up" src="<%=path %>/img/arrow_down_gray.png">
 									<img class="down" src="<%=path %>/img/arrow_up.png">
 									</c:if>
 									
-									<c:if test="${records.door!='关门'}"><img src="<%=path %>/img/dianti_close.png" alt="" /></c:if>
-									<c:if test="${records.door=='关门'}"><img src="<%=path %>/img/dianti.png" alt="" /></c:if>
+									<c:if test="${list.record.door!='关门'}"><img src="<%=path %>/img/dianti_close.png" alt="" /></c:if>
+									<c:if test="${list.record.door=='关门'}"><img src="<%=path %>/img/dianti.png" alt="" /></c:if>
 									
 								</li>
 								<li class="fl dianti_info">
 									<h3>电梯信息</h3>
-									<p>楼&nbsp;层&nbsp;位&nbsp;置：${records.floor }层</p>
-									<p>运&nbsp;行&nbsp;方&nbsp;向：${records.direction}</p>
-									<p>是&nbsp;否&nbsp;有&nbsp;人：${records.people}</p>
+									<p>楼&nbsp;层&nbsp;位&nbsp;置：${list.record.floor }层</p>
+									<p>运&nbsp;行&nbsp;方&nbsp;向：${list.record.direction}</p>
+									<p>是&nbsp;否&nbsp;有&nbsp;人：${list.record.people}</p>
 									<p>电梯门状态：${records.door}</p>
 									<p>电&nbsp;梯&nbsp;状态：
-									<c:if test="${list.state!='维保' and list.state!='故障' }">正常</c:if>
-									<c:if test="${list.state=='故障'}">故障</c:if>
-									<c:if test="${list.state=='维保'}">维保</c:if>
+									<c:if test="${list.elevator.state!='维保' and list.elevator.state!='故障' }">正常</c:if>
+									<c:if test="${list.elevator.state=='故障'}">故障</c:if>
+									<c:if test="${list.elevator.state=='维保'}">维保</c:if>
 									</p>
 									<p>在&nbsp;线&nbsp;状&nbsp;态：
-									<c:if test="${list.state!='离线'}">正常</c:if>
-									<c:if test="${list.state=='离线'}">离线</c:if>
+									<c:if test="${list.elevator.state!='离线'}">正常</c:if>
+									<c:if test="${list.elevator.state=='离线'}">离线</c:if>
 									</p>
 									<p>供&nbsp;电&nbsp;状&nbsp;态：
-									<c:if test="${records.type!='停电'}">正常</c:if>
-									<c:if test="${records.type=='停电'}">停电</c:if>
+									<c:if test="${list.record.type!='停电'}">正常</c:if>
+									<c:if test="${list.record.type=='停电'}">停电</c:if>
 									</p>
-									<p></p>
-									<p></p>
 								</li>
 								<li class="fl gu_info">
 									<h3>故障信息</h3>
 									<p class="clearfix">
-										
 										<span class="fr">
 											超速
-											<c:if test="${records.type=='超速'}">
+											<c:if test="${list.record.type=='超速'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='超速'}">
+											<c:if test="${list.record.type!='超速'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fl">
 											困人
-											<c:if test="${records.type=='困人'}">
+											<c:if test="${list.record.type=='困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='困人'}">
+											<c:if test="${list.record.type!='困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
@@ -114,19 +118,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											冲顶困人
-											<c:if test="${records.type=='冲顶困人'}">
+											<c:if test="${list.record.type=='冲顶困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='冲顶困人'}">
+											<c:if test="${list.record.type!='冲顶困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											冲顶
-											<c:if test="${records.type=='冲顶'}">
+											<c:if test="${list.record.type=='冲顶'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='冲顶'}">
+											<c:if test="${list.record.type!='冲顶'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
@@ -134,19 +138,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											蹲底困人
-											<c:if test="${records.type=='蹲底困人'}">
+											<c:if test="${list.record.type=='蹲底困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='蹲底困人'}">
+											<c:if test="${list.record.type!='蹲底困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											蹲底
-											<c:if test="${records.type=='蹲底'}">
+											<c:if test="${list.record.type=='蹲底'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='蹲底'}">
+											<c:if test="${list.record.type!='蹲底'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
@@ -154,19 +158,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											非平层困人
-											<c:if test="${records.type=='非平层困人'}">
+											<c:if test="${list.record.type=='非平层困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='非平层困人'}">
+											<c:if test="${list.record.type!='非平层困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											非平层停梯
-											<c:if test="${records.type=='非平层停梯'}">
+											<c:if test="${list.record.type=='非平层停梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='非平层停梯'}">
+											<c:if test="${list.record.type!='非平层停梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
@@ -174,19 +178,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											门关不上
-											<c:if test="${records.type=='门关不上'}">
+											<c:if test="${list.record.type=='门关不上'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='门关不上'}">
+											<c:if test="${list.record.type!='门关不上'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											开门走梯
-											<c:if test="${records.type=='开门走梯'}">
+											<c:if test="${list.record.type=='开门走梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='开门走梯'}">
+											<c:if test="${list.record.type!='开门走梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
@@ -194,19 +198,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											运动中开门
-											<c:if test="${records.type=='运动中开门'}">
+											<c:if test="${list.record.type=='运动中开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='运动中开门'}">
+											<c:if test="${list.record.type!='运动中开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											开门不到位
-											<c:if test="${records.type=='开门不到位'}">
+											<c:if test="${list.record.type=='开门不到位'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='开门不到位'}">
+											<c:if test="${list.record.type!='开门不到位'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
@@ -214,23 +218,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											非平层开门
-											<c:if test="${records.type=='非平层开门'}">
+											<c:if test="${list.record.type=='非平层开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${records.type!='非平层开门'}">
+											<c:if test="${list.record.type!='非平层开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
 											</c:if>
 										</span>
 									</p>
 								</li>
 							</ul>
-							
-							</div>
 						</div>
+
 					</li>
-				</ul>		
+				   </c:forEach>
+				</ul>
+			</div>
+		</div>
 	</body>
 	<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path %>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path %>/js/dtjk/lsit_details.js" type="text/javascript" charset="utf-8"></script>
+
 </html>

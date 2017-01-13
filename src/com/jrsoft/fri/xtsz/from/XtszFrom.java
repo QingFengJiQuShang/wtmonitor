@@ -4,6 +4,7 @@ import com.jrsoft.fri.common.core.form.BaseForm;
 import com.jrsoft.fri.xtsz.entity.Area;
 import com.jrsoft.fri.xtsz.entity.City;
 import com.jrsoft.fri.xtsz.entity.Province;
+import com.jrsoft.fri.xtsz.entity.XtszDictionary;
 import com.jrsoft.fri.xtsz.entity.XtszHelp;
 import com.jrsoft.fri.xtsz.entity.XtszLog;
 import com.jrsoft.fri.xtsz.entity.XtszMessage;
@@ -15,6 +16,7 @@ public class XtszFrom   extends BaseForm {
 	private Area area=new  Area();
 	private City city=new  City();
 	private Province province=new  Province();
+	private XtszDictionary dictionary=new XtszDictionary();
 
 	public XtszLog getLog() {
 		return log;
@@ -62,6 +64,14 @@ public class XtszFrom   extends BaseForm {
 
 	public void setProvince(Province province) {
 		this.province = province;
+	}
+
+	public XtszDictionary getDictionary() {
+		return dictionary;
+	}
+
+	public void setDictionary(XtszDictionary dictionary) {
+		this.dictionary = dictionary;
 	}
 	
 	

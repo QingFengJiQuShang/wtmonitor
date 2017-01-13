@@ -78,4 +78,16 @@
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
     <!-- 区 -->
+    
+    <!-- 字典-->
+	<bean name="/dictionaryAction" class="com.jrsoft.fri.xtsz.action.XtszDictionaryAction">
+		<property name="dictionaryService" ref="dictionaryService" />
+	</bean>
+	<bean id="dictionaryService" class="com.jrsoft.fri.xtsz.service.XtszDictionaryServiceImpl">
+		<property name="dictionaryDao"  ref="dictionaryDao" />
+	</bean>
+	<bean id="dictionaryDao" class="com.jrsoft.fri.xtsz.dao.XtszDictionaryDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+    <!-- 字典 -->
 	</beans>

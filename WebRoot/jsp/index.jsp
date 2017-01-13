@@ -134,7 +134,9 @@ function toMain(flag){
 		   if(flag==66){
 			   window.main.location="<%=path%>/messageAction.do?method=query&flag=1";
 		   }
-		   
+		   if(flag==67){
+			   window.main.location="<%=path%>/dictionaryAction.do?method=findById&flag=0";
+		   }
 		    if(flag==71){
 			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=1";
 		   }
@@ -229,6 +231,7 @@ function toMain(flag){
 					<p	 class="two"  onclick="toMain('64')">短信警告</p>
 					<p	 class="two"  onclick="toMain('65')">短信权限</p>
 					<p	 class="two"  onclick="toMain('66')">短信日志</p>
+					<p	 class="two"  onclick="toMain('67')">刷新时间</p>
 				</div>
 			</li>
 			<li class="list-item">

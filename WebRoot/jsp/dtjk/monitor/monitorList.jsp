@@ -56,7 +56,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
-					<p></p>
+					<div class="or clearfix">
+						<p class="fl control"  style="width: 100px;">多台监控</p>
+					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>

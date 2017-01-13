@@ -36,5 +36,10 @@
 			parameter="method" scope="request"
 			type="org.springframework.web.struts.DelegatingActionProxy">
 	</action>
+		<!-- 字典 -->
+	<action path="/dictionaryAction" name="XtszFrom"
+			parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+	</action>
 	</action-mappings>
 </struts-config>

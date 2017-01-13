@@ -17,15 +17,22 @@ import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
+import com.jrsoft.fri.dtjk.entity.DtjkGateway;
 import com.jrsoft.fri.dtjk.entity.DtjkRecord;
+import com.jrsoft.fri.dtjk.from.Control;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
+import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
 import com.jrsoft.fri.dtjk.service.DtjkRecordService;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtsz.entity.XtszDictionary;
+import com.jrsoft.fri.xtsz.service.XtszDictionaryService;
 
 public class DtjkRecordAction extends DispatchAction {
 	
 	private DtjkRecordService recordService;
 	private DtjkElevatorService elevatorService;
+	private DtjkGatewayService gatewayService;
+	private XtszDictionaryService dictionaryService;
 	public DtjkRecordService getRecordService() {
 		return recordService;
 	}
@@ -41,7 +48,21 @@ public class DtjkRecordAction extends DispatchAction {
 	public void setElevatorService(DtjkElevatorService elevatorService) {
 		this.elevatorService = elevatorService;
 	}
-	
+	public DtjkGatewayService getGatewayService() {
+		return gatewayService;
+	}
+
+	public void setGatewayService(DtjkGatewayService gatewayService) {
+		this.gatewayService = gatewayService;
+	}
+	public XtszDictionaryService getDictionaryService() {
+		return dictionaryService;
+	}
+
+	public void setDictionaryService(XtszDictionaryService dictionaryService) {
+		this.dictionaryService = dictionaryService;
+	}
+
 	/**
 	 * 查看 电梯监控 
 	 * @param request
@@ -58,9 +79,20 @@ public class DtjkRecordAction extends DispatchAction {
 		String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"')  ";
 		//String hql="select t.* form () where elevatorId='"+list.getRegisterid()+"' order by t.foundTime desc    ";
 		List<DtjkRecord> record=recordService.query(hql);
+		String hql2=" where  1=1 and elevatorId='"+list.getRegisterid()+"' " ;
+		List<DtjkGateway> gateways=gatewayService.queryAll(hql2);
+		if(gateways.size()>0){
+			request.setAttribute("gateway", gateways.get(0));
+		}
 		if(record.size()>0){
 			DtjkRecord records=record.get(0);
 			request.setAttribute("records", records);
+		}
+		//重新刷新时间
+		String hql1=" where flag='0'";
+		List<XtszDictionary> dictionaries=dictionaryService.query(hql1);
+		if(dictionaries.size()>0){
+			request.setAttribute("dictionarie", dictionaries.get(0));
 		}
 		if(flag.equals("1")&&flag!=null)
 			return	new ActionForward("/jsp/dtjk/monitor/left.jsp");
@@ -69,6 +101,49 @@ public class DtjkRecordAction extends DispatchAction {
 		
 	}
 	
+	/**
+	 * 查看 多台电梯监控 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  findByControl(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		String ids=request.getParameter("ids");
+		String flag=request.getParameter("flag");
+		List<Control> controls=new ArrayList<Control>();
+		//String hql="select t.* form () where elevatorId='"+list.getRegisterid()+"' order by t.foundTime desc    ";
+		if(ids!=null&&!ids.equals("")){
+			String  arr []=ids.split(",");
+			for(int i=0;i<arr.length;i++){
+				Control control=new Control();
+				DtjkElevator list=elevatorService.get(Long.parseLong(arr[i]));
+				control.setElevator(list);
+				String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"')  ";
+				List<DtjkRecord> record=recordService.query(hql);
+				String hql2=" where  1=1 and elevatorId='"+list.getRegisterid()+"' " ;
+				List<DtjkGateway> gateways=gatewayService.queryAll(hql2);
+				if(gateways.size()>0){
+					control.setGateway( gateways.get(0));
+				}
+				if(record.size()>0){
+					control.setRecord(record.get(0));
+				}
+				controls.add(control);
+			}
+		}
+		//重新刷新时间
+		String hql1=" where flag='0'";
+		List<XtszDictionary> dictionaries=dictionaryService.query(hql1);
+		if(dictionaries.size()>0){
+			request.setAttribute("dictionarie", dictionaries.get(0));
+		}
+		request.setAttribute("list", controls);
+		request.setAttribute("ids", ids);
+			return	new ActionForward("/jsp/dtjk/monitor/more.jsp");
+		
+	}
 	
 	/**
 	 * 查询 电梯上报记录列表

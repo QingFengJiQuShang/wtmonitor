@@ -29,6 +29,7 @@ public class DtjkRecord implements java.io.Serializable {
 	private String maintenanceUserId;				//现场维保人员
 	private String maintenanceState;				//检修状态
 	private Date foundTime;                //创建时间
+	private String type;							//故障类型
 
 	// Constructors
 
@@ -40,7 +41,8 @@ public class DtjkRecord implements java.io.Serializable {
 	public DtjkRecord(String serialNumber, String elevatorId,
 			String direction, String speed, String floor, String gatewayDate,
 			String gatewayTime, String people, String door, String heartbeat,
-			String maintenanceUserId, String maintenanceState,Date foundTime) {
+			String maintenanceUserId, String maintenanceState,Date foundTime,
+			String stype) {
 		this.serialNumber = serialNumber;
 		this.elevatorId = elevatorId;
 		this.direction = direction;
@@ -53,6 +55,7 @@ public class DtjkRecord implements java.io.Serializable {
 		this.heartbeat = heartbeat;
 		this.maintenanceUserId = maintenanceUserId;
 		this.maintenanceState = maintenanceState;
+		this.type=type;
 	}
 
 	// Property accessors
@@ -171,6 +174,14 @@ public class DtjkRecord implements java.io.Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

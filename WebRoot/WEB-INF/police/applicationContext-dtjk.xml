@@ -68,6 +68,8 @@
 	<bean name="/recordAction" class="com.jrsoft.fri.dtjk.action.DtjkRecordAction">
 		<property name="recordService" ref="recordService" />
 		<property name="elevatorService" ref="elevatorService" />
+		<property name="gatewayService" ref="gatewayService" />
+		<property name="dictionaryService" ref="dictionaryService" />
 	</bean>
 	<bean id="recordService" class="com.jrsoft.fri.dtjk.service.DtjkRecordServiceImpl">
 		<property name="recordDao"  ref="recordDao" />

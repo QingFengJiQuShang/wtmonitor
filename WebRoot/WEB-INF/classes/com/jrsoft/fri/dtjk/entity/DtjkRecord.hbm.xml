@@ -51,5 +51,8 @@
         <property name="foundTime" type="java.util.Date">
             <column name="FOUND_TIME" length="7" />
         </property>
+        <property name="type" type="java.lang.String">
+            <column name="type" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

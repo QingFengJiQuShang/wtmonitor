@@ -310,40 +310,49 @@ public class Gateway {
 					e.printStackTrace();
 				}
     		}  else if(type.equalsIgnoreCase("21")){    //报警
-    			 
+    			
     			 
     			//循环  解析命令
     				 String command =str.substring(70,72); //故障代码
     				 String types=command;     //
     				 String order=warning(command);
+    				 record.setType(order);
     				 command="故障类型："+ warning(command);
     				 System.out.println(command);
     				 
     				 String state =str.substring(72,74); //状态
     				 if(state.equalsIgnoreCase("00")){
+    					 record.setDirection("上行");
     					 state="运行状态：上行";
     				 }else if(state.equalsIgnoreCase("01")){
+    					 record.setDirection("下行");
     					 state="运行状态：下行";
     				 }else{
+    					 record.setDirection("静止");
     					 state="运行状态：静止";
     				 }
 					 System.out.println(state);
 
     				 String people  =str.substring(74,76); //有人
     				 if(people.equalsIgnoreCase("00")){
+    					 record.setPeople("无人");
     					 people="	是否有人：无人";
     				 }else{
+    					 record.setPeople("有人");
     					 people="	是否有人：有人";
     				 }
     				 System.out.println(people);
     				 String floor  =str.substring(76,78); //楼层
+    				 record.setFloor(""+(byte)Integer.parseInt(floor,16));
     				 floor="	当前楼层："+  (byte)Integer.parseInt(floor,16);
     				 System.out.println(floor);				 
     				 
     				 String door  =str.substring(78,80); // 门
     				 if(door.equalsIgnoreCase("00")){
+    					 record.setDoor("开门");
     					 door="	门状态：开门";
     				 }else{
+    					 record.setDoor("关门");
     					 door=" 	门状态：关门";
     				 }
 					 System.out.println(door);
@@ -353,6 +362,15 @@ public class Gateway {
 					 time=timeString(hexToString(time));  //时间
 					// System.out.println(d.format(new Date()));
 					// System.out.println(d.format(d.parse("20"+date+" "+time)));
+					 record.setSerialNumber(serialNumber);
+					 record.setElevatorId(elevatorId);
+					
+					 
+					 record.setGatewayDate(date);
+					 record.setGatewayTime(time);
+					 record.setFoundTime(new Date());
+					//保存 上报的报警记录
+		    			recordService.save(record);
     			  //自动生成 当前故障
     			  GzclFault fault=new GzclFault();
        			  fault.setHappenTime(d.parse("20"+date+" "+time));
@@ -689,11 +707,11 @@ public class Gateway {
 		if(command.equalsIgnoreCase("30")){
 			int floor=Integer.parseInt(content, 16);
 			if(floor==0){
-				record.setDirection("上");
-				System.out.println("运行方向：上");
+				record.setDirection("上行");
+				System.out.println("运行方向：上行");
 			}else if(floor==1){
-				record.setDirection("下");
-				System.out.println("运行方向：下");
+				record.setDirection("下行");
+				System.out.println("运行方向：下行");
 			}else{
 				record.setDirection("静止");
 				System.out.println("运行方向：静止");

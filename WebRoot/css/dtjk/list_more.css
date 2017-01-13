@@ -1,41 +1,46 @@
-.warp {
-	width: 97%;
-	margin: 15px auto 0;
+.user {
+    height: 58px;
+    line-height: 58px;
+    background-color: #037eb6;
+    text-align: center;
+    font-size: 20px;
+    color: #FFF;
 }
-.order {
-	height: 58px;
-	line-height: 58px;
-	background-color: #037eb6;
+.list_more {
+	margin-top: 10px;
+}
+.list_more>li {
+	width: 48%;
+	margin: 0 1% 2% 0;
+	border: 1px solid #cdcdcd;
+}
+.info {
+	border-bottom: 1px solid #cdcdcd;
+}
+.info span {
+	padding: 10px 0;
+	margin-left: -1px;
 	text-align: center;
-	font-size: 20px;
-	color: #FFF;
+	border-right: 1px solid #cdcdcd;
 }
-.back {
-	margin: 8px;
-	width: 57px;
-	height: 20px;
-	line-height: 20px;
-	font-size: 14px;
-	border: 1px solid #0083be;
-	text-align: center;
-	color: #0083be;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	cursor: pointer;
+.info .xuhao {
+	width: 10%;
 }
-.back img {
-	margin-right: 5px;
-	vertical-align: sub;
+.info .zhuc {
+	width: 60%;
+}
+.info .code {
+	width: 30%;
+	border-right: 0;
 }
 /*电梯图片信息*/
 .show {
-	padding: 2% 2% 0 2%;
+	padding: 2%;
 	margin-top: 2%;
 }
 .show .img {
 	position: relative;
-	width: 25%;
+	width: 35%;
 }
 .show .img img {
 	width: 100%;
@@ -107,8 +112,8 @@
 .show .dianti_info,
 .show .gu_info {
 	position: relative;
-	width: 20%;
-	margin-left: 8%;
+	width: 25%;
+	margin-left: 2%;
 	text-align: center;
 	border: 1px solid #cecece;
 	-webkit-border-radius: 10px;
@@ -117,12 +122,14 @@
 }
 .show .gu_info {
 	position: relative;
-	width: 30%;
-	margin-left: 8%;
+	width: 25%;
 	border: 1px solid #cecece;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+}
+.show .gu_info {
+	width: 35%;
 }
 .show .dianti_info h3,
 .show .gu_info h3 {
@@ -130,7 +137,6 @@
 	width: 50%;
 	padding: 5% 0;
 	color: #fff;
-	font-size: 20px;
 	background-color: #0070be;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -138,11 +144,11 @@
 }
 .show .dianti_info p,
 .show .gu_info p {
-	padding: 3% 0;
+	padding: 6% 0;
 	font-size: 14px;
 }
 .show .gu_info p {
-	padding: 3% 6%;
+	
 }
 .show .gu_info p span {
 	width: 44%;
@@ -152,64 +158,4 @@
 .show .gu_info p span img {
     width: 12%;
     margin-top: 5%;
-}
-/*文字解说*/
-.update {
-	width: 86%;
-	padding: 2% 0;
-	margin: 0 auto;	
-	font-size: 16px;
-	color: #cdcdcd;
-}
-.update button {
-	padding: 0.5% 2%;
-	border: 2px solid #0070be;
-	color: #0070be;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	background-color: #fff;
-}
-.details_info {
-	position: relative;
-	width: 86%;
-	margin: 0 auto 40px;
-	padding: 1.5% 5%;
-	border: 1px solid #cdcdcd;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-}
-.details_info h3 {
-    margin-top: -4%;
-    width: 15%;
-    padding: 1% 0;
-    color: #fff;
-    font-size: 20px;
-    text-align: center;
-    background-color: #0070be;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;	
-}
-.details_info h2 {
-    margin-bottom: -4%;
-    padding: 0.6% 2%;
-    color: #0070be;
-    font-size: 18px;
-    text-align: center;
-    border: 2px solid #0070be;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;	
-}
-.details_info ul {
-	margin-top: 10px;
-}
-.details_info li {
-	width: 50%;
-}
-.details_info li p {
-	padding: 5px 0;
-	font-size: 16px;
 }
