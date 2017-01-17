@@ -223,6 +223,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</span>
 									</p>
 								</li>
+								<li class="fl" style="width: 66%; ">
+									<p class="update clearfix">更新时间:<fmt:formatDate value='${records.foundTime}' pattern='yyyy-MM-dd HH:mm:ss'/><button class="fr">查看历史记录</button></p>
+								</li>
 							</ul>
 							
 							</div>

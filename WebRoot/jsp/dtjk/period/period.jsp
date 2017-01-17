@@ -22,9 +22,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list_add.css" />
-		
+		<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+			<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		    <script src="<%=path%>/js/Share.js" type="text/javascript" charset="utf-8"></script>
+	
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
 		
 	</head>
 
@@ -56,11 +58,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
 	
 <script type="text/javascript">
      function add(){
-		 	$('#form').submit();
+		  if(showIsNumber("period","上报周期")){
+    		 $('#form').submit();
+    	 }
      }
       
 </script>

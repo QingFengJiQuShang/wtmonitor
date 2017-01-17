@@ -67,6 +67,7 @@ public class DtjkElevator implements java.io.Serializable {
     private String safeState;					//保险状态 null 未保 0 脱保  1在保  
     private  XtglPropertyUnit  propertyUnitId= new XtglPropertyUnit();		//物业单位
     private  XtglMakeUnit makeUnitId=new XtglMakeUnit();				//制造单位
+	private Date nextTime;				//下次年检时间
 	// Constructors
     
     private String useUnitName;			//使用单位名称
@@ -94,7 +95,8 @@ public class DtjkElevator implements java.io.Serializable {
 			String remarks,XtglUsers userid,String period,Date flowStart,
 			Date flowEnd,Long flowTotal,Long flowNum,Long flowSurplus,
 			Date reportTime,String delflag,String serviceState,String safeState,
-			XtglPropertyUnit  propertyUnitId,XtglMakeUnit makeUnitId) {
+			XtglPropertyUnit  propertyUnitId,XtglMakeUnit makeUnitId,
+			 Date nextTime) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -133,6 +135,7 @@ public class DtjkElevator implements java.io.Serializable {
 		this.safeState=safeState;
 		this.propertyUnitId=propertyUnitId;
 		this.makeUnitId=makeUnitId;
+		this.nextTime=nextTime;
 	}
 
 	// Property accessors
@@ -515,6 +518,14 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setMakeUnitId(XtglMakeUnit makeUnitId) {
 		this.makeUnitId = makeUnitId;
+	}
+
+	public Date getNextTime() {
+		return nextTime;
+	}
+
+	public void setNextTime(Date nextTime) {
+		this.nextTime = nextTime;
 	}
 
 }

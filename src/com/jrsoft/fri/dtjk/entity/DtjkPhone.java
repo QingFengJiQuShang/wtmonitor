@@ -13,6 +13,7 @@ public class DtjkPhone implements java.io.Serializable {
 	private Long id;
 	private DtjkElevator elevatorId=new DtjkElevator();//维保电梯Id
 	private String phone;			//白名单
+	private String belong;			//所属人 
 
 	// Constructors
 
@@ -21,9 +22,10 @@ public class DtjkPhone implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public DtjkPhone(DtjkElevator elevatorId, String phone) {
+	public DtjkPhone(DtjkElevator elevatorId, String phone,String belong) {
 		this.elevatorId = elevatorId;
 		this.phone = phone;
+		this.belong=belong;
 	}
 
 	// Property accessors
@@ -50,6 +52,14 @@ public class DtjkPhone implements java.io.Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getBelong() {
+		return belong;
+	}
+
+	public void setBelong(String belong) {
+		this.belong = belong;
 	}
 
 }

@@ -132,3 +132,19 @@ $(".recharge").click(function() {
 	 		window.location.href="jsp/dtjk/manage/recharge.jsp?ids="+ids;
 	 	}
 })
+
+
+		  	//		批量添加服务费
+$(".batch").click(function() {
+	var ids="";
+	var len=0;
+	$(".wei").each(function() {
+			if($(this).children("i").hasClass("gou")) {
+				ids=ids+$(this).find("i").children().val()+",";
+				len++;
+			}
+		})
+		 if(len>0 && confirm("确定为这 "+len+" 部电梯记录添加服务费？")){
+	 		window.location.href="jsp/dtjk/service/batchService.jsp?ids="+ids;
+	 	}
+})

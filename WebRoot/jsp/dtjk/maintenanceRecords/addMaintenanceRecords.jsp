@@ -22,10 +22,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list_add.css" />
-		
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
-		
+		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
+		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
 	</head>
 
 	<body>
@@ -59,7 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="datetimepicker3">维保日期&nbsp;:&nbsp;</label>
-						<input type="text" id="time"  name="time"  value="<fmt:formatDate value='<%=new Date() %>' pattern='yyyy-MM-dd'/>" />
+						<input type="text"   class="Wdate"   id="time"  name="time"  value="<fmt:formatDate value='<%=new Date() %>' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"/ >
 					</p>
 					<p class="fill">
 						<label for="wb_unit">维保单位&nbsp;:&nbsp;</label>
@@ -69,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fill">
 						<label for="wb_man">维保人&nbsp;:&nbsp;</label>
 						<input type="hidden" id="userId"  name="maintenanceRecords.userId.id"  value="${list.maintenanceUsersId.id}" />						
-						<input type="text"  id="userId1"   value="${list.maintenanceUsersId.name}"  readonly="readonly" />
+						<input type="text"  id="userId1"   value="${list.maintenanceUsersId.name}"  readonly="readonly"  onclick="selectMaintenanceUsers1('userId','userId1');"/>
 					</p>
 					<p class="fill">
 						<label for="wb_con">维保内容&nbsp;:&nbsp;</label>

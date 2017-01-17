@@ -18,6 +18,11 @@
 	<bean name="/elevatorAction" class="com.jrsoft.fri.dtjk.action.DtjkElevatorAction">
 		<property name="elevatorService" ref="elevatorService" />
 		<property name="gatewayService" ref="gatewayService" />
+		<property name="phoneService" ref="phoneService" />
+		<property name="useUnitService" ref="useUnitService" />
+		<property name="propertyUnitService" ref="propertyUnitService" />
+		<property name="maintenanceUnitService" ref="maintenanceUnitService" />
+		<property name="maintenanceUsersService" ref="maintenanceUsersService" />
 	</bean>
 	<bean id="elevatorService" class="com.jrsoft.fri.dtjk.service.DtjkElevatorServiceImpl">
 		<property name="elevatorDao"  ref="elevatorDao" />
@@ -30,7 +35,9 @@
 	<bean name="/phoneAction" class="com.jrsoft.fri.dtjk.action.DtjkPhoneAction">
 		<property name="phoneService" ref="phoneService" />
 		<property name="elevatorService" ref="elevatorService" />
+		<property name="propertyUnitService" ref="propertyUnitService" />
 		<property name="maintenanceUnitService" ref="maintenanceUnitService" />
+		<property name="maintenanceUsersService" ref="maintenanceUsersService" />
 		<property name="useUnitService" ref="useUnitService" />
 		<property name="usersService" ref="usersService" />
 	</bean>

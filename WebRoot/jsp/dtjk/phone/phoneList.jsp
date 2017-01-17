@@ -70,6 +70,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								</th>
 							<th>序列</th>
 							<th>电话</th>
+							<th>所属人</th>
 							<th>操作</th>
 							</thead>
 							<tbody>
@@ -80,6 +81,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.phone }</td>
+									<td>${list.belong}</td>
 									<td>
 										<img src="<%=path%>/img/content.png"   title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>

@@ -78,6 +78,14 @@ selectMaintenanceUsers=function(id,id1){
 			  }
 }
 
+/**
+ * 选择维保人员  维保纪录
+ */
+selectMaintenanceUsers1=function(id,id1){
+ 			var unitId= document.getElementById("unitId").value;
+				   JqueryDialog.Open('维保人员', 'maintenanceUsersAction.do?method=query1&id='+id+"&id1="+id1+"&unitId="+unitId, 1000, 500);
+		
+}
 /** 判断是否为空 **/
 showIsNull=function(id,title){
 	var ids = document.getElementById(id);

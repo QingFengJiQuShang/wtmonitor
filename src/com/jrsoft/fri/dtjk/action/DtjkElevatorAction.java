@@ -23,17 +23,32 @@ import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
+import com.jrsoft.fri.dtjk.entity.DtjkPhone;
 import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
+import com.jrsoft.fri.dtjk.service.DtjkPhoneService;
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglPropertyUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitService;
+import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
+import com.jrsoft.fri.xtgl.service.XtglPropertyUnitService;
+import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
 import com.jrsoft.fri.xtsz.action.Log;
 import com.jrsoft.fri.xtsz.entity.XtszLog;
 
 public class DtjkElevatorAction extends DispatchAction{
 	private DtjkElevatorService elevatorService;
 	private DtjkGatewayService gatewayService;
+	private DtjkPhoneService phoneService;
+	private XtglMaintenanceUnitService maintenanceUnitService;
+	private XtglMaintenanceUsersService maintenanceUsersService;
+	private XtglPropertyUnitService propertyUnitService;
+	private XtglUseUnitService useUnitService;
 	public DtjkElevatorService getElevatorService() {
 		return elevatorService;
 	}
@@ -48,6 +63,48 @@ public class DtjkElevatorAction extends DispatchAction{
 
 	public void setGatewayService(DtjkGatewayService gatewayService) {
 		this.gatewayService = gatewayService;
+	}
+
+	public DtjkPhoneService getPhoneService() {
+		return phoneService;
+	}
+
+	public void setPhoneService(DtjkPhoneService phoneService) {
+		this.phoneService = phoneService;
+	}
+
+	public XtglMaintenanceUnitService getMaintenanceUnitService() {
+		return maintenanceUnitService;
+	}
+
+	public void setMaintenanceUnitService(
+			XtglMaintenanceUnitService maintenanceUnitService) {
+		this.maintenanceUnitService = maintenanceUnitService;
+	}
+
+	public XtglMaintenanceUsersService getMaintenanceUsersService() {
+		return maintenanceUsersService;
+	}
+
+	public void setMaintenanceUsersService(
+			XtglMaintenanceUsersService maintenanceUsersService) {
+		this.maintenanceUsersService = maintenanceUsersService;
+	}
+
+	public XtglPropertyUnitService getPropertyUnitService() {
+		return propertyUnitService;
+	}
+
+	public void setPropertyUnitService(XtglPropertyUnitService propertyUnitService) {
+		this.propertyUnitService = propertyUnitService;
+	}
+
+	public XtglUseUnitService getUseUnitService() {
+		return useUnitService;
+	}
+
+	public void setUseUnitService(XtglUseUnitService useUnitService) {
+		this.useUnitService = useUnitService;
 	}
 
 	/**
@@ -114,6 +171,43 @@ public class DtjkElevatorAction extends DispatchAction{
 		elevatorService.save(elevator);
 		
 		System.out.println(request.getRemoteAddr());
+		
+		//生成默认白名单
+		
+		if(elevator.getUseUnitId()!=null){
+			DtjkPhone phone=new DtjkPhone();
+			XtglUseUnit unit=useUnitService.get(elevator.getUseUnitId().getId());
+			phone.setElevatorId(elevator);
+			phone.setBelong("使用单位负责人");
+			phone.setPhone(unit.getPhone());
+			phoneService.save(phone);
+		}
+		if(elevator.getPropertyUnitId()!=null){
+			XtglPropertyUnit unit=propertyUnitService.get(elevator.getPropertyUnitId().getId());
+			DtjkPhone phone=new DtjkPhone();
+			phone.setElevatorId(elevator);
+			phone.setBelong("物业单位负责人");
+			phone.setPhone(unit.getPhone());
+			phoneService.save(phone);
+		}
+		if(elevator.getMaintenanceUnitId()!=null){
+			XtglMaintenanceUnit unit=maintenanceUnitService.get(elevator.getMaintenanceUnitId().getId());
+
+			DtjkPhone phone=new DtjkPhone();
+			phone.setElevatorId(elevator);
+			phone.setBelong("维保单位负责人");
+			phone.setPhone(unit.getPhone());
+			phoneService.save(phone);
+		}
+		if(elevator.getMaintenanceUsersId()!=null){
+			XtglMaintenanceUsers unit=maintenanceUsersService.get(elevator.getMaintenanceUsersId().getId());
+
+			DtjkPhone phone=new DtjkPhone();
+			phone.setElevatorId(elevator);
+			phone.setBelong("维保人员");
+			phone.setPhone(unit.getPhone());
+			phoneService.save(phone);
+		}
 		//生成 操作日志
 		Log log=new Log();
         log.addLog(user.getName(), "添加电梯，电梯注册号："+elevator.getRegisterid(), "1");
@@ -463,7 +557,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		}
 	
 	/**
-	 * 查询 电梯管理  电梯监控
+	 * 查询 电梯管理  
 	 * @param request
 	 * @param response
 	 * @param region
@@ -528,7 +622,7 @@ public class DtjkElevatorAction extends DispatchAction{
 				if(numbers!=null&&!numbers.equals("")){
 					sql+=" and de.numbers = '"+numbers+"'";
 				}
-				sql+=" order by de.id";	
+				sql+=" order by de.next_Time ";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
 				page.setCount(siz);//总记录数
@@ -678,7 +772,7 @@ public class DtjkElevatorAction extends DispatchAction{
 	}
 	
 	/**
-	 * 修改电梯
+	 * 修改电梯上报周期
 	 * @param request
 	 * @param response
 	 * @return
@@ -698,7 +792,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
         log.addLog(user.getName(), "修改电梯上报周期，电梯注册号："+elevator.getRegisterid(), "1");
-		return	new ActionForward("/elevatorAction.do?method=query");
+		return	new ActionForward("/elevatorAction.do?method=queryManage");
 	}
 	
 	/**

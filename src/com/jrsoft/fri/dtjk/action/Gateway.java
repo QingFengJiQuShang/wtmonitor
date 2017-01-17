@@ -202,12 +202,13 @@ public class Gateway {
 				//修改 电梯上报时间
 				if(elevators.size()>0){
     				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
-    				entity.setReportTime(new Date());
     				//修改电梯离线状态为正常状态
-    				if(entity.getState().equals("离线")){
+    				if(entity.getState().equals("离线")||entity.getState().equals("维保")){
+    					entity.setReportTime(new Date());
     					entity.setState("正常");
+    					elevatorService.update(entity);
     				}
-    				elevatorService.update(entity);
+    				
 				}
     			//维保人员不为空时，生成维保记录
     			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("检修中")){
@@ -232,8 +233,8 @@ public class Gateway {
     					//修改电梯的维保状态和维保时间
         				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
         				entity.setMaintenanceTime(new Date());
-        				entity.setState("故障");
-        				entity.setMaintenanceState("正常");
+        				entity.setState("维保");
+        				//entity.setMaintenanceState("正常");
         				elevatorService.update(entity);
     				}else{
     					records.setUseUnitId(null);//使用单位id
@@ -241,18 +242,18 @@ public class Gateway {
     				}
     				recordsService.save(records);
     			}
-    			//维保人员不为空时，
-    			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("正常")){
-    				
-    				if(elevators.size()>0){
-	    				//修改电梯的维保状态和维保时间
-	    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
-	    				entity.setMaintenanceTime(new Date());
-	    				entity.setMaintenanceState("正常");
-	    				entity.setState("正常");
-	    				elevatorService.update(entity);
-    				}
-    			}
+//    			//维保人员不为空时，
+//    			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("正常")){
+//    				
+//    				if(elevators.size()>0){
+//	    				//修改电梯的维保状态和维保时间
+//	    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
+//	    				entity.setMaintenanceTime(new Date());
+//	    				entity.setMaintenanceState("正常");
+//	    				entity.setState("正常");
+//	    				elevatorService.update(entity);
+//    				}
+//    			}
     			try {
 					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 

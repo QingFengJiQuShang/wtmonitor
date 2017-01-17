@@ -13,6 +13,10 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -25,10 +29,14 @@ import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkPhoneService;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglPropertyUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitService;
+import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
+import com.jrsoft.fri.xtgl.service.XtglPropertyUnitService;
 import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
 import com.jrsoft.fri.xtgl.service.XtglUsersService;
 import com.jrsoft.fri.xtsz.action.Log;
@@ -38,9 +46,10 @@ public class DtjkPhoneAction extends DispatchAction{
 	private DtjkElevatorService elevatorService;
 	
 	private XtglMaintenanceUnitService maintenanceUnitService;
+	private XtglMaintenanceUsersService maintenanceUsersService;
 	private XtglUseUnitService useUnitService;
 	private XtglUsersService usersService;
-	
+	private XtglPropertyUnitService propertyUnitService;
 	public DtjkPhoneService getPhoneService() {
 		return phoneService;
 	}
@@ -82,6 +91,23 @@ public class DtjkPhoneAction extends DispatchAction{
 		this.usersService = usersService;
 	}
 
+	public XtglMaintenanceUsersService getMaintenanceUsersService() {
+		return maintenanceUsersService;
+	}
+
+	public void setMaintenanceUsersService(
+			XtglMaintenanceUsersService maintenanceUsersService) {
+		this.maintenanceUsersService = maintenanceUsersService;
+	}
+
+	public XtglPropertyUnitService getPropertyUnitService() {
+		return propertyUnitService;
+	}
+
+	public void setPropertyUnitService(XtglPropertyUnitService propertyUnitService) {
+		this.propertyUnitService = propertyUnitService;
+	}
+
 	/**
 	 * 编辑 查看 维保记录
 	 * @param request
@@ -93,26 +119,41 @@ public class DtjkPhoneAction extends DispatchAction{
 			throws Exception {
 		String elevatorId=request.getParameter("elevatorId");
 		DtjkElevator elevator=elevatorService.get(Long.parseLong(elevatorId));
-		String hql=" where id='"+elevator.getMaintenanceUnitId().getId()+"'";
-		List<XtglMaintenanceUnit> maintenanceUnits=maintenanceUnitService.query(hql);
+		XtglMaintenanceUnit maintenanceUnit=maintenanceUnitService.get(elevator.getMaintenanceUnitId().getId());
+		XtglUseUnit useUnit=useUnitService.get(elevator.getUseUnitId().getId());		
+		XtglPropertyUnit propertyUnit=propertyUnitService.get(elevator.getPropertyUnitId().getId());
+		XtglMaintenanceUsers maintenanceUsers=maintenanceUsersService.get(elevator.getMaintenanceUsersId().getId());
 		
-		String hql1=" where id='"+elevator.getUseUnitId().getId()+"'";
-		List<XtglUseUnit> useUnits=useUnitService.query(hql1);
 		
-		String hql2=" where id='"+elevator.getUseUnitId().getId()+"'";
-		List<XtglUsers> users=usersService.query(hql2);
+		JSONArray array=new JSONArray();
+		if(useUnit!=null){
+			JSONObject object=new JSONObject();
+			object.put("name","使用单位负责人");
+			object.put("phone", useUnit.getPhone());
+			array.add(object);
+		}
+		if(propertyUnit!=null){
+			JSONObject object=new JSONObject();
+			object.put("name","物业单位负责人");
+			object.put("phone", propertyUnit.getPhone());
+			array.add(object);
+		}
+		if(maintenanceUnit!=null){
+			JSONObject object=new JSONObject();
+			object.put("name","维保单位负责人");
+			object.put("phone", maintenanceUnit.getPhone());
+			array.add(object);
+		}
+		if(maintenanceUsers!=null){
+			JSONObject object=new JSONObject();
+			object.put("name","维保人员");
+			object.put("phone", maintenanceUsers.getPhone());
+			array.add(object);
+		}
+			
+			
 		
-		List<String> list=new ArrayList<String>();
-		for(XtglMaintenanceUnit maintenanceUnit: maintenanceUnits){
-			list.add(maintenanceUnit.getPhone());
-		}
-		for(XtglUseUnit unit: useUnits){
-			list.add(unit.getPhone());
-		}
-		for(XtglUsers user: users){
-			list.add(user.getPhone());
-		}
-		request.setAttribute("list", list);
+		request.setAttribute("array", array);
 		request.setAttribute("elevatorId", elevatorId);
 		
 		return	new ActionForward("/jsp/dtjk/phone/addPhone.jsp");
@@ -184,6 +225,7 @@ public class DtjkPhoneAction extends DispatchAction{
 					DtjkPhone elevators=new DtjkPhone();
 					elevators.setId(rs.getLong("id"));
 					elevators.setPhone(rs.getString("phone"));
+					elevators.setBelong(rs.getString("belong"));
 					list.add(elevators);
 					
 				}
@@ -211,26 +253,36 @@ public class DtjkPhoneAction extends DispatchAction{
 		request.setAttribute("list", list);
 		if(flag.equals("1")){
 			DtjkElevator elevator=elevatorService.get(list.getElevatorId().getId());
-			String hql=" where id='"+list.getElevatorId().getMaintenanceUnitId().getId()+"'";
-			List<XtglMaintenanceUnit> maintenanceUnits=maintenanceUnitService.query(hql);
-			
-			String hql1=" where id='"+list.getElevatorId().getUseUnitId().getId()+"'";
-			List<XtglUseUnit> useUnits=useUnitService.query(hql1);
-			
-			String hql2=" where id='"+list.getElevatorId().getUserid().getId()+"'";
-			List<XtglUsers> users=usersService.query(hql2);
-			
-			List<String> lists=new ArrayList<String>();
-			for(XtglMaintenanceUnit maintenanceUnit: maintenanceUnits){
-				lists.add(maintenanceUnit.getPhone());
+			XtglMaintenanceUnit maintenanceUnit=maintenanceUnitService.get(elevator.getMaintenanceUnitId().getId());
+			XtglUseUnit useUnit=useUnitService.get(elevator.getUseUnitId().getId());		
+			XtglPropertyUnit propertyUnit=propertyUnitService.get(elevator.getPropertyUnitId().getId());
+			XtglMaintenanceUsers maintenanceUsers=maintenanceUsersService.get(elevator.getMaintenanceUsersId().getId());
+			JSONArray array=new JSONArray();
+			if(useUnit!=null){
+				JSONObject object=new JSONObject();
+				object.put("name","使用单位负责人");
+				object.put("phone", useUnit.getPhone());
+				array.add(object);
 			}
-			for(XtglUseUnit unit: useUnits){
-				lists.add(unit.getPhone());
+			if(propertyUnit!=null){
+				JSONObject object=new JSONObject();
+				object.put("name","物业单位负责人");
+				object.put("phone", propertyUnit.getPhone());
+				array.add(object);
 			}
-			for(XtglUsers user: users){
-				lists.add(user.getPhone());
+			if(maintenanceUnit!=null){
+				JSONObject object=new JSONObject();
+				object.put("name","维保单位负责人");
+				object.put("phone", maintenanceUnit.getPhone());
+				array.add(object);
 			}
-			request.setAttribute("lists", lists);
+			if(maintenanceUsers!=null){
+				JSONObject object=new JSONObject();
+				object.put("name","维保人员");
+				object.put("phone", maintenanceUsers.getPhone());
+				array.add(object);
+			}
+			request.setAttribute("array", array);
 			return	new ActionForward("/jsp/dtjk/phone/updatePhone.jsp");
 		}else{
 			return	new ActionForward("/jsp/dtjk/phone/detailPhone.jsp");

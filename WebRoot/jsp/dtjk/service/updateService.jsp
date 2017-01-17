@@ -46,8 +46,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type="text"    value="${list.elevatorId.distinguishid}"  readonly="readonly" />
 				</p>
 				<p class="fill">
-					<label for="unit">电梯使用单位&nbsp;:&nbsp;</label>
+					<label for="unit">使用单位&nbsp;:&nbsp;</label>
 					<input type="text"  id="useUnitId"   value="${list.elevatorId.useUnitId.name}"  readonly="readonly" />
+				</p>
+				<p class="fill">
+					<label for="unit">物业单位&nbsp;:&nbsp;</label>
+					<input type="text"  id="propertyUnitId"   value="${list.elevatorId.propertyUnitId.name}"  readonly="readonly" />
+				</p>
+				<p class="fill">
+					<label for="unit">维保单位&nbsp;:&nbsp;</label>
+					<input type="text"  id="maintenanceUnitId"   value="${list.elevatorId.maintenanceUnitId.name}"  readonly="readonly" />
 				</p>
 				<p class="fill">
 					<label for="start_end">服务开始时间&nbsp;:&nbsp;</label>
@@ -61,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label for="place">服务金额&nbsp;:&nbsp;</label>
 					<input type="text"  value="${list.money}" name="service.money"   placeholder="请输入"/>
 				</p>
-
+<!-- 
 				<p class="fill">
 					<label for="wb_unit">服务类型&nbsp;:&nbsp;</label>
 					<select name="service.type">
@@ -70,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<option value="季"  <c:if test="${list.type=='季'}">selected="selected" </c:if>>季</option>
 						<option value="月"  <c:if test="${list.type=='月'}">selected="selected" </c:if>>月</option>
 					</select>
-				</p>
+				</p> -->
 					<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">

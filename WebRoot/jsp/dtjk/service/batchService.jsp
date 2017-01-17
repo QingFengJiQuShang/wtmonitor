@@ -25,34 +25,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-	<form id="form"  action="<%=path %>/serviceAction.do?method=addEntity"  method="post"  encType="multipart/form-data">
+	<form id="form"  action="<%=path %>/serviceAction.do?method=batchEntity"  method="post"  encType="multipart/form-data">
 		<div class="con">
 				<p class="user">电梯服务费</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
 					<p class="add">电梯服务费登记</p>
 				<div class="table_con">
-					<p class="fill">
-					<label for="user">电梯注册号&nbsp;:&nbsp;</label>
-					<input type="hidden" id="elevatorId"  name="service.elevatorId.id"  value="${list.id}" />
-						<input type="text"    value="${list.registerid}"  readonly="readonly"  />
-				</p>
-				<p class="fill">
-					<label for="code">识别码&nbsp;:&nbsp;</label>
-					<input type="text"    value="${list.distinguishid}"  readonly="readonly" />
-				</p>
-				<p class="fill">
-					<label for="unit">使用单位&nbsp;:&nbsp;</label>
-					<input type="text"  id="useUnitId"   value="${list.useUnitId.name}"  readonly="readonly" />
-				</p>
-				<p class="fill">
-					<label for="unit">物业单位&nbsp;:&nbsp;</label>
-					<input type="text"  id="propertyUnitId"   value="${list.propertyUnitId.name}"  readonly="readonly" />
-				</p>
-				<p class="fill">
-					<label for="unit">维保单位&nbsp;:&nbsp;</label>
-					<input type="text"  id="maintenanceUnitId"   value="${list.maintenanceUnitId.name}"  readonly="readonly" />
-				</p>
+					<input type="hidden" id="ids"  name="ids"  value="${param.ids}"/>
 				<p class="fill">
 					<label for="start_end">服务开始时间&nbsp;:&nbsp;</label>
 					<input type="text"  class="Wdate"  name="startTime"  id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
@@ -65,16 +45,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label for="place">服务金额&nbsp;:&nbsp;</label>
 					<input type="text" id="place"  name="service.money"   placeholder="请输入"/>
 				</p>
-				<!-- 
-				<p class="fill">
-					<label for="wb_unit">服务类型&nbsp;:&nbsp;</label>
-					<select name="service.type">
-						<option value="">请选择</option>
-						<option value="年">年</option>
-						<option value="季">季</option>
-						<option value="月">月</option>
-					</select>
-				</p> -->
 					<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">

@@ -24,8 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list_add.css" />
 		
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
-		
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
+				
 	</head>
 
 	<body>
@@ -60,7 +61,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="datetimepicker3">检验日期&nbsp;:&nbsp;</label>
-						<input type="text" id="time"  name="time"  value="<fmt:formatDate value='${list.time}' pattern='yyyy-MM-dd'/>" />
+						<input type="text" id="time"   class="Wdate"    name="time"  value="<fmt:formatDate value='${list.time}' pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"/>
+					</p>
+					<p class="fill">
+						<label for="datetimepicker3">下次年检时间&nbsp;:&nbsp;</label>
+						<input type="text"   class="Wdate"   id="nextTime"  name="nextTime"  value=""   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"/>
 					</p>
 					<p class="fill">
 						<label for="wb_unit">检验单位&nbsp;:&nbsp;</label>
@@ -85,7 +90,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
 	
 <script type="text/javascript">
      function add(){

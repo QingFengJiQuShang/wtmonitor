@@ -43,8 +43,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					${list.elevatorId.distinguishid}
 				</p>
 				<p class="fill">
-					<label for="unit">电梯使用单位&nbsp;:&nbsp;</label>
+					<label for="unit">使用单位&nbsp;:&nbsp;</label>
 					${list.elevatorId.useUnitId.name}
+				</p>
+				<p class="fill">
+					<label for="unit">物业单位&nbsp;:&nbsp;</label>
+					${list.elevatorId.propertyUnitId.name}
+				</p>
+				<p class="fill">
+					<label for="unit">维保单位&nbsp;:&nbsp;</label>
+					${list.elevatorId.maintenanceUnitId.name}
 				</p>
 				<p class="fill">
 					<label for="start_end">服务开始时间&nbsp;:&nbsp;</label>

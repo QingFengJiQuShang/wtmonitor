@@ -18,5 +18,8 @@
         <property name="phone" type="java.lang.String">
             <column name="PHONE" length="50" />
         </property>
+        <property name="belong" type="java.lang.String">
+            <column name="BELONG" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

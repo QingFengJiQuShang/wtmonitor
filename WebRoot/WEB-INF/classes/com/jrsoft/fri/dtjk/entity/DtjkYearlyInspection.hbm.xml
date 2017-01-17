@@ -30,5 +30,8 @@
          <many-to-one name="useUnitId" class="com.jrsoft.fri.xtgl.entity.XtglUseUnit" fetch="select">
             <column name="USE_UNIT_ID" length="50" />
         </many-to-one>
+        <property name="nextTime" type="java.util.Date">
+            <column name="NEXT_TIME" length="7" />
+        </property>
     </class>
 </hibernate-mapping>

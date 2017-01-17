@@ -75,14 +75,17 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 	public ActionForward  addEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String time=request.getParameter("time");
+		String nextTime=request.getParameter("nextTime");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkYearlyInspection elevator =DtjkFrom.getInspection();
 		elevator.setTime(df.parse(time));
+		elevator.setNextTime(df.parse(nextTime));
 		inspectionService.save(elevator);
 		//修改电梯的年检状态和年检时间
 		DtjkElevator entity =elevatorService.get(elevator.getElevatorId().getId());
-		entity.setYearlyTime(new Date());
+		entity.setYearlyTime(df.parse(time));
+		entity.setNextTime(df.parse(nextTime));
 		entity.setYearlyState(elevator.getResult());
 		elevatorService.update(entity);
 		

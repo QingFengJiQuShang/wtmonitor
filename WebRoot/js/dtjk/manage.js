@@ -37,6 +37,60 @@
 			 // alert(id);
     		  window.location.href="recordAction.do?method=query&elevatorId="+id;
          }
-		  
+		    
+
+	//全选
+$("tbody").on("click", ".wei", function() {
+		$(this).children("i").toggleClass("gou");
+		var checked = $(".wei").length;
+		var unchecked = $("tbody").find(".gou").length
+		if(checked == unchecked) {
+			$(".all").children("i").addClass("gou")
+		} else {
+			$(".all").children("i").removeClass("gou")
+		}
+	})
+	//取消全选
+$(".all").on("click", function() {
+	var checked = $(".wei").length;
+	var unchecked = $("tbody").find(".gou").length
+	if(checked == unchecked) {
+		$(this).children("i").removeClass("gou")
+		$("tbody").find("i").removeClass("gou")
+	} else {
+		$(this).children("i").addClass("gou")
+		$("tbody").find("i").addClass("gou")
+	}
+})
 		
+		  	//		批量充值流量
+$(".recharge").click(function() {
+	var ids="";
+	var len=0;
+	$(".wei").each(function() {
+			if($(this).children("i").hasClass("gou")) {
+				ids=ids+$(this).find("i").children().val()+",";
+				len++;
+			}
+		})
+		 if(len>0 && confirm("确定为这 "+len+" 条电梯记录进行流量充值？")){
+	 		window.location.href="jsp/dtjk/manage/recharge.jsp?ids="+ids;
+	 	}
+})
+
+
+		  	//		批量添加服务费
+$(".batch").click(function() {
+	var ids="";
+	var len=0;
+	$(".wei").each(function() {
+			if($(this).children("i").hasClass("gou")) {
+				ids=ids+$(this).find("i").children().val()+",";
+				len++;
+			}
+		})
+		 if(len>0 && confirm("确定为这 "+len+" 部电梯记录添加服务费？")){
+	 		window.location.href="jsp/dtjk/service/batchService.jsp?ids="+ids;
+	 	}
+})
 		  

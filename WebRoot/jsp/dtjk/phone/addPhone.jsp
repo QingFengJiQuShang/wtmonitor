@@ -1,10 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="net.sf.json.JSONObject"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+JSONArray array=(JSONArray)request.getAttribute("array");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -40,14 +43,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fill">
 						<label for="user">电话&nbsp;:&nbsp;</label>
 						<input type="hidden" id="elevatorId"  name="ph.elevatorId.id"  value="${elevatorId}" />
+						
+						
 						<select id="phone"  name="ph.phone">
 								<option value="">请选择</option>
-								<c:forEach items="${list}" var="list" varStatus="s">
-									<option value="${list}">${list}</option>
-								</c:forEach>
+								<%for(int i=0;i<array.size();i++){
+									JSONObject obj=(JSONObject)array.get(i);
+									%>
+									<option value="<%=obj.get("phone") %>"  onclick="belong('<%=obj.get("name")  %>')"><%=obj.get("phone") %></option>
+							<%	} %>
 						</select>
 					</p>
-					
+					<p class="fill">
+						<label for="user">所属人&nbsp;:&nbsp;</label>
+						<input type="text" id="belong"  name="ph.belong"  readonly="readonly" />
+						
+						
+						
+					</p>
 					<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
@@ -64,6 +77,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
      function add(){
 		 	$('#form').submit();
+     }
+     function belong(val){
+		 	 document.getElementById("belong").value=val;
      }
       
 </script>

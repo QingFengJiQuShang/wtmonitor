@@ -35,7 +35,7 @@
 }
 .show .img {
 	position: relative;
-	width: 25%;
+	width: 32%;
 }
 .show .img img {
 	width: 100%;
@@ -108,6 +108,7 @@
 .show .gu_info {
 	position: relative;
 	width: 20%;
+	
 	margin-left: 8%;
 	text-align: center;
 	border: 1px solid #cecece;
@@ -118,6 +119,7 @@
 .show .gu_info {
 	position: relative;
 	width: 30%;
+	height:280px;
 	margin-left: 8%;
 	border: 1px solid #cecece;
 	-webkit-border-radius: 10px;
@@ -126,9 +128,9 @@
 }
 .show .dianti_info h3,
 .show .gu_info h3 {
-	margin: -10% auto 0;
-	width: 50%;
-	padding: 5% 0;
+	margin: -25px auto 0;
+	width: 100px;
+	padding: 12px 0;
 	color: #fff;
 	font-size: 20px;
 	background-color: #0070be;
@@ -138,25 +140,27 @@
 }
 .show .dianti_info p,
 .show .gu_info p {
-	padding: 3% 0;
+	padding: 7px 0;
 	font-size: 14px;
 }
 .show .gu_info p {
-	padding: 3% 6%;
+	padding: 7px 5px;
 }
 .show .gu_info p span {
 	width: 44%;
-	padding: 0 3%;
+	padding: 0 5px;
 	text-align: left;
 }
 .show .gu_info p span img {
-    width: 12%;
-    margin-top: 5%;
+    width: 12px;
+    margin-top: 5px;
 }
 /*文字解说*/
 .update {
 	width: 86%;
-	padding: 2% 0;
+	height: 70px;
+	text-align: right;
+	line-height: 70px;
 	margin: 0 auto;	
 	font-size: 16px;
 	color: #cdcdcd;
@@ -169,6 +173,9 @@
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	background-color: #fff;
+    margin-left: 20px;
+    margin-top: 22px;
+    cursor: pointer;
 }
 .details_info {
 	position: relative;
@@ -202,6 +209,7 @@
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;	
+    cursor: pointer;
 }
 .details_info ul {
 	margin-top: 10px;

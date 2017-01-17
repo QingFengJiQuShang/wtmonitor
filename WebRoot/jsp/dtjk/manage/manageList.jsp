@@ -62,6 +62,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<div class="table">
 					<div class="or clearfix">
 						<p class="fl recharge">充值流量</p>
+						<p class="fl batch" style="width:150xp;">批量添加服务费</p>
 					</div>
 				<div class="table">
 					
@@ -146,5 +147,5 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/dtjk/elevator.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/dtjk/manage.js" type="text/javascript" charset="utf-8"></script>
 </html>

@@ -24,6 +24,7 @@ public class DtjkYearlyInspection implements java.io.Serializable {
 	private String remarks;				//备注
 	private DtjkElevator elevatorId=new DtjkElevator();//维保电梯Id
 	private XtglUseUnit useUnitId=new XtglUseUnit();			//使用单位id
+	private Date nextTime;				//下次年检时间
 
 	private String useUnitName;  //使用单位
 	private String userName;		//维保人员
@@ -39,13 +40,14 @@ public class DtjkYearlyInspection implements java.io.Serializable {
 	/** full constructor */
 	public DtjkYearlyInspection(Date time, String inspectionUnit,
 			String result, String remarks, DtjkElevator elevatorId,
-			XtglUseUnit useUnitId) {
+			XtglUseUnit useUnitId,Date nextTime) {
 		this.time = time;
 		this.inspectionUnit = inspectionUnit;
 		this.result = result;
 		this.remarks = remarks;
 		this.elevatorId = elevatorId;
 		this.useUnitId = useUnitId;
+		this.nextTime=nextTime;
 	}
 
 	// Property accessors
@@ -152,6 +154,18 @@ public class DtjkYearlyInspection implements java.io.Serializable {
 
 	public void setPlace(String place) {
 		this.place = place;
+	}
+
+	public Date getNextTime() {
+		return nextTime;
+	}
+
+	public void setNextTime(Date nextTime) {
+		this.nextTime = nextTime;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

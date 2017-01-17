@@ -131,5 +131,8 @@
         <many-to-one name="makeUnitId" class="com.jrsoft.fri.xtgl.entity.XtglMakeUnit" fetch="select">
             <column name="MAKE_UNIT_ID" length="50" />
         </many-to-one>
+        <property name="nextTime" type="java.util.Date">
+            <column name="NEXT_TIME" length="7" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -85,7 +85,39 @@ public class DtjkServiceAction  extends DispatchAction {
 		
 	    return	new ActionForward("/serviceAction.do?method=query&elevatorId="+entity.getElevatorId().getId());
 	}
-	
+	/**
+	 * 批量 添加电梯服务费
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  batchEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String ids=request.getParameter("ids");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		DtjkFrom DtjkFrom=(DtjkFrom)form;
+		DtjkService entity =DtjkFrom.getService();
+		if(ids!=null&&!ids.equals("")){
+			String  arr []=ids.split(",");
+			for(int i=0;i<arr.length;i++){
+				DtjkService service=new DtjkService();
+				DtjkElevator elevator =elevatorService.get(Long.parseLong(arr[i]));
+				service.setStartTime(df.parse(startTime));
+				service.setEndTime(df.parse(endTime));
+				service.setElevatorId(elevator);
+				service.setMoney(entity.getMoney());
+				serviceService.save(service);
+				//生成 操作日志
+				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+				Log log=new Log();
+		        log.addLog(user.getName(), "添加电梯服务费记录，电梯注册号："+entity.getRegisterid(), "1");
+			}
+		}
+	    return	new ActionForward("/elevatorAction.do?method=queryManage");
+	}
 	/**
 	 * 查询 电梯服务费记录列表
 	 * @param request
