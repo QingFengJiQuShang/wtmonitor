@@ -73,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									
 								</li>
 								<li class="fl dianti_info">
-									<h3>电梯信息</h3>
+									<h3>电梯状态</h3>
 									<p>楼&nbsp;层&nbsp;位&nbsp;置：${list.record.floor }层</p>
 									<p>运&nbsp;行&nbsp;方&nbsp;向：${list.record.direction}</p>
 									<p>是&nbsp;否&nbsp;有&nbsp;人：${list.record.people}</p>
