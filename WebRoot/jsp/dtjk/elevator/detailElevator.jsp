@@ -56,6 +56,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<p >
 						<label for="map">地图标注&nbsp;:&nbsp;</label>${list.label}
 					</p>
+					<p>
+						<label for="speed">剩余流量&nbsp;:&nbsp;</label>
+						${list.flowSurplus}
+					<!-- 	<a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a> -->
+					</p>
+					
 				</div>
 				<div class="fl fenzhi">
 					<p>
@@ -65,11 +71,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="speed">电梯速度&nbsp;:&nbsp;</label>${list.speed}
 					</p>
 					<p>
-						<label for="speed">剩余流量&nbsp;:&nbsp;</label>
-						<a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a>
+						<label for="speed">视频IP&nbsp;:&nbsp;</label>${list.ip}
 					</p>
-					
-					
+					<p>
+						<label for="speed">白名单个数&nbsp;:&nbsp;</label>
+						<a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a>
+					</p>
 				</div>
 				<div class="fl fenzhi">
 					<p>
@@ -79,8 +86,13 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="num">总层数&nbsp;:&nbsp;</label>${list.numbers}
 					</p>
 					<p>
-						<label for="speed">白名单个数&nbsp;:&nbsp;</label>
-						<a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a>
+						<label for="datetimepicker3">维保合同期起&nbsp;:&nbsp;</label>
+						<fmt:formatDate value='${list.flowStart}' pattern='yyyy-MM-dd'/>
+					</p>
+					<p>
+						<label for="speed">服务费记录数&nbsp;:&nbsp;</label>
+						<a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a>
+					
 					</p>
 					
 				</div>
@@ -92,16 +104,20 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="">注册状态</label>${list.registerState}
 					</p>
 					<p>
-						<label for="speed">服务费记录数&nbsp;:&nbsp;</label>
-						<a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a>
+						<label for="datetimepicker3">维保合同期至&nbsp;:&nbsp;</label>
+						<fmt:formatDate value='${list.flowEnd}' pattern='yyyy-MM-dd'/>
 					</p>
+					
 				</div>
 			</div>
 			<!--第二层-->
 			<div class="record clearfix">
 				<p class="name">电梯安装信息</p>
 				<div class="fl fenzhi">
-					
+					<p >
+						<label for="weibao_user">使用单位电梯负责人&nbsp;:&nbsp;</label>
+						${list.useUnitLiaisons}
+					</p>
 					<p>
 						<label for="mount_user">安装单位&nbsp;:&nbsp;</label>
 						${list.installUnit}
@@ -114,6 +130,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 				</div>
 				<div class="fl fenzhi">
+					<p >
+						<label for="weibao_user">使用单位电梯负责人电话&nbsp;:&nbsp;</label>
+						${list.useUnitPhone}
+					</p>
 					<p>
 						<label for="place">安装地点&nbsp;:&nbsp;</label>
 						${list.installPlace}
@@ -126,12 +146,24 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					
 				</div>
 				<div class="fl fenzhi">
+				<p >
+						<label for="weibao_user">物业单位电梯负责人&nbsp;:&nbsp;</label>
+						${list.propertyUnitLiaisons}
+					</p>
 					<p>
 						<label for="mount">安装人员&nbsp;:&nbsp;</label>
 						${list.installUser}
 					</p>
+					<p>
+						<label for="time">首次年检时间&nbsp;:&nbsp;</label>
+						<fmt:formatDate value='${list.yearlyTime1}' pattern='yyyy-MM-dd'/>
+					</p>
 				</div>
 				<div class="fl fenzhi">
+					<p >
+						<label for="weibao_user">物业单位电梯负责人电话&nbsp;:&nbsp;</label>
+						${list.propertyUnitPhone}
+					</p>
 					<p>
 						<label for="time">安装时间&nbsp;:&nbsp;</label>
 						<fmt:formatDate value='${list.installTime}' pattern='yyyy-MM-dd'/>

@@ -8,7 +8,13 @@ public class byteUtil {
 			              if (hex.length() == 1) {   
 			                hex = '0' + hex;   
 			              }
-			             
+//			              String str=hex;
+//			              if(str.equals("b0")){
+//			            	  hex="1a";
+//			              }
+//			              if(str.equals("1a")){
+//			            	  hex="b0";
+//			              }
 			             ret += hex;   
 			             if(hex.equals("f0")){
 			            	  return ret;

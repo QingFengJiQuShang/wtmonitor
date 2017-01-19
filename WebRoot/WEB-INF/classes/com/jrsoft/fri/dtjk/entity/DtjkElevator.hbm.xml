@@ -134,5 +134,23 @@
         <property name="nextTime" type="java.util.Date">
             <column name="NEXT_TIME" length="7" />
         </property>
+        <property name="useUnitLiaisons" type="java.lang.String">
+            <column name="USE_UNIT_LIAISONS" length="200" />
+        </property>
+        <property name="useUnitPhone" type="java.lang.String">
+            <column name="USE_UNIT_PHONE" length="200" />
+        </property>
+        <property name="propertyUnitLiaisons" type="java.lang.String">
+            <column name="PROPERTY_UNIT_LIAISONS" length="200" />
+        </property>
+        <property name="propertyUnitPhone" type="java.lang.String">
+            <column name="PROPERTY_UNIT_PHONE" length="200" />
+        </property>
+         <property name="yearlyTime1" type="java.util.Date">
+            <column name="YEARLY_TIME1" length="7" />
+        </property>
+        <property name="ip" type="java.lang.String">
+            <column name="IP" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

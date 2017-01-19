@@ -72,7 +72,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="speed">电梯速度&nbsp;:&nbsp;</label>
 						<input type="text"  id="speed"  name="elevator.speed"  placeholder="请输入" />
 					</p>
-					
+					<p>
+						<label for="model">视频IP&nbsp;:&nbsp;</label>
+						<input type="text"  id="ip"  name="elevator.ip"  placeholder="请输入" />
+					</p>
 					
 					
 				</div>
@@ -85,7 +88,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="num">总层数&nbsp;:&nbsp;</label>
 						<input type="text"  id="numbers"  name="elevator.numbers"  placeholder="请输入" />
 					</p>
-					
+					<p>
+						<label for="datetimepicker3">维保合同期起&nbsp;:&nbsp;</label>
+						<input type="text"   class="Wdate"  id="flowStart"  name="flowStart"  class="form-control" placeholder="请选择" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" >
+					</p>
 				</div>
 				<div class="fl fenzhi">
 				<p>
@@ -100,7 +106,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						  	<option name="未注册">未注册</option>
 						</select>
 					</p>
-					
+					<p>
+						<label for="datetimepicker3">维保合同期至&nbsp;:&nbsp;</label>
+						<input type="text"   class="Wdate"  id="flowEnd"  name="flowEnd"  class="form-control" placeholder="请选择" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" >
+					</p>
 				</div>
 			</div>
 			<!--第二层-->
@@ -113,11 +122,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text"  id="useUnitId1"   placeholder="请选择" readonly="readonly"  onclick="selectUseUnitId('useUnitId','useUnitId1');"/>
 					</p>
 					<p>
-						<label for="user">制造单位&nbsp;:&nbsp;</label>
-						<input type="hidden"  id="makeUnitId"  name="elevator.makeUnitId.id"   />
-						<input type="text"  id="makeUnitId1"   placeholder="请选择" readonly="readonly"  onclick="selectMakeUnitId('makeUnitId','makeUnitId1');"/>
-					</p>
+						<label for="mount_user">物业单位&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="propertyUnitId"  name="elevator.propertyUnitId.id"  />
+						<input type="text"  id="propertyUnitId1"  placeholder="请选择" readonly="readonly"   onclick="selectPropertyUnitId('propertyUnitId','propertyUnitId1');"/>
 					
+					</p>
+					<p onclick="tishi()">
+						<label for="men">维保人&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="maintenanceUsersId"  name="elevator.maintenanceUsersId.id"  />
+						<input type="text"  id="maintenanceUsersId1"  placeholder="请选择" readonly="readonly"   onclick="selectMaintenanceUsers('maintenanceUsersId','maintenanceUsersId1');"/>
+					</p>
 					<p>
 						<label for="time">安装时间&nbsp;:&nbsp;</label>
 						<input type="text"   class="Wdate"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  id="installTime"  name="installTime"  placeholder="请输入"  />
@@ -127,11 +141,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 				</div>
 				<div class="fl fenzhi">
-					<p onclick="tishi()">
-						<label for="weibao_user">维保单位&nbsp;:&nbsp;</label>
-						<input type="hidden"  id="maintenanceUnitId"  name="elevator.maintenanceUnitId.id"  />
-						<input type="text"  id="maintenanceUnitId1"   placeholder="请输入" readonly="readonly" onclick="selectMaintenanceUnit('maintenanceUnitId','maintenanceUnitId1');"/>
+					<p >
+						<label for="weibao_user">电梯负责人&nbsp;:&nbsp;</label>
+						<input type="text"  id="useUnitLiaisons"   name="elevator.useUnitLiaisons" placeholder="请输入"  />
 					</p>
+					<p >
+						<label for="weibao_user">电梯负责人&nbsp;:&nbsp;</label>
+						<input type="text"  id="propertyUnitLiaisons"   name="elevator.propertyUnitLiaisons" placeholder="请输入" />
+					</p>
+					
 					<p>
 						<label for="mount_user">安装单位&nbsp;:&nbsp;</label>
 						<input type="text"  id="installUnit"  name="elevator.installUnit" placeholder="请输入" />
@@ -143,11 +161,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				</div>
 				<div class="fl fenzhi">
-					<p onclick="tishi()">
-						<label for="men">维保人&nbsp;:&nbsp;</label>
-						<input type="hidden"  id="maintenanceUsersId"  name="elevator.maintenanceUsersId.id"  />
-						<input type="text"  id="maintenanceUsersId1"  placeholder="请选择" readonly="readonly"   onclick="selectMaintenanceUsers('maintenanceUsersId','maintenanceUsersId1');"/>
+					<p >
+						<label for="weibao_user">负责人电话&nbsp;:&nbsp;</label>
+						<input type="text"  id="useUnitPhone" name="elevator.useUnitPhone"   placeholder="请输入" />
 					</p>
+					<p >
+						<label for="weibao_user">负责人电话&nbsp;:&nbsp;</label>
+						<input type="text"  id="propertyUnitPhone" name="elevator.propertyUnitPhone"   placeholder="请输入"  />
+					</p>
+					
 					
 					<p>
 						<label for="place">安装地点&nbsp;:&nbsp;</label>
@@ -157,19 +179,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="datetimepicker4">使用年限&nbsp;:&nbsp;</label>
 						<input type="text"  id="serviceIfe"  name="elevator.serviceIfe" class="form-control" placeholder="请选择" />
 					</p>
+					
 				</div>
 				<div class="fl fenzhi">
 					<p>
-						<label for="mount_user">物业单位&nbsp;:&nbsp;</label>
-						<input type="hidden"  id="propertyUnitId"  name="elevator.propertyUnitId.id"  />
-						<input type="text"  id="propertyUnitId1"  placeholder="请选择" readonly="readonly"   onclick="selectPropertyUnitId('propertyUnitId','propertyUnitId1');"/>
-					
+						<label for="user">制造单位&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="makeUnitId"  name="elevator.makeUnitId.id"   />
+						<input type="text"  id="makeUnitId1"   placeholder="请选择" readonly="readonly"  onclick="selectMakeUnitId('makeUnitId','makeUnitId1');"/>
+					</p>
+					<p >
+						<label for="weibao_user">维保单位&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="maintenanceUnitId"  name="elevator.maintenanceUnitId.id"  />
+						<input type="text"  id="maintenanceUnitId1"   placeholder="请输入" readonly="readonly" onclick="selectMaintenanceUnit('maintenanceUnitId','maintenanceUnitId1');"/>
 					</p>
 					<p>
 						<label for="mount">安装人员&nbsp;:&nbsp;</label>
 						<input type="text"  id="installUser"  name="elevator.installUser"  placeholder="请输入" />
 					</p>
-					
+					<p>
+						<label for="datetimepicker4">首次年检时间&nbsp;:&nbsp;</label>
+						<input type="text"   class="Wdate"  id="yearlyTime1"  name="yearlyTime1"  class="form-control" placeholder="请选择" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" >
+					</p>
 					
 					
 				</div>

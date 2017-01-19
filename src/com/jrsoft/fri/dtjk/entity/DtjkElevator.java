@@ -56,8 +56,8 @@ public class DtjkElevator implements java.io.Serializable {
 	private String remarks;			//备注
     private XtglUsers userid=new XtglUsers();				//所属用户
     private String period;				//上报周期
-    private Date flowStart;				//流量开始时间
-    private Date flowEnd;						//流量结束时间
+    private Date flowStart;				//维保合同开始时间
+    private Date flowEnd;						//维保合同开始时间
     private Long flowTotal;				//流量总额
     private Long flowNum;				//流量使用额
     private Long flowSurplus;				//剩余流量
@@ -68,6 +68,12 @@ public class DtjkElevator implements java.io.Serializable {
     private  XtglPropertyUnit  propertyUnitId= new XtglPropertyUnit();		//物业单位
     private  XtglMakeUnit makeUnitId=new XtglMakeUnit();				//制造单位
 	private Date nextTime;				//下次年检时间
+	private String useUnitLiaisons;		//使用单位电梯负责人
+	private String useUnitPhone;			//使用单位电梯负责人电话
+	private String propertyUnitLiaisons;		//物业单位电梯负责人
+	private String propertyUnitPhone;			//物业单位电梯负责人电话
+	private Date yearlyTime1;							//首次年检时间
+	private String ip;											//视频ip
 	// Constructors
     
     private String useUnitName;			//使用单位名称
@@ -96,7 +102,8 @@ public class DtjkElevator implements java.io.Serializable {
 			Date flowEnd,Long flowTotal,Long flowNum,Long flowSurplus,
 			Date reportTime,String delflag,String serviceState,String safeState,
 			XtglPropertyUnit  propertyUnitId,XtglMakeUnit makeUnitId,
-			 Date nextTime) {
+			 Date nextTime,String useUnitLiaisons,String useUnitPhone,
+			String  propertyUnitLiaisons,String  propertyUnitPhone,Date yearlyTime1,String ip) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -136,6 +143,12 @@ public class DtjkElevator implements java.io.Serializable {
 		this.propertyUnitId=propertyUnitId;
 		this.makeUnitId=makeUnitId;
 		this.nextTime=nextTime;
+		this.useUnitLiaisons=useUnitLiaisons;
+		this.useUnitPhone=useUnitPhone;
+		this.propertyUnitLiaisons=propertyUnitLiaisons;
+		this.propertyUnitPhone=propertyUnitPhone;
+		this.yearlyTime1=yearlyTime1;
+		this.ip=ip;
 	}
 
 	// Property accessors
@@ -526,6 +539,54 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setNextTime(Date nextTime) {
 		this.nextTime = nextTime;
+	}
+
+	public String getUseUnitLiaisons() {
+		return useUnitLiaisons;
+	}
+
+	public void setUseUnitLiaisons(String useUnitLiaisons) {
+		this.useUnitLiaisons = useUnitLiaisons;
+	}
+
+	public String getUseUnitPhone() {
+		return useUnitPhone;
+	}
+
+	public void setUseUnitPhone(String useUnitPhone) {
+		this.useUnitPhone = useUnitPhone;
+	}
+
+	public String getPropertyUnitLiaisons() {
+		return propertyUnitLiaisons;
+	}
+
+	public void setPropertyUnitLiaisons(String propertyUnitLiaisons) {
+		this.propertyUnitLiaisons = propertyUnitLiaisons;
+	}
+
+	public String getPropertyUnitPhone() {
+		return propertyUnitPhone;
+	}
+
+	public void setPropertyUnitPhone(String propertyUnitPhone) {
+		this.propertyUnitPhone = propertyUnitPhone;
+	}
+
+	public Date getYearlyTime1() {
+		return yearlyTime1;
+	}
+
+	public void setYearlyTime1(Date yearlyTime1) {
+		this.yearlyTime1 = yearlyTime1;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 }

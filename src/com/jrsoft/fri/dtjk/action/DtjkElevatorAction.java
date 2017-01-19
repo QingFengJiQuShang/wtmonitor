@@ -120,7 +120,7 @@ public class DtjkElevatorAction extends DispatchAction{
 			
 			String registerid=request.getParameter("registerid");   //用户名
 				//查询注册号
-				String hql=" where 1=1 and   registerid = '"+registerid+"'  order by id asc ";
+				String hql=" where 1=1   and de.delflag!='1' and   registerid = '"+registerid+"'  order by id asc ";
 				List<DtjkElevator> content=elevatorService.query(hql);	
 				PrintWriter out;
 				try {
@@ -147,6 +147,9 @@ public class DtjkElevatorAction extends DispatchAction{
 			throws Exception {
 		String installTime=request.getParameter("installTime");
 		String manufactureTime=request.getParameter("manufactureTime");
+		String yearlyTime1=request.getParameter("yearlyTime1");
+		String flowStart=request.getParameter("flowStart");
+		String flowEnd=request.getParameter("flowEnd");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkElevator elevator =DtjkFrom.getElevator();
@@ -165,6 +168,12 @@ public class DtjkElevatorAction extends DispatchAction{
 			elevator.setManufactureTime(df.parse(manufactureTime));
 		if(installTime!=null&&!installTime.equals("") )
 			elevator.setInstallTime(df.parse(installTime));
+		if(yearlyTime1!=null&&!yearlyTime1.equals("") )
+			elevator.setYearlyTime1(df.parse(yearlyTime1));
+		if(flowStart!=null&&!flowStart.equals("") )
+			elevator.setFlowStart(df.parse(flowStart));
+		if(flowEnd!=null&&!flowEnd.equals("") )
+			elevator.setFlowEnd(df.parse(flowEnd));
 		elevator.setState("正常");
 		elevator.setPeriod("60");
 		elevator.setDelflag("0");
@@ -722,6 +731,9 @@ public class DtjkElevatorAction extends DispatchAction{
 			throws Exception {
 		String installTime=request.getParameter("installTime");
 		String manufactureTime=request.getParameter("manufactureTime");
+		String flowStart=request.getParameter("flowStart");
+		String flowEnd=request.getParameter("flowEnd");
+		String yearlyTime1=request.getParameter("yearlyTime1");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkElevator elevator =DtjkFrom.getElevator();
@@ -749,6 +761,13 @@ public class DtjkElevatorAction extends DispatchAction{
 			entity.setServiceIfe(elevator.getServiceIfe());
 			entity.setRemarks(elevator.getRemarks());
 			entity.setPropertyUnitId(elevator.getPropertyUnitId());
+			
+			entity.setUseUnitLiaisons(elevator.getUseUnitLiaisons());
+			entity.setUseUnitPhone(elevator.getUseUnitPhone());
+			entity.setPropertyUnitLiaisons(elevator.getPropertyUnitLiaisons());
+			entity.setPropertyUnitPhone(elevator.getPropertyUnitPhone());
+			entity.setIp(elevator.getIp());
+			
 			entity.setMakeUnitId(elevator.getMakeUnitId());
 			if(elevator.getUseUnitId().getId()==0)
 				entity.setUseUnitId(null);
@@ -762,6 +781,12 @@ public class DtjkElevatorAction extends DispatchAction{
 				entity.setManufactureTime(df.parse(manufactureTime));
 			if(installTime!=null&&!installTime.equals("") )
 				entity.setInstallTime(df.parse(installTime));
+			if(yearlyTime1!=null&&!yearlyTime1.equals("") )
+				entity.setYearlyTime1(df.parse(yearlyTime1));
+			if(flowStart!=null&&!flowStart.equals("") )
+				entity.setFlowStart(df.parse(flowStart));
+			if(flowEnd!=null&&!flowEnd.equals("") )
+				entity.setFlowEnd(df.parse(flowEnd));
 			elevatorService.update(entity);
 		}
 		//生成 操作日志

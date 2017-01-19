@@ -108,7 +108,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td><a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a></td>
 									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
 						 -->			<td style="width: 150px;">
-						 				<img src="<%=path%>/img/compile.png"  title="网关"  alt="网关"  onclick="findById1('${list.registerid}');"/>
+						 				<img src="<%=path%>/img/wanggugan.png"  title="网关"  alt="网关"  onclick="findById1('${list.registerid}');"/>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>
 										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"  onclick="findById('${list.id}','1');"/>
