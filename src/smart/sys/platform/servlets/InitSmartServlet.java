@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.jrsoft.fri.quartz.FlowJob;
 import com.jrsoft.fri.quartz.QuartzJob;
 import com.jrsoft.fri.quartz.QuartzManager;
 import com.jrsoft.fri.quartz.SafeJob;
@@ -46,6 +47,8 @@ public class InitSmartServlet extends HttpServlet {
 		QuartzManager.addJob(job_name1, ServiceState.class, "0 48 17 * * ?"); 
 		String job_name2 = "判断电梯保险状态";
 		QuartzManager.addJob(job_name2, SafeJob.class, "0 15 17 * * ?"); 
+		String job_name3 = "修改电梯流量";
+		QuartzManager.addJob(job_name3, FlowJob.class, "0 0 12 * * ?"); 
 	}
 	
 	/**

@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 function myrefresh(){
 			window.location.reload();
 		}
-		setTimeout('myrefresh()',${dictionarie.dictionary*1000}); //指定30秒刷新一次s
+		//setTimeout('myrefresh()',${dictionarie.dictionary*1000}); //指定30秒刷新一次s
 </script>
 	</head>
 
@@ -45,15 +45,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</p>
 							<ul class="show clearfix">
 								<li class="img fl">
-									<span class="normal">
-									<c:if test="${list.elevator.state!='维保' and list.elevator.state!='故障' }">正常</c:if>
-									<c:if test="${list.elevator.state=='故障'}">故障</c:if>
-									<c:if test="${list.elevator.state=='维保'}">维保</c:if>
-									</span>
-									<span class="on_line">
-									<c:if test="${list.elevator.state!='离线'}">正常</c:if>
-									<c:if test="${list.elevator.state=='离线'}">离线</c:if>
-									</span>
+									<c:if test="${list.elevator.state!='维保' and list.elevator.state!='故障' }">
+									<span class="normal_green">正常</span></c:if>
+									<c:if test="${list.elevator.state=='故障'}"><span class="normal">故障</span></c:if>
+									<c:if test="${list.elevator.state=='维保'}"><span class="normal_black">维保</span></c:if>
+									
+									<c:if test="${list.elevator.state!='离线'}"><span class="on_line_green">在线</span></c:if>
+									<c:if test="${list.elevator.state=='离线'}"><span class="on_line">离线</span></c:if>
+									
 									<span class="loding">${list.record.floor }</span>
 									<span class="or dianti_down"></span>
 									<c:if test="${list.record.direction!='上行'}">
@@ -69,8 +68,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<img class="down" src="<%=path %>/img/arrow_up.png">
 									</c:if>
 									
-									<c:if test="${list.record.door!='关门'}"><img src="<%=path %>/img/dianti_close.png" alt="" /></c:if>
-									<c:if test="${list.record.door=='关门'}"><img src="<%=path %>/img/dianti.png" alt="" /></c:if>
+									<c:if test="${list.record.door!='关门'}"><img src="<%=path %>/img/close.png" alt="" /></c:if>
+									<c:if test="${list.record.door=='关门'}"><img src="<%=path %>/img/close01.png" alt="" /></c:if>
 									
 								</li>
 								<li class="fl dianti_info">
@@ -78,14 +77,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p>楼&nbsp;层&nbsp;位&nbsp;置：${list.record.floor }层</p>
 									<p>运&nbsp;行&nbsp;方&nbsp;向：${list.record.direction}</p>
 									<p>是&nbsp;否&nbsp;有&nbsp;人：${list.record.people}</p>
-									<p>电梯门状态：${records.door}</p>
+									<p>电梯门状态：${list.record.door}</p>
 									<p>电&nbsp;梯&nbsp;状态：
 									<c:if test="${list.elevator.state!='维保' and list.elevator.state!='故障' }">正常</c:if>
 									<c:if test="${list.elevator.state=='故障'}">故障</c:if>
 									<c:if test="${list.elevator.state=='维保'}">维保</c:if>
 									</p>
 									<p>在&nbsp;线&nbsp;状&nbsp;态：
-									<c:if test="${list.elevator.state!='离线'}">正常</c:if>
+									<c:if test="${list.elevator.state!='离线'}">在线</c:if>
 									<c:if test="${list.elevator.state=='离线'}">离线</c:if>
 									</p>
 									<p>供&nbsp;电&nbsp;状&nbsp;态：
@@ -102,7 +101,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='超速'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fl">
@@ -111,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='困人'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 									</p>
@@ -122,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='冲顶困人'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
@@ -131,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='冲顶'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 									</p>
@@ -142,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='蹲底困人'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
@@ -151,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='蹲底'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 									</p>
@@ -162,7 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='非平层困人'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
@@ -171,7 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='非平层停梯'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 									</p>
@@ -182,7 +181,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='门关不上'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
@@ -191,7 +190,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='开门走梯'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 									</p>
@@ -202,7 +201,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='运动中开门'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
@@ -211,7 +210,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='开门不到位'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 									</p>
@@ -222,7 +221,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
 											<c:if test="${list.record.type!='非平层开门'}">
-											<img class="fr"  src="<%=path %>/img/dianti_gray.png" alt="" />
+											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 									</p>

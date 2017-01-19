@@ -3,10 +3,14 @@ package com.jrsoft.fri.xtgl.action;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,9 +21,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
+import com.jrsoft.fri.xtgl.from.FileForm;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
 import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
@@ -391,5 +397,81 @@ public class XtglUseUnitAction  extends DispatchAction  {
 		
 		 return	new ActionForward("/jsp/comm/selectUseUnitList.jsp");
 		}
+	/**
+	 *   excel导入数据
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public void  exportIn(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String url=request.getParameter("flie");
+		String pathname = request.getRealPath("/")+"upload\\";
+		Upload upload = new Upload();
+		//upload.getExcelData(pathname);
+		uploadFile(form, request, pathname);
 	
+	}
+	/**
+	 * 上传文件
+	 */
+	public String uploadFile(ActionForm  form,HttpServletRequest request,String filePath){
+		XtglForm f = (XtglForm)form;
+		FormFile file = f.getTheFile();
+		Date date = new Date();
+		int i = 0;
+		String type = file.getFileName();
+		String path = "";
+		while(i!=-1){
+			i = type.indexOf(".");
+			type = type.substring(i+1);//文件类型
+		}
+		String times = String.valueOf(date.getTime());
+		String  fname = times + "." + type;
+		try{
+			InputStream streamIn = file.getInputStream();
+			int ok=file.getFileSize();
+			String strFee = null;
+			if(ok>=1024*1024)
+			{
+				float ok1=(((float)ok)/1024f/1024f); 
+				DecimalFormat myformat1 = new DecimalFormat("0.00");         
+				strFee = myformat1.format(ok1)+"M";
+				System.out.println(strFee+"M");
+			}
+			else if(ok>1024 && ok<=1024*1024)
+			{
+				double  ok2=((double)ok)/1024;
+				DecimalFormat myformat2=new DecimalFormat("0.00");
+				strFee = myformat2.format(ok2)+"kb";
+				System.out.println(strFee+"kb");
+			}
+			else if(ok<1024)
+			{
+				strFee=String.valueOf(ok)+"byte";
+				System.out.println(strFee);
+			}
+			System.out.println( streamIn.available()+"文件大小byte"+"   "+filePath);
+			File uploadFile = new File(filePath);
+			if (!uploadFile.exists() || uploadFile == null) {  
+				uploadFile.mkdirs();
+			}
+			path = uploadFile.getPath() + "\\" + fname;
+			OutputStream streamOut = new FileOutputStream(path);
+			int bytesRead = 0;
+			byte[] buffer = new byte[8192];
+			while ((bytesRead = streamIn.read(buffer, 0, 8192)) != -1) {
+				streamOut.write(buffer, 0, bytesRead);
+			}
+			streamOut.close();
+			streamIn.close();
+			file.destroy();  
+			System.out.println("path==="+path);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return path;
+	}
 }

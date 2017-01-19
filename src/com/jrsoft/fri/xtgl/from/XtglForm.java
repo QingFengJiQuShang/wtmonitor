@@ -1,4 +1,6 @@
 package com.jrsoft.fri.xtgl.from;
+import org.apache.struts.upload.FormFile;
+
 import com.jrsoft.fri.common.core.form.BaseForm;
 import com.jrsoft.fri.xtgl.entity.XtglAuthority;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
@@ -26,7 +28,7 @@ public class XtglForm  extends BaseForm{
 	private  XtglRegionUnit regionUnit=new XtglRegionUnit();
 	private  XtglPropertyUnit propertyUnit=new XtglPropertyUnit();
 	private  XtglMakeUnit makeUnit=new XtglMakeUnit();
-
+	private FormFile theFile; //нд╪Ч
 	
 	public XtglUsers getUsers() {
 		return users;
@@ -104,6 +106,14 @@ public class XtglForm  extends BaseForm{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public FormFile getTheFile() {
+		return theFile;
+	}
+
+	public void setTheFile(FormFile theFile) {
+		this.theFile = theFile;
 	}
 
 	

@@ -54,13 +54,40 @@
 	background: url(../../img/nomral.png);
 	background-size: 100% 100%;
 }
+.show .img .normal_green {
+	position: absolute;
+	top: 2%;
+	left: 3%;
+	padding: 4px 10px;
+	color: #fff;
+	background: url(../../img/nomral_green.png);
+	background-size: 100% 100%;
+}
+.show .img .normal_black {
+	position: absolute;
+	top: 2%;
+	left: 3%;
+	padding: 4px 10px;
+	color: #fff;
+	background: url(../../img/nomral_black.png);
+	background-size: 100% 100%;
+}
+.show .img .on_line_green {
+	position: absolute;
+	top: 2%;
+	right: 3%;
+	padding: 4px 10px;
+	color: #8e8c8c;
+	background: url(../../img/nomral_green.png);
+	background-size: 100% 100%;
+}
 .show .img .on_line {
 	position: absolute;
 	top: 2%;
 	right: 3%;
 	padding: 4px 10px;
 	color: #8e8c8c;
-	background: url(../../img/on_line.png);
+	background: url(../../img/nomral.png);
 	background-size: 100% 100%;
 }
 .show .img .up {
@@ -119,6 +146,7 @@
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+	height:323px;
 }
 .show .gu_info {
 	position: relative;

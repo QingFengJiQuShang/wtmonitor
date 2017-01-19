@@ -10,6 +10,10 @@
 	font-size: 20px;
 	color: #FFF;
 }
+.list_more {
+	width: 99%;
+	margin: 0 auto;
+}
 .back {
 	margin: 8px;
 	width: 57px;
@@ -30,60 +34,97 @@
 }
 /*电梯图片信息*/
 .show {
-	padding: 2% 2% 0 2%;
 	margin-top: 2%;
 }
 .show .img {
 	position: relative;
-	width: 32%;
+	width: 100%;
+}
+.list_more .one {
+	width: 39%;
+}
+.list_more .two {
+	width: 60%;	
 }
 .show .img img {
 	width: 100%;
 }
 .show .img .normal {
 	position: absolute;
-	top: 2%;
+	top: 6%;
 	left: 3%;
 	padding: 4px 10px;
+	font-size: 1rem;
 	color: #fff;
 	background: url(../../img/nomral.png);
 	background-size: 100% 100%;
 }
-.show .img .on_line {
+.show .img .normal_green {
 	position: absolute;
-	top: 2%;
+	top: 6%;
+	left: 3%;
+	padding: 4px 10px;
+	font-size: 1rem;
+	color: #fff;
+	background: url(../../img/nomral_green.png);
+	background-size: 100% 100%;
+}
+.show .img .normal_black {
+	position: absolute;
+	top: 6%;
+	left: 3%;
+	padding: 4px 10px;
+	font-size: 1rem;
+	color: #fff;
+	background: url(../../img/nomral_black.png);
+	background-size: 100% 100%;
+}
+.show .img .on_line_green {
+	position: absolute;
+	top: 6%;
 	right: 3%;
 	padding: 4px 10px;
-	color: #8e8c8c;
-	background: url(../../img/on_line.png);
+	font-size: 1rem;
+	color: #fff;
+	background: url(../../img/nomral_green.png);
+	background-size: 100% 100%;
+}
+.show .img .on_line {
+	position: absolute;
+	top: 6%;
+	right: 3%;
+	padding: 4px 10px;
+	font-size: 1rem;
+	color: #fff;
+	background: url(../../img/nomral.png);
 	background-size: 100% 100%;
 }
 .show .img .up {
 	position: absolute;
-	top: 3%;
+	top: 6%;
 	right: 30%;
-	width: 20px;
+	width: 2.5rem;
 }
 .show .img .down {
 	position: absolute;
-	top: 3%;
+	top: 6%;
 	left: 30%;
-	width: 20px;
+	width: 2.5rem;
 }
 
 .show .img .loding {
     position: absolute;
-	top: 2%;
+    top: 1%;
     bottom: 0;
     right: 0;
     left: 0;
-    width: 2rem;
-    height: 2rem;
+    width: 5rem;
+    height: 5rem;
     margin: 0 auto;
     text-align: center;
-    line-height: 2rem;
+    line-height: 5rem;
     color: #ff0000;
-    font-size: 1rem;
+    font-size: 2.5rem;
     background-image: url(../../img/dianti_lou.png);
     background-size: 100% 100%;
 }
@@ -93,41 +134,38 @@
 .img .or {
     position: absolute;
     top: -4%;
-    left: -76%;
+    left: -73%;
     bottom: 0;
     right: 0;
     margin: auto;
-    width: 8%;
+    width: 6%;
     height: 6rem;
     background-image: url(../../img/dianti_or.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
 /*电梯信息*/
-.show .dianti_info,
-.show .gu_info {
+.dianti_info,
+.gu_info {
 	position: relative;
-	width: 20%;
-	
-	margin-left: 8%;
+	width: 35%;
 	text-align: center;
 	border: 1px solid #cecece;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
-.show .gu_info {
+.gu_info {
 	position: relative;
-	width: 30%;
-	height:280px;
+	width: 55%;
 	margin-left: 8%;
 	border: 1px solid #cecece;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
 }
-.show .dianti_info h3,
-.show .gu_info h3 {
+.dianti_info h3,
+.gu_info h3 {
 	margin: -25px auto 0;
 	width: 100px;
 	padding: 12px 0;
@@ -138,48 +176,51 @@
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 }
-.show .dianti_info p,
-.show .gu_info p {
+.dianti_info p,
+.gu_info p {
 	padding: 7px 0;
-	font-size: 14px;
+	font-size: 1.2rem;
 }
-.show .gu_info p {
+ .gu_info p {
 	padding: 7px 5px;
 }
-.show .gu_info p span {
+.gu_info p span {
 	width: 44%;
 	padding: 0 5px;
 	text-align: left;
 }
-.show .gu_info p span img {
-    width: 12px;
+.gu_info p span img {
+    width: 1.1rem;
     margin-top: 5px;
 }
 /*文字解说*/
 .update {
-	width: 86%;
-	height: 70px;
+	width: 95.5%;
+	height: 100px;
 	text-align: right;
 	line-height: 70px;
 	margin: 0 auto;	
 	font-size: 16px;
 	color: #cdcdcd;
+	background-color: transparent;
 }
 .update button {
-	padding: 0.5% 2%;
-	border: 2px solid #0070be;
-	color: #0070be;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	background-color: #fff;
-    margin-left: 20px;
-    margin-top: 22px;
+    margin-top: 3%;
+    margin-left: 4%;
+    padding: 0.6% 2%;
+    color: #0070be;
+    font-size: 18px;
+    text-align: center;
+    border: 2px solid #0070be;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
     cursor: pointer;
+    background-color: #fff;
 }
 .details_info {
 	position: relative;
-	width: 86%;
+	width: 88%;
 	margin: 0 auto 40px;
 	padding: 1.5% 5%;
 	border: 1px solid #cdcdcd;
@@ -188,16 +229,17 @@
 	border-radius: 10px;
 }
 .details_info h3 {
-    margin-top: -4%;
-    width: 15%;
-    padding: 1% 0;
+    margin: -25px auto 0;
+    width: 100px;
+    padding: 12px 0;
     color: #fff;
     font-size: 20px;
     text-align: center;
+    text-align: ;
     background-color: #0070be;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-radius: 5px;	
+    border-radius: 5px;
 }
 .details_info h2 {
     margin-bottom: -4%;
@@ -212,12 +254,14 @@
     cursor: pointer;
 }
 .details_info ul {
-	margin-top: 10px;
+	margin-top: 30px;
 }
 .details_info li {
 	width: 50%;
 }
 .details_info li p {
 	padding: 5px 0;
-	font-size: 16px;
+	font-size: 1.2rem;
 }
+
+/*充值电梯信息*/

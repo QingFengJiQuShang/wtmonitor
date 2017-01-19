@@ -67,7 +67,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<p class="fl del">批量删除</p>&nbsp;&nbsp;
 						<%} %>
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
-			<!-- 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p> -->
+			 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p> 
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">

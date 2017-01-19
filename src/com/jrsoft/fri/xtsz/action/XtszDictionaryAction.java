@@ -45,13 +45,24 @@ public class XtszDictionaryAction extends DispatchAction {
 			request.setAttribute("list", list.get(0));
 		}else{
 			XtszDictionary dictionary=new XtszDictionary();
-			dictionary.setDictionary("0");
+			if(flag.equals("0")){
+				dictionary.setDictionary("0");
+				dictionary.setRemarks("刷新时间");
+			}else if(flag.equals("1")){
+				dictionary.setDictionary("10");
+				dictionary.setRemarks("单包流量");
+			}
 			dictionary.setFlag(flag);
-			dictionary.setRemarks("刷新时间");
 			request.setAttribute("list", dictionary);
 		}
 		
-		return	new ActionForward("/jsp/xtsz/refresh/refresh.jsp");
+		if(flag.equals("0")){
+			return	new ActionForward("/jsp/xtsz/refresh/refresh.jsp");
+		}else if(flag.equals("1")){
+			return	new ActionForward("/jsp/xtsz/flow/flow.jsp");
+		}else{
+			return	new ActionForward("/jsp/xtsz/refresh/refresh.jsp");
+		}
 		
 	}
 	/**
@@ -79,6 +90,7 @@ public class XtszDictionaryAction extends DispatchAction {
 		
 		return	new ActionForward("/dictionaryAction.do?method=findById&flag="+entity.getFlag());
 	}
+	
 	
 
 }

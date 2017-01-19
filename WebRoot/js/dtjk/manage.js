@@ -73,6 +73,9 @@ $(".recharge").click(function() {
 				len++;
 			}
 		})
+		 if(len==0 ){
+	 		alert("请选择");
+	 	}
 		 if(len>0 && confirm("确定为这 "+len+" 条电梯记录进行流量充值？")){
 	 		window.location.href="jsp/dtjk/manage/recharge.jsp?ids="+ids;
 	 	}

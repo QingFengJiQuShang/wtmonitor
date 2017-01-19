@@ -5,7 +5,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<html style="width: 300px;">
   <head>
     <base href="<%=basePath%>">
     
@@ -16,22 +16,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-			<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-			<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
-		</head>
-
-	<body>
-	<form id="form" action="<%=path %>/useUnitAction.do?method=addEntity" method="post"  encType="multipart/form-data">
+			<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="<%=path%>/css/upload.css" />
 		
-			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
-			<div class="table">
+		<!-- 引用控制层插件样式 -->
+		<link rel="stylesheet" href="<%=path %>/control/css/zyUpload.css" type="text/css">
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.7.2.js"></script></head>
+		<!-- 引用核心层插件 -->
+		<script type="text/javascript" src="<%=path %>/core/zyFile.js"></script>
+		<!-- 引用控制层插件 -->
+		<script type="text/javascript" src="<%=path %>/control/js/zyUpload.js"></script>
+		<!-- 引用初始化JS -->
+		<script type="text/javascript" src="<%=path %>/js/demo.js"></script>
+	<body style="width: 550px;padding-top: 50px;padding-left: 25px;">
+	<form id="form" action="<%=path %>/useUnitAction.do?method=exportIn" method="post"  encType="multipart/form-data">
+		<!-- 
+			<div id="demo" class="demo"></div>    -->
+			 		<div class="table">
 				<p class="add">文件上传</p>
-				<div class="table_con">
+				
+		<div class="table_con">
 					
 					<p class="fill">
 						<label for="name">选择上传文件&nbsp;:&nbsp;</label>
-						<input type="file"  />
+						<input type="file"  name="theFile"  style="opacity:0;position:absolute;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" onchange="document.getElementById('videoUrl_1').value=this.value"/>
+					<input id="videoUrl_1" type="text" value="选择文件" >
+					
 					</p>
+				
 					<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
@@ -41,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</form>
 	</body>
-	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
 <script type="text/javascript">
      function add(){
 		 	$('#form').submit();

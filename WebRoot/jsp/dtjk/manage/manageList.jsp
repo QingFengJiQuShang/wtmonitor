@@ -61,8 +61,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						<p class="fl recharge">充值流量</p>
-						<p class="fl batch" style="width:150xp;">批量添加服务费</p>
+						<p class="fl recharge" style="width:80px;">充值流量</p>
+						<p class="fl batch" style="width:110px;">批量添加服务费</p>
 					</div>
 				<div class="table">
 					
@@ -80,12 +80,14 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>电梯品牌</th>
 							<th>电梯层数</th>
 							<th>电梯状态</th>
-							
+							<th>剩余流量(M)</th>
+							<th>上报周期</th>
+							<th>白名单</th>
 							<th>维保记录数</th>
 							<th>年检记录数</th>
-							<th>白名单</th>
-							<th>上报周期</th>
-							<th>剩余流量</th>
+							
+							
+							
 							<th>服务费记录数</th>
 							<th>操作</th>
 							</thead>
@@ -103,12 +105,13 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.brand}</td>
 									<td>${list.numbers}</td>
 									<td>${list.state}</td>
+									<td>${list.flowSurplus}M<!-- <a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a> --></td>
+									<td  style="color: blue; " <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','3');"   <%} %>>${list.period}s</td>
+									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
 									<td><a href="<%=path %>/recordsAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numRecords}</a></td>
 									<td><a href="<%=path %>/inspectionAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numYearly}</a></td>
 									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
-									<td  style="color: blue; " <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','3');"   <%} %>>${list.period}s</td>
-									<td><a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a></td>
-									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
+									
 									
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
