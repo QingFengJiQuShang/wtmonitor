@@ -17,6 +17,7 @@ public class DtjkPush implements java.io.Serializable {
 	private String installPlace;		//安装地点
 	private String faultType;	//故障类型
 	private String flag;			//是否提醒  0 未提醒  1正在提醒  2已提醒
+	private String code; 				//故障代码
 
 	// Constructors
 
@@ -27,13 +28,14 @@ public class DtjkPush implements java.io.Serializable {
 	/** full constructor */
 	public DtjkPush(DtjkElevator elevatorId, String registerid,
 			String distinguishid, String installPlace, String faultType,
-			String flag) {
+			String flag, String code) {
 		this.elevatorId = elevatorId;
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.installPlace = installPlace;
 		this.faultType = faultType;
 		this.flag = flag;
+		this.code=code;
 	}
 
 	// Property accessors
@@ -92,6 +94,14 @@ public class DtjkPush implements java.io.Serializable {
 
 	public void setFlag(String flag) {
 		this.flag = flag;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }

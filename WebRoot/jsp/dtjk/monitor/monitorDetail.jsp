@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 function myrefresh(){
 			window.location.reload();
 		}
-		//setTimeout('myrefresh()',${dictionarie.dictionary*1000}); //指定30秒刷新一次s
+		setTimeout('myrefresh()',${dictionarie.dictionary*1000}); //指定30秒刷新一次s
 </script>
 	</head>
 

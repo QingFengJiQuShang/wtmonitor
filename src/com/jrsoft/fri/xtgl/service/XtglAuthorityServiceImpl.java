@@ -34,6 +34,12 @@ public class XtglAuthorityServiceImpl  extends BaseServiceImpl<XtglAuthority> im
 		
 		return authorityDao.getByMessage(key);
 	}
+
+	@Override
+	public boolean getByPush(String key) {
+		
+		return authorityDao.getByPush(key);
+	}
 	
 
 }

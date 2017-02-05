@@ -173,7 +173,6 @@ public class DtjkRecordAction extends DispatchAction {
 		 }
 
 		Page  page=new Page();
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{

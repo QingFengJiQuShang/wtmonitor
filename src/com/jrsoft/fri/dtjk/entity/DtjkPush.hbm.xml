@@ -30,5 +30,8 @@
         <property name="flag" type="java.lang.String">
             <column name="FLAG" length="200" />
         </property>
+         <property name="code" type="java.lang.String">
+            <column name="CODE" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

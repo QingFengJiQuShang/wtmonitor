@@ -12,6 +12,7 @@ import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
 import com.jrsoft.fri.xtgl.entity.XtglSafeUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
+import com.jrsoft.fri.xtsz.entity.XtszDictionary;
 
 public class XtglForm  extends BaseForm{
 	
@@ -28,6 +29,8 @@ public class XtglForm  extends BaseForm{
 	private  XtglRegionUnit regionUnit=new XtglRegionUnit();
 	private  XtglPropertyUnit propertyUnit=new XtglPropertyUnit();
 	private  XtglMakeUnit makeUnit=new XtglMakeUnit();
+	private XtszDictionary dictionary=new XtszDictionary();
+
 	private FormFile theFile; //нд╪Ч
 	
 	public XtglUsers getUsers() {
@@ -114,6 +117,14 @@ public class XtglForm  extends BaseForm{
 
 	public void setTheFile(FormFile theFile) {
 		this.theFile = theFile;
+	}
+
+	public XtszDictionary getDictionary() {
+		return dictionary;
+	}
+
+	public void setDictionary(XtszDictionary dictionary) {
+		this.dictionary = dictionary;
 	}
 
 	

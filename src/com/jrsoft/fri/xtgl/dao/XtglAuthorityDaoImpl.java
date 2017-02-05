@@ -52,4 +52,18 @@ public class XtglAuthorityDaoImpl  extends BaseDaoImpl< XtglAuthority, String> i
 		}
 	}
 
+	@Override
+	public boolean getByPush(String key) {
+		String hql = " from XtglAuthority e where ( e.flag='2'  )  and e.key=:key ";
+		Query q = this.getSession(true).createQuery(hql);
+		q.setString("key", key);
+		Object rs = q.uniqueResult();
+		XtglAuthority user = null;
+		if(rs!=null){
+			user = (XtglAuthority)rs;
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

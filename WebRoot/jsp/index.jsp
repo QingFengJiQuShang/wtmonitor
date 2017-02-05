@@ -1,12 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtsz.action.Dictionary"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 			XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+			String dictionary=Dictionary.getDictionary("2");
 %>
 <!DOCTYPE html>
 <html>
@@ -140,6 +142,9 @@ function toMain(flag){
 		   if(flag==68){
 			   window.main.location="<%=path%>/dictionaryAction.do?method=findById&flag=1";
 		   }
+		   if(flag==69){
+			   window.main.location="<%=path%>/usersAction.do?method=findByAlarm";
+		   }
 		    if(flag==71){
 			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=1";
 		   }
@@ -229,6 +234,8 @@ function toMain(flag){
 					<i class=""></i>系统设置</p>
 				<div class="next">
 					<p	 class="two"  onclick="toMain('61')">操作日志</p>
+					
+					<p	 class="two"  onclick="toMain('69')">报警控制</p>
 					<p	 class="two"  onclick="toMain('62')">通信日志</p>
 					<p	 class="two"  onclick="toMain('63')">系统帮助</p>
 					<p	 class="two"  onclick="toMain('64')">短信警告</p>
@@ -236,6 +243,7 @@ function toMain(flag){
 					<p	 class="two"  onclick="toMain('66')">短信日志</p>
 					<p	 class="two"  onclick="toMain('67')">刷新时间</p>
 					<p	 class="two"  onclick="toMain('68')">单包流量</p>
+					<p	 class="two"  onclick="toMain('69')">报警控制</p>
 				</div>
 			</li>
 			<li class="list-item">
@@ -287,11 +295,10 @@ function toMain(flag){
 		
 var g=function(id){return document.getElementById(id)};
 
-	//setInterval('push()',10000); //指定30秒刷新一次s
+	setInterval('push()',10*1000); //指定30秒刷新一次s
 
 	function push (){
 		var pushId= document.getElementById("pushId").value;
-		if(pushId==""){
 			$.ajax({
 				 mtype:'post',
 				 url: '<%=path%>/pushAction.do?method=push',
@@ -302,6 +309,7 @@ var g=function(id){return document.getElementById(id)};
 				          for(var i=0;i<json.length;i++){
 				        	  var msg=new sheyMsg("msgbox",{
 								    showDelay:1,
+								    autoHide:<%=dictionary%>,
 								    onHide:clsoePush
 								});
 				        	  	g("msgclose").onclick=function() {//hide
@@ -311,13 +319,13 @@ var g=function(id){return document.getElementById(id)};
 				         	  document.getElementById('news').innerHTML ="注册号："+json[0].registerid+"<br/>识别码："+json[0].distinguishid+"<br/>安装地址："+json[0].installPlace+"<br/>"+json[0].faultType+"<br/><br/>";
 				          	  document.getElementById('music').play();		//开始播放
 				          }
-				          
+				         // setTimeout(msg.hide(),<%=dictionary%>*1000); 
+				         // window.clearTimeout(t1);//去掉定时器 
 				  },
 				  error: function(result){
 							alert("操作失败!");
 					}
 		 });
-		}
 		
 		
 	}
@@ -337,7 +345,7 @@ var g=function(id){return document.getElementById(id)};
 							alert("操作失败!");
 					}
 		 });
-		
+		document.getElementById("pushId").value=="";
 	}
 	
 	 

@@ -24,11 +24,22 @@ import com.jrsoft.fri.xtgl.from.XtglForm;
 import com.jrsoft.fri.xtgl.service.XtglAuthorityService;
 import com.jrsoft.fri.xtgl.service.XtglUsersService;
 import com.jrsoft.fri.xtsz.action.Log;
+import com.jrsoft.fri.xtsz.entity.XtszDictionary;
+import com.jrsoft.fri.xtsz.from.XtszFrom;
+import com.jrsoft.fri.xtsz.service.XtszDictionaryService;
 
 public class XtglUsersAction extends DispatchAction {
 	private XtglUsersService usersService;
 	private XtglAuthorityService authorityService;
+	private XtszDictionaryService dictionaryService;
 
+	public XtszDictionaryService getDictionaryService() {
+		return dictionaryService;
+	}
+
+	public void setDictionaryService(XtszDictionaryService dictionaryService) {
+		this.dictionaryService = dictionaryService;
+	}
 	public XtglUsersService getUsersService() {
 		return usersService;
 	}
@@ -335,7 +346,77 @@ public class XtglUsersAction extends DispatchAction {
 			return	new ActionForward("/usersAction.do?method=findByMessage");
 	}
 	
-	
+	/**
+	 * 编辑 查看 报警控制
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  findByAlarm(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		
+		String hql=" where 1=1 and  flag='2'  ";
+		List<XtglAuthority> authority=authorityService.query(hql);
+		request.setAttribute("authority", authority);
+		String flag="2";
+		String hql1=" where flag='"+flag+"'";
+		List<XtszDictionary> list=dictionaryService.query(hql1);
+		if(list.size()>0){
+			request.setAttribute("list", list.get(0));
+		}else{
+			XtszDictionary dictionary=new XtszDictionary();
+			dictionary.setDictionary("180");
+			dictionary.setRemarks("首页报警弹窗提醒时间");
+			dictionary.setFlag(flag);
+			request.setAttribute("list", dictionary);
+		}
+		
+		return	new ActionForward("/jsp/xtsz/alarm/alarm.jsp");
+	}
+	/**
+	 * 修改报警控制
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  updateAlarm (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		
+			//删除已有的权限
+			String sql="delete xtgl_authority where  flag='2'   ";
+			DBEntity.getInstance().executeSql(sql);
+			//重新保存权限
+			String [] authority=request.getParameterValues("authority");
+			if(authority!=null){			
+				for(String key:authority){
+					XtglAuthority xtglAuthority=new XtglAuthority();
+					xtglAuthority.setKey(key);
+					xtglAuthority.setFlag("2");
+					authorityService.save(xtglAuthority);
+				}
+			}
+			XtglForm from=(XtglForm)form;
+			XtszDictionary entity =from.getDictionary();
+			String hql=" where flag='"+entity.getFlag()+"'";
+			List<XtszDictionary> list=dictionaryService.query(hql);
+			if(list.size()>0){			
+				//修改
+				XtszDictionary dictionary=list.get(0);
+				dictionary.setDictionary(entity.getDictionary());
+				dictionaryService.update(dictionary);
+			}else{
+				//新增
+				dictionaryService.save(entity);
+			}
+			
+			//生成 操作日志
+			XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+			Log log=new Log();
+	        log.addLog(user.getName(), "修改报警控制", "1");
+			return	new ActionForward("/usersAction.do?method=findByAlarm");
+	}
 	/**
 	 * 删除区域
 	 * @param request

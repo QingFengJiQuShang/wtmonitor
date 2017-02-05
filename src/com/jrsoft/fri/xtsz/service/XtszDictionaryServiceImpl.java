@@ -16,4 +16,10 @@ public class XtszDictionaryServiceImpl  extends BaseServiceImpl<XtszDictionary> 
 		this.dictionaryDao = dictionaryDao;
 	}
 
+	@Override
+	public String getDictionary(String flag) {
+
+		return dictionaryDao.getDictionary(flag);
+	}
+
 }

@@ -11,6 +11,7 @@
 	<bean name="/usersAction" class="com.jrsoft.fri.xtgl.action.XtglUsersAction">
 		<property name="usersService" ref="usersService" />
 		<property name="authorityService"  ref="authorityService" />
+		<property name="dictionaryService" ref="dictionaryService" />
 	</bean>
 	<bean id="usersService" class="com.jrsoft.fri.xtgl.service.XtglUsersServiceImpl">
 		<property name="usersDao"  ref="usersDao" />

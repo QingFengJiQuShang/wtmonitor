@@ -1,34 +1,25 @@
 package com.jrsoft.fri.dtjk.action;
-
-
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.json.JSONObject;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-
 import smart.sys.platform.dao.DBEntity;
-
 import com.jrsoft.fri.common.utils.JsonUtil;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.from.Index;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
+import com.jrsoft.fri.xtsz.service.XtszDictionaryService;
 
 public class IndexAction  extends DispatchAction{
 	private DtjkElevatorService elevatorService;
-
 	public DtjkElevatorService getElevatorService() {
 		return elevatorService;
 	}
@@ -37,6 +28,7 @@ public class IndexAction  extends DispatchAction{
 		this.elevatorService = elevatorService;
 	}
 	
+
 	/**
 	 * 查询 首页
 	 * @param request
@@ -108,6 +100,11 @@ public class IndexAction  extends DispatchAction{
 		index.setOffLineNum(elevators2.size());
 		//故障电梯数量
 		index.setFaultNum(elevators1.size());
+		//维保电梯数量
+		String hql3=" where  1=1 and state='维保'  and delflag!='1'  " ;
+		List<DtjkElevator> elevators3=elevatorService.queryAll(hql3);
+		index.setMaintenanceNum1(elevators3.size());
+		//维保过期电梯数量
 		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar c = Calendar.getInstance();

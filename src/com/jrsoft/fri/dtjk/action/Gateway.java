@@ -203,7 +203,7 @@ public class Gateway {
 				if(elevators.size()>0){
     				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
     				//修改电梯离线状态为正常状态
-    				if(entity.getState().equals("离线")||entity.getState().equals("维保")){
+    				if(entity.getState().equals("离线")||entity.getState().equals("维保")||entity.getState().equals("故障")){
     					entity.setReportTime(new Date());
     					entity.setState("正常");
     					elevatorService.update(entity);
@@ -391,15 +391,20 @@ public class Gateway {
 					list=elevators.get(0);
 					list.setState("故障");
 					elevatorService.update(list);	//修改电梯运行状态
-					push.setRegisterid(elevatorId);
-					push.setDistinguishid(serialNumber);
-					push.setInstallPlace(list.getInstallPlace());
-					push.setFaultType(command);
-					push.setFlag("0");
-					pushService.save(push);		//生成提醒记录
+					String key="bjkz_"+types;
+					//判断该报警类型是否拥有首页弹窗提醒权限
+					if(Authority.getByPush(key)){
+						push.setRegisterid(elevatorId);
+						push.setDistinguishid(serialNumber);
+						push.setInstallPlace(list.getInstallPlace());
+						push.setFaultType(command);
+						push.setFlag("0");
+						push.setCode(types);
+						pushService.save(push);		//生成提醒记录
+					}
+					
 				}else{
 					fault.setElevatorId(null);//维保电梯Id
-					push.setElevatorId(null);
 				}
 				faultService.save(fault);		//生成当前故障
 				

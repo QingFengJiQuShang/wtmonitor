@@ -32,7 +32,7 @@
 			<p class="select" >
 				区域：<select id="province" name="province"  onclick="theLocation('province');"></select>
 				<select id="city" name="city"	 onclick="theLocation('city');"></select>
-				<select id="area" name="area"  style="display: none;"></select>
+				<select id="area" name="area"  onclick="theLocation('area');" ></select>
 				地址：<input type="text" id="suggestId" size="20" value="" style="width:150px;height: 30px;" />
 				
 				注册号：<input type="text" id="registerid"  onblur="byId();"  size="20" value="" style="width:150px;height: 30px;" />
@@ -52,7 +52,7 @@
 					<p class="name">在线电梯电梯数量</p>
 					<p class="num">${index.normalNum}</p>
 					<p>
-						<img src="<%=path %>/img/blue.png" alt="" />	
+						<img src="<%=path %>/img/green_small.png" alt="" />	
 					</p>
 				</li>
 				<li class="fl list-item">
@@ -70,17 +70,24 @@
 					</p>
 				</li>
 				<li class="fl list-item">
+					<p class="name">维保数量</p>
+					<p class="num">${index.maintenanceNum1}</p>
+					<p>
+						<img src="<%=path %>/img/black_small.png" alt="" />	
+					</p>
+				</li>
+				<li class="fl list-item">
 					<p class="name">维保过期数量</p>
 					<p class="num">${index.maintenanceNum}</p>
 					<p>
-						<img src="<%=path %>/img/rose_red.png" alt="" />	
+						<img src="<%=path %>/img/orange_small.png" alt="" />	
 					</p>
 				</li>
 				<li class="fl list-item">
 					<p class="name">未年检电梯数量</p>
 					<p class="num">${index.yearlyNum}</p> 
 					<p>
-						<img src="<%=path %>/img/orange_small.png" alt="" />	
+						<img src="<%=path %>/img/rose_red.png" alt="" />	
 					</p>
 				</li> 
 				<!-- 

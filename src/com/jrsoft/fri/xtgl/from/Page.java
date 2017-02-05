@@ -7,7 +7,7 @@ public class Page {
 	//当前页数
 	private int pageNum;
 	//每页显示数
-	private int pageSize=5;
+	private int pageSize=10;
 	//总页数
 	private int countSize;
 	

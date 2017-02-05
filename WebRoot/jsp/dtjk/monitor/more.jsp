@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 function myrefresh(){
 			window.location.reload();
 		}
-		//setTimeout('myrefresh()',${dictionarie.dictionary*1000}); //指定30秒刷新一次s
+		setTimeout('myrefresh()',${dictionarie.dictionary*1000}); //指定30秒刷新一次s
 </script>
 	</head>
 
@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									
 									<span class="loding">${list.record.floor }</span>
 									<span class="or dianti_down"></span>
-									<c:if test="${list.record.direction!='上行'}">
+									<c:if test="${list.record.direction=='上行'}">
 									<img class="up" src="<%=path %>/img/arrow_down_gray.png">
 									<img class="down" src="<%=path %>/img/arrow_up_red.png">
 									</c:if>
@@ -67,10 +67,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<img class="up" src="<%=path %>/img/arrow_down_gray.png">
 									<img class="down" src="<%=path %>/img/arrow_up.png">
 									</c:if>
-									
-									<c:if test="${list.record.door!='关门'}"><img src="<%=path %>/img/close.png" alt="" /></c:if>
-									<c:if test="${list.record.door=='关门'}"><img src="<%=path %>/img/close01.png" alt="" /></c:if>
-									
+									<c:if test="${list.record.door!='关门' and list.record.people=='有人'}"><img src="<%=path %>/img/close.png" alt="" /></c:if>
+									<c:if test="${list.record.door!='关门' and list.record.people!='有人'}"><img src="<%=path %>/img/close01.png" alt="" /></c:if>
+									<c:if test="${list.record.door=='关门'}"><img src="<%=path %>/img/dianti.png" alt="" /></c:if>
+								
 								</li>
 								<li class="fl dianti_info">
 									<h3>电梯状态</h3>

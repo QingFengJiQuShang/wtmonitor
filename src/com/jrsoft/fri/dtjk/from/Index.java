@@ -4,6 +4,7 @@ public class Index {
 	private int normalNum;			//正常电梯数量
 	private int offLineNum;			//离线电梯数量
 	private int faultNum;				//故障电梯数量
+	private int maintenanceNum1;				//维保电梯数量
 	private int maintenanceNum;//维保过期电梯数量
 	private int yearlyNum;				//未年检电梯数量
 	
@@ -38,6 +39,12 @@ public class Index {
 	}
 	public void setYearlyNum(int yearlyNum) {
 		this.yearlyNum = yearlyNum;
+	}
+	public int getMaintenanceNum1() {
+		return maintenanceNum1;
+	}
+	public void setMaintenanceNum1(int maintenanceNum1) {
+		this.maintenanceNum1 = maintenanceNum1;
 	}
 	
 	
