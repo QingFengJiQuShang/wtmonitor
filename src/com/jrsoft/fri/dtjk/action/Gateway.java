@@ -41,7 +41,9 @@ import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
 import com.jrsoft.fri.xtgl.action.Authority;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
+import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
 import com.jrsoft.fri.xtsz.action.Log;
 import com.jrsoft.fri.xtsz.action.Message;
 import com.jrsoft.fri.xtsz.entity.XtszLog;
@@ -55,6 +57,7 @@ public class Gateway {
 	private static GzclFaultService faultService = (GzclFaultService)SpringBeanUtil.getBean("gzclFaultService");
 	private static DtjkPhoneService phoneService = (DtjkPhoneService)SpringBeanUtil.getBean("phoneService");
 	private static DtjkPushService pushService = (DtjkPushService)SpringBeanUtil.getBean("pushService");
+	private static XtglUseUnitService useUnitService = (XtglUseUnitService)SpringBeanUtil.getBean("useUnitService");
 
 	
 	public static DtjkGatewayService getGatewayService() {
@@ -400,6 +403,11 @@ public class Gateway {
 						push.setFaultType(command);
 						push.setFlag("0");
 						push.setCode(types);
+						System.out.println(list.getUseUnitId().getId());
+						XtglUseUnit unit=useUnitService.get(list.getUseUnitId().getId());
+						push.setUseUnitName(unit.getName());
+						System.out.println(unit.getName());
+						push.setAlarmTime(d.format(fault.getHappenTime()));
 						pushService.save(push);		//生成提醒记录
 					}
 					

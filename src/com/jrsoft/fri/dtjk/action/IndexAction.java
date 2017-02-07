@@ -1,5 +1,9 @@
 package com.jrsoft.fri.dtjk.action;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +19,9 @@ import com.jrsoft.fri.common.utils.JsonUtil;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.from.Index;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
+import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
+import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtsz.service.XtszDictionaryService;
 
 public class IndexAction  extends DispatchAction{
@@ -121,6 +127,60 @@ public class IndexAction  extends DispatchAction{
 		 n=DBEntity.getInstance().queryDataCount(sql);
 		index.setYearlyNum(n);
 		request.setAttribute("index", index);
+		
+		//最新故障列表
+		String num=request.getParameter("num");   //当前页
+		Page  page=new Page();
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		page.setPageSize(5);
+		List<GzclFault> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+		//查询服务订单
+		 sql="select de.*,e.registerid as registerid,e.distinguishid as distinguishid,e.install_place as place ,xu.name as username,xuu.name as useUnitName  " +
+				" from gzcl_fault de " +
+				" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
+				" left join xtgl_users xu on xu.id=de.duty_id "+  //电梯信息
+				" left join xtgl_use_unit xuu on xuu.id=e.use_unit_id "+  //使用单位
+				"where  1=1   and de.state='处理中' order by de.happen_Time desc";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
+				page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<GzclFault>();
+				while(rs.next()){
+					GzclFault useUnit=new GzclFault();
+					useUnit.setId(rs.getLong("id"));
+					useUnit.setFault(rs.getString("fault"));
+					useUnit.setHandle(rs.getString("handle"));
+					useUnit.setHappenTime(rs.getString("happen_Time")==null?null:df.parse(rs.getString("happen_Time")));
+					useUnit.setAlarmTime(rs.getString("alarm_Time")==null?null:df.parse(rs.getString("alarm_Time")));
+					useUnit.setArriveTime(rs.getString("arrive_Time")==null?null:df.parse(rs.getString("arrive_Time")));
+					useUnit.setSuccessTime(rs.getString("success_Time")==null?null:df.parse(rs.getString("success_Time")));
+					useUnit.setRegisterid(rs.getString("registerid"));
+					useUnit.setDistinguishid(rs.getString("distinguishid"));
+					useUnit.setPlace(rs.getString("place"));
+					useUnit.setDutyName(rs.getString("username"));
+					useUnit.setNumbers(rs.getString("numbers"));
+					useUnit.setState(rs.getString("state"));
+					useUnit.setUseUnitName(rs.getString("useUnitName"));
+					useUnit.setFaultType(rs.getString("fault_Type"));
+					
+					list.add(useUnit);
+					
+				}
+				
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+		
+		
 		 return	new ActionForward("/jsp/home/main.jsp");
 	}
 	/**
@@ -157,7 +217,7 @@ public class IndexAction  extends DispatchAction{
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
-		c.add(Calendar.MINUTE, -10);							//10分钟前
+		c.add(Calendar.MINUTE, -3);							//3分钟前
 		String sql="update DTJK_ELEVATOR set   state='离线' where ( state='正常' or  state is null ) and ( report_Time is null or report_Time<=to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')  ) and delflag!='1'  ";
 		DBEntity.getInstance().executeSql(sql);
 		

@@ -33,11 +33,11 @@
     .blue .center {background:url(<%=path%>/img/center_bg_blue.gif) repeat-y;}
     
     .msg .top{width:240px;height:25px;position:relative;}
-    .msg .top .title {background-position:-195px -70px;padding-left:30px;line-height:22px;width:100px;height:25px;}
+    .msg .top .title {/*background-position:-195px -70px;*/padding-left:10px;line-height:22px;width:100px;height:25px;}
     .msg .top span {background-position:0px -70px;width:36px; height:17px;position:absolute;top:1px;left:198px;cursor:pointer;}
     .msg .top span:hover {background-position:-43px -71px;}
 
-    .msg .center { width:240px;height:115px;}
+    .msg .center { width:240px;height:155px;}
     .msg .center h3{color:#0c4e7c;text-align:center;line-height:23px;font-size:13px;}
     .msg .center p{color: #0c4e7c;margin:0px 10px;line-height:20px;}
 
@@ -295,7 +295,7 @@ function toMain(flag){
 		
 var g=function(id){return document.getElementById(id)};
 
-	setInterval('push()',10*1000); //指定30秒刷新一次s
+	//setInterval('push()',10*1000); //指定30秒刷新一次s
 
 	function push (){
 		var pushId= document.getElementById("pushId").value;
@@ -316,7 +316,7 @@ var g=function(id){return document.getElementById(id)};
 									msg.hide();
 								}
 				        	  document.getElementById('pushId').value=json[0].id;
-				         	  document.getElementById('news').innerHTML ="注册号："+json[0].registerid+"<br/>识别码："+json[0].distinguishid+"<br/>安装地址："+json[0].installPlace+"<br/>"+json[0].faultType+"<br/><br/>";
+				         	  document.getElementById('news').innerHTML ="注册号："+json[0].registerid+"<br/>识别码："+json[0].distinguishid+"<br/>使用单位："+json[0].useUnitName+"<br/>安装地址："+json[0].installPlace+"<br/>报警时间："+json[0].alarmTime+"<br/>"+json[0].faultType+"<br/><br/>";
 				          	  document.getElementById('music').play();		//开始播放
 				          }
 				         // setTimeout(msg.hide(),<%=dictionary%>*1000); 

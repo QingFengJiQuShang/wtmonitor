@@ -18,6 +18,8 @@ public class DtjkPush implements java.io.Serializable {
 	private String faultType;	//故障类型
 	private String flag;			//是否提醒  0 未提醒  1正在提醒  2已提醒
 	private String code; 				//故障代码
+	private String alarmTime;	//报警时间
+	private String useUnitName; //使用单位
 
 	// Constructors
 
@@ -28,7 +30,7 @@ public class DtjkPush implements java.io.Serializable {
 	/** full constructor */
 	public DtjkPush(DtjkElevator elevatorId, String registerid,
 			String distinguishid, String installPlace, String faultType,
-			String flag, String code) {
+			String flag, String code,String alarmTime,String useUnitName) {
 		this.elevatorId = elevatorId;
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
@@ -36,6 +38,9 @@ public class DtjkPush implements java.io.Serializable {
 		this.faultType = faultType;
 		this.flag = flag;
 		this.code=code;
+		this.alarmTime=alarmTime;
+		this.useUnitName=useUnitName;
+		
 	}
 
 	// Property accessors
@@ -102,6 +107,22 @@ public class DtjkPush implements java.io.Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getAlarmTime() {
+		return alarmTime;
+	}
+
+	public void setAlarmTime(String alarmTime) {
+		this.alarmTime = alarmTime;
+	}
+
+	public String getUseUnitName() {
+		return useUnitName;
+	}
+
+	public void setUseUnitName(String useUnitName) {
+		this.useUnitName = useUnitName;
 	}
 
 }

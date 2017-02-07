@@ -60,6 +60,8 @@ public class DtjkPushAction  extends DispatchAction{
 				cell.put("distinguishid", elevator.getDistinguishid()==null?"":elevator.getDistinguishid());		//识别码
 				cell.put("installPlace", elevator.getInstallPlace()==null?"":elevator.getInstallPlace());		//安装地点
 				cell.put("faultType", elevator.getFaultType()==null?"":elevator.getFaultType());		//故障类型
+				cell.put("alarmTime", elevator.getAlarmTime()==null?"":elevator.getAlarmTime());		//故障类型
+				cell.put("useUnitName", elevator.getUseUnitName()==null?"":elevator.getUseUnitName());		//故障类型
 				//修改提醒状态
 				elevator.setFlag("1");
 				pushService.update(elevator);

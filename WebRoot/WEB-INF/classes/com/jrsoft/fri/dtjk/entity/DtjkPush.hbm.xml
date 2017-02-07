@@ -33,5 +33,11 @@
          <property name="code" type="java.lang.String">
             <column name="CODE" length="200" />
         </property>
+        <property name="alarmTime" type="java.lang.String">
+            <column name="ALARM_TIME" length="200" />
+        </property>
+        <property name="useUnitName" type="java.lang.String">
+            <column name="USE_UNIT_NAME" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

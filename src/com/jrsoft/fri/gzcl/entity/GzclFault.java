@@ -35,6 +35,7 @@ public class GzclFault implements java.io.Serializable {
 	private String dutyName; //÷µ∞‡»À–’√˚
 	private String begintime;
 	private String endtime;
+	private String useUnitName;
 	
 	/** default constructor */
 	public GzclFault() {
@@ -228,6 +229,18 @@ public class GzclFault implements java.io.Serializable {
 
 	public void setFaultType(String faultType) {
 		this.faultType = faultType;
+	}
+
+	public String getUseUnitName() {
+		return useUnitName;
+	}
+
+	public void setUseUnitName(String useUnitName) {
+		this.useUnitName = useUnitName;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

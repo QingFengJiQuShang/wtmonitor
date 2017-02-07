@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -23,13 +26,14 @@
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/map/map.css" />
+				<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
+		
 		</head>
 	
 	<body>
 	
 		<div class="con"  id="con">
-		
-			<p class="select" >
+			<p class="select " >
 				区域：<select id="province" name="province"  onclick="theLocation('province');"></select>
 				<select id="city" name="city"	 onclick="theLocation('city');"></select>
 				<select id="area" name="area"  onclick="theLocation('area');" ></select>
@@ -38,12 +42,6 @@
 				注册号：<input type="text" id="registerid"  onblur="byId();"  size="20" value="" style="width:150px;height: 30px;" />
 			</p>
 			<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-			<html>
-
-
-				
-			
-			
 			
 			<div id="allmap"  ></div>
 			
@@ -99,7 +97,44 @@
 					</p>
 				</li> -->
 			</ul>
+			<div class="table_con" >
+						<table border="" cellspacing="" cellpadding="">
+							<thead>
+								<th class="all">
+									<i></i>
+								</th>
+							<th>序列</th>
+								<th>电梯注册号</th>
+								<th>识别码</th>
+								<th>使用单位</th>
+								<th>安装地址</th>
+								<th>故障时间</th>
+								<th>故障类型</th>
+								<th>故障状态</th>
+							</thead>
+							<tbody>
+							<c:forEach items="${list}" var="list" varStatus="s">
+								<tr>
+									<td class="wei">
+										<i class=""><input type="hidden" value="${list.id}" /></i>
+									</td>
+									<td>${s.index + 1 }</td>
+									<td><a href="<%=path %>/faultAction.do?method=findById&id=${list.id}&flag=2"   style="color: blue; ">${list.registerid}</a></td>
+									<td>${list.distinguishid }</td>
+									<td>${list.useUnitName }</td>
+									<td>${list.place }</td>
+									<td><fmt:formatDate value="${list.happenTime }"  pattern='yyyy-MM-dd HH:mm:ss'/></td>
+									<td>${list.faultType}</td>
+									<td>${list.state }</td>
+								</tr>
+								</c:forEach>
+								
+							</tbody>
+						</table>
+					</div>
 		</div>
+	
+		
 	</body>
 	<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/comm.js" type="text/javascript" charset="utf-8"></script>
