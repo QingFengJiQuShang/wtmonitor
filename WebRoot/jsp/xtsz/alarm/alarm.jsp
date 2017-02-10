@@ -150,10 +150,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 							<input type="checkbox" name="authority" id="or_stop"  value="bjkz_10"/>
 							<label for="or_stop">非平层开门</label>
 						</p>
-						<p class="fl">
+				<!-- 		<p class="fl">
 							<input type="checkbox" name="authority" id="send"  value="bjkz_00"/>
 							<label for="or_stop">自动发送</label>
-						</p>
+						</p> -->
 					</div>
 				</div>
 				<div class="level">

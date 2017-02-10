@@ -145,6 +145,9 @@ function toMain(flag){
 		   if(flag==69){
 			   window.main.location="<%=path%>/usersAction.do?method=findByAlarm";
 		   }
+		   if(flag==610){
+			   window.main.location="<%=path%>/dictionaryAction.do?method=findByTemplate&flag=4";
+		   }
 		    if(flag==71){
 			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=1";
 		   }
@@ -207,7 +210,7 @@ function toMain(flag){
 				<p class="one grade"   >
 					<i class=""></i>单位管理</p>
 				<div class="next">
-					<p	 class="two"  onclick="toMain('31')">系统用户</p>
+					
 					<p	 class="two"  onclick="toMain('32')">使用单位</p>
 					<p	 class="two"  onclick="toMain('33')">维保单位</p>
 					<p	 class="two"  onclick="toMain('34')">救援单位</p>
@@ -233,12 +236,12 @@ function toMain(flag){
 				<p class="one grade"   >
 					<i class=""></i>系统设置</p>
 				<div class="next">
+					<p	 class="two"  onclick="toMain('31')">系统用户</p>
 					<p	 class="two"  onclick="toMain('61')">操作日志</p>
-					
-					<p	 class="two"  onclick="toMain('69')">报警控制</p>
 					<p	 class="two"  onclick="toMain('62')">通信日志</p>
 					<p	 class="two"  onclick="toMain('63')">系统帮助</p>
-					<p	 class="two"  onclick="toMain('64')">短信警告</p>
+					<p	 class="two"  onclick="toMain('610')">短信模板</p>
+					<p	 class="two"  onclick="toMain('64')">短信提醒</p>
 					<p	 class="two"  onclick="toMain('65')">短信权限</p>
 					<p	 class="two"  onclick="toMain('66')">短信日志</p>
 					<p	 class="two"  onclick="toMain('67')">刷新时间</p>

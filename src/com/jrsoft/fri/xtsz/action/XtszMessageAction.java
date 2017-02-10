@@ -21,6 +21,7 @@ import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.common.utils.StringUtils;
 import com.jrsoft.fri.xtgl.entity.XtglAuthority;
+import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
@@ -38,6 +39,25 @@ public class XtszMessageAction  extends DispatchAction {
 
 	public void setMessageService(XtszMessageService messageService) {
 		this.messageService = messageService;
+	}
+	
+	/**
+	 * 新增 短信信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  addEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+		XtszFrom from=(XtszFrom)form;
+		XtszMessage elevator =from.getMessage();
+		messageService.save(elevator);
+		//生成 操作日志
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		Log log=new Log();
+        log.addLog(user.getName(), "添加了一条短信，手机号："+elevator.getPhone(), "1");
+	    return	new ActionForward("/messageAction.do?method=query&flag=0");
 	}
 	/**
 	 * 查询 操作日志

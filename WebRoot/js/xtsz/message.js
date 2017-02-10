@@ -25,9 +25,9 @@
     		  window.location.href="messageAction.do?method=query"+gotoUrl();
 		  }
 		//添加
-		function add(elevatorId){
-			  window.location="messageAction.do?method=findByAdd&elevatorId="+elevatorId;
-			  
+		function add(){
+			  //window.location="messageAction.do?method=findByAdd&elevatorId="+elevatorId;
+			    window.location="jsp/xtsz/message/addMessage.jsp";
 		  }
 		//列表分页  
 		  function fenye(num){

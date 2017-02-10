@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>短信警告</title>
+    <title>短信提醒</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">短信警告</p>
+			<p class="user">短信提醒</p>
 			<div class="warp">
 				<div class="select">
 				<div class="clearfix">
@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table">
 					<div class="table">
 					<div class="or clearfix">
-							
+							<p class="fl del"  onclick="add();">新增</p>&nbsp;&nbsp;
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -70,7 +70,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${s.index + 1 }</td>
 									<td>&nbsp;&nbsp;${list.phone}&nbsp;&nbsp;</td>
 									<td>&nbsp;&nbsp;${list.state }&nbsp;&nbsp;</td>
-									<td>${list.content }</td>
+									
+									<td>
+									<c:if test="${fn:length(list.content)>70 }">  
+				                         ${fn:substring(list.content, 0, 70)}...  
+				                   </c:if>  
+				                  <c:if test="${fn:length(list.content)<=70 }">  
+				                         ${list.content }  
+				                   </c:if> </td>
 									<td>
 										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}','0');"/>
 										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>			

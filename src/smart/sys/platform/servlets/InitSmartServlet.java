@@ -12,6 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jrsoft.fri.quartz.FlowJob;
+import com.jrsoft.fri.quartz.MessageJob;
 import com.jrsoft.fri.quartz.QuartzJob;
 import com.jrsoft.fri.quartz.QuartzManager;
 import com.jrsoft.fri.quartz.SafeJob;
@@ -41,8 +42,8 @@ public class InitSmartServlet extends HttpServlet {
 			});
 		new Thread(task).start();
 		
-		String job_name = "月初电梯修改流量";
-		QuartzManager.addJob(job_name, QuartzJob.class, "0 44 14 1 * ?");  
+		String job_name = "自动生成短信";
+		QuartzManager.addJob(job_name, MessageJob.class, "0 40 16 * * ?");  
 		String job_name1 = "判断电梯服务状态";
 		QuartzManager.addJob(job_name1, ServiceState.class, "0 48 17 * * ?"); 
 		String job_name2 = "判断电梯保险状态";
