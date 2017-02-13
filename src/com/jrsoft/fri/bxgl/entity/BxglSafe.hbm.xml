@@ -33,5 +33,8 @@
         <property name="flag" type="java.lang.String">
             <column name="FLAG" length="50" />
         </property>
+         <property name="picturePath" type="java.lang.String">
+            <column name="PICTURE_PATH" length="2000" />
+        </property>
     </class>
 </hibernate-mapping>

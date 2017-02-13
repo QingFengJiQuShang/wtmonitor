@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>使用单位</title>
+    <title>保单列表</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">在保电梯</p>
+			<p class="user">保单列表</p>
 			<div class="warp">
 				<div class="select clearfix">
 				<p class="fl">
@@ -116,6 +116,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<%=path%>/js/bxgl/safe.js" type="text/javascript" charset="utf-8"></script>
+	
 	<script type="text/javascript">
 	
 	

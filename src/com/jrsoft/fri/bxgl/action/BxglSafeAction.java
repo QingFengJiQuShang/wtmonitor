@@ -170,13 +170,19 @@ public class BxglSafeAction  extends DispatchAction{
 		entity.setEndTime(df.parse(endTime));
 		safeService.save(entity);
 		
+		//修改保险状态
+		DtjkElevator elevator=elevatorService.get(entity.getElevatorId().getId());
+		if(elevator.getSafeState()==null||elevator.getSafeState().equals("")){
+			elevator.setSafeState("0");
+			elevatorService.update(elevator);
+		}
 		
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
         log.addLog(user.getName(), "添加电梯保险记录", "1");
 		
-	    return	new ActionForward("/serviceAction.do?method=query&elevatorId="+entity.getElevatorId().getId());
+	    return	new ActionForward("/safeAction.do?method=query&elevatorId="+entity.getElevatorId().getId());
 	}
 	
 	/**
@@ -273,12 +279,26 @@ public class BxglSafeAction  extends DispatchAction{
 		String id=request.getParameter("id");
 		String flag=request.getParameter("flag");
 		BxglSafe list=safeService.get(Long.parseLong(id));
-		System.out.println(list.getElevatorId().getUseUnitId().getName());
 		request.setAttribute("list", list);
+		
+		//查询图片路径
+		List<String> str=new ArrayList<String>();
+		if(list.getPicturePath()!=null&&!list.getPicturePath().equals("")){
+			String  arr []=list.getPicturePath().split(",");
+			for(int i=0;i<arr.length;i++){
+				arr[i]=arr[i].replace("//", "/");
+				str.add(arr[i]);
+			}
+			request.setAttribute("str", str);
+		}
+		
+		
+		
+		
 		if(flag.equals("1")){
-			return	new ActionForward("/jsp/dtjk/service/updateService.jsp");
+			return	new ActionForward("/jsp/Insurance/uninsured/updateSafe.jsp");
 		}else{
-			return	new ActionForward("/jsp/dtjk/service/dateilService.jsp");
+			return	new ActionForward("/jsp/Insurance/uninsured/detailSafe.jsp");
 
 		}
 	}
@@ -304,6 +324,7 @@ public class BxglSafeAction  extends DispatchAction{
 			entity.setElevatorId(unit.getElevatorId());
 			entity.setStartTime(df.parse(startTime));
 			entity.setEndTime(df.parse(endTime));
+			entity.setPicturePath(unit.getPicturePath());
 			safeService.update(entity);
 			DtjkElevator elevator =elevatorService.get(entity.getElevatorId().getId());
 
@@ -313,7 +334,7 @@ public class BxglSafeAction  extends DispatchAction{
 	        log.addLog(user.getName(), "修改电梯电梯保险记录，电梯注册号："+elevator.getRegisterid(), "1");
 
 		}	
-		return	new ActionForward("/serviceAction.do?method=query&elevatorId="+entity.getElevatorId().getId());
+		return	new ActionForward("/safeAction.do?method=query&elevatorId="+entity.getElevatorId().getId());
 
 	}
 	

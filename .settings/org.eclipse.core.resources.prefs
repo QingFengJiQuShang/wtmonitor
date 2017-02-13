@@ -1,10 +1,12 @@
-#Fri Jan 13 10:56:51 CST 2017
+#Mon Feb 13 14:43:47 CST 2017
 eclipse.preferences.version=1
 encoding//WebRoot/css/dtjk/list_details.css=UTF-8
 encoding//WebRoot/css/dtjk/list_more.css=UTF-8
 encoding//WebRoot/js=UTF-8
 encoding//WebRoot/js/map/map.js=UTF-8
 encoding//WebRoot/js/role.js=UTF-8
+encoding//WebRoot/ueditor/dialogs/image=GBK
+encoding//WebRoot/ueditor/dialogs/image/image.html=UTF-8
 encoding//src/com/jrsoft/fri/common/exp/Excel.java=UTF-8
 encoding//src/com/jrsoft/fri/common/utils/ImpExcel.java=UTF-8
 encoding//src/com/jrsoft/fri/quartz=UTF-8

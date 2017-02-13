@@ -22,6 +22,7 @@ public class BxglSafe implements java.io.Serializable {
 	private String beneficiary;					//受益人
 	private Long money;					//保险金额
 	private String flag;					//标识
+	private String picturePath; 		//图片路径
 
 	// Constructors
 
@@ -32,7 +33,7 @@ public class BxglSafe implements java.io.Serializable {
 	/** full constructor */
 	public BxglSafe(DtjkElevator elevatorId, Date startTime,
 			Date endTime, String state, String beneficiary,
-			Long money, String flag) {
+			Long money, String flag,String picturePath) {
 		this.elevatorId = elevatorId;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -40,6 +41,7 @@ public class BxglSafe implements java.io.Serializable {
 		this.beneficiary = beneficiary;
 		this.money = money;
 		this.flag = flag;
+		this.picturePath=picturePath;
 	}
 
 	// Property accessors
@@ -106,6 +108,14 @@ public class BxglSafe implements java.io.Serializable {
 
 	public void setFlag(String flag) {
 		this.flag = flag;
+	}
+
+	public String getPicturePath() {
+		return picturePath;
+	}
+
+	public void setPicturePath(String picturePath) {
+		this.picturePath = picturePath;
 	}
 
 }
