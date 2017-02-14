@@ -36,5 +36,11 @@
          <property name="picturePath" type="java.lang.String">
             <column name="PICTURE_PATH" length="2000" />
         </property>
+        <property name="number" type="java.lang.String">
+            <column name="NUMBERS" length="200" />
+        </property>
+        <property name="company" type="java.lang.String">
+            <column name="COMPANY" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

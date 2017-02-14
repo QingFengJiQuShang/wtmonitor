@@ -1,56 +1,51 @@
 	function gotoUrl (){
-			 var elevatorId= document.getElementById("elevatorId").value;
-			 var startTime= document.getElementById("startTime").value;
-			 var endTime= document.getElementById("endTime").value;
-			  var company= document.getElementById("company").value;
-			 var beneficiary= document.getElementById("beneficiary").value;
-			 
+			 var safeId= document.getElementById("safeId").value;
+			 var cause= document.getElementById("cause").value;
+			 var happenTime= document.getElementById("happenTime").value;
+			 var claimTime= document.getElementById("claimTime").value;
 			  var url="";
-			  if(elevatorId!=""){
-				  url=url+"&elevatorId="+elevatorId;
+			  if(safeId!=""){
+				  url=url+"&safeId="+safeId;
 			  }
-			  if(startTime!=""){
-				  url=url+"&startTime="+startTime;
+			  if(cause!=""){
+				  url=url+"&cause="+cause;
 			  }
-			  if(endTime!=""){
-				  url=url+"&endTime="+endTime;
+			  if(happenTime!=""){
+				  url=url+"&happenTime="+happenTime;
 			  }
-			   if(company!=""){
-				  url=url+"&company="+company;
-			  }
-			  if(beneficiary!=""){
-				  url=url+"&beneficiary="+beneficiary;
+			  if(claimTime!=""){
+				  url=url+"&claimTime="+claimTime;
 			  }
 			  return url;
 		  }
 	   //模糊查询
 		function query(){
-    		  window.location.href="safeAction.do?method=query"+gotoUrl();
+    		  window.location.href="claimAction.do?method=query"+gotoUrl();
 		  }
 		//添加
-		function add(elevatorId){
-			  window.location="jsp/Insurance/uninsured/addUninsured.jsp?elevatorId="+elevatorId;
+		function add(safeId){
+			  window.location="jsp/Insurance/claim/addClaim.jsp?safeId="+safeId;
 			  
 		  }
 		//列表分页  
 		  function fenye(num){
 			
-    		  window.location.href="safeAction.do?method=query&num="+num+gotoUrl();
+    		  window.location.href="claimAction.do?method=query&num="+num+gotoUrl();
          }
 		  //编辑
 		  function findById(id,flag){
-    		  window.location.href="safeAction.do?method=findById&id="+id+"&flag="+flag;
+    		  window.location.href="claimAction.do?method=findById&id="+id+"&flag="+flag;
          }
 		//删除
 		  function del(id){
 			   if( confirm("确定删除这条电梯保险记录？")){
-    		  		window.location.href="safeAction.do?method=delEntity&id="+id;
+    		  		window.location.href="claimAction.do?method=delEntity&id="+id;
     		  }
          }
 		  
 		      //下载  
 		  function exp(){
-    		  window.location.href="safeAction.do?method=export"+gotoUrl ();
+    		  window.location.href="claimAction.do?method=export"+gotoUrl ();
          }
 		  
 		  
@@ -65,7 +60,7 @@ $(".del").click(function() {
 			}
 		})
 		if(len>0 && confirm("确定删除这 "+len+" 条记录？")){
-	 		window.location.href="safeAction.do?method=deleteEntity&ids="+ids;
+	 		window.location.href="claimAction.do?method=deleteEntity&ids="+ids;
 	 	}
 })
 		  

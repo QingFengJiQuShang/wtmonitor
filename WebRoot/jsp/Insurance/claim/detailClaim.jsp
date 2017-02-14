@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>保险单</title>
+    <title>理赔记录</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -34,39 +34,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 	<body style="background-color:#fff;">
 		<div class="con">
-			<p class="user">保险单</p>
+			<p class="user">理赔记录</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
-				<p class="add">新增保险单</p>
+				<p class="add">查看理赔记录</p>
 				<div class="table_con">
 				  <script type="text/plain" id="j_ueditorupload" style="height:5px;display:none;" ></script>
    				 <p class="fill">
-					<label for="unit">保单号&nbsp;:&nbsp;</label>${list.number}
+					<label for="unit">事故原因&nbsp;:&nbsp;</label>${list.cause}
 				</p>
 				<p class="fill">
-					<label for="unit">保险公司&nbsp;:&nbsp;</label>${list.company}
+					<label for="start_end">事故发生时间&nbsp;:&nbsp;</label>
+					<fmt:formatDate value="${list.happenTime}"  pattern='yyyy-MM-dd'/>
 				</p>
 				<p class="fill">
-					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>
-					<input type="hidden" id="elevatorId"  name="safe.elevatorId.id"  value="${list.elevatorId.id}" />
-					<fmt:formatDate value="${list.startTime}"  pattern='yyyy-MM-dd'/>
-				</p>
-				<p class="fill">
-					<label for="start_end">保单结束日期&nbsp;:&nbsp;</label>
-					<fmt:formatDate value="${list.endTime}"  pattern='yyyy-MM-dd'/>
+					<label for="start_end">理赔时间&nbsp;:&nbsp;</label>
+					<fmt:formatDate value="${list.claimTime}"  pattern='yyyy-MM-dd'/>
 					
 				</p>
 				<p class="fill">
 					<label for="unit">保险金额&nbsp;:&nbsp;</label>${list.money}
 				</p>
-				<p class="fill">
-					<label for="place">受益人&nbsp;:&nbsp;</label>${list.beneficiary}
-				</p>
-
-				<p class="fill">
-					<label for="wb_unit">是否理赔&nbsp;:&nbsp;</label>${list.state}
-					
-				</p>
+				
 				<p class="fill">
 					<label for="">上传保单图片&nbsp;:&nbsp;</label>
 					<div class="gallery cf">
@@ -88,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		</form>
 	</body>
-	<script src="<%=path%>/js/bxgl/safe.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/bxgl/claim.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

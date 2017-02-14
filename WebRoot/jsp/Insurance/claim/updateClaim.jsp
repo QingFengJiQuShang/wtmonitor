@@ -1,4 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>保险单</title>
+    <title>理赔记录</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -27,6 +30,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" src="<%=path %>/ueditor/lang/zh-cn/zh-cn.js"></script>
+		<!-- 鼠标悬浮图片放大效果 -->
+		<link rel="stylesheet" type="text/css" href="<%=path%>/imageHover/css/normalize.css" />	
+		<link rel="stylesheet" type="text/css" href="<%=path%>/imageHover/css/style.css" />	
+ 		<script src="<%=path%>/imageHover/js/prefixfree.min.js" type="text/javascript" charset="utf-8"></script>
 	
 		<style>
 			select {
@@ -64,13 +71,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</style>
 	</head>
   
-	<body>
-	<form id="form"   action="<%=path %>/safeAction.do?method=addEntity"    method="post"  encType="multipart/form-data">
+	<body style="background-color:#fff;">
+	<form id="form"   action="<%=path %>/claimAction.do?method=updateEntity"    method="post"  encType="multipart/form-data">
 		<div class="con">
-			<p class="user">保险单</p>
+			<p class="user">理赔记录</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
-				<p class="add">新增保险单</p>
+				<p class="add">修改理赔记录</p>
 				<div class="table_con">
 				  <script type="text/plain" id="j_ueditorupload" style="height:5px;display:none;" ></script>
     <script>
@@ -105,45 +112,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
     </script>	
     			<p class="fill">
-					<label for="unit">保单号&nbsp;:&nbsp;</label>
-					<input type="text" id="number"  name="safe.number"   placeholder="请输入"/>
+					<label for="unit">事故原因&nbsp;:&nbsp;</label>
+					<input type="text" id="cause"  name="claim.cause"  value="${list.cause}"  placeholder="请输入"/>
 				</p>
+				
 				<p class="fill">
-					<label for="unit">保险公司&nbsp;:&nbsp;</label>
-					<input type="text" id="company"  name="safe.company"   placeholder="请输入"/>
-				</p>
-				<p class="fill">
-					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>
-					<input type="hidden" id="elevatorId"  name="safe.elevatorId.id"  value="${param.elevatorId}" />
+					<label for="start_end">事故发生时间&nbsp;:&nbsp;</label>
+					<input type="hidden" id="id"  name="claim.id"  value="${list.id}" />
 					
-					<input type="text"  class="Wdate"  name="startTime"  id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<input type="text"  class="Wdate"  name="happenTime"  value="<fmt:formatDate value="${list.happenTime}"  pattern='yyyy-MM-dd'/>"   id="happenTime"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
-					<label for="start_end">保单结束日期&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"   name="endTime"  	 id="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<label for="start_end">理赔时间&nbsp;:&nbsp;</label>
+					<input type="text"  class="Wdate"   name="claimTime"   value="<fmt:formatDate value="${list.claimTime}"  pattern='yyyy-MM-dd'/>"  	 id="claimTime"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
-					<label for="unit">保险金额&nbsp;:&nbsp;</label>
-					<input type="text" id="money"  name="safe.money"   placeholder="请输入"/>
-				</p>
-				<p class="fill">
-					<label for="place">受益人&nbsp;:&nbsp;</label>
-					<input type="text" id="beneficiary"  name="safe.beneficiary"  placeholder="请输入"/>
+					<label for="unit">理赔金额&nbsp;:&nbsp;</label>
+					<input type="text" id="money"  name="claim.money"  value="${list.money}"    placeholder="请输入"/>
 				</p>
 
 				<p class="fill">
-					<label for="wb_unit">是否理赔&nbsp;:&nbsp;</label>
-					<select id="state" name="safe.state">
-						<option value="">请选择</option>
-						<option value="否">否</option>
-						<option value="是">是</option>
-					</select>
-				</p>
-				<p class="fill">
 					<label for="">上传保单图片&nbsp;:&nbsp;</label>
 					<label for="sendimg" id="up"   onClick="upImage()">上传图片</label>
-					<input type="hidden" id="picturePath"  name="safe.picturePath"  placeholder="请输入"/>
-  
+					<input type="hidden" id="picturePath"  name="claim.picturePath"  value="${list.picturePath}"    placeholder="请输入"/>
+  						<div class="gallery cf">
+						<c:forEach items="${str}" var="str" varStatus="s">
+							<div>
+						    	<img src="${str}"  style="width: 100px;height: 100px;"/>
+						  	</div>
+						</c:forEach>
+						</div>
 				</p>
 				<ul class="img-list clearfix">
 					<li>

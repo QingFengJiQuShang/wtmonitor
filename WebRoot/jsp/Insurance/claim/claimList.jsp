@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>保单列表</title>
+    <title>理赔记录列表</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -29,33 +29,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">保单列表</p>
+			<p class="user">理赔记录列表</p>
 			<div class="warp">
 				<div class="select clearfix">
-					
-					<p class="fl" style="width: 300px;">
-					<label for="start_end"  style="width: 120px;">保险开始日期&nbsp;:&nbsp;</label>
-					<input type="hidden" id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
-					
-					<input type="text"  class="Wdate"  name="startTime"  id="startTime"   value="<fmt:formatDate value="${startTime}"  pattern='yyyy-MM-dd'/>"    onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="事故发生时间"   readonly="readonly">
-				</p>
-					<p class="fl"  style="width: 300px;">
-					<label for="start_end" style="width: 120px;">保险结束日期&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"   name="endTime"  	 id="endTime"  value="<fmt:formatDate value="${endTime}"  pattern='yyyy-MM-dd'/>"    onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="理赔时间"   readonly="readonly">
-				</p>
-				<p class="fl">
-						<label for="user">保险公司&nbsp;:&nbsp;</label>
-						<input type="text" id="company" placeholder="请输入"  value="${company}" />
-					</p>
+				
 					<p class="fl">
-						<label for="user">受益人&nbsp;:&nbsp;</label>
-						<input type="text" id="beneficiary" placeholder="请输入"  value="${beneficiary}" />
+						<label for="user">事故原因&nbsp;:&nbsp;</label>
+						<input type="text" id="cause" placeholder="请输入"  value="${cause}" />
 					</p>
+					<p class="fl" style="width: 300px;">
+					<label for="start_end"  style="width: 120px;">事故发生时间&nbsp;:&nbsp;</label>
+					<input type="hidden" id="safeId"  name="safeId"  value="${safeId}" />
+					
+					<input type="text"  class="Wdate"  name="happenTime"  id="happenTime"   value="<fmt:formatDate value="${happenTime}"  pattern='yyyy-MM-dd'/>"    onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="事故发生时间"   readonly="readonly">
+				</p>
+					<p class="fl">
+					<label for="start_end">理赔时间&nbsp;:&nbsp;</label>
+					<input type="text"  class="Wdate"   name="claimTime"  	 id="claimTime"  value="<fmt:formatDate value="${claimTime}"  pattern='yyyy-MM-dd'/>"    onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="理赔时间"   readonly="readonly">
+				</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						<p class="fl add"    onclick="add('${elevatorId}');"><img src="<%=path%>/img/add.png" />新增</p>
+						<p class="fl add"    onclick="add('${safeId}');"><img src="<%=path%>/img/add.png" />新增</p>
 						
 						<p class="fl del">批量删除</p>
 					</div>
@@ -66,14 +62,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i></i>
 								</th>
 								<th>序列</th>
-								<th>保单号</th>
-								<th>保险开始日期</th>
-								<th>保险结束日期</th>
-								<th>保险公司</th>
-								<th>保险金额</th>
-								<th>受益人</th>
-								<th>是否理赔</th>
-								<th>理赔记录数</th>
+								<th>事故原因</th>
+								<th>事故发生日期</th>
+								<th>理赔时间</th>
+								<th>理赔金额</th>
 								<th>操作</th>
 							</thead>
 							<c:forEach items="${list}" var="list" varStatus="s">
@@ -82,15 +74,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<i class=""><input type="hidden" value="${list.id}" /></i>
 									</td>
 									<td>${s.index + 1 }</td>
-									<td>${list.number}</td>
-									<td><fmt:formatDate value='${list.startTime}' pattern='yyyy-MM-dd'/></td>
-									<td><fmt:formatDate value='${list.endTime}' pattern='yyyy-MM-dd'/></td>
-									<td>${list.company}</td>
+									<td>${list.cause}</td>
+									<td><fmt:formatDate value='${list.happenTime}' pattern='yyyy-MM-dd'/></td>
+									<td><fmt:formatDate value='${list.claimTime}' pattern='yyyy-MM-dd'/></td>
 									<td>${list.money}</td>
-									<td>${list.beneficiary}</td>
-									<td>${list.state}</td>
-									<td><a href="<%=path %>/claimAction.do?method=query&safeId=${list.id}"   style="color: blue; ">${list.num}</a></td>
-
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
 										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>
@@ -131,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-		<script src="<%=path%>/js/bxgl/safe.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<%=path%>/js/bxgl/claim.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript">
 	

@@ -20,6 +20,7 @@ import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.bxgl.entity.BxglSafe;
 import com.jrsoft.fri.bxgl.from.BxglFrom;
+import com.jrsoft.fri.bxgl.service.BxglClaimService;
 import com.jrsoft.fri.bxgl.service.BxglSafeService;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkService;
@@ -32,6 +33,8 @@ import com.jrsoft.fri.xtsz.action.Log;
 public class BxglSafeAction  extends DispatchAction{
 	private BxglSafeService safeService;
 	private DtjkElevatorService elevatorService;
+	private BxglClaimService claimService ;
+	
 	public BxglSafeService getSafeService() {
 		return safeService;
 	}
@@ -45,6 +48,12 @@ public class BxglSafeAction  extends DispatchAction{
 		this.elevatorService = elevatorService;
 	}
 	
+	public BxglClaimService getClaimService() {
+		return claimService;
+	}
+	public void setClaimService(BxglClaimService claimService) {
+		this.claimService = claimService;
+	}
 	/**
 	 * 查询 未保，在保，脱保 电梯列表
 	 * @param request
@@ -76,12 +85,22 @@ public class BxglSafeAction  extends DispatchAction{
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
-						" from dtjk_elevator de " +
-						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
-						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
-						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-						" where  1=1   and de.delflag!='1' " ;
+		String sql="select de.*,g.sim as sim," +
+									" xuu.name as useUnitName,xuu.phone as useUnitPhone, " +
+									" xmu.name as  maintenanceUnitName,xmu.phone as maintenanceUnitPhone," +
+									" mu.name as  maintenanceUserName,mu.phone as maintenanceUserPhone," +
+									" xpu.name as  propertyUnitName,xpu.phone as propertyUnitPhone," +
+									" make.name as  makeUnitName,make.phone as makeUnitPhone," +
+									" xu.name as  usersName,xu.phone as usersPhone " +
+							" from dtjk_elevator de " +
+							" left join Dtjk_gateway g on g.elevator_Id=de.registerid "+  //网关
+							" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+							" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+							" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+							" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+							" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+							" left join Xtgl_Users xu on xu.id=de.userid"+  //区域用户
+							" where  1=1  and de.delflag!='1' " ;
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -127,6 +146,8 @@ public class BxglSafeAction  extends DispatchAction{
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
+					elevator.setPropertyUnitName(rs.getString("propertyUnitName"));
+					elevator.setMakeUnitName(rs.getString("makeUnitName"));
 					String sql3="select count(*)  from Bxgl_Safe de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql3);
 					elevator.setNum(n);
@@ -198,6 +219,8 @@ public class BxglSafeAction  extends DispatchAction{
 		String elevatorId=request.getParameter("elevatorId");
 		String startTime=request.getParameter("startTime");
 		String endTime=request.getParameter("endTime");
+		String company=request.getParameter("company");
+		String beneficiary=request.getParameter("beneficiary");
 		
 		String num=request.getParameter("num");   //当前页
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
@@ -229,7 +252,14 @@ public class BxglSafeAction  extends DispatchAction{
 				if(endTime!=null&&!endTime.equals("")){
 					sql+=" and de.end_Time <= to_date('" + endTime+ "','yyyy-MM-dd')";
 				}
-				
+				if(company!=null&&!company.equals("")){
+					company=new String(company.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.company like '%"+company+"%'";
+				}
+				if(beneficiary!=null&&!beneficiary.equals("")){
+					beneficiary=new String(beneficiary.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.beneficiary like '%"+beneficiary+"%'";
+				}
 				sql+=" order by de.id desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
@@ -247,12 +277,19 @@ public class BxglSafeAction  extends DispatchAction{
 					useUnit.setMoney(rs.getLong("money"));
 					useUnit.setState(rs.getString("state"));
 					useUnit.setBeneficiary(rs.getString("beneficiary"));
+					useUnit.setNumber(rs.getString("numbers"));
+					useUnit.setCompany(rs.getString("company"));
+					String sql3="select count(*)  from Bxgl_Claim de where  1=1  and safe_Id = '"+rs.getString("id")+"'";
+					int n=DBEntity.getInstance().queryDataCount(sql3);
+					useUnit.setNum(n);
 					list.add(useUnit);
 					
 				}
 				
 				
 				request.setAttribute("elevatorId", elevatorId);
+				request.setAttribute("company", company);
+				request.setAttribute("beneficiary", beneficiary);
 				if(startTime!=null){
 					request.setAttribute("startTime", df.parse(startTime));
 				}
@@ -325,6 +362,8 @@ public class BxglSafeAction  extends DispatchAction{
 			entity.setStartTime(df.parse(startTime));
 			entity.setEndTime(df.parse(endTime));
 			entity.setPicturePath(unit.getPicturePath());
+			entity.setNumber(unit.getNumber());
+			entity.setCompany(unit.getCompany());
 			safeService.update(entity);
 			DtjkElevator elevator =elevatorService.get(entity.getElevatorId().getId());
 
@@ -350,8 +389,8 @@ public class BxglSafeAction  extends DispatchAction{
 	public ActionForward  delEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
-		String elevatorId=request.getParameter("elevatorId");
-		DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
+		Long elevatorId=safeService.get(id).getElevatorId().getId();
+		DtjkElevator entity =elevatorService.get(elevatorId);
 		safeService.delete(id);
 		
 
@@ -359,7 +398,7 @@ public class BxglSafeAction  extends DispatchAction{
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
         log.addLog(user.getName(), "删除电梯电梯保险记录，电梯注册号："+entity.getRegisterid(), "1");
-		 return	new ActionForward("/serviceAction.do?method=query&elevatorId="+elevatorId);
+		 return	new ActionForward("/safeAction.do?method=query&elevatorId="+elevatorId);
 	}
 	/**
 	 * 批量 删除 年检记录
@@ -371,20 +410,19 @@ public class BxglSafeAction  extends DispatchAction{
 	public ActionForward  deleteEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String ids=request.getParameter("ids");
-		String elevatorId=request.getParameter("elevatorId");
-
+		Long elevatorId = null;
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
-				DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
+				elevatorId  =safeService.get(Long.parseLong(arr[i])).getElevatorId().getId();
 				safeService.delete(Long.parseLong(arr[i]));
 				//生成 操作日志
 				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				Log log=new Log();
-		        log.addLog(user.getName(), "删除电梯电梯保险记录，电梯注册号："+entity.getRegisterid(), "1");
+		        log.addLog(user.getName(), "删除电梯电梯保险记录", "1");
 			}
 		}
-		 return	new ActionForward("/serviceAction.do?method=query&elevatorId="+elevatorId);
+		 return	new ActionForward("/safeAction.do?method=query&elevatorId="+elevatorId);
 		
 	}
 

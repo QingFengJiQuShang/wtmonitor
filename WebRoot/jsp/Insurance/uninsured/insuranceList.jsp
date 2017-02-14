@@ -61,13 +61,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						<%if(Authority.haveRigth(user.getId(),"dtjk_add")) {%>
-						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
-						<%} %>
-						<%if(Authority.haveRigth(user.getId(),"dtjk_del")) {%>
-						<p class="fl del">批量删除</p>
-						<%} %>
-						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
+						
+						
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -79,8 +74,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>电梯注册号</th>
 							<th>识别码</th>
 							<th>电梯使用单位</th>
-							<th>电梯安装单位</th>
-							<th>电梯品牌</th>
+							<th>电梯物业单位</th>
+							<th>电梯制造单位</th>
 							<th>电梯层数</th>
 							<th>电梯状态</th>
 							<th>操作</th>
@@ -95,8 +90,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.registerid }</td>
 									<td>${list.distinguishid }</td>
 									<td>${list.useUnitName }</td>
-									<td>${list.installUnit }</td>
-									<td>${list.brand}</td>
+									<td>${list.propertyUnitName }</td>
+									<td>${list.makeUnitName}</td>
 									<td>${list.numbers}</td>
 									<td>${list.state}</td>
 									<td><a href="<%=path %>/jsp/Insurance/uninsured/addUninsured.jsp?elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>

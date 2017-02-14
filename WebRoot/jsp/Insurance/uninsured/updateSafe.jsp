@@ -71,13 +71,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</style>
 	</head>
   
-	<body>
+	<body  style="background-color:#fff;">
 	<form id="form"   action="<%=path %>/safeAction.do?method=updateEntity"    method="post"  encType="multipart/form-data">
 		<div class="con">
 			<p class="user">保险单</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
-				<p class="add">新增保险单</p>
+				<p class="add">修改保险单</p>
 				<div class="table_con">
 				  <script type="text/plain" id="j_ueditorupload" style="height:5px;display:none;" ></script>
     <script>
@@ -110,7 +110,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         myImage.open();
       }
      
-    </script>	
+    </script>
+    			<p class="fill">
+					<label for="unit">保单号&nbsp;:&nbsp;</label>
+					<input type="text" id="number"  name="safe.number"  value="${list.number}"  placeholder="请输入"/>
+				</p>
+				<p class="fill">
+					<label for="unit">保险公司&nbsp;:&nbsp;</label>
+					<input type="text" id="company"  name="safe.company"  value="${list.company}"  placeholder="请输入"/>
+				</p>	
 				<p class="fill">
 					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>
 					<input type="hidden" id="id"  name="safe.id"  value="${list.id}" />

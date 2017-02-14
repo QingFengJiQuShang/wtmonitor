@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>保险单</title>
+    <title>理赔记录</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -65,12 +65,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
   
 	<body>
-	<form id="form"   action="<%=path %>/safeAction.do?method=addEntity"    method="post"  encType="multipart/form-data">
+	<form id="form"   action="<%=path %>/claimAction.do?method=addEntity"    method="post"  encType="multipart/form-data">
 		<div class="con">
-			<p class="user">保险单</p>
+			<p class="user">理赔记录</p>
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
-				<p class="add">新增保险单</p>
+				<p class="add">新增理赔记录</p>
 				<div class="table_con">
 				  <script type="text/plain" id="j_ueditorupload" style="height:5px;display:none;" ></script>
     <script>
@@ -105,44 +105,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
     </script>	
     			<p class="fill">
-					<label for="unit">保单号&nbsp;:&nbsp;</label>
-					<input type="text" id="number"  name="safe.number"   placeholder="请输入"/>
+					<label for="unit">事故原因&nbsp;:&nbsp;</label>
+					<input type="text" id="cause"  name="claim.cause"   placeholder="请输入"/>
 				</p>
+				
 				<p class="fill">
-					<label for="unit">保险公司&nbsp;:&nbsp;</label>
-					<input type="text" id="company"  name="safe.company"   placeholder="请输入"/>
-				</p>
-				<p class="fill">
-					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>
-					<input type="hidden" id="elevatorId"  name="safe.elevatorId.id"  value="${param.elevatorId}" />
+					<label for="start_end">事故发生时间&nbsp;:&nbsp;</label>
+					<input type="hidden" id="safeId"  name="claim.safeId.id"  value="${param.safeId}" />
 					
-					<input type="text"  class="Wdate"  name="startTime"  id="start_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<input type="text"  class="Wdate"  name="happenTime"  id="happenTime"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
-					<label for="start_end">保单结束日期&nbsp;:&nbsp;</label>
-					<input type="text"  class="Wdate"   name="endTime"  	 id="time_end"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					<label for="start_end">理赔时间&nbsp;:&nbsp;</label>
+					<input type="text"  class="Wdate"   name="claimTime"  	 id="claimTime"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 				</p>
 				<p class="fill">
-					<label for="unit">保险金额&nbsp;:&nbsp;</label>
-					<input type="text" id="money"  name="safe.money"   placeholder="请输入"/>
-				</p>
-				<p class="fill">
-					<label for="place">受益人&nbsp;:&nbsp;</label>
-					<input type="text" id="beneficiary"  name="safe.beneficiary"  placeholder="请输入"/>
+					<label for="unit">理赔金额&nbsp;:&nbsp;</label>
+					<input type="text" id="money"  name="claim.money"   placeholder="请输入"/>
 				</p>
 
 				<p class="fill">
-					<label for="wb_unit">是否理赔&nbsp;:&nbsp;</label>
-					<select id="state" name="safe.state">
-						<option value="">请选择</option>
-						<option value="否">否</option>
-						<option value="是">是</option>
-					</select>
-				</p>
-				<p class="fill">
 					<label for="">上传保单图片&nbsp;:&nbsp;</label>
 					<label for="sendimg" id="up"   onClick="upImage()">上传图片</label>
-					<input type="hidden" id="picturePath"  name="safe.picturePath"  placeholder="请输入"/>
+					<input type="hidden" id="picturePath"  name="claim.picturePath"  placeholder="请输入"/>
   
 				</p>
 				<ul class="img-list clearfix">

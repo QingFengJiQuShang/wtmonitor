@@ -11,6 +11,7 @@
 	<bean name="/safeAction" class="com.jrsoft.fri.bxgl.action.BxglSafeAction">
 		<property name="safeService" ref="safeService" />
 		<property name="elevatorService" ref="elevatorService" />
+		<property name="claimService" ref="claimService" />
 	</bean>
 	<bean id="safeService" class="com.jrsoft.fri.bxgl.service.BxglSafeServiceImpl">
 		<property name="safeDao"  ref="safeDao" />
@@ -19,4 +20,18 @@
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
      <!-- 电梯保险记录-->
+     
+     <!-- 电梯理赔记录-->
+	<bean name="/claimAction" class="com.jrsoft.fri.bxgl.action.BxglClaimAction">
+		<property name="safeService" ref="safeService" />
+		<property name="claimService" ref="claimService" />
+	</bean>
+	<bean id="claimService" class="com.jrsoft.fri.bxgl.service.BxglClaimServiceImpl">
+		<property name="claimDao"  ref="claimDao" />
+	</bean>
+	<bean id="claimDao" class="com.jrsoft.fri.bxgl.dao.BxglClaimDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+     <!-- 电梯理赔记录-->
+     
 	</beans>

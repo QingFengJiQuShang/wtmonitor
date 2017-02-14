@@ -79,6 +79,8 @@ public class DtjkElevator implements java.io.Serializable {
     private String useUnitName;			//使用单位名称
     private String maintenanceUnitName;		//维保单位名称
     private String maintenanceUsersName;	//维保人员姓名
+    private String  propertyUnitName;				//物业单位
+    private String  makeUnitName;				//制造单位
     
     private int numRecords;  //维保记录数量
     private int numYearly;  //年检记录数量
@@ -587,6 +589,22 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public String getPropertyUnitName() {
+		return propertyUnitName;
+	}
+
+	public void setPropertyUnitName(String propertyUnitName) {
+		this.propertyUnitName = propertyUnitName;
+	}
+
+	public String getMakeUnitName() {
+		return makeUnitName;
+	}
+
+	public void setMakeUnitName(String makeUnitName) {
+		this.makeUnitName = makeUnitName;
 	}
 
 }
