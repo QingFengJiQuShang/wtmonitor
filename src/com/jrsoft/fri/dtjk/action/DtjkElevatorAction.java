@@ -767,7 +767,9 @@ public class DtjkElevatorAction extends DispatchAction{
 			entity.setPropertyUnitLiaisons(elevator.getPropertyUnitLiaisons());
 			entity.setPropertyUnitPhone(elevator.getPropertyUnitPhone());
 			entity.setIp(elevator.getIp());
-			
+			entity.setProvince(elevator.getProvince());
+			entity.setCity(elevator.getCity());
+			entity.setArea(elevator.getArea());
 			entity.setMakeUnitId(elevator.getMakeUnitId());
 			if(elevator.getUseUnitId().getId()==0)
 				entity.setUseUnitId(null);

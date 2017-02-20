@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<label for="unit">保单号&nbsp;:&nbsp;</label>${list.number}
 				</p>
 				<p class="fill">
-					<label for="unit">保险公司&nbsp;:&nbsp;</label>${list.company}
+					<label for="unit">保险公司&nbsp;:&nbsp;</label>${list.safeUnitId.name}
 				</p>
 				<p class="fill">
 					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>

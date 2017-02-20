@@ -23,21 +23,21 @@ label=function(id){
  * 选择使用单位
  */
 selectUseUnitId=function(id,id1){
-	JqueryDialog.Open('使用单位', 'useUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+	JqueryDialog.Open('使用单位', 'useUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
 }
 
 /**
  * 选择维保单位
  */
 selectMaintenanceUnit=function(id,id1){
-	JqueryDialog.Open('维保单位', 'maintenanceUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+	JqueryDialog.Open('维保单位', 'maintenanceUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
 }
 
 /**
  * 多选 救援单位
  */
 selectRescueUnit=function(id,id1){
-	JqueryDialog.Open('救援单位', 'rescueUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+	JqueryDialog.Open('救援单位', 'rescueUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
 }
 // 删除 已选择的救援单位
 closeMultiRescueUnit=function(id){
@@ -48,14 +48,14 @@ closeMultiRescueUnit=function(id){
  * 选择电梯信息
  */
 selectElevator=function(id,id1,id2){
-	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query1&id='+id+"&id1="+id1+"&id2="+id2, 1000, 500);
+	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query1&id='+id+"&id1="+id1+"&id2="+id2, 1000, 650);
 }
 
 /**
  * 选择制造单位
  */
 selectMakeUnitId=function(id,id1){
-	JqueryDialog.Open('制造单位', 'makeUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+	JqueryDialog.Open('制造单位', 'makeUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
 }
 
 
@@ -63,8 +63,36 @@ selectMakeUnitId=function(id,id1){
  * 选择物业单位
  */
 selectPropertyUnitId=function(id,id1){
-	JqueryDialog.Open('物业单位', 'propertyUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 500);
+	JqueryDialog.Open('物业单位', 'propertyUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
 }
+/**
+ * 选择保险单位
+ */
+selectsafeUnitId=function(id,id1){
+	JqueryDialog.Open('保险单位', 'safeUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
+}
+/**
+ * 根据单位类型选择单位名称
+ */
+selectTypeUnitId=function(id,id1,flag){
+	 var flag= document.getElementById(flag).value;
+	if(flag=='1'){
+			JqueryDialog.Open('使用单位', 'useUnitAction.do?method=query1&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='2'){
+			JqueryDialog.Open('物业单位', 'propertyUnitAction.do?method=query1&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='3'){
+			JqueryDialog.Open('维保单位', 'maintenanceUnitAction.do?method=query1&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='4'){
+			JqueryDialog.Open('制造单位', 'makeUnitAction.do?method=query1&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='5'){
+			JqueryDialog.Open('救援单位', 'rescueUnitAction.do?method=query2&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='6'){
+			JqueryDialog.Open('保险单位', 'safeUnitAction.do?method=query1&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else{
+		alert("请先选择单位类型");
+	}
+}
+
 
 /**
  * 选择维保人员
@@ -74,7 +102,7 @@ selectMaintenanceUsers=function(id,id1){
  			if(unitId==""){
  				alert("请先选择维保单位");	
 			  }else{
-				   JqueryDialog.Open('维保人员', 'maintenanceUsersAction.do?method=query1&id='+id+"&id1="+id1+"&unitId="+unitId, 1000, 500);
+				   JqueryDialog.Open('维保人员', 'maintenanceUsersAction.do?method=query1&id='+id+"&id1="+id1+"&unitId="+unitId, 1000, 650);
 			  }
 }
 
@@ -83,9 +111,12 @@ selectMaintenanceUsers=function(id,id1){
  */
 selectMaintenanceUsers1=function(id,id1){
  			var unitId= document.getElementById("unitId").value;
-				   JqueryDialog.Open('维保人员', 'maintenanceUsersAction.do?method=query1&id='+id+"&id1="+id1+"&unitId="+unitId, 1000, 500);
+				   JqueryDialog.Open('维保人员', 'maintenanceUsersAction.do?method=query1&id='+id+"&id1="+id1+"&unitId="+unitId, 1000, 650);
 		
 }
+
+
+
 /** 判断是否为空 **/
 showIsNull=function(id,title){
 	var ids = document.getElementById(id);

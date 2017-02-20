@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
+import com.jrsoft.fri.xtgl.entity.XtglSafeUnit;
 
 /**
  * BxglSafe entity. @author MyEclipse Persistence Tools
@@ -25,7 +26,9 @@ public class BxglSafe implements java.io.Serializable {
 	private String picturePath; 		//图片路径
 	private String number; 				//保单号
 	private String company;				//保险公司
+	private XtglSafeUnit safeUnitId=new XtglSafeUnit();			//保险单位id
 	
+	private String safeUnitName;
 	private int num;
 
 	// Constructors
@@ -33,11 +36,11 @@ public class BxglSafe implements java.io.Serializable {
 	/** default constructor */
 	public BxglSafe() {
 	}
-
 	/** full constructor */
 	public BxglSafe(DtjkElevator elevatorId, Date startTime,
 			Date endTime, String state, String beneficiary,
-			Long money, String flag,String picturePath,String number,String company) {
+			Long money, String flag,String picturePath,String number,
+			String company,XtglSafeUnit safeUnitId) {
 		this.elevatorId = elevatorId;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -48,10 +51,11 @@ public class BxglSafe implements java.io.Serializable {
 		this.picturePath=picturePath;
 		this.number=number;
 		this.company=company;
+		this.safeUnitId=safeUnitId;
 	}
 
 	// Property accessors
-
+	
 	public Long getId() {
 		return this.id;
 	}
@@ -146,6 +150,20 @@ public class BxglSafe implements java.io.Serializable {
 
 	public void setNum(int num) {
 		this.num = num;
+	}
+
+	public XtglSafeUnit getSafeUnitId() {
+		return safeUnitId;
+	}
+
+	public void setSafeUnitId(XtglSafeUnit safeUnitId) {
+		this.safeUnitId = safeUnitId;
+	}
+	public String getSafeUnitName() {
+		return safeUnitName;
+	}
+	public void setSafeUnitName(String safeUnitName) {
+		this.safeUnitName = safeUnitName;
 	}
 
 }

@@ -42,5 +42,8 @@
         <property name="company" type="java.lang.String">
             <column name="COMPANY" length="200" />
         </property>
+        <many-to-one name="safeUnitId" class="com.jrsoft.fri.xtgl.entity.XtglSafeUnit" fetch="select">
+            <column name="SAFE_UNIT_ID"  precision="22" scale="0" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

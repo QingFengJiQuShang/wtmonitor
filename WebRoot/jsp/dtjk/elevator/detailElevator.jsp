@@ -56,6 +56,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<p >
 						<label for="map">地图标注&nbsp;:&nbsp;</label>${list.label}
 					</p>
+					<p class="fill">
+						<label for="logn">省&nbsp;:&nbsp;</label>${list.province}
+					</p>
 					<p>
 						<label for="speed">剩余流量&nbsp;:&nbsp;</label>
 						${list.flowSurplus}
@@ -73,6 +76,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<p>
 						<label for="speed">视频IP&nbsp;:&nbsp;</label>${list.ip}
 					</p>
+					<p class="fill">
+						<label for="logn">市&nbsp;:&nbsp;</label>${list.city}
+					</p>
 					<p>
 						<label for="speed">白名单个数&nbsp;:&nbsp;</label>
 						<a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a>
@@ -88,6 +94,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<p>
 						<label for="datetimepicker3">维保合同期起&nbsp;:&nbsp;</label>
 						<fmt:formatDate value='${list.flowStart}' pattern='yyyy-MM-dd'/>
+					</p>
+					
+					<p class="fill">
+						<label for="logn">区&nbsp;:&nbsp;</label>${list.area}
 					</p>
 					<p>
 						<label for="speed">服务费记录数&nbsp;:&nbsp;</label>

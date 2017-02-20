@@ -35,6 +35,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/imageHover/css/style.css" />	
  		<script src="<%=path%>/imageHover/js/prefixfree.min.js" type="text/javascript" charset="utf-8"></script>
 	
+		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
+		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
+	
 		<style>
 			select {
 				width: 153px;
@@ -117,7 +122,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</p>
 				<p class="fill">
 					<label for="unit">保险公司&nbsp;:&nbsp;</label>
-					<input type="text" id="company"  name="safe.company"  value="${list.company}"  placeholder="请输入"/>
+					<input type="hidden" id="company"  name="safe.company"  value="${list.company}"  placeholder="请输入"/>
+					<input type="hidden"  id="safeUnitId"  name="safe.safeUnitId.id"  value="${list.safeUnitId.id}" />
+					<input type="text"  id="safeUnitId1"  placeholder="请选择"   value="${list.safeUnitId.name}"  readonly="readonly"   onclick="selectsafeUnitId('safeUnitId','safeUnitId1');"/>
+				
 				</p>	
 				<p class="fill">
 					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>

@@ -1,4 +1,5 @@
-	function gotoUrl (){
+document.body.scrollTop = document.documentElement.scrollTop = 0;
+function gotoUrl (){
 			 var registerid= document.getElementById("registerid").value;
 			 var distinguishid= document.getElementById("distinguishid").value;
 			 var useUnitName= document.getElementById("useUnitName").value;

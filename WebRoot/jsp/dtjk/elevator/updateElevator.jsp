@@ -26,7 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
 		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
-		
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
 		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
@@ -64,6 +65,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="map">地图标注&nbsp;:&nbsp;</label>
 						<input type="text" placeholder="请选择" readonly="readonly"  id="label"  name="elevator.label"  value="${list.label}" />
 					</p>
+					<p class="fill">
+						<label for="logn">省&nbsp;:&nbsp;</label>
+						<input type="hidden"   id="provinceid"  > 
+						<select  name="elevator.province"  id="province"   >
+						<option value="">请选择</option>
+						<option value="${list.province}" selected="selected">${list.province}</option>
+						</select>
+					</p>
 				</div>
 				<div class="fl fenzhi">
 					<p>
@@ -78,7 +87,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="model">视频IP&nbsp;:&nbsp;</label>
 						<input type="text"  id="ip"  name="elevator.ip" value="${list.ip}" placeholder="请输入" />
 					</p>
-					
+					<p class="fill">
+						<label for="logn">市&nbsp;:&nbsp;</label>
+						<select  name="elevator.city"  id="city" >
+						<option value="">请选择</option>
+						<option value="${list.city}"  selected="selected">${list.city}</option>
+						</select>
+					</p>
 					
 				</div>
 				<div class="fl fenzhi">
@@ -93,6 +108,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>
 						<label for="datetimepicker3">维保合同期起&nbsp;:&nbsp;</label>
 						<input type="text"   class="Wdate"  id="flowStart"  name="flowStart"     value="<fmt:formatDate value='${list.flowStart}' pattern='yyyy-MM-dd'/>"  class="form-control" placeholder="请选择" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" >
+					</p>
+					<p class="fill">
+						<label for="logn">区&nbsp;:&nbsp;</label>
+						<select  name="elevator.area"  id="area" >
+							<option value="">请选择</option>
+							<option value="${list.area}"  selected="selected">${list.area}</option>
+						</select>
 					</p>
 				</div>
 				<div class="fl fenzhi">

@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>类型统计</title>
+    <title>救援区域统计</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -22,19 +22,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/dtjk_comm.css" />
-		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
-		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
-		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
-		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
-		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
-		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
 		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 	</head>
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">类型统计</p>
+			<p class="user">救援区域统计</p>
 			<div class="warp">
 				<div class="select " >
 					<div class="clearfix">
@@ -68,23 +64,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="man">结束时间&nbsp;:&nbsp;</label>
 						<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
 					</p>
-					<p class="fl">
-							<label for="man">单位类型&nbsp;:&nbsp;</label>
-							<select id="flag" name="flag">
-									<option <c:if test="${flag==''}">selected="selected" </c:if>  value="">请选择</option>
-									<option<c:if test="${flag=='1'}">selected="selected" </c:if>  value="1">使用单位</option>
-									<option<c:if test="${flag=='2'}">selected="selected" </c:if>  value="2">物业单位</option>
-									<option<c:if test="${flag=='3'}">selected="selected" </c:if>  value="3">维保单位</option>
-									<option<c:if test="${flag=='4'}">selected="selected" </c:if>  value="4">制造单位</option>
-									<option<c:if test="${flag=='5'}">selected="selected" </c:if>  value="5">救援单位</option>
-							<!-- 		<option value="6">保险单位</option> -->
-							</select>
-					</p>
-					<p class="fl">
-							<label for="man">单位名称&nbsp;:&nbsp;</label>
-							<input type="hidden"  id="unitId"    value="${unitId}" />
-							<input type="text"  id="unitId1"   value="${unitId1}"  readonly="readonly" onclick="selectTypeUnitId('unitId','unitId1','flag');"/>
-					</p>
 					<button class="fl"  onclick="query();">查询</button>
 					</div>
 				</div>
@@ -95,20 +74,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
-								<th style="width: 200px;">单位名称</th>
-								<th>故障类型名称</th>
-								<th>此故障数量</th>
-								<th>故障发生率</th>
-							</thead>
-							<c:forEach items="${counts}" var="list" varStatus="s">
-							<tr>
-									<td>${list.name }</td>
-									<td>${list.faultType }</td>
-									<td>${list.faultNum }</td>
-									<td>${list.incidence }</td>
-								</tr>
-							</c:forEach>
+								<th style="width: 80px;">省</th>
+								<th>市</th>
+								<th>区</th>
+								<th>救援次数</th>
+								<th style="width: 300px;">平均救援到达时间(分钟)</th>
+								<th style="width: 300px;">平均救援成功时间(分钟)</th>
 								
+							</thead>
+								<tr>
+									<td>${count.province }</td>
+									<td>${count.city }</td>
+									<td>${count.area }</td>
+									<td>${count.num }</td>
+									<td>${count.arriveTime }</td>
+									<td>${count.successTime }</td>
+									<td>
+										
+									</td>
+								</tr>
 								
 							</tbody>
 						</table>
@@ -121,6 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<%=path%>/js/bxgl/count.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript">
 	function gotoUrl (){
@@ -129,10 +114,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 var province= document.getElementById("province").value;
 			 var city= document.getElementById("city").value;
 			 var area= document.getElementById("area").value;
-			 var flag= document.getElementById("flag").value;
-			 var unitId= document.getElementById("unitId").value;
-			 var unitId1= document.getElementById("unitId1").value;
-			 
 			  var url="";
 			  if(begintime!=""){
 				  url=url+"&begintime="+begintime;
@@ -149,24 +130,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  if(area!=""){
 				  url=url+"&area="+area;
 			  }
-			  if(flag!=""){
-				  url=url+"&flag="+flag;
-			  }
-			  if(unitId!=""){
-				  url=url+"&unitId="+unitId;
-			  }
-			  if(unitId1!=""){
-				  url=url+"&unitId1="+unitId1;
-			  }
 			  return url;
 		  }
 	 //模糊查询
 		function query(){
-    		  window.location.href="<%=path%>/countAction.do?method=faultCount"+gotoUrl();
+    		  window.location.href="<%=path%>/countAction.do?method=rescueRegionCount"+gotoUrl();
 		  }
 	  //下载  
 		  function exp(){
-    		  window.location.href="<%=path%>/countAction.do?method=exportFaultCount"+gotoUrl ();
+    		  window.location.href="<%=path%>/countAction.do?method=exportRescueRegionCount"+gotoUrl ();
          }
 	</script>
 

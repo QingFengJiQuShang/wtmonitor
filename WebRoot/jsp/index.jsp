@@ -104,16 +104,16 @@ function toMain(flag){
 		   }
 		   
 		    if(flag==51){
-			   window.main.location="<%=path%>/countAction.do?method=faultCount";
+			   window.main.location="<%=path%>/countAction.do?method=regionCount";
 		   }
 		   if(flag==52){
-			   window.main.location="<%=path%>/countAction.do?method=rescueCount";
+			   window.main.location="<%=path%>/countAction.do?method=faultCount";
 		   }
 		   if(flag==53){
-			   window.main.location="<%=path%>/countAction.do?method=brandCount";
+			   window.main.location="<%=path%>/countAction.do?method=rescueRegionCount";
 		   }
 		    if(flag==54){
-			   window.main.location="<%=path%>/countAction.do?method=maintenanceUnitCount";
+			   window.main.location="<%=path%>/countAction.do?method=rescueUnitCount";
 		   }
 		     if(flag==55){
 			   window.main.location="<%=path%>/countAction.do?method=useUnitCount";
@@ -158,10 +158,10 @@ function toMain(flag){
 			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=2";
 		   }
 		    if(flag==74){
-			   window.main.location="<%=path%>/jsp/Insurance/count/count.jsp";
+			   window.main.location="<%=path%>/safeAction.do?method=querySafe";
 		   }
 		    if(flag==75){
-			   window.main.location="<%=path%>/jsp/Insurance/count/brandCount.jsp";
+			   window.main.location="<%=path%>/safeAction.do?method=querySafeUnit";
 		   }
 	   }
 </script>
@@ -229,7 +229,7 @@ function toMain(flag){
 					<p class="two" onclick="toMain(72)">在保电梯</p>
 					<p class="two" onclick="toMain(73)">脱保电梯</p>
 					<p class="two" onclick="toMain(74)">保险统计</p>
-					<p class="two" onclick="toMain(75)">品牌保险统计</p>
+					<p class="two" onclick="toMain(75)">保险公司统计</p>
 				</div>
 			</li>
 			<li class="list-item">
@@ -253,10 +253,10 @@ function toMain(flag){
 				<p class="one grade"   >
 					<i class=""></i>统计分析</p>
 				<div class="next">
-					<p	 class="two"   onclick="toMain('51')">故障统计</p>
-					<p	 class="two"   onclick="toMain('52')">救援统计</p>
-					<p	  class="two"  onclick="toMain('53')">电梯品牌统计</p>
-					<p	  class="two"  onclick="toMain('54')">维保单位统计</p>
+					<p	 class="two"   onclick="toMain('51')">故障区域统计</p>
+					<p	 class="two"   onclick="toMain('52')">故障类型统计</p>
+					<p	  class="two"  onclick="toMain('53')">救援区域统计</p>
+					<p	  class="two"  onclick="toMain('54')">救援响应统计</p>
 					<p	  class="two"  onclick="toMain('55')">使用单位统计</p>
 				</div>
 			</li>

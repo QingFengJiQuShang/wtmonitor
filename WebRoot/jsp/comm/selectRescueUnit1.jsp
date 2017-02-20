@@ -50,12 +50,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</head>
 
 	<body>
-		<div class="warp">
+		
+			<div class="warp">
 				<div class="select clearfix">
 					<p class="fl">
 						<label for="user">单位名称&nbsp;:&nbsp;</label>
-						<input type="hidden" id="id" value="${id}">
-						<input type="hidden" id="id1" value="${id1}">
 						<input type="text" id="name" placeholder="请输入"  value="${name}" />
 					</p>
 					<p class="fl">
@@ -72,9 +71,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="man">联系人&nbsp;:&nbsp;</label>
 						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
 					</p>
-					<button class="fl"  onclick="query1();">查询</button>
+					<button class="fl"  onclick="query();">查询</button>
 				</div>
-				
+				<div class="table">
+					<p></p>
+					
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
@@ -82,19 +83,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i></i>
 								</th>
 								<th>序列</th>
-								<th>使用单位名称</th>
-								<th>使用单位类型</th>
+								<th>救援单位名称</th>
+								<th>单位类型</th>
 								<th>联系人</th>
 								<th>联系人电话</th>
-								<th>使用单位地址</th>
-								
+								<th>救援单位地址</th>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td class="wei">
 										<i class=""  data-e="${list.id }" data="${list.name }"></i>
-										
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.name }</td>
@@ -108,6 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								
 							</tbody>
 						</table>
+			
 						<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*5 }</c:if></span>到<span>${(page.pageNum+1)*5 }</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
@@ -163,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 }
 	 window.parent.document.getElementById('${id}').value=id[0];
 	 window.parent.document.getElementById('${id1}').value=name[0];
-	// window.parent.document.getElementById('installUnit').focus();
+	 //window.parent.document.getElementById('installUnit').focus();
 	 
 	 window.parent.JqueryDialog.Close();
  }

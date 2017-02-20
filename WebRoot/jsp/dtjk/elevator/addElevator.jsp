@@ -24,7 +24,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list_add.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/dtjk_comm.css" />
 		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
-
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
 		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
@@ -62,6 +63,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="map">地图标注&nbsp;:&nbsp;</label>
 						<input type="text" placeholder="请选择" readonly="readonly"  id="label"  name="elevator.label" />
 					</p>
+					<p class="fill">
+						<label for="logn">省&nbsp;:&nbsp;</label>
+						<select  name="elevator.province"  id="province"   >
+						<option value="">请选择</option>
+						</select>
+					</p>
 				</div>
 				<div class="fl fenzhi">
 					<p>
@@ -77,7 +84,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text"  id="ip"  name="elevator.ip"  placeholder="请输入" />
 					</p>
 					
-					
+					<p class="fill">
+						<label for="logn">市&nbsp;:&nbsp;</label>
+						<select  name="elevator.city"  id="city" >
+						<option value="">请选择</option>
+						</select>
+					</p>
 				</div>
 				<div class="fl fenzhi">
 					<p>
@@ -91,6 +103,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>
 						<label for="datetimepicker3">维保合同期起&nbsp;:&nbsp;</label>
 						<input type="text"   class="Wdate"  id="flowStart"  name="flowStart"  class="form-control" placeholder="请选择" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" >
+					</p>
+					
+					<p class="fill">
+						<label for="logn">区&nbsp;:&nbsp;</label>
+						<select  name="elevator.area"  id="area" onclick="area();">
+							<option value="">请选择</option>
+						</select>
 					</p>
 				</div>
 				<div class="fl fenzhi">
@@ -110,6 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="datetimepicker3">维保合同期至&nbsp;:&nbsp;</label>
 						<input type="text"   class="Wdate"  id="flowEnd"  name="flowEnd"  class="form-control" placeholder="请选择" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" >
 					</p>
+					
 				</div>
 			</div>
 			<!--第二层-->

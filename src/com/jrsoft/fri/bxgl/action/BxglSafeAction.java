@@ -1,8 +1,13 @@
 package com.jrsoft.fri.bxgl.action;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,21 +25,26 @@ import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.bxgl.entity.BxglSafe;
 import com.jrsoft.fri.bxgl.from.BxglFrom;
+import com.jrsoft.fri.bxgl.from.Safe;
+import com.jrsoft.fri.bxgl.from.SafeUnit;
 import com.jrsoft.fri.bxgl.service.BxglClaimService;
 import com.jrsoft.fri.bxgl.service.BxglSafeService;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkService;
 import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
+import com.jrsoft.fri.xtgl.entity.XtglSafeUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtgl.service.XtglSafeUnitService;
 import com.jrsoft.fri.xtsz.action.Log;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class BxglSafeAction  extends DispatchAction{
 	private BxglSafeService safeService;
 	private DtjkElevatorService elevatorService;
 	private BxglClaimService claimService ;
-	
+	private XtglSafeUnitService safeUnitService;
 	public BxglSafeService getSafeService() {
 		return safeService;
 	}
@@ -53,6 +63,12 @@ public class BxglSafeAction  extends DispatchAction{
 	}
 	public void setClaimService(BxglClaimService claimService) {
 		this.claimService = claimService;
+	}
+	public XtglSafeUnitService getSafeUnitService() {
+		return safeUnitService;
+	}
+	public void setSafeUnitService(XtglSafeUnitService safeUnitService) {
+		this.safeUnitService = safeUnitService;
 	}
 	/**
 	 * 查询 未保，在保，脱保 电梯列表
@@ -237,10 +253,11 @@ public class BxglSafeAction  extends DispatchAction{
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*,e.install_place as place, e.registerid as registerid,e.distinguishid as distinguishid, xuu.name as userunitname  " +
+				String sql="select de.*,e.install_place as place, e.registerid as registerid,e.distinguishid as distinguishid, xuu.name as userunitname,xsu.name as safeUnitName  " +
 						" from Bxgl_Safe de " +			
 						" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
 						" left join xtgl_use_unit xuu on xuu.id=e.use_unit_id "+  //使用单位
+						" left join Xtgl_Safe_Unit xsu on xsu.id=de.safe_Unit_Id "+  //保险单位
 						" where  1=1 " ;
 				
 				if(elevatorId!=null&&!elevatorId.equals("")){
@@ -279,6 +296,7 @@ public class BxglSafeAction  extends DispatchAction{
 					useUnit.setBeneficiary(rs.getString("beneficiary"));
 					useUnit.setNumber(rs.getString("numbers"));
 					useUnit.setCompany(rs.getString("company"));
+					useUnit.setSafeUnitName(rs.getString("safeUnitName"));
 					String sql3="select count(*)  from Bxgl_Claim de where  1=1  and safe_Id = '"+rs.getString("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql3);
 					useUnit.setNum(n);
@@ -364,6 +382,7 @@ public class BxglSafeAction  extends DispatchAction{
 			entity.setPicturePath(unit.getPicturePath());
 			entity.setNumber(unit.getNumber());
 			entity.setCompany(unit.getCompany());
+			entity.setSafeUnitId(unit.getSafeUnitId());
 			safeService.update(entity);
 			DtjkElevator elevator =elevatorService.get(entity.getElevatorId().getId());
 
@@ -425,5 +444,372 @@ public class BxglSafeAction  extends DispatchAction{
 		 return	new ActionForward("/safeAction.do?method=query&elevatorId="+elevatorId);
 		
 	}
+	
+	/**
+	 * 保险统计
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  querySafe(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String makeUnitId=request.getParameter("makeUnitId");
+		String makeUnitId1=request.getParameter("makeUnitId1");
+		String useUnitId=request.getParameter("useUnitId");
+		String useUnitId1=request.getParameter("useUnitId1");
+		String propertyUnitId=request.getParameter("propertyUnitId");
+		String propertyUnitId1=request.getParameter("propertyUnitId1");
+		String maintenanceUnitId=request.getParameter("maintenanceUnitId");
+		String maintenanceUnitId1=request.getParameter("maintenanceUnitId1");
+		
+				
+				//查询服务订单
+		String sql="select count(de.id)" +
+							" from dtjk_elevator de " +
+							" left join Dtjk_gateway g on g.elevator_Id=de.registerid "+  //网关
+							" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+							" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+							" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+							" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+							" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+							" left join Xtgl_Users xu on xu.id=de.userid"+  //区域用户
+							" where  1=1  and de.delflag!='1' " ;
+		String sql1="select count(c.id)" +
+		" from Bxgl_Claim c " +			
+		" left join Bxgl_Safe e on e.id=c.Safe_id "+  //保单记录信息
+		" left join dtjk_elevator de on de.id=e.elevator_id "+  //电梯信息
+		" left join Xtgl_Safe_Unit xsu on xsu.id=e.safe_Unit_Id "+  //保险单位
+		" left join Dtjk_gateway g on g.elevator_Id=de.registerid "+  //网关
+		" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+		" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+		" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+		" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+		" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+		" left join Xtgl_Users xu on xu.id=de.userid"+  //区域用户
+		" where  1=1  and de.delflag!='1' " ;
+		String sql2="select max(count(c.id)) " +
+		" from Bxgl_Claim c " +			
+		" left join Bxgl_Safe e on e.id=c.Safe_id "+  //保单记录信息
+		" left join dtjk_elevator de on de.id=e.elevator_id "+  //电梯信息
+		" left join Xtgl_Safe_Unit xsu on xsu.id=e.safe_Unit_Id "+  //保险单位
+		" left join Dtjk_gateway g on g.elevator_Id=de.registerid "+  //网关
+		" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+		" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+		" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+		" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+		" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+		" left join Xtgl_Users xu on xu.id=de.userid"+  //区域用户
+		" where  1=1  and de.delflag!='1' " ;
+		if(makeUnitId!=null&&!makeUnitId.equals("")){
+			sql+=" and make.id = '"+makeUnitId+"'";
+			sql1+=" and make.id = '"+makeUnitId+"'";
+			sql2+=" and make.id = '"+makeUnitId+"'";
+		}
+		if(useUnitId!=null&&!useUnitId.equals("")){
+			sql+=" and xuu.id = '"+useUnitId+"'";
+			sql1+=" and xuu.id = '"+useUnitId+"'";
+			sql2+=" and xuu.id = '"+useUnitId+"'";
+		}
+		if(propertyUnitId!=null&&!propertyUnitId.equals("")){
+			sql+=" and xpu.id= '"+propertyUnitId+"'";
+			sql1+=" and xpu.id= '"+propertyUnitId+"'";
+			sql2+=" and xpu.id= '"+propertyUnitId+"'";
+		}
+		if(maintenanceUnitId!=null&&!maintenanceUnitId.equals("")){
+			sql+=" and xmu.id= '"+maintenanceUnitId+"'";
+			sql1+=" and xmu.id= '"+maintenanceUnitId+"'";
+			sql2+=" and xmu.id= '"+maintenanceUnitId+"'";
+		}
+		
+				DecimalFormat    df   = new DecimalFormat("#0.00");   
+				Safe safe=new Safe();
+				//电梯总数
+				safe.setZong(DBEntity.getInstance().queryDataCount(sql));
+				//未保电梯数
+				safe.setWei(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State is null "));
+				//在保电梯数
+				safe.setZai(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State='1' "));
+				//脱保电梯数
+				safe.setTuo(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State='0'"));
+				//未保率
+				safe.setWeiRate( df.format(((double)safe.getWei()/safe.getZong())));
+				//在保率
+				safe.setZaiRate( df.format(((double)safe.getZai()/safe.getZong())));
+				//脱保率
+				safe.setTuoRate( df.format(((double)safe.getTuo()/safe.getZong())));
+				//受理赔次数
+				safe.setClaimNum(DBEntity.getInstance().queryDataCount(sql1));
+				//理赔率
+				safe.setClaimRate(df.format(((double)safe.getClaimNum()/safe.getZai())));
+				//最高受理赔次数
+				safe.setMostNum(DBEntity.getInstance().queryDataCount(sql2+" group by e.id"));
+				if(makeUnitId1!=null&&!makeUnitId1.equals(""))
+					makeUnitId1=new String(makeUnitId1.getBytes("ISO-8859-1"),"utf-8");
+				if(useUnitId1!=null&&!useUnitId1.equals(""))
+					useUnitId1=new String(useUnitId1.getBytes("ISO-8859-1"),"utf-8");
+				if(propertyUnitId1!=null&&!propertyUnitId1.equals(""))
+					propertyUnitId1=new String(propertyUnitId1.getBytes("ISO-8859-1"),"utf-8");
+				if(maintenanceUnitId1!=null&&!maintenanceUnitId1.equals(""))
+					maintenanceUnitId1=new String(maintenanceUnitId1.getBytes("ISO-8859-1"),"utf-8");
+				request.setAttribute("safe", safe);
+				request.setAttribute("makeUnitId", makeUnitId);
+				request.setAttribute("makeUnitId1", makeUnitId1);
+				request.setAttribute("useUnitId", useUnitId);
+				request.setAttribute("useUnitId1",useUnitId1);
+				request.setAttribute("propertyUnitId", propertyUnitId);
+				request.setAttribute("propertyUnitId1", propertyUnitId1);
+				request.setAttribute("maintenanceUnitId", maintenanceUnitId);
+				request.setAttribute("maintenanceUnitId1", maintenanceUnitId1);
+		
+				return	new ActionForward("/jsp/Insurance/count/safeCount.jsp");
+		}
+	/**
+	 * 导出 保险统计
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  exportSafe(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
 
+		String makeUnitId=request.getParameter("makeUnitId");
+		String useUnitId=request.getParameter("useUnitId");
+		String propertyUnitId=request.getParameter("propertyUnitId");
+		String maintenanceUnitId=request.getParameter("maintenanceUnitId");
+		
+				
+				//查询服务订单
+		String sql="select count(de.id)" +
+							" from dtjk_elevator de " +
+							" left join Dtjk_gateway g on g.elevator_Id=de.registerid "+  //网关
+							" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+							" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+							" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+							" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+							" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+							" left join Xtgl_Users xu on xu.id=de.userid"+  //区域用户
+							" where  1=1  and de.delflag!='1' " ;
+		String sql1="select count(c.id)" +
+		" from Bxgl_Claim c " +			
+		" left join Bxgl_Safe e on e.id=c.Safe_id "+  //保单记录信息
+		" left join dtjk_elevator de on de.id=e.elevator_id "+  //电梯信息
+		" left join Xtgl_Safe_Unit xsu on xsu.id=e.safe_Unit_Id "+  //保险单位
+		" left join Dtjk_gateway g on g.elevator_Id=de.registerid "+  //网关
+		" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+		" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+		" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+		" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+		" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+		" left join Xtgl_Users xu on xu.id=de.userid"+  //区域用户
+		" where  1=1  and de.delflag!='1' " ;
+		String sql2="select max(count(c.id)) " +
+		" from Bxgl_Claim c " +			
+		" left join Bxgl_Safe e on e.id=c.Safe_id "+  //保单记录信息
+		" left join dtjk_elevator de on de.id=e.elevator_id "+  //电梯信息
+		" left join Xtgl_Safe_Unit xsu on xsu.id=e.safe_Unit_Id "+  //保险单位
+		" left join Dtjk_gateway g on g.elevator_Id=de.registerid "+  //网关
+		" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+		" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+		" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+		" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+		" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+		" left join Xtgl_Users xu on xu.id=de.userid"+  //区域用户
+		" where  1=1  and de.delflag!='1' " ;
+		if(makeUnitId!=null&&!makeUnitId.equals("")){
+			sql+=" and make.id = '"+makeUnitId+"'";
+			sql1+=" and make.id = '"+makeUnitId+"'";
+			sql2+=" and make.id = '"+makeUnitId+"'";
+		}
+		if(useUnitId!=null&&!useUnitId.equals("")){
+			sql+=" and xuu.id = '"+useUnitId+"'";
+			sql1+=" and xuu.id = '"+useUnitId+"'";
+			sql2+=" and xuu.id = '"+useUnitId+"'";
+		}
+		if(propertyUnitId!=null&&!propertyUnitId.equals("")){
+			sql+=" and xpu.id= '"+propertyUnitId+"'";
+			sql1+=" and xpu.id= '"+propertyUnitId+"'";
+			sql2+=" and xpu.id= '"+propertyUnitId+"'";
+		}
+		if(maintenanceUnitId!=null&&!maintenanceUnitId.equals("")){
+			sql+=" and xmu.id= '"+maintenanceUnitId+"'";
+			sql1+=" and xmu.id= '"+maintenanceUnitId+"'";
+			sql2+=" and xmu.id= '"+maintenanceUnitId+"'";
+		}
+		
+				DecimalFormat    df   = new DecimalFormat("#0.00");   
+				Safe safe=new Safe();
+				//电梯总数
+				safe.setZong(DBEntity.getInstance().queryDataCount(sql));
+				//未保电梯数
+				safe.setWei(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State is null "));
+				//在保电梯数
+				safe.setZai(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State='1' "));
+				//脱保电梯数
+				safe.setTuo(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State='0'"));
+				//未保率
+				safe.setWeiRate( df.format(((double)safe.getWei()/safe.getZong())));
+				//在保率
+				safe.setZaiRate( df.format(((double)safe.getZai()/safe.getZong())));
+				//脱保率
+				safe.setTuoRate( df.format(((double)safe.getTuo()/safe.getZong())));
+				//受理赔次数
+				safe.setClaimNum(DBEntity.getInstance().queryDataCount(sql1));
+				//理赔率
+				safe.setClaimRate(df.format(((double)safe.getClaimNum()/safe.getZai())));
+				//最高受理赔次数
+				safe.setMostNum(DBEntity.getInstance().queryDataCount(sql2+" group by e.id"));
+		List<Safe> list=new ArrayList<Safe>();
+		list.add(safe);
+		try {
+			String dates = new SimpleDateFormat("yyyyMMddHHmmss")
+					.format(new Date());
+			String fileName = "保险统计" + dates + ".xls";
+			String filePath = request.getRealPath("/")
+					+ "excel\\" + fileName;
+			// 生成excel文件
+			safeService.exportSafe(filePath, list);
+
+			// 下载excel
+			BufferedOutputStream bos = null;
+			StringBuffer sb = new StringBuffer(50);
+			sb.append("attachment;   filename=");
+			sb.append(fileName);
+			// System.out.println("----------sb="+sb);
+
+			if (null != filePath && fileName != null) {
+				response.setContentType("application/x-msdownload;charset=GBK");
+				response.setHeader("Content-Disposition", new String(sb
+						.toString().getBytes(), "ISO8859-1"));
+				FileInputStream fis = new FileInputStream(filePath);
+				bos = new BufferedOutputStream(response.getOutputStream());
+				byte[] buffer = new byte[2048];
+				while (fis.read(buffer) != -1) {
+					bos.write(buffer);
+				}
+				bos.write(buffer, 0, buffer.length);
+				fis.close();
+				bos.close();
+			}
+			File fs = new File(filePath);
+			if (fs.isFile() && fs.exists()) {
+				fs.delete();
+				System.out.println("删除单个文件" + fileName + "成功！");
+			} else {
+				System.out.println("删除单个文件" + fileName + "失败！");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	
+		 return	null;
+		
+	}
+	/**
+	 * 保险公司统计
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  querySafeUnit (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+				List<SafeUnit> list=new ArrayList<SafeUnit>();
+				String sql=" select xsu.name as name, " +
+						"					(select count(de.id) from BXGL_SAFE s  left join dtjk_elevator de on de.id=s.elevator_id where s.safe_unit_id = xsu.id) as num, " +
+						" 					(select count(c.id) from Bxgl_Claim c left join Bxgl_Safe s on s.id=c.Safe_id  where s.safe_unit_id = xsu.id) as claimNum " +
+						"			 	from Xtgl_Safe_Unit xsu " +
+						"				where 1 = 1";
+				Connection conn=DBEntity.getInstance().getConnection();
+				PreparedStatement sta = conn.prepareStatement(sql);
+				ResultSet rs = sta.executeQuery();
+				DecimalFormat    df   = new DecimalFormat("#0.00");   
+				while(rs.next()){
+					SafeUnit unit=new SafeUnit();
+					unit.setName(rs.getString("name"));
+					unit.setNum(rs.getInt("num"));
+					unit.setClaimNum(rs.getInt("claimNum"));
+					unit.setClaimRate(df.format((double)unit.getClaimNum()/unit.getNum()));
+					list.add(unit);
+				}
+				request.setAttribute("list", list);
+				return	new ActionForward("/jsp/Insurance/count/SafeUnitCount.jsp");
+		}
+	/**
+	 * 导出 保险单位统计
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  exportSafeUnit(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+			throws Exception {
+
+		List<SafeUnit> list=new ArrayList<SafeUnit>();
+		String sql=" select xsu.name as name, " +
+				"					(select count(de.id) from BXGL_SAFE s  left join dtjk_elevator de on de.id=s.elevator_id where s.safe_unit_id = xsu.id) as num, " +
+				" 					(select count(c.id) from Bxgl_Claim c left join Bxgl_Safe s on s.id=c.Safe_id  where s.safe_unit_id = xsu.id) as claimNum " +
+				"			 	from Xtgl_Safe_Unit xsu " +
+				"				where 1 = 1";
+		Connection conn=DBEntity.getInstance().getConnection();
+		PreparedStatement sta = conn.prepareStatement(sql);
+		ResultSet rs = sta.executeQuery();
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		while(rs.next()){
+			SafeUnit unit=new SafeUnit();
+			unit.setName(rs.getString("name"));
+			unit.setNum(rs.getInt("num"));
+			unit.setClaimNum(rs.getInt("claimNum"));
+			unit.setClaimRate(df.format((double)unit.getClaimNum()/unit.getNum()));
+			list.add(unit);
+		}
+		try {
+			String dates = new SimpleDateFormat("yyyyMMddHHmmss")
+					.format(new Date());
+			String fileName = "保险单位统计" + dates + ".xls";
+			String filePath = request.getRealPath("/")
+					+ "excel\\" + fileName;
+			// 生成excel文件
+			safeService.exportSafeUnit(filePath, list);
+
+			// 下载excel
+			BufferedOutputStream bos = null;
+			StringBuffer sb = new StringBuffer(50);
+			sb.append("attachment;   filename=");
+			sb.append(fileName);
+			// System.out.println("----------sb="+sb);
+
+			if (null != filePath && fileName != null) {
+				response.setContentType("application/x-msdownload;charset=GBK");
+				response.setHeader("Content-Disposition", new String(sb
+						.toString().getBytes(), "ISO8859-1"));
+				FileInputStream fis = new FileInputStream(filePath);
+				bos = new BufferedOutputStream(response.getOutputStream());
+				byte[] buffer = new byte[2048];
+				while (fis.read(buffer) != -1) {
+					bos.write(buffer);
+				}
+				bos.write(buffer, 0, buffer.length);
+				fis.close();
+				bos.close();
+			}
+			File fs = new File(filePath);
+			if (fs.isFile() && fs.exists()) {
+				fs.delete();
+				System.out.println("删除单个文件" + fileName + "成功！");
+			} else {
+				System.out.println("删除单个文件" + fileName + "失败！");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	
+		 return	null;
+		
+	}
 }

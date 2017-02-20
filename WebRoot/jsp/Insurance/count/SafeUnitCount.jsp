@@ -55,9 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						<p class="fl add"    onclick="add('${elevatorId}');"><img src="<%=path%>/img/add.png" />新增</p>
-						
-						<p class="fl del">批量删除</p>
+						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -66,37 +64,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i></i>
 								</th>
 								<th>序列</th>
-								<th>保单号</th>
-								<th>保险开始日期</th>
-								<th>保险结束日期</th>
-								<th>保险公司</th>
-								<th>保险金额</th>
-								<th>受益人</th>
-								<th>是否理赔</th>
-								<th>理赔记录数</th>
-								<th>操作</th>
+								<th>保险单位名称</th>
+								<th>共投保电梯数</th>
+								<th>受理赔次数</th>
+								<th>理赔率</th>
 							</thead>
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td class="wei">
-										<i class=""><input type="hidden" value="${list.id}" /></i>
+										<i class=""><input type="hidden" value="" /></i>
 									</td>
 									<td>${s.index + 1 }</td>
-									<td>${list.number}</td>
-									<td><fmt:formatDate value='${list.startTime}' pattern='yyyy-MM-dd'/></td>
-									<td><fmt:formatDate value='${list.endTime}' pattern='yyyy-MM-dd'/></td>
-									<td>${list.safeUnitName}</td>
-									<td>${list.money}</td>
-									<td>${list.beneficiary}</td>
-									<td>${list.state}</td>
-									<td><a href="<%=path %>/claimAction.do?method=query&safeId=${list.id}"   style="color: blue; ">${list.num}</a></td>
-
-									<td>
-										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
-										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>
-										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"   class="del_one" onclick="del('${list.id}');"/>
-									
-									</td>
+									<td>${list.name}</td>
+									<td>${list.num}</td>
+									<td>${list.claimNum}</td>
+									<td>${list.claimRate}</td>
 								</tr>
 								</c:forEach>
 								
@@ -135,7 +117,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script type="text/javascript">
 	
-	
+	//下载  
+		  function exp(){
+    		  window.location.href="<%=path%>/safeAction.do?method=exportSafeUnit";
+         }
 	</script>
 
 </html>

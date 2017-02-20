@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>使用单位</title>
+    <title>物业单位</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -58,16 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="hidden" id="id1" value="${id1}">
 						<input type="text" id="name" placeholder="请输入"  value="${name}" />
 					</p>
-					<p class="fl">
-						<label for="unit">单位类型&nbsp;:&nbsp;</label>
-						<select name="type" id="type">
-							<option value="">请选择</option>
-							<option <c:if test="${type=='物业'}">selected="selected" </c:if> value="物业">物业</option>
-							<option <c:if test="${type=='政府'}">selected="selected" </c:if> value="政府">政府</option>
-							<option <c:if test="${type=='事业单位'}">selected="selected" </c:if> value="事业单位">事业单位</option>
-						
-						</select>				
-					</p>
+					
 					<p class="fl">
 						<label for="man">联系人&nbsp;:&nbsp;</label>
 						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
@@ -82,12 +73,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i></i>
 								</th>
 								<th>序列</th>
-								<th>使用单位名称</th>
-								<th>使用单位类型</th>
+								<th>物业单位名称</th>
 								<th>联系人</th>
 								<th>联系人电话</th>
-								<th>使用单位地址</th>
-								
+								<th>物业单位地址</th>
+								<th>省</th>
+								<th>市</th>
+								<th>区</th>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
@@ -98,11 +90,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.name }</td>
-									<td>${list.type }</td>
 									<td>${list.liaisons }</td>
 									<td>${list.phone }</td>
 									<td>${list.address}</td>
-									
+									<td>${list.province}</td>
+									<td>${list.city}</td>
+									<td>${list.area}</td>
 								</tr>
 								</c:forEach>
 								
@@ -163,7 +156,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 }
 	 window.parent.document.getElementById('${id}').value=id[0];
 	 window.parent.document.getElementById('${id1}').value=name[0];
-	// window.parent.document.getElementById('installUnit').focus();
 	 
 	 window.parent.JqueryDialog.Close();
  }

@@ -352,7 +352,7 @@ public class XtglSafeUnitAction extends DispatchAction  {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*  from Xtgl_use_unit de where  1=1 " ;
+				String sql="select de.*  from Xtgl_Safe_Unit de where  1=1 " ;
 				if(name!=null&&!name.equals("")){
 					sql+=" and name like '%"+name+"%'";
 				}
@@ -392,7 +392,7 @@ public class XtglSafeUnitAction extends DispatchAction  {
 				request.setAttribute("list", list);
 		
 		
-		 return	new ActionForward("/jsp/comm/selectUseUnitList.jsp");
+		 return	new ActionForward("/jsp/comm/selectSafeUnit.jsp");
 		}
 
 }

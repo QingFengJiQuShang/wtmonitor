@@ -34,30 +34,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">类型统计</p>
+			<p class="user">响应统计</p>
 			<div class="warp">
-				<div class="select " >
-					<div class="clearfix">
-					<p class="fl" >
-						<label for="logn">省&nbsp;:&nbsp;</label>
-						<input type="hidden"   id="provinceid"  > 
-						<select   id="province"   >
-						<option value="${province}"  selected="selected">${province}</option>
-						</select>
-				</p>
-					<p class="fl"  >
-					<label for="logn">市&nbsp;:&nbsp;</label>
-						<select   id="city" >
-						<option value="${city}"  selected="selected">${city}</option>
-						</select>
-				</p>
-				<p class="fl">
-						<label for="logn">区&nbsp;:&nbsp;</label>
-						<select   id="area" >
-							<option value="${area}"  selected="selected">${area}</option>
-						</select>
-					</p>
-					</div>
+				<div class="select "  style="height: 55px;">
+					
 				<div class="clearfix">
 					<p class="fl">
 						<label for="user">开始时间&nbsp;:&nbsp;</label>
@@ -71,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fl">
 							<label for="man">单位类型&nbsp;:&nbsp;</label>
 							<select id="flag" name="flag">
-									<option <c:if test="${flag==''}">selected="selected" </c:if>  value="">请选择</option>
+									<option <c:if test="${ empty flag||flag==''}">selected="selected" </c:if>  value="">请选择</option>
 									<option<c:if test="${flag=='1'}">selected="selected" </c:if>  value="1">使用单位</option>
 									<option<c:if test="${flag=='2'}">selected="selected" </c:if>  value="2">物业单位</option>
 									<option<c:if test="${flag=='3'}">selected="selected" </c:if>  value="3">维保单位</option>
@@ -96,16 +76,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
 								<th style="width: 200px;">单位名称</th>
-								<th>故障类型名称</th>
-								<th>此故障数量</th>
-								<th>故障发生率</th>
+								<th>救援次数</th>
+								<th style="width: 300px;">平均救援到达时间(分钟)</th>
+								<th style="width: 300px;">平均救援成功时间(分钟)</th>
 							</thead>
-							<c:forEach items="${counts}" var="list" varStatus="s">
+							<c:forEach items="${list}" var="list" varStatus="s">
 							<tr>
 									<td>${list.name }</td>
-									<td>${list.faultType }</td>
-									<td>${list.faultNum }</td>
-									<td>${list.incidence }</td>
+									<td>${list.num }</td>
+									<td>${list.arriveTime }</td>
+									<td>${list.successTime }</td>
+									<td>
+										
+									</td>
 								</tr>
 							</c:forEach>
 								
@@ -126,9 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function gotoUrl (){
 			 var begintime= document.getElementById("begintime").value;
 			 var endtime= document.getElementById("endtime").value;
-			 var province= document.getElementById("province").value;
-			 var city= document.getElementById("city").value;
-			 var area= document.getElementById("area").value;
+			
 			 var flag= document.getElementById("flag").value;
 			 var unitId= document.getElementById("unitId").value;
 			 var unitId1= document.getElementById("unitId1").value;
@@ -139,15 +120,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  }
 			  if(endtime!=""){
 				  url=url+"&endtime="+endtime;
-			  }
-			  if(province!=""){
-				  url=url+"&province="+province;
-			  }
-			  if(city!=""){
-				  url=url+"&city="+city;
-			  }
-			  if(area!=""){
-				  url=url+"&area="+area;
 			  }
 			  if(flag!=""){
 				  url=url+"&flag="+flag;
@@ -162,11 +134,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  }
 	 //模糊查询
 		function query(){
-    		  window.location.href="<%=path%>/countAction.do?method=faultCount"+gotoUrl();
+    		  window.location.href="<%=path%>/countAction.do?method=rescueUnitCount"+gotoUrl();
 		  }
 	  //下载  
 		  function exp(){
-    		  window.location.href="<%=path%>/countAction.do?method=exportFaultCount"+gotoUrl ();
+    		  window.location.href="<%=path%>/countAction.do?method=exportRescueUnitCount"+gotoUrl ();
          }
 	</script>
 

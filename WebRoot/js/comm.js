@@ -1,3 +1,5 @@
+ document.body.scrollTop = document.documentElement.scrollTop = 0;
+ scrollTo(0,0);
 $("title").text("梯运宝");
 $(".list-item p").click(function() {
 	$(".list-item").find("p").removeClass("active")

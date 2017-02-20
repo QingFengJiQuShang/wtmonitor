@@ -30,6 +30,19 @@ public class ExcelColumns {
 	public final static String GzlcAlarm[] = {"电梯注册号","识别码","安装地点 ","故障发生时间","报警时间","报警人","报警人电话","故障问题","故障描述"};
 
 	public final static String XtszLog[] = {"操作时间","操作人员","操作内容 "};
+	
+	public final static String Safe[] = {"电梯总数","未保电梯数","未保电梯率","在保电梯数","在保电梯率","脱保电梯数","脱保电梯率",	"受理理赔次数",	"受理理赔率",	"最高理赔次数",};
+	
+	public final static String SafeUnit[] = {"保险单位名称","共投保电梯数","受理理赔次数 ","理赔率"};
+
+	public final static String RegionCount[]={"省","市","区","故障数量","人工接警数量","自动接警数量","困人故障数量","困人率","其它故障数量"};
+	
+	public final static String FaultCount[]={"单位名称","故障类型名称","故障数量","故障发生率"};
+	
+	public final static String RescueCount[]={"省","市","区","救援次数","平均救援到达时间(分钟)","平均救援成功时间(分钟)"};
+	
+	public final static String RescueCount1[]={"单位名称","救援次数","平均救援到达时间(分钟)","平均救援成功时间(分钟)"};
 
 	
+
 }

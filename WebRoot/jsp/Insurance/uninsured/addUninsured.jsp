@@ -27,7 +27,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" src="<%=path %>/ueditor/lang/zh-cn/zh-cn.js"></script>
-	
+		
+		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
+		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
 		<style>
 			select {
 				width: 153px;
@@ -110,7 +114,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</p>
 				<p class="fill">
 					<label for="unit">保险公司&nbsp;:&nbsp;</label>
-					<input type="text" id="company"  name="safe.company"   placeholder="请输入"/>
+					<input type="hidden" id="company"  name="safe.company"   placeholder="请输入"/>
+					<input type="hidden"  id="safeUnitId"  name="safe.safeUnitId.id"  />
+					<input type="text"  id="safeUnitId1"  placeholder="请选择" readonly="readonly"   onclick="selectsafeUnitId('safeUnitId','safeUnitId1');"/>
+				
+				
 				</p>
 				<p class="fill">
 					<label for="start_end">保单开始日期&nbsp;:&nbsp;</label>

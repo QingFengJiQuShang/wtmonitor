@@ -74,6 +74,9 @@ public class DtjkElevator implements java.io.Serializable {
 	private String propertyUnitPhone;			//物业单位电梯负责人电话
 	private Date yearlyTime1;							//首次年检时间
 	private String ip;											//视频ip
+	private String province;			//省
+	private String city;						//市
+	private String area;					//区
 	// Constructors
     
     private String useUnitName;			//使用单位名称
@@ -105,7 +108,8 @@ public class DtjkElevator implements java.io.Serializable {
 			Date reportTime,String delflag,String serviceState,String safeState,
 			XtglPropertyUnit  propertyUnitId,XtglMakeUnit makeUnitId,
 			 Date nextTime,String useUnitLiaisons,String useUnitPhone,
-			String  propertyUnitLiaisons,String  propertyUnitPhone,Date yearlyTime1,String ip) {
+			String  propertyUnitLiaisons,String  propertyUnitPhone,
+			Date yearlyTime1,String ip,String province,String city,String area) {
 		this.registerid = registerid;
 		this.distinguishid = distinguishid;
 		this.brand = brand;
@@ -151,6 +155,9 @@ public class DtjkElevator implements java.io.Serializable {
 		this.propertyUnitPhone=propertyUnitPhone;
 		this.yearlyTime1=yearlyTime1;
 		this.ip=ip;
+		this.province=province;
+		this.city=city;
+		this.area=area;
 	}
 
 	// Property accessors
@@ -605,6 +612,30 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setMakeUnitName(String makeUnitName) {
 		this.makeUnitName = makeUnitName;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 }
