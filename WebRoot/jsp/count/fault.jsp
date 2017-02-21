@@ -72,11 +72,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<label for="man">单位类型&nbsp;:&nbsp;</label>
 							<select id="flag" name="flag">
 									<option <c:if test="${flag==''}">selected="selected" </c:if>  value="">请选择</option>
-									<option<c:if test="${flag=='1'}">selected="selected" </c:if>  value="1">使用单位</option>
-									<option<c:if test="${flag=='2'}">selected="selected" </c:if>  value="2">物业单位</option>
-									<option<c:if test="${flag=='3'}">selected="selected" </c:if>  value="3">维保单位</option>
-									<option<c:if test="${flag=='4'}">selected="selected" </c:if>  value="4">制造单位</option>
-									<option<c:if test="${flag=='5'}">selected="selected" </c:if>  value="5">救援单位</option>
+									<option	<c:if test="${flag=='1'}">selected="selected" </c:if>  value="1">使用单位</option>
+									<option	<c:if test="${flag=='2'}">selected="selected" </c:if>  value="2">物业单位</option>
+									<option	<c:if test="${flag=='3'}">selected="selected" </c:if>  value="3">维保单位</option>
+									<option	<c:if test="${flag=='4'}">selected="selected" </c:if>  value="4">制造单位</option>
+									<option	<c:if test="${flag=='5'}">selected="selected" </c:if>  value="5">救援单位</option>
 							<!-- 		<option value="6">保险单位</option> -->
 							</select>
 					</p>

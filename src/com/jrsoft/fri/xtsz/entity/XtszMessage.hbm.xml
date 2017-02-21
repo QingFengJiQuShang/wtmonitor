@@ -24,5 +24,8 @@
         <property name="content" type="java.lang.String">
             <column name="CONTENT" length="4000" />
         </property>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" length="50" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -116,7 +116,13 @@ function toMain(flag){
 			   window.main.location="<%=path%>/countAction.do?method=rescueUnitCount";
 		   }
 		     if(flag==55){
-			   window.main.location="<%=path%>/countAction.do?method=useUnitCount";
+			   window.main.location="<%=path%>/countAction.do?method=maintenanceRegionCount";
+		   }
+		   if(flag==56){
+			   window.main.location="<%=path%>/countAction.do?method=maintenanceAttendanceCount";
+		   }
+		    if(flag==57){
+			   window.main.location="<%=path%>/countAction.do?method=messageCount";
 		   }
 		   if(flag==61){
 			   window.main.location="<%=path%>/logAction.do?method=query&flag=1";
@@ -257,7 +263,9 @@ function toMain(flag){
 					<p	 class="two"   onclick="toMain('52')">故障类型统计</p>
 					<p	  class="two"  onclick="toMain('53')">救援区域统计</p>
 					<p	  class="two"  onclick="toMain('54')">救援响应统计</p>
-					<p	  class="two"  onclick="toMain('55')">使用单位统计</p>
+					<p	  class="two"  onclick="toMain('55')">维保区域统计</p>
+					<p	  class="two"  onclick="toMain('56')">维保出勤统计</p>
+					<p	  class="two"  onclick="toMain('57')">短信统计</p>
 				</div>
 			</li>
 			

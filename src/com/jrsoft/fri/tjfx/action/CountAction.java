@@ -36,6 +36,7 @@ import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.bxgl.from.Safe;
 import com.jrsoft.fri.bxgl.from.SafeUnit;
+import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.entity.GzclRescue;
@@ -43,10 +44,13 @@ import com.jrsoft.fri.gzcl.service.GzclFaultService;
 import com.jrsoft.fri.gzcl.service.GzclRescueService;
 import com.jrsoft.fri.tjfx.from.BrandCount;
 import com.jrsoft.fri.tjfx.from.FaultCount;
+import com.jrsoft.fri.tjfx.from.MaintenanceCount;
+import com.jrsoft.fri.tjfx.from.MessageCount;
 import com.jrsoft.fri.tjfx.from.RegionCount;
 import com.jrsoft.fri.tjfx.from.RescueCount;
 import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
 import com.jrsoft.fri.xtgl.from.ExcelColumns;
+import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitService;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
 import com.jrsoft.fri.xtgl.service.XtglRescueUnitService;
@@ -1249,17 +1253,23 @@ public class CountAction  extends DispatchAction{
 		String area=request.getParameter("area");
 		DecimalFormat    df   = new DecimalFormat("#0.00");   
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		RegionCount count=new RegionCount();
-		String sql="select count(dmr.id) from Dtjk_Maintenance_Records dmr  left join dtjk_elevator de on de.id=dmr.elevator_id  where 1=1";
+		MaintenanceCount count=new MaintenanceCount();
+		String sql="select  count(dmr.id) from Dtjk_Maintenance_Records dmr  left join dtjk_elevator de   on de.id = dmr.elevator_id where 1 = 1";
+		String sql1="select count(de.id) from Dtjk_Elevator de   where de.delflag!='1' ";
+		String sql2="select count(gf.id) from gzcl_fault gf  left join dtjk_elevator de on de.id=gf.elevator_id  where 1=1";
+
+		
 		if(begintime!=null&&!begintime.equals("")){
-			sql+=" and gf.Time  >=to_date('" + begintime+ "','yyyy-MM-dd')";
+			sql2+=" and gf.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
 		}
 		if(endtime!=null&&!endtime.equals("")){
-			sql+=" and gf.Time  <=to_date('" + endtime+ "','yyyy-MM-dd')";
+			sql2+=" and gf.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
 		}
 		if(province!=null&&!province.equals("")){
 			province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
 			sql+=" and de.province  ='" + province+ "'";
+			sql1+=" and de.province  ='" + province+ "'";
+			sql2+=" and de.province  ='" + province+ "'";
 			count.setProvince(province);
 		}else{
 			count.setProvince("所有");
@@ -1267,6 +1277,8 @@ public class CountAction  extends DispatchAction{
 		if(city!=null&&!city.equals("")){
 			city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
 			sql+=" and de.city ='" + city+ "'";
+			sql1+=" and de.city ='" + city+ "'";
+			sql2+=" and de.city ='" + city+ "'";
 			count.setCity(city);
 		}else{
 			count.setCity("所有");
@@ -1274,22 +1286,26 @@ public class CountAction  extends DispatchAction{
 		if(area!=null&&!area.equals("")){
 			area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
 			sql+=" and de.area  ='" + area+ "'";
+			sql1+=" and de.area  ='" + area+ "'";
+			sql2+=" and de.area  ='" + area+ "'";
 			count.setArea(area);
 		}else{
 			count.setArea("所有");
 		}
+		String sql3=sql2+" and  (gf.fault_Type='困人' or gf.fault_Type='冲顶困人' or gf.fault_Type='蹲底困人' or gf.fault_Type='非平层困人')";
+		//电梯总数
+		count.setNum(DBEntity.getInstance().queryDataCount(sql1));
+		//维保卡总数
+		count.setWbkNum(DBEntity.getInstance().queryDataCount(sql));
+		//维保卡率
+		count.setWbkRate(count.getNum()==0?"0":df.format((double)count.getWbkNum()/count.getNum()));
 		//故障数量
-		count.setFaultNum(DBEntity.getInstance().queryDataCount(sql));
-		//人工接警数量
-		count.setAlarmNum(DBEntity.getInstance().queryDataCount(sql+" and gf.type='人工接警' "));
-		//自动接警数量
-		count.setAutomaticNum(DBEntity.getInstance().queryDataCount(sql+" and  gf.type='自动接警' "));
-		//困人故障数量
-		count.setPeopleTrappedNum(DBEntity.getInstance().queryDataCount(sql+" and  (gf.fault_Type='困人' or gf.fault_Type='冲顶困人' or gf.fault_Type='蹲底困人' or gf.fault_Type='非平层困人')"));
+		count.setFaultNum(DBEntity.getInstance().queryDataCount(sql2));
+				//困人故障数量
+		count.setPeopleTrappedNum(DBEntity.getInstance().queryDataCount(sql3));
 		//困人率
 		count.setPeopleTrappedRate(count.getFaultNum()==0?"0":df.format((double)count.getPeopleTrappedNum()/count.getFaultNum()));
-		//其它故障数量
-		count.setOtherNum(count.getFaultNum()-count.getPeopleTrappedNum());
+		
 		
 		request.setAttribute("count",count );
 		request.setAttribute("province",province );
@@ -1301,10 +1317,798 @@ public class CountAction  extends DispatchAction{
 		if(begintime!=null&&!begintime.equals("")){
 			request.setAttribute("begintime", sdf.parse( begintime));
 		}
-		return	new ActionForward("/jsp/count/regionCount.jsp");
+		return	new ActionForward("/jsp/count/maintenanceRegionCount.jsp");
 		}
 	
+	/**
+	 * 导出 维保区域统计
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public void  exportMaintenanceRegionCount(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String begintime=request.getParameter("begintime");
+		String endtime=request.getParameter("endtime");
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		MaintenanceCount count=new MaintenanceCount();
+		String sql="select  count(dmr.id) from Dtjk_Maintenance_Records dmr  left join dtjk_elevator de   on de.id = dmr.elevator_id where 1 = 1";
+		String sql1="select count(de.id) from Dtjk_Elevator de   where de.delflag!='1' ";
+		String sql2="select count(gf.id) from gzcl_fault gf  left join dtjk_elevator de on de.id=gf.elevator_id  where 1=1";
 
+		
+		if(begintime!=null&&!begintime.equals("")){
+			sql2+=" and gf.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(endtime!=null&&!endtime.equals("")){
+			sql2+=" and gf.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(province!=null&&!province.equals("")){
+			province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+			sql+=" and de.province  ='" + province+ "'";
+			sql1+=" and de.province  ='" + province+ "'";
+			sql2+=" and de.province  ='" + province+ "'";
+			count.setProvince(province);
+		}else{
+			count.setProvince("所有");
+		}
+		if(city!=null&&!city.equals("")){
+			city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+			sql+=" and de.city ='" + city+ "'";
+			sql1+=" and de.city ='" + city+ "'";
+			sql2+=" and de.city ='" + city+ "'";
+			count.setCity(city);
+		}else{
+			count.setCity("所有");
+		}
+		if(area!=null&&!area.equals("")){
+			area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+			sql+=" and de.area  ='" + area+ "'";
+			sql1+=" and de.area  ='" + area+ "'";
+			sql2+=" and de.area  ='" + area+ "'";
+			count.setArea(area);
+		}else{
+			count.setArea("所有");
+		}
+		String sql3=sql2+" and  (gf.fault_Type='困人' or gf.fault_Type='冲顶困人' or gf.fault_Type='蹲底困人' or gf.fault_Type='非平层困人')";
+		//电梯总数
+		count.setNum(DBEntity.getInstance().queryDataCount(sql1));
+		//维保卡总数
+		count.setWbkNum(DBEntity.getInstance().queryDataCount(sql));
+		//维保卡率
+		count.setWbkRate(count.getNum()==0?"0":df.format((double)count.getWbkNum()/count.getNum()));
+		//故障数量
+		count.setFaultNum(DBEntity.getInstance().queryDataCount(sql2));
+				//困人故障数量
+		count.setPeopleTrappedNum(DBEntity.getInstance().queryDataCount(sql3));
+		//困人率
+		count.setPeopleTrappedRate(count.getFaultNum()==0?"0":df.format((double)count.getPeopleTrappedNum()/count.getFaultNum()));
+		
+		List<MaintenanceCount> list=new ArrayList<MaintenanceCount>();
+		list.add(count);
+		try {
+		String dates = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		String fileName = "维保区域统计" + dates + ".xls";
+		String filePath = request.getRealPath("/")
+		+ "excel\\" + fileName;
+				try {
+					
+			// 生成excel文件
+					System.out.println("========>>" + filePath);
+					//Excel ex = new Excel();
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					// 在Excel工作簿中建一工作表，其名为缺省值
+					HSSFSheet sheet = null;
+					HSSFRow row = null;
+					HSSFCell cell = null;
+					sheet = workbook.createSheet("区域统计");
+					HSSFCellStyle style = workbook.createCellStyle(); // 样式对象
+					style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+					/**
+					 * 设置字体
+					 */
+					HSSFFont f = workbook.createFont();
+					f.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+					style.setFont(f);		
+					String[] top_arraydis = null;
+					
+					if (1 == 1) {
+						top_arraydis = ExcelColumns.MaintenanceCount;
+		
+						row = sheet.createRow(0);// 创建一行
+		
+						for (int c = 0; c < top_arraydis.length; c++) {
+							cell = row.createCell((short) c);// 创建格 字段 
+							cell.setCellValue("中文");
+							cell.setCellStyle(style);
+							cell.setCellValue(top_arraydis[c]);
+						}
+						int j = 0;
+						for (int i = 0; i < list.size(); i++) {
+							    row = sheet.createRow(i+1);
+							    MaintenanceCount	e = (MaintenanceCount) list.get(i);
+							    
+							    cell = row.createCell(j);// 创建格 字段
+								cell.setCellValue(e.getProvince());   
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getCity());  
+		
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getArea());  
+								
+							    cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getNum());   
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getWbkNum());  
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getWbkRate());   //电梯型号
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getPeopleTrappedRate());   
+								
+								j = 0;
+							}
+					}
+		
+					// 新建一输出文件流
+					
+					FileOutputStream fOut = new FileOutputStream(filePath);
+		//			System.out.println(fOut + "-----");
+					// 把相应的Excel 工作簿存盘
+					workbook.write(fOut);
+					fOut.flush();
+					// 操作结束，关闭文件
+					fOut.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("已运行 xlCreate() : " + e);
+				}
+		// 下载excel
+		BufferedOutputStream bos = null;
+		StringBuffer sb = new StringBuffer(50);
+		sb.append("attachment;   filename=");
+		sb.append(fileName);
+		// System.out.println("----------sb="+sb);
+
+		if (null != filePath && fileName != null) {
+			response.setContentType("application/x-msdownload;charset=GBK");
+			response.setHeader("Content-Disposition", new String(sb
+					.toString().getBytes(), "ISO8859-1"));
+			FileInputStream fis = new FileInputStream(filePath);
+			bos = new BufferedOutputStream(response.getOutputStream());
+			byte[] buffer = new byte[2048];
+			while (fis.read(buffer) != -1) {
+				bos.write(buffer);
+			}
+			bos.write(buffer, 0, buffer.length);
+			fis.close();
+			bos.close();
+		}
+		File fs = new File(filePath);
+		if (fs.isFile() && fs.exists()) {
+			fs.delete();
+			System.out.println("删除单个文件" + fileName + "成功！");
+		} else {
+			System.out.println("删除单个文件" + fileName + "失败！");
+		}
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+	
+
+	/**
+	 *  维保出勤统计
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  maintenanceAttendanceCount (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String begintime=request.getParameter("begintime");
+		String endtime=request.getParameter("endtime");
+		String flag=request.getParameter("flag");
+		String unitId=request.getParameter("unitId");
+		String unitId1=request.getParameter("unitId1");
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		MaintenanceCount count=new MaintenanceCount();
+		if(unitId1!=null&&!unitId1.equals("")){
+			unitId1=new String(unitId1.getBytes("ISO-8859-1"),"UTF-8");
+			count.setName(unitId1);
+		}else{
+			count.setName("所有单位");
+		}
+		
+		String sql="select  count(dmr.id) " +
+				" from Dtjk_Maintenance_Records dmr  " +
+				" left join dtjk_elevator de   on de.id = dmr.elevator_id " +
+				" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+				" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+				" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+				" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+				" where 1 = 1";
+		String sql1="select count(de.id) " +
+				" from Dtjk_Elevator de  " +
+				" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+				" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+				" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+				" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+				" where de.delflag!='1' ";
+		String sql2="select count(gf.id) " +
+				"	from gzcl_fault gf " +
+				" left join dtjk_elevator de on de.id=gf.elevator_id " +
+				" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+				" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+				" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+				" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+		//		" left join Gzcl_Rescue gr on gr.fault_Id=gf.id"+  //救援单位 和故障 关系表
+				" where 1=1";
+
+		
+		if(begintime!=null&&!begintime.equals("")){
+			sql2+=" and gf.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(endtime!=null&&!endtime.equals("")){
+			sql2+=" and gf.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(flag!=null&&!flag.equals("")){
+			if(flag.equals("1")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xuu.id='"+unitId+"' ";
+				sql1+=" and xuu.id='"+unitId+"' ";
+				sql2+=" and xuu.id='"+unitId+"' ";
+			}else if(flag.equals("2")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xpu.id='"+unitId+"' ";
+				sql1+=" and xpu.id='"+unitId+"' ";
+				sql2+=" and xpu.id='"+unitId+"' ";
+			}else if(flag.equals("3")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xmu.id='"+unitId+"' ";
+				sql1+=" and xmu.id='"+unitId+"' ";
+				sql2+=" and xmu.id='"+unitId+"' ";
+			}else if(flag.equals("4")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and make.id='"+unitId+"' ";
+				sql1+=" and make.id='"+unitId+"' ";
+				sql2+=" and make.id='"+unitId+"' ";
+			}else if(flag.equals("5")&&unitId!=null&&!unitId.equals("")){
+				sql2+=" and gr.rescue_Unit_Id='"+unitId+"' ";
+			}else {
+				
+			}
+	}
+		String sql3=sql2+" and  (gf.fault_Type='困人' or gf.fault_Type='冲顶困人' or gf.fault_Type='蹲底困人' or gf.fault_Type='非平层困人')";
+		//电梯总数
+		count.setNum(DBEntity.getInstance().queryDataCount(sql1));
+		//维保卡总数
+		count.setWbkNum(DBEntity.getInstance().queryDataCount(sql));
+		//维保卡率
+		count.setWbkRate(count.getNum()==0?"0":df.format((double)count.getWbkNum()/count.getNum()));
+		//故障数量
+		count.setFaultNum(DBEntity.getInstance().queryDataCount(sql2));
+				//困人故障数量
+		count.setPeopleTrappedNum(DBEntity.getInstance().queryDataCount(sql3));
+		//困人率
+		count.setPeopleTrappedRate(count.getFaultNum()==0?"0":df.format((double)count.getPeopleTrappedNum()/count.getFaultNum()));
+		
+		
+		request.setAttribute("count",count );
+		request.setAttribute("flag",flag);
+		request.setAttribute("unitId1",unitId1);
+		request.setAttribute("unitId",unitId);
+		if(endtime!=null&&!endtime.equals("")){
+			request.setAttribute("endtime", sdf.parse( endtime));
+		}
+		if(begintime!=null&&!begintime.equals("")){
+			request.setAttribute("begintime", sdf.parse( begintime));
+		}
+		return	new ActionForward("/jsp/count/maintenanceAttendanceCount.jsp");
+		}
+
+	/**
+	 * 导出 维保区域统计
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public void  exportMaintenanceAttendanceCount(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String begintime=request.getParameter("begintime");
+		String endtime=request.getParameter("endtime");
+		String flag=request.getParameter("flag");
+		String unitId=request.getParameter("unitId");
+		String unitId1=request.getParameter("unitId1");
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		MaintenanceCount count=new MaintenanceCount();
+		if(unitId1!=null&&!unitId1.equals("")){
+			unitId1=new String(unitId1.getBytes("ISO-8859-1"),"UTF-8");
+			count.setName(unitId1);
+		}else{
+			count.setName("所有单位");
+		}
+		
+		String sql="select  count(dmr.id) " +
+				" from Dtjk_Maintenance_Records dmr  " +
+				" left join dtjk_elevator de   on de.id = dmr.elevator_id " +
+				" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+				" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+				" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+				" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+				" where 1 = 1";
+		String sql1="select count(de.id) " +
+				" from Dtjk_Elevator de  " +
+				" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+				" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+				" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+				" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+				" where de.delflag!='1' ";
+		String sql2="select count(gf.id) " +
+				"	from gzcl_fault gf " +
+				" left join dtjk_elevator de on de.id=gf.elevator_id " +
+				" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+				" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+				" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+				" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+		//		" left join Gzcl_Rescue gr on gr.fault_Id=gf.id"+  //救援单位 和故障 关系表
+				" where 1=1";
+
+		
+		if(begintime!=null&&!begintime.equals("")){
+			sql2+=" and gf.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(endtime!=null&&!endtime.equals("")){
+			sql2+=" and gf.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(flag!=null&&!flag.equals("")){
+			if(flag.equals("1")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xuu.id='"+unitId+"' ";
+				sql1+=" and xuu.id='"+unitId+"' ";
+				sql2+=" and xuu.id='"+unitId+"' ";
+			}else if(flag.equals("2")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xpu.id='"+unitId+"' ";
+				sql1+=" and xpu.id='"+unitId+"' ";
+				sql2+=" and xpu.id='"+unitId+"' ";
+			}else if(flag.equals("3")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xmu.id='"+unitId+"' ";
+				sql1+=" and xmu.id='"+unitId+"' ";
+				sql2+=" and xmu.id='"+unitId+"' ";
+			}else if(flag.equals("4")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and make.id='"+unitId+"' ";
+				sql1+=" and make.id='"+unitId+"' ";
+				sql2+=" and make.id='"+unitId+"' ";
+			}else if(flag.equals("5")&&unitId!=null&&!unitId.equals("")){
+				sql2+=" and gr.rescue_Unit_Id='"+unitId+"' ";
+			}else {
+				
+			}
+	}
+		String sql3=sql2+" and  (gf.fault_Type='困人' or gf.fault_Type='冲顶困人' or gf.fault_Type='蹲底困人' or gf.fault_Type='非平层困人')";
+		//电梯总数
+		count.setNum(DBEntity.getInstance().queryDataCount(sql1));
+		//维保卡总数
+		count.setWbkNum(DBEntity.getInstance().queryDataCount(sql));
+		//维保卡率
+		count.setWbkRate(count.getNum()==0?"0":df.format((double)count.getWbkNum()/count.getNum()));
+		//故障数量
+		count.setFaultNum(DBEntity.getInstance().queryDataCount(sql2));
+				//困人故障数量
+		count.setPeopleTrappedNum(DBEntity.getInstance().queryDataCount(sql3));
+		//困人率
+		count.setPeopleTrappedRate(count.getFaultNum()==0?"0":df.format((double)count.getPeopleTrappedNum()/count.getFaultNum()));
+		
+		List<MaintenanceCount> list=new ArrayList<MaintenanceCount>();
+		list.add(count);
+		try {
+		String dates = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		String fileName = "维保出勤统计" + dates + ".xls";
+		String filePath = request.getRealPath("/")
+		+ "excel\\" + fileName;
+				try {
+					
+			// 生成excel文件
+					System.out.println("========>>" + filePath);
+					//Excel ex = new Excel();
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					// 在Excel工作簿中建一工作表，其名为缺省值
+					HSSFSheet sheet = null;
+					HSSFRow row = null;
+					HSSFCell cell = null;
+					sheet = workbook.createSheet("出勤统计");
+					HSSFCellStyle style = workbook.createCellStyle(); // 样式对象
+					style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+					/**
+					 * 设置字体
+					 */
+					HSSFFont f = workbook.createFont();
+					f.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+					style.setFont(f);		
+					String[] top_arraydis = null;
+					
+					if (1 == 1) {
+						top_arraydis = ExcelColumns.MaintenanceCount1;
+		
+						row = sheet.createRow(0);// 创建一行
+		
+						for (int c = 0; c < top_arraydis.length; c++) {
+							cell = row.createCell((short) c);// 创建格 字段 
+							cell.setCellValue("中文");
+							cell.setCellStyle(style);
+							cell.setCellValue(top_arraydis[c]);
+						}
+						int j = 0;
+						for (int i = 0; i < list.size(); i++) {
+							    row = sheet.createRow(i+1);
+							    MaintenanceCount	e = (MaintenanceCount) list.get(i);
+							    
+							    cell = row.createCell(j);// 创建格 字段
+								cell.setCellValue(e.getName());   
+								
+								
+							    cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getNum());   
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getWbkNum());  
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getWbkRate());   //电梯型号
+
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getFaultNum());  
+		
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getPeopleTrappedNum());  
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getPeopleTrappedRate());   
+								
+								j = 0;
+							}
+					}
+		
+					// 新建一输出文件流
+					
+					FileOutputStream fOut = new FileOutputStream(filePath);
+		//			System.out.println(fOut + "-----");
+					// 把相应的Excel 工作簿存盘
+					workbook.write(fOut);
+					fOut.flush();
+					// 操作结束，关闭文件
+					fOut.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("已运行 xlCreate() : " + e);
+				}
+		// 下载excel
+		BufferedOutputStream bos = null;
+		StringBuffer sb = new StringBuffer(50);
+		sb.append("attachment;   filename=");
+		sb.append(fileName);
+		// System.out.println("----------sb="+sb);
+
+		if (null != filePath && fileName != null) {
+			response.setContentType("application/x-msdownload;charset=GBK");
+			response.setHeader("Content-Disposition", new String(sb
+					.toString().getBytes(), "ISO8859-1"));
+			FileInputStream fis = new FileInputStream(filePath);
+			bos = new BufferedOutputStream(response.getOutputStream());
+			byte[] buffer = new byte[2048];
+			while (fis.read(buffer) != -1) {
+				bos.write(buffer);
+			}
+			bos.write(buffer, 0, buffer.length);
+			fis.close();
+			bos.close();
+		}
+		File fs = new File(filePath);
+		if (fs.isFile() && fs.exists()) {
+			fs.delete();
+			System.out.println("删除单个文件" + fileName + "成功！");
+		} else {
+			System.out.println("删除单个文件" + fileName + "失败！");
+		}
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+	
+
+	/**
+	 * 短信统计
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  messageCount (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String begintime=request.getParameter("begintime");
+		String endtime=request.getParameter("endtime");
+		String flag=request.getParameter("flag");
+		String unitId=request.getParameter("unitId");
+		String unitId1=request.getParameter("unitId1");
+		String num=request.getParameter("num");   //当前页
+
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		if(unitId1!=null&&!unitId1.equals("")){
+			unitId1=new String(unitId1.getBytes("ISO-8859-1"),"UTF-8");
+		}
+		Page  page=new Page();
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		String sql="select xm.phone as phone, count(xm.id) as num, xm.name as name  " +
+				" from xtsz_message xm " +
+				" left join xtgl_use_unit xuu   on xuu.phone = xm.phone  " +
+				" left join xtgl_maintenance_unit xmu   on xmu.phone = xm.phone " +
+				" left join Xtgl_Property_Unit xpu   on xpu.phone = xm.phone " +
+				" left join Xtgl_Make_Unit make   on make.phone = xm.phone" +
+				" left join Xtgl_Safe_Unit xsu   on xsu.phone = xm.phone" +				
+				" left join Xtgl_Rescue_Unit xru   on xru.phone = xm.phone" +
+				" where 1=1" ;
+		String sql1="select count(xm.id)  " +
+		" from xtsz_message xm " +
+		" left join xtgl_use_unit xuu   on xuu.phone = xm.phone  " +
+		" left join xtgl_maintenance_unit xmu   on xmu.phone = xm.phone " +
+		" left join Xtgl_Property_Unit xpu   on xpu.phone = xm.phone " +
+		" left join Xtgl_Make_Unit make   on make.phone = xm.phone" +
+		" left join Xtgl_Safe_Unit xsu   on xsu.phone = xm.phone" +				
+		" left join Xtgl_Rescue_Unit xru   on xru.phone = xm.phone" +
+		" where 1=1" ;
+
+		
+		if(begintime!=null&&!begintime.equals("")){
+			sql+=" and xm.Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+			sql1+=" and xm.Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(endtime!=null&&!endtime.equals("")){
+			sql+=" and xm.Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+			sql1+=" and xm.Time  <=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(flag!=null&&!flag.equals("")){
+			if(flag.equals("1")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xuu.id='"+unitId+"' ";
+				sql1+=" and xuu.id='"+unitId+"' ";
+			}else if(flag.equals("2")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xpu.id='"+unitId+"' ";
+				sql1+=" and xpu.id='"+unitId+"' ";
+			}else if(flag.equals("3")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xmu.id='"+unitId+"' ";
+				sql1+=" and xmu.id='"+unitId+"' ";
+			}else if(flag.equals("4")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and make.id='"+unitId+"' ";
+				sql1+=" and make.id='"+unitId+"' ";
+			}else if(flag.equals("5")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xru.id='"+unitId+"' ";
+				sql1+=" and xru.id='"+unitId+"' ";
+			}else if(flag.equals("6")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xru.id='"+unitId+"' ";
+				sql1+=" and xru.id='"+unitId+"' ";
+			}else {
+				
+			}
+	}
+		 sql=sql+" group by xm.phone,xm.name order by num";
+		 sql1=sql1+" group by xm.phone,xm.name ";
+			Connection conn=DBEntity.getInstance().getConnection();
+			List<MessageCount> list=new ArrayList<MessageCount>();
+			String sql2="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+			int siz=	DBEntity.getInstance().queryDataCount(sql1);
+			page.setCount(siz);//总记录数
+			page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+
+			PreparedStatement sta = conn.prepareStatement(sql2);
+			ResultSet rs = sta.executeQuery();
+			while(rs.next()){
+				MessageCount count=new MessageCount();
+				count.setName(rs.getString("name"));
+				count.setNum(rs.getInt("num"));
+				count.setPhone(rs.getString("phone"));
+				list.add(count);
+			}
+			
+		request.setAttribute("list",list );
+		request.setAttribute("flag",flag);
+		request.setAttribute("unitId1",unitId1);
+		request.setAttribute("unitId",unitId);
+		request.setAttribute("page", page);
+		if(endtime!=null&&!endtime.equals("")){
+			request.setAttribute("endtime", sdf.parse( endtime));
+		}
+		if(begintime!=null&&!begintime.equals("")){
+			request.setAttribute("begintime", sdf.parse( begintime));
+		}
+		return	new ActionForward("/jsp/count/messageCount.jsp");
+		}
+
+	/**
+	 * 导出 短信统计
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public void  exportMessageCount(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String begintime=request.getParameter("begintime");
+		String endtime=request.getParameter("endtime");
+		String flag=request.getParameter("flag");
+		String unitId=request.getParameter("unitId");
+		String unitId1=request.getParameter("unitId1");
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		if(unitId1!=null&&!unitId1.equals("")){
+			unitId1=new String(unitId1.getBytes("ISO-8859-1"),"UTF-8");
+		}
+		
+		String sql="select xm.phone as phone, count(xm.id) as num, xm.name as name  " +
+				" from xtsz_message xm " +
+				" left join xtgl_use_unit xuu   on xuu.phone = xm.phone  " +
+				" left join xtgl_maintenance_unit xmu   on xmu.phone = xm.phone " +
+				" left join Xtgl_Property_Unit xpu   on xpu.phone = xm.phone " +
+				" left join Xtgl_Make_Unit make   on make.phone = xm.phone" +
+				" left join Xtgl_Safe_Unit xsu   on xsu.phone = xm.phone" +				
+				" left join Xtgl_Rescue_Unit xru   on xru.phone = xm.phone" +
+				" where 1=1" ;
+		
+
+		
+		if(begintime!=null&&!begintime.equals("")){
+			sql+=" and xm.Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(endtime!=null&&!endtime.equals("")){
+			sql+=" and xm.Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(flag!=null&&!flag.equals("")){
+			if(flag.equals("1")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xuu.id='"+unitId+"' ";
+			}else if(flag.equals("2")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xpu.id='"+unitId+"' ";
+			}else if(flag.equals("3")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xmu.id='"+unitId+"' ";
+			}else if(flag.equals("4")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and make.id='"+unitId+"' ";
+			}else if(flag.equals("5")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xru.id='"+unitId+"' ";
+			}else if(flag.equals("6")&&unitId!=null&&!unitId.equals("")){
+				sql+=" and xru.id='"+unitId+"' ";
+			}else {
+				
+			}
+	}
+		 sql=sql+" group by xm.phone,xm.name order by num";
+			Connection conn=DBEntity.getInstance().getConnection();
+			List<MessageCount> list=new ArrayList<MessageCount>();
+			PreparedStatement sta = conn.prepareStatement(sql);
+			ResultSet rs = sta.executeQuery();
+			while(rs.next()){
+				MessageCount count=new MessageCount();
+				count.setName(rs.getString("name"));
+				count.setNum(rs.getInt("num"));
+				count.setPhone(rs.getString("phone"));
+				list.add(count);
+			}
+		try {
+		String dates = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		String fileName = "短信统计" + dates + ".xls";
+		String filePath = request.getRealPath("/")
+		+ "excel\\" + fileName;
+				try {
+					
+			// 生成excel文件
+					System.out.println("========>>" + filePath);
+					//Excel ex = new Excel();
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					// 在Excel工作簿中建一工作表，其名为缺省值
+					HSSFSheet sheet = null;
+					HSSFRow row = null;
+					HSSFCell cell = null;
+					sheet = workbook.createSheet("短信统计");
+					HSSFCellStyle style = workbook.createCellStyle(); // 样式对象
+					style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+					/**
+					 * 设置字体
+					 */
+					HSSFFont f = workbook.createFont();
+					f.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+					style.setFont(f);		
+					String[] top_arraydis = null;
+					
+					if (1 == 1) {
+						top_arraydis = ExcelColumns.MessageCount;
+		
+						row = sheet.createRow(0);// 创建一行
+		
+						for (int c = 0; c < top_arraydis.length; c++) {
+							cell = row.createCell((short) c);// 创建格 字段 
+							cell.setCellValue("中文");
+							cell.setCellStyle(style);
+							cell.setCellValue(top_arraydis[c]);
+						}
+						int j = 0;
+						for (int i = 0; i < list.size(); i++) {
+							    row = sheet.createRow(i+1);
+							    MessageCount	e = (MessageCount) list.get(i);
+							    
+							    cell = row.createCell(j);// 创建格 字段
+								cell.setCellValue(e.getName());   
+								
+								 cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getPhone());   
+								
+							    cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getNum());   
+								
+								
+								j = 0;
+							}
+					}
+		
+					// 新建一输出文件流
+					
+					FileOutputStream fOut = new FileOutputStream(filePath);
+		//			System.out.println(fOut + "-----");
+					// 把相应的Excel 工作簿存盘
+					workbook.write(fOut);
+					fOut.flush();
+					// 操作结束，关闭文件
+					fOut.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("已运行 xlCreate() : " + e);
+				}
+		// 下载excel
+		BufferedOutputStream bos = null;
+		StringBuffer sb = new StringBuffer(50);
+		sb.append("attachment;   filename=");
+		sb.append(fileName);
+		// System.out.println("----------sb="+sb);
+
+		if (null != filePath && fileName != null) {
+			response.setContentType("application/x-msdownload;charset=GBK");
+			response.setHeader("Content-Disposition", new String(sb
+					.toString().getBytes(), "ISO8859-1"));
+			FileInputStream fis = new FileInputStream(filePath);
+			bos = new BufferedOutputStream(response.getOutputStream());
+			byte[] buffer = new byte[2048];
+			while (fis.read(buffer) != -1) {
+				bos.write(buffer);
+			}
+			bos.write(buffer, 0, buffer.length);
+			fis.close();
+			bos.close();
+		}
+		File fs = new File(filePath);
+		if (fs.isFile() && fs.exists()) {
+			fs.delete();
+			System.out.println("删除单个文件" + fileName + "成功！");
+		} else {
+			System.out.println("删除单个文件" + fileName + "失败！");
+		}
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
 	/**
 	 * 维保单位统计
 	 * @param request

@@ -42,7 +42,7 @@ public class Message {
 		String str="";
 		if(dictionaries!=null){
 			str=dictionaries.getDictionary();
-			str=str.replace("{name}","张三");
+			
 			str=str.replace("{place}",elevators.getInstallPlace());
 			str=str.replace("{type}",order);
 		}
@@ -52,6 +52,8 @@ public class Message {
 			message.setState("未发送");
 			XtglUseUnit useUnit=useUnitService.get(list.getUseUnitId().getId());
 			if(useUnit!=null){
+				str=str.replace("{name}",useUnit.getLiaisons());
+				message.setName(useUnit.getLiaisons());
 				message.setPhone(useUnit.getPhone());
 				message.setContent(str);
 				messageService.save(message);
@@ -66,6 +68,8 @@ public class Message {
 			message.setState("未发送");
 			XtglMaintenanceUsers useUnit=maintenanceUsersService.get(list.getMaintenanceUnitId().getId());
 			if(useUnit!=null){
+				str=str.replace("{name}",useUnit.getName());
+				message.setName(useUnit.getName());
 				message.setPhone(useUnit.getPhone());
 				message.setContent(str);
 				messageService.save(message);
@@ -82,6 +86,8 @@ public class Message {
 			message.setState("未发送");
 			XtglUsers useUnit=usersService.get(list.getUserid().getId());
 			if(useUnit!=null){
+				str=str.replace("{name}",useUnit.getName());
+				message.setName(useUnit.getName());
 				message.setPhone(useUnit.getPhone());
 				message.setContent(str);
 				messageService.save(message);
@@ -120,7 +126,8 @@ public class Message {
 			str=str.replace("{sim}",sim);
 			str=str.replace("{days}",days);
 		}
-		
+		str=str.replace("{name}",name);
+		message.setName(name);
 		message.setState("未发送");
 		message.setPhone(phone);
 		message.setContent(str);

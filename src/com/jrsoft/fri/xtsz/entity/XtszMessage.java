@@ -12,6 +12,7 @@ public class XtszMessage implements java.io.Serializable {
 
 	private Long id;
 	private String phone;				//短信接收人
+	private String name;				//短信接收人姓名
 	private String state;					//发送状态
 	private Date time;						//发送时间
 	private String content;			//内容
@@ -24,8 +25,9 @@ public class XtszMessage implements java.io.Serializable {
 
 	/** full constructor */
 	public XtszMessage(String phone, String state, Date time,
-			String content) {
+			String content,String name) {
 		this.phone = phone;
+		this.name=name;
 		this.state = state;
 		this.time = time;
 		this.content = content;
@@ -71,6 +73,14 @@ public class XtszMessage implements java.io.Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

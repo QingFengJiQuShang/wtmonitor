@@ -42,7 +42,12 @@ public class ExcelColumns {
 	public final static String RescueCount[]={"省","市","区","救援次数","平均救援到达时间(分钟)","平均救援成功时间(分钟)"};
 	
 	public final static String RescueCount1[]={"单位名称","救援次数","平均救援到达时间(分钟)","平均救援成功时间(分钟)"};
-
 	
+	public final static String MaintenanceCount[]={"省","市","区","电梯总数","维保刷卡数","维保刷卡率","困人率"};
+
+	public final static String MaintenanceCount1[]={"单位名称","电梯总数","维保刷卡数","维保刷卡率","故障总数","困人故障数量","困人率"};
+
+	public final static String MessageCount[]={"姓名","手机号","短信条数"};
+
 
 }

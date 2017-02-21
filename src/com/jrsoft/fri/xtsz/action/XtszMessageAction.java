@@ -117,6 +117,7 @@ public class XtszMessageAction  extends DispatchAction {
 					XtszMessage elevator=new XtszMessage();
 					elevator.setId(rs.getLong("id"));
 					elevator.setTime(rs.getString("Time")==null?null:df.parse(rs.getString("Time")));
+					elevator.setName(rs.getString("name"));
 					elevator.setPhone(rs.getString("phone"));
 					elevator.setState(rs.getString("state"));
 					elevator.setContent(rs.getString("content"));
@@ -184,6 +185,8 @@ public class XtszMessageAction  extends DispatchAction {
 		if(list!=null){
 			list.setPhone(message.getPhone());
 			list.setContent(message.getContent());
+			list.setName(message.getName());
+
 			messageService.update(list);
 		}
 		
