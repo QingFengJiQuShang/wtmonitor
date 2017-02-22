@@ -40,16 +40,17 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<p class="add">新增白名单</p>
 				
 				<div class="table_con">
+				<p class="fill">
+						<label for="user">所属人&nbsp;:&nbsp;</label>
+						${list.belong}
+						
+					</p>
 					<p class="fill">
 						<label for="user">电话&nbsp;:&nbsp;</label>
 						<input type="hidden" id="elevatorId"  name="ph.elevatorId.id"  value="${elevatorId}" />
 						${list.phone}
 					</p>
-					<p class="fill">
-						<label for="user">所属人&nbsp;:&nbsp;</label>
-						${list.belong}
-						
-					</p>
+					
 					<p class="or clearfix">
 						<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>
 						<input type="button"  value="修改"   onclick="findById('${list.id}','1');" >

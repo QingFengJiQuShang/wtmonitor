@@ -51,6 +51,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="unit">使用单位&nbsp;:&nbsp;</label>${list.useUnitId.name}
 					</p>
 					<p class="fill">
+						<label for="unit">物业单位&nbsp;:&nbsp;</label>${list.elevatorId.propertyUnitId.name}
+					</p>
+					<p class="fill">
 						<label for="place">安装地点&nbsp;:&nbsp;</label>${list.elevatorId.installPlace}
 					</p>
 					<p class="fill">

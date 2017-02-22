@@ -35,6 +35,8 @@ public class DtjkMaintenanceRecords implements java.io.Serializable {
 	private String registerid;			//电梯注册号
 	private String distinguishid;			//识别码
 	private String place;			//安装地点
+	   private String  propertyUnitName;				//物业单位
+	   private String phone;				//电话
 	// Constructors
 
 	/** default constructor */
@@ -179,6 +181,22 @@ public class DtjkMaintenanceRecords implements java.io.Serializable {
 
 	public void setUseUnitName(String useUnitName) {
 		this.useUnitName = useUnitName;
+	}
+
+	public String getPropertyUnitName() {
+		return propertyUnitName;
+	}
+
+	public void setPropertyUnitName(String propertyUnitName) {
+		this.propertyUnitName = propertyUnitName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 

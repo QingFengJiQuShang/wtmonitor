@@ -27,18 +27,42 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/dtjk_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
 		<div class="con" id="user">
 			<p class="user">电梯管理</p>
 			<div class="warp">
-				<div class="select">
+				<div class="select" style="height: 165px;">
 				<div class="clearfix">
+					<p class="fl" >
+						<label for="logn">省&nbsp;:&nbsp;</label>
+						<input type="hidden"   id="provinceid"  > 
+						<select   id="province"   >
+						<option value="${province}"  selected="selected">${province}</option>
+						</select>
+				</p>
+					<p class="fl"  >
+					<label for="logn">市&nbsp;:&nbsp;</label>
+						<select   id="city" >
+						<option value="${city}"  selected="selected">${city}</option>
+						</select>
+				</p>
+				<p class="fl">
+						<label for="logn">区&nbsp;:&nbsp;</label>
+						<select   id="area" >
+							<option value="${area}"  selected="selected">${area}</option>
+						</select>
+					</p>
 					<p class="fl">
 						<label for="user">注册号&nbsp;:&nbsp;</label>
 						<input type="text" id="registerid"  value="${registerid}"  placeholder="请输入" />
 					</p>
+					
+					</div>
+				<div class="clearfix">
 					<p class="fl">
 						<label for="code">识别码&nbsp;:&nbsp;</label>
 						<input type="text" id="distinguishid"  value="${distinguishid}" />
@@ -47,15 +71,40 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="man">使用单位&nbsp;:&nbsp;</label>
 						<input type="text" id="useUnitName"  value="${useUnitName}" placeholder="请输入" />
 					</p>
+					<p class="fl">
+						<label for="man">维保单位&nbsp;:&nbsp;</label>
+						<input type="text" id="maintenanceUnitName"  value="${maintenanceUnitName}" placeholder="请输入" />
+					</p>
+					<p class="fl">
+						<label for="man">物业单位&nbsp;:&nbsp;</label>
+						<input type="text" id="propertyUnitName"  value="${propertyUnitName}" placeholder="请输入" />
+					</p>
+					
 				</div>
 				<div class="clearfix">
 					<p class="fl">
-						<label for="brand">电梯品牌&nbsp;:&nbsp;</label>
-						<input type="text" id="brand" value="${brand}"  placeholder="请输入" />
+						<label for="brand">制造单位&nbsp;:&nbsp;</label>
+						<input type="text" id="makeUnitName" value="${makeUnitName}"  placeholder="请输入" />
 					</p>
 					<p class="fl">
-						<label for="num">总层数&nbsp;:&nbsp;</label>
-						<input type="text" id="numbers"  value="${numbers}" />
+						<label for="num">安装地点&nbsp;:&nbsp;</label>
+						<input type="text" id="installPlace"  value="${installPlace}" />
+					</p>
+					<p class="fl">
+						<label for="logn">年检状态&nbsp;:&nbsp;</label>
+						<select   id="yearlyState" >
+							<option value=""  selected="selected">请选择</option>
+							<option  <c:if test="${yearlyState=='0'}">selected="selected"</c:if>   value="0"  >待年检</option>
+							<option  <c:if test="${yearlyState=='1'}">selected="selected"</c:if>  value="1"  >已年检</option>
+						</select>
+					</p>
+					<p class="fl">
+						<label for="logn">服务状态&nbsp;:&nbsp;</label>
+						<select   id="serviceState" >
+							<option value=""  selected="selected">请选择</option>
+							<option <c:if test="${serviceState=='0'}">selected="selected"</c:if> value="0"  >待服务</option>
+							<option <c:if test="${serviceState=='1'}">selected="selected"</c:if>  value="1"  >服务中</option>
+						</select>
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
@@ -77,9 +126,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>识别码</th>
 							<th>电梯使用单位</th>
 							<th>电梯安装单位</th>
-							<th>电梯品牌</th>
-							<th>电梯层数</th>
+							<th>下次年检时间</th>
 							<th>电梯状态</th>
+							<th>服务状态</th>
 							<th>剩余流量(M)</th>
 							<th>上报周期</th>
 							<th>白名单</th>
@@ -102,15 +151,18 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.distinguishid }</td>
 									<td>${list.useUnitName }</td>
 									<td>${list.installUnit }</td>
-									<td>${list.brand}</td>
-									<td>${list.numbers}</td>
+									<td><fmt:formatDate value='${list.nextTime}' pattern='yyyy-MM-dd'/></td>
 									<td>${list.state}</td>
+									<td><c:if test="${list.serviceState=='0'}">待服务</c:if><c:if test="${list.serviceState=='1'}">服务中</c:if></td>
+									
 									<td>${list.flowSurplus}M<!-- <a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a> --></td>
-									<td  style="color: blue; " <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','3');"   <%} %>>${list.period}s</td>
-									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
+									<td  >
+									<a href="<%=path %>/elevatorAction.do?method=findById&id=${list.id}&flag=3"   style="color: blue; ">${list.period}s</a>
+									</td>
+									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
 									<td><a href="<%=path %>/recordsAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numRecords}</a></td>
 									<td><a href="<%=path %>/inspectionAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numYearly}</a></td>
-									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
+									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
 									
 									
 									<td>

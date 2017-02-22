@@ -81,8 +81,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>注册号</th>
 							<th>识别码</th>
 							<th>使用单位</th>
+							<th>物业单位</th>
 							<th>安装地点</th>
 							<th>检验日期</th>
+							<th>下次检验日期</th>
 							<th>检验单位</th>
 							<th>检验结果</th>
 							<th>操作</th>
@@ -97,8 +99,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.registerid }</td>
 									<td>${list.distinguishid }</td>
 									<td>${list.useUnitName }</td>
+									<td>${list.propertyUnitName }</td>
 									<td>${list.place }</td>
 									<td><fmt:formatDate value='${list.time}' pattern='yyyy-MM-dd'/></td>
+									<td><fmt:formatDate value='${list.nextTime}' pattern='yyyy-MM-dd'/></td>
 									<td>${list.inspectionUnit}</td>
 									<td>${list.result}</td>
 									<td>

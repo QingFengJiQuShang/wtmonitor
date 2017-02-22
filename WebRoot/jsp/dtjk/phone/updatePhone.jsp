@@ -47,18 +47,18 @@ DtjkPhone list=(DtjkPhone)request.getAttribute("list");
 						<input type="hidden" id="elevatorId"  name="ph.id"  value="${list.id}" />
 						<input type="hidden" id="elevatorId"  name="ph.elevatorId.id"  value="${list.elevatorId.id}" />
 						
-						<select id="phone"  name="ph.phone">
+						<select id="belong"  name="ph.belong">
 								<option value="">请选择</option>
 								<%for(int i=0;i<array.size();i++){
 									JSONObject obj=(JSONObject)array.get(i);
 									%>
-									<option value="<%=obj.get("phone") %>"   <%if(list.getPhone().equals(obj.get("phone"))) {%> selected="selected"  <%} %> onclick="belong('<%=obj.get("name")  %>')"><%=obj.get("phone") %></option>
+									<option value="<%=obj.get("name") %>"   <%if(list.getBelong().equals(obj.get("name"))) {%> selected="selected"  <%} %> onclick="belong('<%=obj.get("phone")  %>')"><%=obj.get("name") %></option>
 							<%	} %>
 						</select>
 					</p>
 					<p class="fill">
 						<label for="user">所属人&nbsp;:&nbsp;</label>
-						<input type="text" id="belong"  name="ph.belong"  readonly="readonly"  value="${list.belong}" />
+						<input type="text" id="phone"  name="ph.phone"  readonly="readonly"  value="${list.phone}" />
 						
 					</p>
 					<p class="or clearfix">
@@ -78,6 +78,8 @@ DtjkPhone list=(DtjkPhone)request.getAttribute("list");
      function add(){
 		 	$('#form').submit();
      }
-      
+        function belong(val){
+		 	 document.getElementById("phone").value=val;
+     }
 </script>
 </html>

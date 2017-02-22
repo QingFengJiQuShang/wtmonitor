@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<div class="table_con">
 					<p class="fill">
-						<label for="user">上报周期&nbsp;:&nbsp;</label>
+						<label for="user">上报周期(秒)&nbsp;:&nbsp;</label>
 						<input type="hidden" id="elevatorId"  name="elevator.id"  value="${list.id}" />
 						
 						<input   id="period"  name="elevator.period"  value="${list.period}" />

@@ -37,7 +37,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">维保记录</p>
+			<p class="user">白名单</p>
 			<div class="warp">
 				<div class="select">
 				<div class="clearfix">
@@ -69,8 +69,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<i></i>
 								</th>
 							<th>序列</th>
-							<th>电话</th>
 							<th>所属人</th>
+							<th>电话</th>
+							
 							<th>操作</th>
 							</thead>
 							<tbody>
@@ -80,8 +81,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 										<i class=""><input type="hidden" value="${list.id}" /></i>
 									</td>
 									<td>${s.index + 1 }</td>
-									<td>${list.phone }</td>
 									<td>${list.belong}</td>
+									<td>${list.phone }</td>
 									<td>
 										<img src="<%=path%>/img/content.png"   title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>

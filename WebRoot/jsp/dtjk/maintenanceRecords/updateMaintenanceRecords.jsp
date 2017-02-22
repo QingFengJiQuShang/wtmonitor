@@ -78,6 +78,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text"  id="userId1"   value="${list.userId.name}"  readonly="readonly" onclick="selectMaintenanceUsers1('userId','userId1');"/>
 					</p>
 					<p class="fill">
+						<label for="wb_man">维保人手机&nbsp;:&nbsp;</label>
+						<input type="text"  id="phone"  value="${list.userId.phone}" />						
+					</p>
+					<p class="fill">
+						<label for="wb_man">维保卡号&nbsp;:&nbsp;</label>
+						<input type="text"  id="cardNumber"  name="maintenanceRecords.cardNumber"  value="${list.cardNumber}" />						
+					</p>
+					<p class="fill">
 						<label for="wb_con">维保内容&nbsp;:&nbsp;</label>
 						<input type="text" id="content"  name="maintenanceRecords.content"  value="${list.content}" />
 					</p>

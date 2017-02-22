@@ -40,6 +40,7 @@ import com.jrsoft.fri.xtgl.service.XtglPropertyUnitService;
 import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
 import com.jrsoft.fri.xtsz.action.Log;
 import com.jrsoft.fri.xtsz.entity.XtszLog;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class DtjkElevatorAction extends DispatchAction{
 	private DtjkElevatorService elevatorService;
@@ -246,12 +247,16 @@ public class DtjkElevatorAction extends DispatchAction{
 	 */
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
 		String registerid=request.getParameter("registerid");
 		String distinguishid=request.getParameter("distinguishid");
 		String useUnitName=request.getParameter("useUnitName");
-		String brand=request.getParameter("brand");
-		String numbers=request.getParameter("numbers");
-		
+		String maintenanceUnitName=request.getParameter("maintenanceUnitName");
+		String propertyUnitName=request.getParameter("propertyUnitName");
+		String makeUnitName=request.getParameter("makeUnitName");
+		String installPlace=request.getParameter("installPlace");
 		 judge( ) ;	//判断电梯是否离线
 //		 if(registerid!=null){
 //			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
@@ -283,10 +288,24 @@ public class DtjkElevatorAction extends DispatchAction{
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
 						" from dtjk_elevator de " +
-						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
-						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+						" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+						" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
 						" where  1=1  and de.delflag!='1' " ;
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.area  ='" + area+ "'";
+				}
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -294,13 +313,24 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
+					useUnitName=new String(useUnitName.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
-				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand like '%"+brand+"%'";
+				if(maintenanceUnitName!=null&&!maintenanceUnitName.equals("")){
+					maintenanceUnitName=new String(maintenanceUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xmu.name like '%"+maintenanceUnitName+"%'";
 				}
-				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers = '"+numbers+"'";
+				if(propertyUnitName!=null&&!propertyUnitName.equals("")){
+					propertyUnitName=new String(propertyUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xpu.name like '%"+propertyUnitName+"%'";
+				}
+				if(makeUnitName!=null&&!makeUnitName.equals("")){
+					makeUnitName=new String(makeUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and make.name like '%"+makeUnitName+"%'";
+				}
+				if(installPlace!=null&&!installPlace.equals("")){
+					installPlace=new String(installPlace.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.install_Place like '%"+installPlace+"%'";
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -340,8 +370,13 @@ public class DtjkElevatorAction extends DispatchAction{
 				request.setAttribute("registerid", registerid);
 				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("useUnitName", useUnitName);
-				request.setAttribute("brand", brand);
-				request.setAttribute("numbers", numbers);
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
+				request.setAttribute("maintenanceUnitName", maintenanceUnitName);
+				request.setAttribute("propertyUnitName", propertyUnitName);
+				request.setAttribute("makeUnitName", makeUnitName);
+				request.setAttribute("installPlace", installPlace);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
@@ -359,11 +394,16 @@ public class DtjkElevatorAction extends DispatchAction{
 	 */
 	public ActionForward  queryMonitor(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
 		String registerid=request.getParameter("registerid");
 		String distinguishid=request.getParameter("distinguishid");
 		String useUnitName=request.getParameter("useUnitName");
-		String brand=request.getParameter("brand");
-		String numbers=request.getParameter("numbers");
+		String maintenanceUnitName=request.getParameter("maintenanceUnitName");
+		String propertyUnitName=request.getParameter("propertyUnitName");
+		String makeUnitName=request.getParameter("makeUnitName");
+		String installPlace=request.getParameter("installPlace");
 		
 //		 if(registerid!=null){
 //			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
@@ -397,10 +437,24 @@ public class DtjkElevatorAction extends DispatchAction{
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
 						" from dtjk_elevator de " +
-						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
-						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+						" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+						" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
 						" where  1=1   and de.delflag!='1' " ;
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.area  ='" + area+ "'";
+				}
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -408,13 +462,24 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
+					useUnitName=new String(useUnitName.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
-				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand like '%"+brand+"%'";
+				if(maintenanceUnitName!=null&&!maintenanceUnitName.equals("")){
+					maintenanceUnitName=new String(maintenanceUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xmu.name like '%"+maintenanceUnitName+"%'";
 				}
-				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers = '"+numbers+"'";
+				if(propertyUnitName!=null&&!propertyUnitName.equals("")){
+					propertyUnitName=new String(propertyUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xpu.name like '%"+propertyUnitName+"%'";
+				}
+				if(makeUnitName!=null&&!makeUnitName.equals("")){
+					makeUnitName=new String(makeUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and make.name like '%"+makeUnitName+"%'";
+				}
+				if(installPlace!=null&&!installPlace.equals("")){
+					installPlace=new String(installPlace.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.install_Place like '%"+installPlace+"%'";
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -447,8 +512,13 @@ public class DtjkElevatorAction extends DispatchAction{
 				request.setAttribute("registerid", registerid);
 				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("useUnitName", useUnitName);
-				request.setAttribute("brand", brand);
-				request.setAttribute("numbers", numbers);
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
+				request.setAttribute("maintenanceUnitName", maintenanceUnitName);
+				request.setAttribute("propertyUnitName", propertyUnitName);
+				request.setAttribute("makeUnitName", makeUnitName);
+				request.setAttribute("installPlace", installPlace);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
@@ -466,27 +536,17 @@ public class DtjkElevatorAction extends DispatchAction{
 	 */
 	public ActionForward  queryPlayback (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
 		String registerid=request.getParameter("registerid");
 		String distinguishid=request.getParameter("distinguishid");
 		String useUnitName=request.getParameter("useUnitName");
-		String brand=request.getParameter("brand");
-		String numbers=request.getParameter("numbers");
+		String maintenanceUnitName=request.getParameter("maintenanceUnitName");
+		String propertyUnitName=request.getParameter("propertyUnitName");
+		String makeUnitName=request.getParameter("makeUnitName");
+		String installPlace=request.getParameter("installPlace");
 		
-//		 if(registerid!=null){
-//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(distinguishid!=null){
-//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(useUnitName!=null){
-//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(brand!=null){
-//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(numbers!=null){
-//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-//		 }
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -503,10 +563,24 @@ public class DtjkElevatorAction extends DispatchAction{
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
 						" from dtjk_elevator de " +
-						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
-						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+						" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+						" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
 						" where  1=1   and de.delflag!='1' " ;
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.area  ='" + area+ "'";
+				}
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -514,13 +588,24 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
+					useUnitName=new String(useUnitName.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
-				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand like '%"+brand+"%'";
+				if(maintenanceUnitName!=null&&!maintenanceUnitName.equals("")){
+					maintenanceUnitName=new String(maintenanceUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xmu.name like '%"+maintenanceUnitName+"%'";
 				}
-				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers = '"+numbers+"'";
+				if(propertyUnitName!=null&&!propertyUnitName.equals("")){
+					propertyUnitName=new String(propertyUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xpu.name like '%"+propertyUnitName+"%'";
+				}
+				if(makeUnitName!=null&&!makeUnitName.equals("")){
+					makeUnitName=new String(makeUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and make.name like '%"+makeUnitName+"%'";
+				}
+				if(installPlace!=null&&!installPlace.equals("")){
+					installPlace=new String(installPlace.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.install_Place like '%"+installPlace+"%'";
 				}
 				sql+=" order by de.id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -556,8 +641,13 @@ public class DtjkElevatorAction extends DispatchAction{
 				request.setAttribute("registerid", registerid);
 				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("useUnitName", useUnitName);
-				request.setAttribute("brand", brand);
-				request.setAttribute("numbers", numbers);
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
+				request.setAttribute("maintenanceUnitName", maintenanceUnitName);
+				request.setAttribute("propertyUnitName", propertyUnitName);
+				request.setAttribute("makeUnitName", makeUnitName);
+				request.setAttribute("installPlace", installPlace);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
@@ -575,29 +665,21 @@ public class DtjkElevatorAction extends DispatchAction{
 	 */
 	public ActionForward  queryManage (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
 		String registerid=request.getParameter("registerid");
 		String distinguishid=request.getParameter("distinguishid");
 		String useUnitName=request.getParameter("useUnitName");
-		String brand=request.getParameter("brand");
-		String numbers=request.getParameter("numbers");
-		
-//		 if(registerid!=null){
-//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(distinguishid!=null){
-//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(useUnitName!=null){
-//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(brand!=null){
-//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(numbers!=null){
-//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-//		 }
+		String maintenanceUnitName=request.getParameter("maintenanceUnitName");
+		String propertyUnitName=request.getParameter("propertyUnitName");
+		String makeUnitName=request.getParameter("makeUnitName");
+		String installPlace=request.getParameter("installPlace");
+		String yearlyState=request.getParameter("yearlyState");
+		String serviceState=request.getParameter("serviceState");
 		String num=request.getParameter("num");   //当前页
 		
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 
 		Page  page=new Page();
 		if(num!=null&&!num.equals("")){
@@ -612,10 +694,24 @@ public class DtjkElevatorAction extends DispatchAction{
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
 						" from dtjk_elevator de " +
-						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
-						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+						" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+						" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
 						" where  1=1   and de.delflag!='1' " ;
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.area  ='" + area+ "'";
+				}
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
@@ -623,13 +719,34 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
+					useUnitName=new String(useUnitName.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
-				if(brand!=null&&!brand.equals("")){
-					sql+=" and de.brand like '%"+brand+"%'";
+				if(maintenanceUnitName!=null&&!maintenanceUnitName.equals("")){
+					maintenanceUnitName=new String(maintenanceUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xmu.name like '%"+maintenanceUnitName+"%'";
 				}
-				if(numbers!=null&&!numbers.equals("")){
-					sql+=" and de.numbers = '"+numbers+"'";
+				if(propertyUnitName!=null&&!propertyUnitName.equals("")){
+					propertyUnitName=new String(propertyUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xpu.name like '%"+propertyUnitName+"%'";
+				}
+				if(makeUnitName!=null&&!makeUnitName.equals("")){
+					makeUnitName=new String(makeUnitName.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and make.name like '%"+makeUnitName+"%'";
+				}
+				if(installPlace!=null&&!installPlace.equals("")){
+					installPlace=new String(installPlace.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.install_Place like '%"+installPlace+"%'";
+				}
+				if(serviceState!=null&&!serviceState.equals("")){
+					sql+=" and de.service_State = '"+serviceState+"'";
+				}
+				if(yearlyState!=null&&!yearlyState.equals("")){
+					if(yearlyState.equals("0")){
+						sql+=" and (de.next_Time  <=to_date('" + df.format(new Date())+ "','yyyy-MM-dd hh24:mi:ss') or de.next_Time is null )";
+					}else{
+						sql+=" and de.next_Time  >=to_date('" + df.format(new Date())+ "','yyyy-MM-dd hh24:mi:ss')";
+					}
 				}
 				sql+=" order by de.next_Time ";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -639,6 +756,7 @@ public class DtjkElevatorAction extends DispatchAction{
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkElevator>();
+
 				while(rs.next()){
 					DtjkElevator elevator=new DtjkElevator();
 					elevator.setId(rs.getLong("id"));
@@ -656,6 +774,9 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
 					elevator.setPeriod(rs.getString("period")==null?"0":rs.getString("period"));
 					elevator.setFlowSurplus(rs.getLong("flow_Surplus"));
+					elevator.setServiceState(rs.getString("service_State"));
+					elevator.setNextTime(rs.getString("next_Time")==null?null:df.parse(rs.getString("next_Time")));
+					
 					String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNum(n);
@@ -675,8 +796,15 @@ public class DtjkElevatorAction extends DispatchAction{
 				request.setAttribute("registerid", registerid);
 				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("useUnitName", useUnitName);
-				request.setAttribute("brand", brand);
-				request.setAttribute("numbers", numbers);
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
+				request.setAttribute("maintenanceUnitName", maintenanceUnitName);
+				request.setAttribute("propertyUnitName", propertyUnitName);
+				request.setAttribute("makeUnitName", makeUnitName);
+				request.setAttribute("installPlace", installPlace);
+				request.setAttribute("yearlyState", yearlyState);
+				request.setAttribute("serviceState", serviceState);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		

@@ -27,18 +27,42 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/dtjk_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
 		<div class="con" id="user">
 			<p class="user">电梯列表</p>
 			<div class="warp">
-				<div class="select">
+				<div class="select" style="height: 165px;">
 				<div class="clearfix">
+					<p class="fl" >
+						<label for="logn">省&nbsp;:&nbsp;</label>
+						<input type="hidden"   id="provinceid"  > 
+						<select   id="province"   >
+						<option value="${province}"  selected="selected">${province}</option>
+						</select>
+				</p>
+					<p class="fl"  >
+					<label for="logn">市&nbsp;:&nbsp;</label>
+						<select   id="city" >
+						<option value="${city}"  selected="selected">${city}</option>
+						</select>
+				</p>
+				<p class="fl">
+						<label for="logn">区&nbsp;:&nbsp;</label>
+						<select   id="area" >
+							<option value="${area}"  selected="selected">${area}</option>
+						</select>
+					</p>
 					<p class="fl">
 						<label for="user">注册号&nbsp;:&nbsp;</label>
 						<input type="text" id="registerid"  value="${registerid}"  placeholder="请输入" />
 					</p>
+					
+					</div>
+				<div class="clearfix">
 					<p class="fl">
 						<label for="code">识别码&nbsp;:&nbsp;</label>
 						<input type="text" id="distinguishid"  value="${distinguishid}" />
@@ -47,15 +71,23 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="man">使用单位&nbsp;:&nbsp;</label>
 						<input type="text" id="useUnitName"  value="${useUnitName}" placeholder="请输入" />
 					</p>
+					<p class="fl">
+						<label for="man">维保单位&nbsp;:&nbsp;</label>
+						<input type="text" id="maintenanceUnitName"  value="${maintenanceUnitName}" placeholder="请输入" />
+					</p>
+					<p class="fl">
+						<label for="man">物业单位&nbsp;:&nbsp;</label>
+						<input type="text" id="propertyUnitName"  value="${propertyUnitName}" placeholder="请输入" />
+					</p>
 				</div>
 				<div class="clearfix">
 					<p class="fl">
-						<label for="brand">电梯品牌&nbsp;:&nbsp;</label>
-						<input type="text" id="brand" value="${brand}"  placeholder="请输入" />
+						<label for="brand">制造单位&nbsp;:&nbsp;</label>
+						<input type="text" id="makeUnitName" value="${makeUnitName}"  placeholder="请输入" />
 					</p>
 					<p class="fl">
-						<label for="num">总层数&nbsp;:&nbsp;</label>
-						<input type="text" id="numbers"  value="${numbers}" />
+						<label for="num">安装地点&nbsp;:&nbsp;</label>
+						<input type="text" id="installPlace"  value="${installPlace}" />
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
 				</div>

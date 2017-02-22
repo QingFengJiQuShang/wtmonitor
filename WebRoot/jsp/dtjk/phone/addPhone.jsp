@@ -41,24 +41,20 @@ JSONArray array=(JSONArray)request.getAttribute("array");
 				
 				<div class="table_con">
 					<p class="fill">
-						<label for="user">电话&nbsp;:&nbsp;</label>
-						<input type="hidden" id="elevatorId"  name="ph.elevatorId.id"  value="${elevatorId}" />
-						
-						
-						<select id="phone"  name="ph.phone">
+						<label for="user">所属人&nbsp;:&nbsp;</label>
+						<select id="belong"  name="ph.belong">
 								<option value="">请选择</option>
 								<%for(int i=0;i<array.size();i++){
 									JSONObject obj=(JSONObject)array.get(i);
 									%>
-									<option value="<%=obj.get("phone") %>"  onclick="belong('<%=obj.get("name")  %>')"><%=obj.get("phone") %></option>
+									<option value="<%=obj.get("name") %>"  onclick="belong('<%=obj.get("phone")  %>')"><%=obj.get("name") %></option>
 							<%	} %>
 						</select>
 					</p>
 					<p class="fill">
-						<label for="user">所属人&nbsp;:&nbsp;</label>
-						<input type="text" id="belong"  name="ph.belong"  readonly="readonly" />
-						
-						
+						<label for="user">电话&nbsp;:&nbsp;</label>
+						<input type="hidden" id="elevatorId"  name="ph.elevatorId.id"  value="${elevatorId}" />
+						<input type="text" id="phone"  name="ph.phone"  readonly="readonly" />
 						
 					</p>
 					<p class="or clearfix">
@@ -79,7 +75,7 @@ JSONArray array=(JSONArray)request.getAttribute("array");
 		 	$('#form').submit();
      }
      function belong(val){
-		 	 document.getElementById("belong").value=val;
+		 	 document.getElementById("phone").value=val;
      }
       
 </script>

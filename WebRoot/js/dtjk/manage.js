@@ -1,10 +1,26 @@
 	function gotoUrl (){
+			 var province= document.getElementById("province").value;
+			 var city= document.getElementById("city").value;
+			 var area= document.getElementById("area").value;
 			 var registerid= document.getElementById("registerid").value;
 			 var distinguishid= document.getElementById("distinguishid").value;
 			 var useUnitName= document.getElementById("useUnitName").value;
-			  var brand= document.getElementById("brand").value;
-			 var numbers= document.getElementById("numbers").value;
+			  var maintenanceUnitName= document.getElementById("maintenanceUnitName").value;
+			 var propertyUnitName= document.getElementById("propertyUnitName").value;
+			 var makeUnitName= document.getElementById("makeUnitName").value;
+			 var installPlace= document.getElementById("installPlace").value;
+			 var yearlyState= document.getElementById("yearlyState").value;
+			 var serviceState= document.getElementById("serviceState").value;
 			  var url="";
+			  if(province!=""){
+				  url=url+"&province="+province;
+			  }
+			  if(city!=""){
+				  url=url+"&city="+city;
+			  }
+			  if(area!=""){
+				  url=url+"&area="+area;
+			  }
 			  if(registerid!=""){
 				  url=url+"&registerid="+registerid;
 			  }
@@ -14,11 +30,23 @@
 			  if(useUnitName!=""){
 				  url=url+"&useUnitName="+useUnitName;
 			  }
-			  if(brand!=""){
-				  url=url+"&brand="+brand;
+			  if(maintenanceUnitName!=""){
+				  url=url+"&maintenanceUnitName="+maintenanceUnitName;
 			  }
-			  if(numbers!=""){
-				  url=url+"&numbers="+numbers;
+			  if(propertyUnitName!=""){
+				  url=url+"&propertyUnitName="+propertyUnitName;
+			  }
+			   if(makeUnitName!=""){
+				  url=url+"&makeUnitName="+makeUnitName;
+			  }
+			  if(installPlace!=""){
+				  url=url+"&installPlace="+installPlace;
+			  }
+			  if(yearlyState!=""){
+				  url=url+"&yearlyState="+yearlyState;
+			  }
+			  if(serviceState!=""){
+				  url=url+"&serviceState="+serviceState;
 			  }
 			  return url;
 		  }

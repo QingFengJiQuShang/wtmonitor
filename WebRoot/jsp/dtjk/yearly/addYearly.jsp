@@ -56,11 +56,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text"  id="useUnitId"   value="${list.useUnitId.name}"  readonly="readonly" />
 					</p>
 					<p class="fill">
+						<label for="unit">物业单位&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="propertyUnitId"  name="inspection.propertyUnitId.id"  value="${list.propertyUnitId.id}"/>
+						<input type="text"  id="propertyUnitId1"   value="${list.propertyUnitId.name}"  readonly="readonly" />
+					</p>
+					<p class="fill">
 						<label for="place">安装地点&nbsp;:&nbsp;</label>
 						<input type="text"    value="${list.installPlace}" readonly="readonly" />
 					</p>
 					<p class="fill">
-						<label for="datetimepicker3">检验日期&nbsp;:&nbsp;</label>
+						<label for="datetimepicker3">本次检验日期&nbsp;:&nbsp;</label>
 						<input type="text"   class="Wdate"   id="time"  name="time"  value="<fmt:formatDate value='<%=new Date() %>' pattern='yyyy-MM-dd'/>"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" />
 					</p>
 					<p class="fill">

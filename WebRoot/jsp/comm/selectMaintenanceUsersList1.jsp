@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td class="wei">
-										<i class=""  data-e="${list.id }" data="${list.name }" ></i>
+										<i class=""  data-e="${list.id }" data="${list.name }"  data-b="${list.phone }"  data-c="${list.cardNumber }"></i>
 										
 									</td>
 									<td>${s.index + 1 }</td>
@@ -141,17 +141,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		var ids="";
 		var names="";
-	
+		var cardNumbers="";
+		var phones="";
 		$(".wei").each(function() {
 			if($(this).children("i").hasClass("gou")) {
 				 ids = ids+$(this).find("i").attr("data-e")+",";
 				 names =names+$(this).find("i").attr("data")+",";
-				
+				 phones =phones+$(this).find("i").attr("data-b")+",";
+				 cardNumbers =cardNumbers+$(this).find("i").attr("data-c")+",";
 			}
 		})
 		
 	 var id=ids.split(",");
 	 var name=names.split(",");
+	 var phone=phones.split(",");
+	 var cardNumber=cardNumbers.split(",");
 	//	alert(id.length+","+id);
 	 if(id.length>2){
 	 	alert("只能选择一条数据！");
@@ -159,6 +163,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 }
 	 window.parent.document.getElementById('${id}').value=id[0];
 	 window.parent.document.getElementById('${id1}').value=name[0];
+	 window.parent.document.getElementById('${id2}').value=phone[0];
+	 window.parent.document.getElementById('${id3}').value=cardNumber[0];
 	// window.parent.document.getElementById('installUnit').focus();
 	 
 	 window.parent.JqueryDialog.Close();

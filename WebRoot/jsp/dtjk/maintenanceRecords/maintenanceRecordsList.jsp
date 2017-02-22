@@ -82,9 +82,13 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>电梯注册号</th>
 							<th>识别码</th>
 							<th>使用单位</th>
+							<th>物业单位</th>
+							<th>维保单位</th>
 							<th>安装地点</th>
 							<th>维保日期</th>
 							<th>维保人</th>
+							<th>手机</th>
+							<th>维保卡号</th>
 							<th>维保内容</th>
 							<th>操作</th>
 							</thead>
@@ -98,9 +102,13 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.registerid }</td>
 									<td>${list.distinguishid }</td>
 									<td>${list.useUnitName }</td>
+									<td>${list.propertyUnitName }</td>
+									<td>${list.unitName }</td>
 									<td>${list.place }</td>
 									<td><fmt:formatDate value='${list.time}' pattern='yyyy-MM-dd'/></td>
 									<td>${list.userName}</td>
+									<td>${list.phone}</td>
+									<td>${list.cardNumber}</td>
 									<td>${list.content}</td>
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>

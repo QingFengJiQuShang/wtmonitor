@@ -52,8 +52,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="unit">使用单位&nbsp;:&nbsp;</label>
-						<input type="hidden"  id="useUnitId"  name="inspection.useUnitId.id"  value="${list.useUnitId.id}"/>
-						<input type="text"  id="useUnitId"   value="${list.useUnitId.name}"  readonly="readonly" />
+						<input type="hidden"  id="useUnitId"  name="inspection.useUnitId.id"  value="${list.elevatorId.propertyUnitId.id}"/>
+						<input type="text"  id="useUnitId"   value="${list.elevatorId.propertyUnitId.name}"  readonly="readonly" />
+					</p>
+					<p class="fill">
+						<label for="unit">物业单位&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="propertyUnitId"  name="inspection.propertyUnitId.id"  value="${list.elevatorId.propertyUnitId.id}"/>
+						<input type="text"  id="propertyUnitId1"   value="${list.elevatorId.propertyUnitId.name}"  readonly="readonly" />
 					</p>
 					<p class="fill">
 						<label for="place">安装地点&nbsp;:&nbsp;</label>

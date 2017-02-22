@@ -132,13 +132,17 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*,xuu.name as userunitname,xmu.name unitname,mu.name as username,e.registerid as registerid,e.distinguishid as distinguishid,e.install_place as place  " +
+				String sql="select de.*,xuu.name as userunitname,xmu.name unitname," +
+						"mu.name as username,mu.phone as phone,e.registerid as registerid," +
+						"e.distinguishid as distinguishid,e.install_place as place," +
+						"xpu.name as propertyUnitName  " +
 						" from dtjk_maintenance_records de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.user_id"+  //维保人员
 						" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
-						"where  1=1 " ;
+						" left join Xtgl_Property_Unit xpu on xpu.id=e.property_Unit_Id "+  //物业单位
+						" where  1=1 " ;
 				if(elevatorId!=null&&!elevatorId.equals("")){
 					sql+=" and de.elevator_Id = '"+elevatorId+"'";
 				}
@@ -171,6 +175,9 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 					useUnit.setPlace(rs.getString("place"));
 					useUnit.setTime(df.parse(rs.getString("time")));
 					useUnit.setContent(rs.getString("content"));
+					useUnit.setPropertyUnitName(rs.getString("propertyUnitName"));
+					useUnit.setCardNumber(rs.getString("card_Number"));
+					useUnit.setPhone(rs.getString("phone"));
 					list.add(useUnit);
 					
 				}

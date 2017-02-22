@@ -130,10 +130,12 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*,e.install_place as place, e.registerid as registerid,e.distinguishid as distinguishid, xuu.name as userunitname  " +
+				String sql="select de.*,e.install_place as place, e.registerid as registerid,e.distinguishid as distinguishid, xuu.name as userunitname,xpu.name as propertyUnitName  " +
 						" from dtjk_yearly_inspection de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
+						" left join Xtgl_Property_Unit xpu on xpu.id=e.property_Unit_Id"+  //物业单位
+
 						" where  1=1 " ;
 				
 				if(elevatorId!=null&&!elevatorId.equals("")){
@@ -166,6 +168,8 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 					useUnit.setUseUnitName(rs.getString("userunitname"));
 					useUnit.setInspectionUnit(rs.getString("inspection_unit"));
 					useUnit.setTime(df.parse(rs.getString("time")));
+					useUnit.setNextTime(df.parse(rs.getString("next_Time")));
+					useUnit.setPropertyUnitName(rs.getString("propertyUnitName"));
 					useUnit.setResult(rs.getString("result"));
 					list.add(useUnit);
 					

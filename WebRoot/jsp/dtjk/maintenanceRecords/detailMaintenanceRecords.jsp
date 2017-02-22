@@ -63,6 +63,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="wb_man">维保人&nbsp;:&nbsp;</label>${list.userId.name}
 					</p>
 					<p class="fill">
+						<label for="wb_man">维保人手机&nbsp;:&nbsp;</label>${list.userId.phone}			
+					</p>
+					<p class="fill">
+						<label for="wb_man">维保卡号&nbsp;:&nbsp;</label>${list.cardNumber}
+					</p>
+					<p class="fill">
 						<label for="wb_con">维保内容&nbsp;:&nbsp;</label>${list.content}
 					</p>
 					<p class="fill">

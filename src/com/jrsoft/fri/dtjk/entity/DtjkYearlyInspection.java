@@ -32,7 +32,7 @@ public class DtjkYearlyInspection implements java.io.Serializable {
 	private String registerid;			//电梯注册号
 	private String distinguishid;			//识别码
 	private String place;			//安装地点
-
+    private String  propertyUnitName;				//物业单位
 	/** default constructor */
 	public DtjkYearlyInspection() {
 	}
@@ -166,6 +166,14 @@ public class DtjkYearlyInspection implements java.io.Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getPropertyUnitName() {
+		return propertyUnitName;
+	}
+
+	public void setPropertyUnitName(String propertyUnitName) {
+		this.propertyUnitName = propertyUnitName;
 	}
 
 }
