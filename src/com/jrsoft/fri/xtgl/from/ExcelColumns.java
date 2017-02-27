@@ -8,6 +8,8 @@ public class ExcelColumns {
 	
 	public final static String gateway[] = {"电梯网关类型","取流方式","入网方式","通信线路","终端机型","硬件版本","软件版本","SIM卡号","上报周期","设备序列号","IP地址","port"};
 	
+	public final static String record[] = {"电梯注册号","日期","时间","电梯方向","电梯楼层","是否有人","电梯门状态","电梯状态"};
+	
 	public final static String MaintenanceUnit[] = {"单位名称","负责人","负责人电话","办公地点","公司代码","法人","省","市","区"};
 	
 	public final static String XtglUseUnit[] = {"使用单位名称","联系人","联系人电话","使用单位地址","省","市","区"};

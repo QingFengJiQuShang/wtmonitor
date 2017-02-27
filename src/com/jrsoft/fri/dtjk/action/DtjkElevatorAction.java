@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,9 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSON;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -258,21 +262,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		String makeUnitName=request.getParameter("makeUnitName");
 		String installPlace=request.getParameter("installPlace");
 		 judge( ) ;	//判断电梯是否离线
-//		 if(registerid!=null){
-//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(distinguishid!=null){
-//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(useUnitName!=null){
-//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(brand!=null){
-//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(numbers!=null){
-//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-//		 }
+
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -286,7 +276,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
+				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName,xpu.name as propertyUnitName" +
 						" from dtjk_elevator de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
@@ -332,12 +322,12 @@ public class DtjkElevatorAction extends DispatchAction{
 					installPlace=new String(installPlace.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.install_Place like '%"+installPlace+"%'";
 				}
-				sql+=" order by de.id";	
+				sql+=" order by de.id desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
 				page.setCount(siz);//总记录数
 				page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
-
+				SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<DtjkElevator>();
@@ -352,10 +342,17 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setLabel(rs.getString("label"));
 					elevator.setInstallUnit(rs.getString("install_Unit"));
 					elevator.setManufactureTime(rs.getDate("manufacture_Time"));
-					elevator.setYearlyState(rs.getString("yearly_State"));
+					if(rs.getString("next_time")==null||df.parse(rs.getString("next_time")).getTime()<=(new Date()).getTime()){
+						elevator.setYearlyState("待年检");
+					}else{
+						elevator.setYearlyState("已年检");
+					}
+					
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
+					elevator.setPropertyUnitName(rs.getString("propertyUnitName"));
+					elevator.setType(rs.getString("type"));
 					elevator.setPeriod(rs.getString("period"));
 					elevator.setFlowSurplus(rs.getLong("flow_Surplus"));
 					String sql2="select count(*)  from dtjk_phone de where  1=1  and elevator_id = '"+rs.getString("id")+"'";
@@ -405,21 +402,6 @@ public class DtjkElevatorAction extends DispatchAction{
 		String makeUnitName=request.getParameter("makeUnitName");
 		String installPlace=request.getParameter("installPlace");
 		
-//		 if(registerid!=null){
-//			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(distinguishid!=null){
-//			 distinguishid=new String(distinguishid.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(useUnitName!=null){
-//			 useUnitName=new String(useUnitName.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(brand!=null){
-//			 brand=new String(brand.getBytes("iso-8859-1"),"utf-8");
-//		 }
-//		 if(numbers!=null){
-//			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
-//		 }
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -433,9 +415,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		
 		List<DtjkElevator> list=null;
 		Connection conn=DBEntity.getInstance().getConnection();
-				
 				//查询服务订单
-				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
+				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName, xpu.name as propertyUnitName" +
 						" from dtjk_elevator de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
@@ -505,6 +486,9 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
+					elevator.setPropertyUnitName(rs.getString("propertyUnitName"));
+
+					
 					list.add(elevator);
 					
 				}
@@ -630,7 +614,7 @@ public class DtjkElevatorAction extends DispatchAction{
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
 					elevator.setUseUnitName(rs.getString("useunitname"));
 					elevator.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));
-					
+					elevator.setInstallPlace(rs.getString("install_Place"));
 					String sql2="select count(*)  from dtjk_record de where  1=1  and elevator_id = '"+rs.getString("registerid")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNum(n);

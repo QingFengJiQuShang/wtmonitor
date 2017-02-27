@@ -194,8 +194,8 @@ function toMain(flag){
 					<i class=""></i>电梯监控</p>
 				<div class="next">
 					<p  class="two"  onclick="toMain('21')">电梯列表</p>
-					<p  class="two"  onclick="toMain('22')">电梯监控</p>
-					<p  class="two"  onclick="toMain('23')">电梯回放</p>
+					<p  class="two"  onclick="toMain('22')">实时监控</p>
+					<p  class="two"  onclick="toMain('23')">记录回放</p>
 					<p  class="two" onclick="toMain('24')">电梯管理</p>
 				</div>
 			</li>

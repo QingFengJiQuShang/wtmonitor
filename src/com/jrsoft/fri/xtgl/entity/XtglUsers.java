@@ -15,10 +15,15 @@ public class XtglUsers implements java.io.Serializable {
 	private String loginname;		//登录名
 	private String password;		//密码
 	private String phone;				//电话
-	private String unit;					//单位
+	private String unit;					//区域单位名称
 	private String province;					//区域 省
 	private String city;					// 区域 市
 	private String area;					//区域  区
+	private String type;					//用户类型
+	private String regionUnitId;	//区域单位
+	private String unitType;			//单位类型
+	private String unitId;				//单位id
+	private String unitName;		//单位名称
 	// Constructors
 
 	/** default constructor */
@@ -27,7 +32,8 @@ public class XtglUsers implements java.io.Serializable {
 
 	/** full constructor */
 	public XtglUsers(String name, String loginname, String password,
-			String phone, String unit,String province,String city,String area) {
+			String phone, String unit,String province,String city,String area,
+			String type,String regionUnitId,String unitType,String unitId,String unitName) {
 		this.name = name;
 		this.loginname = loginname;
 		this.password = password;
@@ -36,6 +42,11 @@ public class XtglUsers implements java.io.Serializable {
 		this.unit = unit;
 		this.city=city;
 		this.area=area;
+		this.type=type;
+		this.regionUnitId=regionUnitId;
+		this.unitType=unitType;
+		this.unitId=unitId;
+		this.unitName=unitName;
 	}
 
 	// Property accessors
@@ -110,6 +121,46 @@ public class XtglUsers implements java.io.Serializable {
 
 	public void setArea(String area) {
 		this.area = area;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getRegionUnitId() {
+		return regionUnitId;
+	}
+
+	public void setRegionUnitId(String regionUnitId) {
+		this.regionUnitId = regionUnitId;
+	}
+
+	public String getUnitType() {
+		return unitType;
+	}
+
+	public void setUnitType(String unitType) {
+		this.unitType = unitType;
+	}
+
+	public String getUnitId() {
+		return unitId;
+	}
+
+	public void setUnitId(String unitId) {
+		this.unitId = unitId;
+	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
 	}
 
 }

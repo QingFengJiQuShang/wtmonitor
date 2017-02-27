@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</ul>
 						</div>
 					</li>
-					<li class="fr two">
+					<li class="fr two"  style="margin-top: 30px;">
 									<div class="fl dianti_info">
 									<h3>电梯状态</h3>
 									<p>楼&nbsp;层&nbsp;位&nbsp;置：${records.floor }层</p>
@@ -182,7 +182,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</p>
 									<p class="clearfix">
 										<span class="fl">
-											门关不上
+											关门故障
 											<c:if test="${records.type=='门关不上'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
@@ -211,7 +211,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</c:if>
 										</span>
 										<span class="fr">
-											开门不到位
+											开门故障
 											<c:if test="${records.type=='开门不到位'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
@@ -222,7 +222,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</p>
 									<p class="clearfix">
 										<span class="fl">
-											非平层开门
+											门区外开门
 											<c:if test="${records.type=='非平层开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
@@ -232,8 +232,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</span>
 									</p>
 							</div>
-						<div class="fl update">
-									<p class="update clearfix">更新时间:<fmt:formatDate value='${records.foundTime}' pattern='yyyy-MM-dd HH:mm:ss'/><button class="fr"  onclick="findRecord('${list.registerid}');">查看历史记录</button></p>
+						<div class="fl update"  >
+									<p class="update clearfix" style="color: black;font-size: 24px;">更新时间:&nbsp;&nbsp;<fmt:formatDate value='${records.foundTime}' pattern='yyyy-MM-dd HH:mm:ss'/><button class="fr"  onclick="findRecord('${list.registerid}');">查看历史记录</button></p>
 						</div>
 							<div class="details_info fl reset">
 							<h3 class="fl">基本信息</h3>

@@ -110,10 +110,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>序列</th>
 							<th>电梯注册号</th>
 							<th>识别码</th>
-							<th>电梯使用单位</th>
-							<th>电梯安装单位</th>
+							<th>使用单位</th>
+							<th>物业单位</th>
 							<th>电梯品牌</th>
+							<th>电梯类型</th>
 							<th>电梯层数</th>
+							<th>年检状态</th>
 							<th>电梯状态</th>
 			<!-- 				<th>白名单</th>
 							<th>上报周期</th>
@@ -131,9 +133,11 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.registerid }</td>
 									<td>${list.distinguishid }</td>
 									<td>${list.useUnitName }</td>
-									<td>${list.installUnit }</td>
+									<td>${list.propertyUnitName }</td>
 									<td>${list.brand}</td>
+									<td>${list.type}</td>
 									<td>${list.numbers}</td>
+									<td>${list.yearlyState}</td>
 									<td>${list.state}</td>
 					<!-- 				<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
 									<td  style="color: blue; " <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','3');"   <%} %>>${list.period}</td>

@@ -104,6 +104,10 @@ $(".control").click(function() {
 			if( confirm("确定同时监控这 "+len+" 部电梯？")){
 	 			 window.location.href="recordAction.do?method=findByControl&ids="+ids;
 	 		}
+		}else if(len==0){
+			alert("请选择监控电梯！");
+		}else{
+			alert("最多只能同时监控四台电梯！");
 		}
 		 
 })

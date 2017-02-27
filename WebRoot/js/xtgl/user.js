@@ -27,7 +27,7 @@
 		  }
 		//添加
 		function add(){
-			  window.location="jsp/xtgl/user/addUser.jsp";
+			  window.location="jsp/xtgl/user/addUser1.jsp";
 			  
 		  }
 		//列表分页  

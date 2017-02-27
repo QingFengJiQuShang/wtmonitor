@@ -99,11 +99,14 @@ public class XtglUsersAction extends DispatchAction {
 			elevator.setPassword(StringUtils.encodeBase64(elevator.getPassword()));
 		}
 		
-		if(elevator.getProvince().equals("全选择")){
+		if(elevator.getProvince().equals("")||elevator.getProvince()==null){
 			elevator.setProvince("");
 		}
-		if(elevator.getCity().equals("全选择")){
+		if(elevator.getCity().equals("")||elevator.getCity()==null){
 			elevator.setCity("");
+		}
+		if(elevator.getArea().equals("")||elevator.getArea()==null){
+			elevator.setArea("");
 		}
 		usersService.save(elevator);
 		//保存权限
@@ -237,9 +240,9 @@ public class XtglUsersAction extends DispatchAction {
 		request.setAttribute("authority", authority);
 		
 		if(flag.equals("1")){
-			return	new ActionForward("/jsp/xtgl/user/update.jsp");
+			return	new ActionForward("/jsp/xtgl/user/updateUser.jsp");
 		}else{
-			return	new ActionForward("/jsp/xtgl/user/detailUser.jsp");
+			return	new ActionForward("/jsp/xtgl/user/detailUser1.jsp");
 		}
 		
 	}
@@ -263,15 +266,24 @@ public class XtglUsersAction extends DispatchAction {
 			elevator.setUnit(unit.getUnit());
 			elevator.setProvince(unit.getProvince());
 			elevator.setCity(unit.getCity());
+			elevator.setLoginname(unit.getLoginname());
+			elevator.setType(unit.getType());
+			elevator.setRegionUnitId(unit.getRegionUnitId());
+			elevator.setUnitType(unit.getUnitType());
+			elevator.setUnitId(unit.getUnitId());
+			elevator.setUnitName(unit.getUnitName());
 			if(unit.getPassword()!=null&&!unit.getPassword().equals("")){
 				elevator.setPassword(StringUtils.encodeBase64(unit.getPassword()));
 			}
 			
-			if(elevator.getProvince().equals("全选择")){
+			if(elevator.getProvince().equals("")||elevator.getProvince()==null){
 				elevator.setProvince("");
 			}
-			if(elevator.getCity().equals("全选择")){
+			if(elevator.getCity().equals("")||elevator.getCity()==null){
 				elevator.setCity("");
+			}
+			if(elevator.getArea().equals("")||elevator.getArea()==null){
+				elevator.setArea("");
 			}
 			usersService.update(elevator);
 			

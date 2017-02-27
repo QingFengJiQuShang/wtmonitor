@@ -1,14 +1,28 @@
 package com.jrsoft.fri.dtjk.action;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -23,6 +37,8 @@ import com.jrsoft.fri.dtjk.from.Control;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
 import com.jrsoft.fri.dtjk.service.DtjkRecordService;
+import com.jrsoft.fri.tjfx.from.RegionCount;
+import com.jrsoft.fri.xtgl.from.ExcelColumns;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtsz.entity.XtszDictionary;
 import com.jrsoft.fri.xtsz.service.XtszDictionaryService;
@@ -155,13 +171,19 @@ public class DtjkRecordAction extends DispatchAction {
 	 */
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
-		
+		String begintime=request.getParameter("begintime");
+		String endtime=request.getParameter("endtime");
+		String state=request.getParameter("state");
 		String elevatorId=request.getParameter("elevatorId");
 		String direction=request.getParameter("direction");
 		String people=request.getParameter("people");
 		String door=request.getParameter("door");
 		String num=request.getParameter("num");   //当前页
-		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+
+		if(state!=null){
+			state=new String(state.getBytes("iso-8859-1"),"utf-8");
+		 }
 		 if(direction!=null){
 			 direction=new String(direction.getBytes("iso-8859-1"),"utf-8");
 		 }
@@ -183,18 +205,29 @@ public class DtjkRecordAction extends DispatchAction {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*  from dtjk_record de  where  1=1 " ;
+				String sql="select de.*  from dtjk_record de" +
+						" left join dtjk_elevator e on e.registerid=de.elevator_id " +
+						"   where  1=1 " ;
+				if(begintime!=null&&!begintime.equals("")){
+					sql+=" and de.found_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				if(endtime!=null&&!endtime.equals("")){
+					sql+=" and de.found_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
 				if(elevatorId!=null&&!elevatorId.equals("")){
-					sql+=" and elevator_Id = '"+elevatorId+"'";
+					sql+=" and de.elevator_id = '"+elevatorId+"'";
 				}
 				if(direction!=null&&!direction.equals("")){
-					sql+=" and direction = '"+direction+"'";
+					sql+=" and de.direction = '"+direction+"'";
 				}
 				if(people!=null&&!people.equals("")){
-					sql+=" and people = '"+people+"'";
+					sql+=" and de.people = '"+people+"'";
 				}
 				if(door!=null&&!door.equals("")){
-					sql+=" and door = '"+door+"'";
+					sql+=" and de.door = '"+door+"'";
+				}
+				if(state!=null&&!state.equals("")){
+					sql+=" and e.state = '"+state+"'";
 				}
 				sql+=" order by de.found_time desc  ";	
 				int siz=	DBEntity.getInstance().queryCount(sql);
@@ -228,9 +261,15 @@ public class DtjkRecordAction extends DispatchAction {
 				request.setAttribute("direction",direction );
 				request.setAttribute("people", people);
 				request.setAttribute("door", door);
+				request.setAttribute("state", state);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
-		
+				if(endtime!=null&&!endtime.equals("")){
+					request.setAttribute("endtime", sdf.parse( endtime));
+				}
+				if(begintime!=null&&!begintime.equals("")){
+					request.setAttribute("begintime", sdf.parse( begintime));
+				}
 		
 		 return	new ActionForward("/jsp/dtjk/playback/playbackList.jsp");
 		}
@@ -256,5 +295,210 @@ public class DtjkRecordAction extends DispatchAction {
 		return	new ActionForward("/jsp/dtjk/playback/monitorDetail.jsp");
 		
 	}
+	/**
+	 * 导出 电梯记录
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public void  export(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String begintime=request.getParameter("begintime");
+		String endtime=request.getParameter("endtime");
+		String state=request.getParameter("state");
+		String elevatorId=request.getParameter("elevatorId");
+		String direction=request.getParameter("direction");
+		String people=request.getParameter("people");
+		String door=request.getParameter("door");
+		String num=request.getParameter("num");   //当前页
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 
+		if(state!=null){
+			state=new String(state.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(direction!=null){
+			 direction=new String(direction.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(people!=null){
+			 people=new String(people.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(door!=null){
+			 door=new String(door.getBytes("iso-8859-1"),"utf-8");
+		 }
+
+		
+		
+		List<DtjkRecord> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*  from dtjk_record de" +
+						" left join dtjk_elevator e on e.registerid=de.elevator_id " +
+						"   where  1=1 " ;
+				if(begintime!=null&&!begintime.equals("")){
+					sql+=" and de.found_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				if(endtime!=null&&!endtime.equals("")){
+					sql+=" and de.found_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				if(elevatorId!=null&&!elevatorId.equals("")){
+					sql+=" and de.elevator_id = '"+elevatorId+"'";
+				}
+				if(direction!=null&&!direction.equals("")){
+					sql+=" and de.direction = '"+direction+"'";
+				}
+				if(people!=null&&!people.equals("")){
+					sql+=" and de.people = '"+people+"'";
+				}
+				if(door!=null&&!door.equals("")){
+					sql+=" and de.door = '"+door+"'";
+				}
+				if(state!=null&&!state.equals("")){
+					sql+=" and e.state = '"+state+"'";
+				}
+				sql+=" order by de.found_time desc  ";	
+					PreparedStatement sta = conn.prepareStatement(sql);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<DtjkRecord>();
+				while(rs.next()){
+					DtjkRecord elevator=new DtjkRecord();
+					elevator.setId(rs.getLong("id"));
+					elevator.setSerialNumber(rs.getString("serial_Number"));
+					elevator.setElevatorId(rs.getString("elevator_Id"));
+					elevator.setDirection(rs.getString("direction"));
+					elevator.setSpeed(rs.getString("speed"));
+					elevator.setFloor(rs.getString("floor"));
+					elevator.setGatewayDate(rs.getString("gateway_Date"));
+					elevator.setGatewayTime(rs.getString("gateway_Time"));
+					elevator.setPeople(rs.getString("people"));
+					elevator.setDoor(rs.getString("door"));
+					elevator.setHeartbeat(rs.getString("heartbeat"));
+					elevator.setMaintenanceUserId(rs.getString("maintenance_User_Id"));
+					elevator.setMaintenanceState(rs.getString("maintenance_State"));
+					list.add(elevator);
+					
+				}
+				
+		try {
+		String dates = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		String fileName = "电梯上报记录" + dates + ".xls";
+		String filePath = request.getRealPath("/")
+		+ "excel\\" + fileName;
+				try {
+					
+			// 生成excel文件
+					System.out.println("========>>" + filePath);
+					//Excel ex = new Excel();
+					HSSFWorkbook workbook = new HSSFWorkbook();
+					// 在Excel工作簿中建一工作表，其名为缺省值
+					HSSFSheet sheet = null;
+					HSSFRow row = null;
+					HSSFCell cell = null;
+					sheet = workbook.createSheet("上报记录");
+					HSSFCellStyle style = workbook.createCellStyle(); // 样式对象
+					style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+					style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+					/**
+					 * 设置字体
+					 */
+					HSSFFont f = workbook.createFont();
+					f.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+					style.setFont(f);		
+					String[] top_arraydis = null;
+					
+					if (1 == 1) {
+						top_arraydis = ExcelColumns.record;
+		
+						row = sheet.createRow(0);// 创建一行
+		
+						for (int c = 0; c < top_arraydis.length; c++) {
+							cell = row.createCell((short) c);// 创建格 字段 
+							cell.setCellValue("中文");
+							cell.setCellStyle(style);
+							cell.setCellValue(top_arraydis[c]);
+						}
+						int j = 0;
+						for (int i = 0; i < list.size(); i++) {
+							    row = sheet.createRow(i+1);
+							    DtjkRecord	e = (DtjkRecord) list.get(i);
+								
+								cell = row.createCell(j);// 创建格 字段
+								cell.setCellValue(e.getElevatorId());   
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getGatewayDate());  
+		
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getGatewayTime());  
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getDirection());   //电梯型号
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getFloor());   
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getPeople());  
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getDoor());  
+								
+								cell = row.createCell(++j);// 创建格 字段
+								cell.setCellValue(e.getHeartbeat());  
+								
+								
+								j = 0;
+							}
+					}
+		
+					// 新建一输出文件流
+					
+					FileOutputStream fOut = new FileOutputStream(filePath);
+		//			System.out.println(fOut + "-----");
+					// 把相应的Excel 工作簿存盘
+					workbook.write(fOut);
+					fOut.flush();
+					// 操作结束，关闭文件
+					fOut.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("已运行 xlCreate() : " + e);
+				}
+		// 下载excel
+		BufferedOutputStream bos = null;
+		StringBuffer sb = new StringBuffer(50);
+		sb.append("attachment;   filename=");
+		sb.append(fileName);
+		// System.out.println("----------sb="+sb);
+
+		if (null != filePath && fileName != null) {
+			response.setContentType("application/x-msdownload;charset=GBK");
+			response.setHeader("Content-Disposition", new String(sb
+					.toString().getBytes(), "ISO8859-1"));
+			FileInputStream fis = new FileInputStream(filePath);
+			bos = new BufferedOutputStream(response.getOutputStream());
+			byte[] buffer = new byte[2048];
+			while (fis.read(buffer) != -1) {
+				bos.write(buffer);
+			}
+			bos.write(buffer, 0, buffer.length);
+			fis.close();
+			bos.close();
+		}
+		File fs = new File(filePath);
+		if (fs.isFile() && fs.exists()) {
+			fs.delete();
+			System.out.println("删除单个文件" + fileName + "成功！");
+		} else {
+			System.out.println("删除单个文件" + fileName + "失败！");
+		}
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+
+
+		}
+	
 }

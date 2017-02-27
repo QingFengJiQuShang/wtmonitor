@@ -23,6 +23,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
+	
 	</head>
 <script type="text/javascript">
 		 function myrefresh(){
@@ -34,11 +37,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="con" id="user">
 			<p class="user">电梯回放</p>
 			<div class="warp">
-				<div class="select">
+				<div class="select" style="height: 110px;">
 				<div class="clearfix">
 					<p class="fl">
-						<label for="user">电梯方向&nbsp;:&nbsp;</label>
-						<input type="hidden"  id="elevatorId" name="elevatorId"  value="${elevatorId}">
+						<label for="user">开始时间&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
+						
+						<input  class="Wdate"   id="begintime"  name="begintime"  value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
+					</p>
+					
+					<p class="fl">
+						<label for="man">结束时间&nbsp;:&nbsp;</label>
+						<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
+					</p>
+					<p class="fl">
+						<label for="man">电梯状态&nbsp;:&nbsp;</label>
+						<select name="state" id="state">
+							<option value="">请选择</option>
+							<option <c:if test="${state=='正常'}">selected="selected" </c:if> value="正常">正常</option>
+							<option <c:if test="${state=='离线'}">selected="selected" </c:if> value="离线">离线</option>
+							<option <c:if test="${state=='故障'}">selected="selected" </c:if> value="故障">故障</option>
+						</select>
+					</p>
+				</div>
+				<div class="clearfix">
+					<p class="fl">
+						<label for="user">运行方向&nbsp;:&nbsp;</label>
 						<select name="direction" id="direction">
 							<option value="">请选择</option>
 							<option <c:if test="${direction=='上'}">selected="selected" </c:if> value="上">上</option>
@@ -65,7 +89,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
-					<p></p>
+					<div class="or clearfix">
+						
+						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
+					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>

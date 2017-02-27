@@ -72,6 +72,12 @@ selectsafeUnitId=function(id,id1){
 	JqueryDialog.Open('保险单位', 'safeUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
 }
 /**
+ * 选择区域单位
+ */
+selectRegionUnitId=function(id,id1){
+	JqueryDialog.Open('区域单位', 'regionUnitAction.do?method=query1&id='+id+"&id1="+id1, 1000, 650);
+}
+/**
  * 根据单位类型选择单位名称
  */
 selectTypeUnitId=function(id,id1,flag){
@@ -324,7 +330,7 @@ reSetHeight2=function(){
 /** 重置modDialog高度 **/
 reSetHeight3=function(){
 	var height = $(window.document).height();
-	$('#main',window.parent.document).height(height+3);
+	$('#main',window.parent.document).height(height+50);
 }
 
 //将阿拉伯数字转换成中国大写

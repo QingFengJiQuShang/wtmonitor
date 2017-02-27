@@ -39,7 +39,7 @@
 				<select id="area" name="area"  onclick="theLocation('area');" ></select>
 				地址：<input type="text" id="suggestId" size="20" value="" style="width:150px;height: 30px;" />
 				
-				注册号：<input type="text" id="registerid"  onblur="byId();"  size="20" value="" style="width:150px;height: 30px;" />
+				注册号：<input type="text" id="registerid"  oninput="byId();"  size="20" value="" style="width:150px;height: 30px;" />
 			</p>
 			<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
 			

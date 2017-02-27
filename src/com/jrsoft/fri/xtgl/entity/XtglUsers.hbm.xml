@@ -37,5 +37,20 @@
          <property name="area" type="java.lang.String">
             <column name="AREA" length="50" />
         </property>
+        <property name="type" type="java.lang.String">
+            <column name="TYPE" length="200" />
+        </property>
+        <property name="regionUnitId" type="java.lang.String">
+            <column name="REGION_UNIT_ID" length="200" />
+        </property>
+        <property name="unitType" type="java.lang.String">
+            <column name="UNIT_TYPE" length="200" />
+        </property>
+        <property name="unitId" type="java.lang.String">
+            <column name="UNIT_ID" length="200" />
+        </property>
+        <property name="unitName" type="java.lang.String">
+            <column name="UNIT_NAME" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

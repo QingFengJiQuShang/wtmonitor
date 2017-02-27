@@ -103,8 +103,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th>序列</th>
 							<th>电梯注册号</th>
 							<th>识别码</th>
-							<th>电梯使用单位</th>
-							<th>电梯安装单位</th>
+							<th>使用单位</th>
+							<th>安装单位</th>
+							<th>安装地址</th>
 							<th>电梯品牌</th>
 							<th>电梯层数</th>
 							<th>电梯状态</th>
@@ -118,10 +119,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<i class=""><input type="hidden" value="${list.id}" /></i>
 									</td>
 									<td>${s.index + 1 }</td>
-									<td>${list.registerid }</td>
+									<td><a href="<%=path %>/elevatorAction.do?method=findById&id=${list.id}&flag=2"   style="color: blue; ">${list.registerid }</a></td>
 									<td>${list.distinguishid }</td>
 									<td>${list.useUnitName }</td>
 									<td>${list.installUnit }</td>
+									<td>${list.installPlace }</td>
 									<td>${list.brand}</td>
 									<td>${list.numbers}</td>
 									<td>${list.state}</td>

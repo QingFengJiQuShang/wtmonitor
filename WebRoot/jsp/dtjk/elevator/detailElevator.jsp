@@ -61,7 +61,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					</p>
 					<p>
 						<label for="speed">剩余流量&nbsp;:&nbsp;</label>
-						${list.flowSurplus}
+						${list.flowSurplus}M
 					<!-- 	<a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a> -->
 					</p>
 					
@@ -74,7 +74,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="speed">电梯速度&nbsp;:&nbsp;</label>${list.speed}
 					</p>
 					<p>
-						<label for="speed">视频IP&nbsp;:&nbsp;</label>${list.ip}
+						<label for="speed">视频IP&nbsp;:&nbsp;</label>
+						<a href="http://${list.ip}"   target="_blank" style="color: blue;">${list.ip}</a>
+						
 					</p>
 					<p class="fill">
 						<label for="logn">市&nbsp;:&nbsp;</label>${list.city}
@@ -117,7 +119,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="datetimepicker3">维保合同期至&nbsp;:&nbsp;</label>
 						<fmt:formatDate value='${list.flowEnd}' pattern='yyyy-MM-dd'/>
 					</p>
-					
+					<p>
+						<label for="">服务状态</label><c:if test="${list.serviceState=='0'}">待服务</c:if><c:if test="${list.serviceState=='1'}">服务中</c:if>
+					</p>
 				</div>
 			</div>
 			<!--第二层-->
@@ -136,7 +140,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="datetimepicker3">生产日期&nbsp;:&nbsp;</label>
 						<fmt:formatDate value='${list.manufactureTime}' pattern='yyyy-MM-dd'/>
 					</p>
-					
+					<p>
+						<label for="time">下次年检时间&nbsp;:&nbsp;</label>
+						<fmt:formatDate value='${list.nextTime}' pattern='yyyy-MM-dd'/>
+					</p>
 
 				</div>
 				<div class="fl fenzhi">
@@ -165,7 +172,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						${list.installUser}
 					</p>
 					<p>
-						<label for="time">首次年检时间&nbsp;:&nbsp;</label>
+						<label for="time">首次检验时间&nbsp;:&nbsp;</label>
 						<fmt:formatDate value='${list.yearlyTime1}' pattern='yyyy-MM-dd'/>
 					</p>
 				</div>
@@ -177,6 +184,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<p>
 						<label for="time">安装时间&nbsp;:&nbsp;</label>
 						<fmt:formatDate value='${list.installTime}' pattern='yyyy-MM-dd'/>
+					</p>
+					<p>
+						<label for="time">本次年检时间&nbsp;:&nbsp;</label>
+						<fmt:formatDate value='${list.yearlyTime}' pattern='yyyy-MM-dd'/>
 					</p>
 				</div>
 			</div>
