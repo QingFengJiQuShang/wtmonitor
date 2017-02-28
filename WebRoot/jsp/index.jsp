@@ -188,56 +188,96 @@ function toMain(flag){
 			<li class="list-item"   onclick="toMain('1')">
 				<p class="one active" data="<%=path %>/">首页</p>
 			</li>
-			<%if(Authority.haveRigth(user.getId(),"dtjk_check")) {%>
+			<%if(Authority.haveRigth(user.getId(),"dtjk_dtlb_check")||Authority.haveRigth(user.getId(),"dtjk_dtjk_check")||Authority.haveRigth(user.getId(),"dtjk_jlhf_check")||Authority.haveRigth(user.getId(),"dtjk_dtgg_check")) {%>
 			<li class="list-item"  >
 				<p class="one grade" >
 					<i class=""></i>电梯监控</p>
 				<div class="next">
+					<%if(Authority.haveRigth(user.getId(),"dtjk_dtlb_check")) {%>
 					<p  class="two"  onclick="toMain('21')">电梯列表</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dtjk_dtjk_check")) {%>
 					<p  class="two"  onclick="toMain('22')">实时监控</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dtjk_jlhf_check")) {%>
 					<p  class="two"  onclick="toMain('23')">记录回放</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dtjk_dtgg_check")) {%>
 					<p  class="two" onclick="toMain('24')">电梯管理</p>
+					<%} %>
 				</div>
 			</li>
 			<%} %>
-			<%if(Authority.haveRigth(user.getId(),"gzgl_check")) {%>
+			<%if(Authority.haveRigth(user.getId(),"gzgl_rgjj_check")||Authority.haveRigth(user.getId(),"gzgl_dqgz_check")||Authority.haveRigth(user.getId(),"gzgl_lsgz_check")) {%>
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>故障管理</p>
 				<div class="next">
+			<%if(Authority.haveRigth(user.getId(),"gzgl_rgjj_check")) {%>
 					<p	 class="two"  onclick="toMain('41')">人工接警</p>
+					<%} %>
+			<%if(Authority.haveRigth(user.getId(),"gzgl_dqgz_check")) {%>
 					<p	 class="two"  onclick="toMain('42')">当前故障</p>
+					<%} %>
+			<%if(Authority.haveRigth(user.getId(),"gzgl_lsgz_check")) {%>
 					<p	 class="two" onclick="toMain('43')">历史故障</p>
+					<%} %>
 				</div>
 			</li>
 			<%} %>
-			<%if(Authority.haveRigth(user.getId(),"yhgl_check")) {%>
+			<%if(Authority.haveRigth(user.getId(),"dwgl_sydw_check")||Authority.haveRigth(user.getId(),"dwgl_wbdw_check")||Authority.haveRigth(user.getId(),"dwgl_jydw_check")||Authority.haveRigth(user.getId(),"dwgl_wydw_check")||Authority.haveRigth(user.getId(),"dwgl_zzdw_check")||Authority.haveRigth(user.getId(),"dwgl_bxdw_check")||Authority.haveRigth(user.getId(),"dwgl_qudw_check")) {%>
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>单位管理</p>
 				<div class="next">
-					
+					<%if(Authority.haveRigth(user.getId(),"dwgl_sydw_check")) {%>
 					<p	 class="two"  onclick="toMain('32')">使用单位</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dwgl_wbdw_check")) {%>
 					<p	 class="two"  onclick="toMain('33')">维保单位</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dwgl_jydw_check")) {%>
 					<p	 class="two"  onclick="toMain('34')">救援单位</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dwgl_wydw_check")) {%>
 					<p	 class="two"  onclick="toMain('35')">物业单位</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dwgl_zzdw_check")) {%>
 					<p	 class="two"  onclick="toMain('36')">制造单位</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dwgl_bxdw_check")) {%>
 					<p	 class="two"  onclick="toMain('37')">保险单位</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"dwgl_qydw_check")) {%>
 					<p	 class="two"  onclick="toMain('38')">区域单位</p>
+					<%} %>
 				</div>
 			</li>
 			<%} %>
+			<%if(Authority.haveRigth(user.getId(),"bxgl_wbdt_check")||Authority.haveRigth(user.getId(),"bxgl_zbdt_check")||Authority.haveRigth(user.getId(),"bxgl_tbdt_check")||Authority.haveRigth(user.getId(),"bxgl_bxtj_check")||Authority.haveRigth(user.getId(),"bxgl_bxgs_check")) {%>
 				<li class="list-item">
 				<p class="one">
 					<i class=""></i>保险管理</p>
 				<div class="next">
+					<%if(Authority.haveRigth(user.getId(),"bxgl_wbdt_check")) {%>
 					<p class="two" onclick="toMain(71)">未保电梯</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"bxgl_zbdt_check")) {%>
 					<p class="two" onclick="toMain(72)">在保电梯</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"bxgl_tbdt_check")) {%>
 					<p class="two" onclick="toMain(73)">脱保电梯</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"bxgl_bxtj_check")) {%>
 					<p class="two" onclick="toMain(74)">保险统计</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"bxgl_bxgs_check")) {%>
 					<p class="two" onclick="toMain(75)">保险公司统计</p>
+					<%} %>
 				</div>
 			</li>
+			
+			<%}%>
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>系统设置</p>

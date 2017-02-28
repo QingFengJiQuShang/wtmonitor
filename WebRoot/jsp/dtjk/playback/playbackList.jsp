@@ -11,12 +11,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>电梯列表</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
 		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
-	
+
 	</head>
 <script type="text/javascript">
 		 function myrefresh(){
@@ -42,10 +42,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fl">
 						<label for="user">开始时间&nbsp;:&nbsp;</label>
 						<input type="hidden"  id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
-						
+
 						<input  class="Wdate"   id="begintime"  name="begintime"  value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 					</p>
-					
+
 					<p class="fl">
 						<label for="man">结束时间&nbsp;:&nbsp;</label>
 						<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<option value="">请选择</option>
 							<option <c:if test="${direction=='上'}">selected="selected" </c:if> value="上">上</option>
 							<option <c:if test="${direction=='下'}">selected="selected" </c:if> value="下">下</option>
-						</select>		
+						</select>
 					</p>
 					<p class="fl">
 						<label for="code">是否有人&nbsp;:&nbsp;</label>
@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<option value="">请选择</option>
 							<option <c:if test="${people=='有人'}">selected="selected" </c:if> value="有人">有人</option>
 							<option <c:if test="${people=='没人'}">selected="selected" </c:if> value="没人">没人</option>
-						</select>		
+						</select>
 					</p>
 					<p class="fl">
 						<label for="man">电梯门状态&nbsp;:&nbsp;</label>
@@ -85,13 +85,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<option <c:if test="${door=='关门'}">selected="selected" </c:if> value="关门">关门</option>
 						</select>
 					</p>
-				
+
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						
+						<%if(Authority.haveRigth(user.getId(),"dtjk_jlhf_exp")) {%>
 						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
+						<%} %>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -130,21 +131,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</td>
 								</tr>
 								</c:forEach>
-								
+
 							</tbody>
 						</table>
 						<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
-								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
-								
+								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
+
 								<c:if test="${page.pageNum==0||page.countSize==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
 							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
 							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
-								
+
 								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>

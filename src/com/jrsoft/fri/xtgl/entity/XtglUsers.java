@@ -19,13 +19,13 @@ public class XtglUsers implements java.io.Serializable {
 	private String province;					//区域 省
 	private String city;					// 区域 市
 	private String area;					//区域  区
-	private String type;					//用户类型
+	private String type;					//用户类型   1超级管理员  2区域用户  2终端用户
 	private String regionUnitId;	//区域单位
 	private String unitType;			//单位类型
 	private String unitId;				//单位id
 	private String unitName;		//单位名称
 	// Constructors
-
+	private int num;
 	/** default constructor */
 	public XtglUsers() {
 	}
@@ -161,6 +161,14 @@ public class XtglUsers implements java.io.Serializable {
 
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 }

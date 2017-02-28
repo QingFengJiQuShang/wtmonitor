@@ -2,29 +2,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>使用单位</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/count_fault.css" />
-		
-		
+
+
 	</head>
 
 	<body>
@@ -36,14 +39,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="unit">区域&nbsp;:&nbsp;</label>
 						<select name="type" id="type">
 							<option value="">请选择</option>
-							
-						</select>				
+
+						</select>
 					</p>
 					<p class="fl">
 						<label for="user">安装地址&nbsp;:&nbsp;</label>
 						<input type="text" id="name" placeholder="请输入"  value="${name}" />
 					</p>
-					
+
 					<p class="fl">
 						<label for="man">联系人&nbsp;:&nbsp;</label>
 						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
@@ -52,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						
+
 					</div>
 				<div class="table_con">
 						<div class="fl">
@@ -155,11 +158,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}]
 				};
 
-				// 为echarts对象加载数据 
+				// 为echarts对象加载数据
 				myChart.setOption(option);
 			}
 		);
-	
+
 	</script>
 
 </html>

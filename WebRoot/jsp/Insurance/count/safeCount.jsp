@@ -2,21 +2,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>保单列表</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -35,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<p class="user">保单列表</p>
 			<div class="warp">
 				<div class="select clearfix">
-					
+
 					<p class="fl" >
 					<label for="start_end"  >制造单位&nbsp;:&nbsp;</label>
 					<input type="hidden"  id="makeUnitId"  name="elevator.makeUnitId.id" value="${makeUnitId}"   />
@@ -50,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="user">物业单位&nbsp;:&nbsp;</label>
 						<input type="hidden"  id="propertyUnitId"  name="elevator.propertyUnitId.id"  value="${propertyUnitId}" />
 						<input type="text"  id="propertyUnitId1"  placeholder="请选择" value="${propertyUnitId1}"   readonly="readonly"   onclick="selectPropertyUnitId('propertyUnitId','propertyUnitId1');"/>
-					
+
 					</p>
 					<p class="fl">
 						<label for="user">维保单位&nbsp;:&nbsp;</label>
@@ -61,7 +64,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="table">
 					<div class="or clearfix">
+          <%if(Authority.haveRigth(user.getId(),"bxgl_bxtj_exp")) {%>
 					<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
+          <%}%>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -89,13 +94,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${safe.claimRate }</td>
 									<td>${safe.mostNum }</td>
 									<td>
-										
+
 									</td>
 								</tr>
-								
+
 							</tbody>
 						</table>
-						
+
 					</div>
 				</div>
 			</div>
@@ -105,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<%=path%>/js/bxgl/safe.js" type="text/javascript" charset="utf-8"></script>
-	
+
 	<script type="text/javascript">
 	function gotoUrl (){
 			 var makeUnitId= document.getElementById("makeUnitId").value;
@@ -147,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function query(){
     		  window.location.href="<%=path%>/safeAction.do?method=querySafe"+gotoUrl();
 		  }
-	  //下载  
+	  //下载
 		  function exp(){
     		  window.location.href="<%=path%>/safeAction.do?method=exportSafe"+gotoUrl ();
          }

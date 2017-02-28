@@ -8,12 +8,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>新增用户</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -34,35 +34,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				-moz-border-radius: 10px;
 				border-radius: 10px;
 			}
-			
+
 			.warp .level_b {
 				padding: 10px 0;
 			}
-			
+
 			.warp .level_b:nth-child(6) {
 				border-bottom: 0;
 			}
-			
+
 			.warp .level_b>p {
 				font-size: 16px;
 				padding: 10px;
 			}
-			
+
 			.warp .level_tow {
 				padding-left:5%;
 			}
-			
+
 			.warp .level_tow p {
 				height:30px;
 				text-indent: 10px;
 				line-height: 20px;
 			}
-			
+
 			.warp .or {
 				width: 45%;
 				margin: 30px auto 0;
 			}
-			
+
 			.warp .or button {
 				width: 76px;
 				height: 32px;
@@ -86,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</style>
 
   </head>
-  
+
   <body>
   <form id="form" action="<%=path %>/usersAction.do?method=addEntity" method="post"  encType="multipart/form-data">
     <div class="con">
@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="name" style="display:inline-block ;">用户类型&nbsp;:&nbsp;</label>
 						<select name="users.type" id="type">
 							<option value="" 	id="c1">请选择</option>
-							<option value="1"  onclick="type('1');"	id="c1">超级管理员</option>
+							<option value="1"  onclick="type('1');"	id="c1">管理员</option>
 							<option value="2" onclick="type('2');"		id="c2">区域用户</option>
 							<option value="3"	onclick="type('3');"	 id="c3">终端用户</option>
 						</select>
@@ -160,8 +160,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden"  id="unitId"   name="users.unitId" />
 							<input type="text"  id="unitId1"  name="users.unitName"  readonly="readonly" onclick="selectTypeUnitId('unitId','unitId1','flag');"/>
 					</p>
-					
-			
+
+
 					<div class="warp" id="warp">
 							<ul>
 								<li>
@@ -209,7 +209,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_dtlb_all" />
 																			<label for="controlAll">全选</label>
@@ -218,26 +218,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																</ul>
 															</p>
 														</li>
-														<li>	
+														<li>
 															<p class="fl">
 																<label for="user_xg">电梯监控</label> <br>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="dtjk_dtjk" value="dtjk_dtjk_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																</ul>
 															</p>
 														</li>
-														<li>	
+														<li>
 															<p class="fl">
 																<label for="user_xg">记录回放</label> <br>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="dtjk_jlhf" value="dtjk_jlhf_check" />
@@ -250,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_jlhf_all" />
 																			<label for="controlAll">全选</label>
@@ -288,7 +288,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_sbzq_all" />
 																			<label for="controlAll">全选</label>
@@ -325,9 +325,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_bmd_all" />
+																			<label for="controlAll">全选</label>
+																		</p>
+																	</li>
+																</ul>
+															</p>
+														</li>
+														<p class="fl">
+																<label for="user_ll" class="two_e">电梯流量</label>
+																<ul>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_dtll" value="dtjk_dtll_add" />
+																			<label for="user_xg">新增</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_dtll" value="dtjk_dtll_check" />
+																			<label for="user_xg">查询</label> <br>
+																		</p>
+																	</li>
+
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_dtll" value="dtjk_dtll_update" />
+																			<label for="user_xg">修改</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox"  id="dtjk_dtll_all" />
 																			<label for="controlAll">全选</label>
 																		</p>
 																	</li>
@@ -362,7 +393,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+                                  <li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_wbjl" value="dtjk_wbjl_exp" />
+																			<label for="user_xg">下载</label> <br>
+																		</p>
+																	</li>
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_wbjl_all" />
 																			<label for="controlAll">全选</label>
@@ -399,7 +436,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+                                  <li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_njjl" value="dtjk_njjl_exp" />
+																			<label for="user_xg">下载</label> <br>
+																		</p>
+																	</li>
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_njjl_all" />
 																			<label for="controlAll">全选</label>
@@ -436,7 +479,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+                                  <li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_fwf" value="dtjk_fwf_exp" />
+																			<label for="user_xg">下载</label> <br>
+																		</p>
+																	</li>
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_fwf_all" />
 																			<label for="controlAll">全选</label>
@@ -481,7 +530,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="gzgl_rgjj_all" />
 																			<label for="controlAll">全选</label>
@@ -518,7 +567,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="gzgl_dqgz_all" />
 																			<label for="controlAll">全选</label>
@@ -531,14 +580,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">历史故障</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="gzgl_lsgz" value="gzgl_lsgz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																		
+
 																		<p class="fl">
 																			<input type="checkbox"  id="gzgl_lsgz_all" />
 																			<label for="controlAll">全选</label>
@@ -595,7 +644,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_sydw_all" />
 																			<label for="controlAll">全选</label>
@@ -644,7 +693,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_wbdw_all" />
 																			<label for="controlAll">全选</label>
@@ -681,7 +730,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="dwgl_jydw" value="dwgl_jydw_exp" />
@@ -694,7 +743,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_jydw_all" />
 																			<label for="controlAll">全选</label>
@@ -743,7 +792,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_wydw_all" />
 																			<label for="controlAll">全选</label>
@@ -792,7 +841,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_zzdw_all" />
 																			<label for="controlAll">全选</label>
@@ -841,7 +890,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_bxdw_all" />
 																			<label for="controlAll">全选</label>
@@ -890,7 +939,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_qydw_all" />
 																			<label for="controlAll">全选</label>
@@ -899,7 +948,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																</ul>
 															</p>
 														</li>
-														
+
 													</div>
 												</ul>
 								</li>
@@ -912,15 +961,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">未保电梯</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_wbdt" value="bxgl_wbdt_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_wbdt_all" />
 																			<label for="controlAll">全选</label>
@@ -933,15 +982,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">在保电梯</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_zbdt" value="bxgl_zbdt_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_zbdt_all" />
 																			<label for="controlAll">全选</label>
@@ -954,15 +1003,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">脱保电梯</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_tbdt" value="bxgl_tbdt_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_tbdt_all" />
 																			<label for="controlAll">全选</label>
@@ -999,7 +1048,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_bdjl_all" />
 																			<label for="controlAll">全选</label>
@@ -1036,7 +1085,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_lpjl_all" />
 																			<label for="controlAll">全选</label>
@@ -1049,7 +1098,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">保险统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_bxtj" value="bxgl_bxtj_check" />
@@ -1062,8 +1111,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_bxtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1076,7 +1125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">保险公司统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_bxgs" value="bxgl_bxgs_check" />
@@ -1089,7 +1138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_bxgs_all" />
 																			<label for="controlAll">全选</label>
@@ -1134,7 +1183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_xtyh_all" />
 																			<label for="controlAll">全选</label>
@@ -1147,15 +1196,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">操作日志</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_czrz" value="xtsz_czrz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_czrz_all" />
 																			<label for="controlAll">全选</label>
@@ -1168,7 +1217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">通信日志</label>
 																<ul>
-																	
+
 																	</li>
 																	<li>
 																		<p class="fl">
@@ -1176,8 +1225,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_txrz_all" />
 																			<label for="controlAll">全选</label>
@@ -1214,7 +1263,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_xtbz_all" />
 																			<label for="controlAll">全选</label>
@@ -1227,21 +1276,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">短信模板</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxmb" value="xtsz_dxmb_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxmb" value="xtsz_dxmb_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxmb_all" />
 																			<label for="controlAll">全选</label>
@@ -1278,7 +1327,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxtx_all" />
 																			<label for="controlAll">全选</label>
@@ -1291,21 +1340,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">短信权限</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxqx" value="xtsz_dxqx_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxqx" value="xtsz_dxqx_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxqx_all" />
 																			<label for="controlAll">全选</label>
@@ -1318,15 +1367,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">短信日志</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxrz" value="xtsz_dxrz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxrz_all" />
 																			<label for="controlAll">全选</label>
@@ -1339,21 +1388,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">刷新时间</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_sxsj" value="xtsz_sxsj_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_sxsj" value="xtsz_sxsj_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_sxsj_all" />
 																			<label for="controlAll">全选</label>
@@ -1366,21 +1415,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">单包流量</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dbll" value="xtsz_dbll_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dbll" value="xtsz_dbll_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dbll_all" />
 																			<label for="controlAll">全选</label>
@@ -1393,21 +1442,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">报警控制</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_bjkz" value="xtsz_bjkz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_bjkz" value="xtsz_bjkz_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_bjkz_all" />
 																			<label for="controlAll">全选</label>
@@ -1416,7 +1465,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																</ul>
 															</p>
 														</li>
-														
+
 													</div>
 												</ul>
 										</li>
@@ -1441,7 +1490,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_gzqytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1466,7 +1515,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_gzlxtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1491,7 +1540,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_jyqytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1516,7 +1565,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_jyxytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1529,7 +1578,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">维保区域统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="tjfx_wbqytj" value="tjfx_wbqytj_check" />
@@ -1542,7 +1591,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_wbqytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1555,7 +1604,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<p class="fl">
 																<label for="user_ll" class="two_e">维保出勤统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="tjfx_wbcqtj" value="tjfx_wbcqtj_check" />
@@ -1568,7 +1617,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_wbcqtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1582,7 +1631,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<label for="user_ll" class="two_e">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 																短信统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="tjfx_dxtj" value="tjfx_dxtj_check" />
@@ -1595,7 +1644,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox" onclick="all()" id="tjfx_dxtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1609,17 +1658,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 								</ul>
 						</div>
-						 
+
 					</div>
-			
+
 					<div class="keep clearfix ">
 						<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
 					</p>
-				
+
 					</div>
-				
+
 
 			</div>
 		</div>
@@ -1632,6 +1681,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      function add(){
 		 	$('#form').submit();
      }
-	
+
      </script>
 </html>

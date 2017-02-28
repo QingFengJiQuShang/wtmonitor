@@ -15,12 +15,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>电梯列表</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -61,8 +61,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						
-						
+
+
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -78,7 +78,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>电梯制造单位</th>
 							<th>电梯层数</th>
 							<th>电梯状态</th>
+              <%if(Authority.haveRigth(user.getId(),"bxgl_bdjl_add")) {%>
 							<th>操作</th>
+              <%}%>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
@@ -94,25 +96,26 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.makeUnitName}</td>
 									<td>${list.numbers}</td>
 									<td>${list.state}</td>
+                  <%if(Authority.haveRigth(user.getId(),"bxgl_bdjl_add")) {%>
 									<td><a href="<%=path %>/jsp/Insurance/uninsured/addUninsured.jsp?elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
-									
+									<%}%>
 								</tr>
 								</c:forEach>
-								
+
 							</tbody>
 						</table>
 							<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
-								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
-								
+								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
+
 								<c:if test="${page.pageNum==0||page.countSize==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
 							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
 							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
-								
+
 								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>

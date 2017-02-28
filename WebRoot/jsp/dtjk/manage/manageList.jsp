@@ -15,12 +15,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>电梯列表</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -39,7 +39,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<div class="clearfix">
 					<p class="fl" >
 						<label for="logn">省&nbsp;:&nbsp;</label>
-						<input type="hidden"   id="provinceid"  > 
+						<input type="hidden"   id="provinceid"  >
 						<select   id="province"   >
 						<option value="${province}"  selected="selected">${province}</option>
 						</select>
@@ -60,7 +60,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="user">注册号&nbsp;:&nbsp;</label>
 						<input type="text" id="registerid"  value="${registerid}"  placeholder="请输入" />
 					</p>
-					
+
 					</div>
 				<div class="clearfix">
 					<p class="fl">
@@ -79,7 +79,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="man">物业单位&nbsp;:&nbsp;</label>
 						<input type="text" id="propertyUnitName"  value="${propertyUnitName}" placeholder="请输入" />
 					</p>
-					
+
 				</div>
 				<div class="clearfix">
 					<p class="fl">
@@ -110,11 +110,15 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				</div>
 				<div class="table">
 					<div class="or clearfix">
+            <%if(Authority.haveRigth(user.getId(),"dtjk_dtll_add")) {%>
 						<p class="fl recharge" style="width:80px;">充值流量</p>
+            <%}%>
+            <%if(Authority.haveRigth(user.getId(),"dtjk_fwf_add")) {%>
 						<p class="fl batch" style="width:110px;">批量添加服务费</p>
+            <%}%>
 					</div>
 				<div class="table">
-					
+
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
@@ -129,15 +133,24 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th>下次年检时间</th>
 							<th>电梯状态</th>
 							<th>服务状态</th>
+              <%if(Authority.haveRigth(user.getId(),"dtjk_dtll_check")) {%>
 							<th>剩余流量(M)</th>
+              <%}%>
+              <%if(Authority.haveRigth(user.getId(),"dtjk_sbzq_check")) {%>
 							<th>上报周期</th>
+              <%}%>
+              <%if(Authority.haveRigth(user.getId(),"dtjk_bmd_check")) {%>
 							<th>白名单</th>
+              <%}%>
+              <%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_check")) {%>
 							<th>维保记录数</th>
+              <%}%>
+              <%if(Authority.haveRigth(user.getId(),"dtjk_njjl_check")) {%>
 							<th>年检记录数</th>
-							
-							
-							
+              <%}%>
+              <%if(Authority.haveRigth(user.getId(),"dtjk_fwf_check")) {%>
 							<th>服务费记录数</th>
+              <%}%>
 							<th>操作</th>
 							</thead>
 							<tbody>
@@ -154,37 +167,47 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td><fmt:formatDate value='${list.nextTime}' pattern='yyyy-MM-dd'/></td>
 									<td>${list.state}</td>
 									<td><c:if test="${list.serviceState=='0'}">待服务</c:if><c:if test="${list.serviceState=='1'}">服务中</c:if></td>
-									
+                  <%if(Authority.haveRigth(user.getId(),"dtjk_dtll_check")) {%>
 									<td>${list.flowSurplus}M<!-- <a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a> --></td>
-									<td  >
+                  <%}%>
+                  <%if(Authority.haveRigth(user.getId(),"dtjk_sbzq_check")) {%>
+                  <td  >
 									<a href="<%=path %>/elevatorAction.do?method=findById&id=${list.id}&flag=3"   style="color: blue; ">${list.period}s</a>
 									</td>
+                  <%}%>
+                  <%if(Authority.haveRigth(user.getId(),"dtjk_bmd_check")) {%>
 									<td><a href="<%=path %>/phoneAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.num}</a></td>
-									<td><a href="<%=path %>/recordsAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numRecords}</a></td>
-									<td><a href="<%=path %>/inspectionAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numYearly}</a></td>
-									<td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
-									
-									
+                  <%}%>
+                  <%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_check")) {%>
+                  <td><a href="<%=path %>/recordsAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numRecords}</a></td>
+                  <%}%>
+                  <%if(Authority.haveRigth(user.getId(),"dtjk_njjl_check")) {%>
+                  <td><a href="<%=path %>/inspectionAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numYearly}</a></td>
+                  <%}%>
+                  <%if(Authority.haveRigth(user.getId(),"dtjk_fwf_check")) {%>
+                  <td><a href="<%=path %>/serviceAction.do?method=query&elevatorId=${list.id}"   style="color: blue; ">${list.numService}</a></td>
+                  <%}%>
+
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
 										</td>
 								</tr>
 								</c:forEach>
-								
+
 							</tbody>
 						</table>
 						<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
-								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
-								
+								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
+
 								<c:if test="${page.pageNum==0||page.countSize==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
 							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
 							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
-								
+
 								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>

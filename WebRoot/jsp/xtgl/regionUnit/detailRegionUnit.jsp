@@ -12,12 +12,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>区域单位</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -25,7 +25,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
 		<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/xtgl/regionUnit.js" type="text/javascript" charset="utf-8"></script>
-	
+
 	</head>
 
 	<body>
@@ -58,7 +58,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="area">区域单位地址&nbsp;:&nbsp;</label>${list.address }
 					</p>
 					<p class="or clearfix">
-						<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>
+						<%if(Authority.haveRigth(user.getId(),"dwgl_qydw_update")) {%>
 						<input type="button"  value="修改"    onclick="findById('${list.id}','1');" >
 						<%} %>
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">

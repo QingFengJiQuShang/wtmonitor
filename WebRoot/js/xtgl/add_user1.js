@@ -122,6 +122,22 @@ $("#dtjk_bmd_all").click(function() {
 	}
 }) 
 /**
+	 * 电梯流量  全选
+	 * @memberOf {TypeName} 
+	 */
+$("#dtjk_dtll_all").click(function() {
+	var sure = $(this).prop("checked");
+	if(sure == true) {
+		$("input[id='dtjk_dtll']").prop({
+			"checked": true
+		});
+	} else {
+		$("input[id='dtjk_dtll']").prop({
+			"checked": false
+		});
+	}
+}) 
+/**
 	 * 维保记录  全选
 	 * @memberOf {TypeName} 
 	 */

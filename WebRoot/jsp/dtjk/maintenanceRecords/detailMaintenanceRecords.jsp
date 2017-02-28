@@ -14,21 +14,21 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>维保记录</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list_add.css" />
-		
+
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
-		
+
 	</head>
 
 	<body>
@@ -37,11 +37,11 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 			<p class="back"  onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
 				<p class="add">查看维保记录</p>
-				
+
 				<div class="table_con">
 					<p class="fill">
 						<label for="user">电梯注册号&nbsp;:&nbsp;</label>${list.elevatorId.registerid}
-						
+
 					</p>
 					<p class="fill">
 						<label for="code">识别码&nbsp;:&nbsp;</label>${list.elevatorId.distinguishid}
@@ -63,7 +63,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="wb_man">维保人&nbsp;:&nbsp;</label>${list.userId.name}
 					</p>
 					<p class="fill">
-						<label for="wb_man">维保人手机&nbsp;:&nbsp;</label>${list.userId.phone}			
+						<label for="wb_man">维保人手机&nbsp;:&nbsp;</label>${list.userId.phone}
 					</p>
 					<p class="fill">
 						<label for="wb_man">维保卡号&nbsp;:&nbsp;</label>${list.cardNumber}
@@ -75,7 +75,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="beizhu">备注&nbsp;:&nbsp;</label>${list.remarks}
 					</p>
 					<p class="or clearfix">
-						<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>
+            <%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_update")) {%>
 						<input type="button"  value="修改"   onclick="findById('${list.id}','1');" >
 						<%} %>
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
@@ -89,6 +89,6 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/dtjk/maintenanceRecords.js" type="text/javascript" charset="utf-8"></script>
-	
+
 
 </html>

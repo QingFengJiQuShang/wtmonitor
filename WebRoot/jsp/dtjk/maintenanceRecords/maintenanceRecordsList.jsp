@@ -15,12 +15,12 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>电梯列表</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -29,10 +29,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
-		
+
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
 		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
-		
+
 	</head>
 
 	<body>
@@ -46,7 +46,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<input type="hidden"  id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
 						<input type="hidden"  id="useUnitId"  value="${useUnitId}" name="elevator.useUnitId.id"   />
 						<input type="text"  id="useUnitId1"  value="${useUnitId1}"  placeholder="请选择" readonly="readonly"  onclick="selectUseUnitId('useUnitId','useUnitId1');"/>
-				
+
 					</p>
 					<p class="fl">
 						<label for="code">维保日期&nbsp;:&nbsp;</label>
@@ -56,18 +56,18 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="man">维保单位&nbsp;:&nbsp;</label>
 						<input type="hidden"  id="maintenanceUnitId" value="${maintenanceUnitId}"  name="elevator.maintenanceUnitId.id"  />
 						<input type="text"  id="maintenanceUnitId1"  value="${maintenanceUnitId1}"  placeholder="请输入" readonly="readonly" onclick="selectMaintenanceUnit('maintenanceUnitId','maintenanceUnitId1');"/>
-					
+
 					</p>
-					
+
 					<button class="fl"  onclick="query();">查询</button>
 				</div>
 				<div class="table">
 					<div class="table">
 					<div class="or clearfix">
-						<%if(Authority.haveRigth(user.getId(),"dtjk_add")) {%>
+						<%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_add")) {%>
 						<p class="fl add"    onclick="add('${elevatorId}');"><img src="<%=path%>/img/add.png" />新增</p>
 						<%} %>
-						<%if(Authority.haveRigth(user.getId(),"dtjk_del")) {%>	
+						<%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_del")) {%>
 						<p class="fl del">批量删除</p>
 						<%} %>
 						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
@@ -112,30 +112,30 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.content}</td>
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"   onclick="findById('${list.id}','2');"/>
-										<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>
+										<%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_update")) {%>
 										<img src="<%=path%>/img/compile.png" title="修改"  alt="修改"  onclick="findById('${list.id}','1');"/>
 										<%} %>
-										<%if(Authority.haveRigth(user.getId(),"dtjk_del")) {%>
+										<%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_del")) {%>
 										<img src="<%=path%>/img/del.png"  title="删除"  alt="删除"   class="del_one" onclick="del('${list.id}');"/>
 										<%} %>
 									</td>
 								</tr>
 								</c:forEach>
-								
+
 							</tbody>
 						</table>
 						<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
-								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
-								
+								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
+
 								<c:if test="${page.pageNum==0||page.countSize==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
 							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
 							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
-								
+
 								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>
@@ -156,7 +156,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	<script src="<%=path%>/js/dtjk/maintenanceRecords.js" type="text/javascript" charset="utf-8"></script>
 	 <script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-  
+
       $(function() {
 		$("#time").on("click", function(e) {
 			e.stopPropagation();
@@ -166,7 +166,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				selectback: function() {}
 			});
 		});
-		
+
 	});
      </script>
 </html>

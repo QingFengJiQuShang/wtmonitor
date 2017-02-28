@@ -2,21 +2,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>使用单位</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -35,37 +38,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				-moz-border-radius: 50%;
 				border-radius: 50%;
 			}
-			
+
 			.list_count li p {
 				color: #fff;
 				height: 100px;
 				text-align: center;
 			}
-			
+
 			.list_count li p:nth-child(1) {
 				font-size: 18px;
 				line-height: 180px;
 			}
-			
+
 			.list_count li p:nth-child(2) {
 				font-size: 35px;
 				line-height: 80px;
 			}
-			
+
 			.list_count li:nth-child(1),
 			.list_count li:nth-child(4) {
 				background: #f9b64a;
 			}
-			
+
 			.list_count li:nth-child(2) {
 				background: #d683f3;
 			}
-			
+
 			.list_count li:nth-child(3) {
 				background: #6eb7ed;
 			}
 		</style>
-	
+
 	</head>
 
 	<body>
@@ -99,8 +102,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  function findById(){
 		 	 window.location="<%=path%>/jsp/Insurance/offPaul/offPaulList.jsp";
      }
-     
-	
+
+
 	</script>
 
 </html>

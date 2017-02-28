@@ -14,19 +14,19 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>人工接警</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/calendar.css" />
-	
+
 	</head>
 
 	<body>
@@ -40,7 +40,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					</p>
 					<p class="fl">
 						<label for="unit">安装地址&nbsp;:&nbsp;</label>
-						<input type="text" id="place"    value="${place}"  />	
+						<input type="text" id="place"    value="${place}"  />
 					</p>
 					<p class="fl">
 						<label for="man">接警日期&nbsp;:&nbsp;</label>
@@ -50,13 +50,15 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-					<%if(Authority.haveRigth(user.getId(),"gzgl_add")) {%>
+					<%if(Authority.haveRigth(user.getId(),"gzgl_rgjj_add")) {%>
 						<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
 					<%} %>
-					<%if(Authority.haveRigth(user.getId(),"gzgl_del")) {%>
+					<%if(Authority.haveRigth(user.getId(),"gzgl_rgjj_del")) {%>
 						<p class="fl del">批量删除</p>&nbsp;&nbsp;
 					<%} %>
+          <%if(Authority.haveRigth(user.getId(),"gzgl_rgjj_exp")) {%>
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
+            <%} %>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -86,30 +88,30 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.fault}</td>
 									<td>
 										<img src="<%=path%>/img/content.png" title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
-										<%if(Authority.haveRigth(user.getId(),"gzgl_update")) {%>
+										<%if(Authority.haveRigth(user.getId(),"gzgl_rgjj_update")) {%>
 										<img src="<%=path%>/img/compile.png" title="修改"  alt="修改"   onclick="findById('${list.id}','1');"/>
 										<%} %>
-										<%if(Authority.haveRigth(user.getId(),"gzgl_del")) {%>
+										<%if(Authority.haveRigth(user.getId(),"gzgl_rgjj_del")) {%>
 										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"  class="del_one" onclick="del('${list.id}');"/>
 										<%} %>
 									</td>
 								</tr>
 								</c:forEach>
-								
+
 							</tbody>
 						</table>
 						<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*5 }</c:if></span>到<span>${(page.pageNum+1)*5 }</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
-								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
-								
+								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
+
 								<c:if test="${page.pageNum==0||page.countSize==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
 							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
 							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
-								
+
 								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>

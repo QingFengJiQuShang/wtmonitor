@@ -32,7 +32,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
   
   <body>
 		<div class="con" id="user">
-			<p class="user">系统用户</p>
+			<p class="user">管理员用户</p>
 			<div class="warp">
 				<div class="select clearfix">
 					<p class="fl">
@@ -72,7 +72,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								<th>电话</th>
 								<th>公司单位</th>
 								<th>城市</th>
-								<th>权限管理</th>
+								<th>区域用户</th>
 								<th>操作</th>
 							</thead>
 							<tbody>
@@ -87,7 +87,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.phone }</td>
 									<td>${list.unit }</td>
 									<td>${list.province}&nbsp;&nbsp;${list.city}&nbsp;&nbsp;</td>
-									<td>权限管理</td>
+									<td><a href="<%=path%>/usersAction.do?method=query&flag=1"   style="color: blue; ">${list.num}</a></td>
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"yhgl_update")) {%>
@@ -103,7 +103,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							</tbody>
 						</table>
 						<div class="choose">
-							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*5 }</c:if></span>到<span>${(page.pageNum+1)*5 }</span>条，共<span>${page.count }</span>条记录</p>
+							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
 								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
 								

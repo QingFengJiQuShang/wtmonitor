@@ -369,7 +369,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				</div>
 			</div>
 			<p class="or clearfix">
-			<%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%>
+			<%if(Authority.haveRigth(user.getId(),"dtjk_dtlb_update")) {%>
 				<input type="button"  value="修改"   onclick="findById('${list.id}','1');" >
 			<%} %>	
 				<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">

@@ -97,7 +97,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
   
   <body>
     <div class="con">
-			<p class="user">系统用户</p>
+			<p class="user">
+						<c:if test="${list.type==1}">管理员</c:if>
+						<c:if test="${list.type==2}">区域用户</c:if>
+						<c:if test="${list.type==3}">终端用户</c:if></p>
 			<p class="back" onclick="history.go(-1); "> <img src="<%=path%>/img/back.png" />返回</p>
 			<div class="table">
 				<p class="add">查询用户详情</p>
@@ -321,6 +324,37 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																	<li>	
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_bmd_all" />
+																			<label for="controlAll">全选</label>
+																		</p>
+																	</li>
+																</ul>
+															</p>
+														</li>
+														<p class="fl">
+																<label for="user_ll" class="two_e">电梯流量</label>
+																<ul>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_dtll" value="dtjk_dtll_add" />
+																			<label for="user_xg">新增</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_dtll" value="dtjk_dtll_check" />
+																			<label for="user_xg">查询</label> <br>
+																		</p>
+																	</li>
+																	
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dtjk_dtll" value="dtjk_dtll_update" />
+																			<label for="user_xg">修改</label> <br>
+																		</p>
+																	</li>
+																	<li>	
+																		<p class="fl">
+																			<input type="checkbox"  id="dtjk_dtll_all" />
 																			<label for="controlAll">全选</label>
 																		</p>
 																	</li>

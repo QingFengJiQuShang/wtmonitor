@@ -142,7 +142,23 @@ public class XtglUsersAction extends DispatchAction {
 		String unit=request.getParameter("unit");
 		String province=request.getParameter("province");
 		String city=request.getParameter("city");
-		
+		String flag=request.getParameter("flag");
+		String regionUnitId=request.getParameter("regionUnitId");
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		if(flag==null||flag.equals("")){
+			if(user.getType().equals("1")){
+				flag="0";
+			}else if(user.getType().equals("2")){
+				flag="2";
+			}else{
+				flag="3";
+			}
+		}
+		if(regionUnitId==null||regionUnitId.equals("")){
+			if(user.getType().equals("2")){
+				regionUnitId=user.getRegionUnitId();
+			}
+		}
 		if(name!=null){
 			name=new String(name.getBytes("iso-8859-1"),"utf-8");
 		 }
@@ -187,6 +203,15 @@ public class XtglUsersAction extends DispatchAction {
 				if(city!=null&&!city.equals("")&&!city.equals("«Î—°‘Ò")){
 					sql+=" and city like '%"+city+"%'";
 				}
+				if(flag.equals("0")){
+					sql+=" and type = '1' ";	
+				}else if(flag.equals("1")){
+					sql+=" and type = '2' ";
+				}else if(flag.equals("2")){
+					sql+=" and type = '3' and region_Unit_Id='"+regionUnitId+"'";
+				}else{
+					sql+=" and id = '"+user.getId()+"'";
+				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
@@ -206,6 +231,24 @@ public class XtglUsersAction extends DispatchAction {
 					elevator.setProvince(rs.getString("province"));
 					elevator.setCity(rs.getString("city"));
 					elevator.setArea(rs.getString("area"));
+					elevator.setRegionUnitId(rs.getString("region_unit_id"));
+					
+					if(flag.equals("1")){
+							int n=0;
+							if(elevator.getRegionUnitId()!=null&&!elevator.getRegionUnitId().equals("")){
+								String sql2="select count(*)  from Xtgl_Users de where  1=1   and type = '3' and region_Unit_Id='"+elevator.getRegionUnitId()+"'";
+								n=DBEntity.getInstance().queryDataCount(sql2);
+							}
+							elevator.setNum(n);
+					}else if(flag.equals("0")){
+							String sql2="select count(*)  from Xtgl_Users de where  1=1  and type = '2'";
+							int n=DBEntity.getInstance().queryDataCount(sql2);
+							elevator.setNum(n);
+					}else if(flag.equals("2")){
+						sql+=" and type = '3' and region_Unit_Id='"+regionUnitId+"'";
+					}else{
+						sql+=" and id = '"+user.getId()+"'";
+					}
 					list.add(elevator);	
 				}
 				request.setAttribute("name", name);
@@ -214,9 +257,18 @@ public class XtglUsersAction extends DispatchAction {
 				request.setAttribute("city", city);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
+				
+				
+					if(flag.equals("1")){
+						return	new ActionForward("/jsp/xtgl/user/userList1.jsp");
+					}else if(flag.equals("0")){
+						 return	new ActionForward("/jsp/xtgl/user/userList.jsp");
+					}else if(flag.equals("2")){
+						 return	new ActionForward("/jsp/xtgl/user/userList2.jsp");
+					}else{
+						 return	new ActionForward("/jsp/xtgl/user/userList2.jsp");
+					}
 		
-		
-		 return	new ActionForward("/jsp/xtgl/user/userList.jsp");
 		}
 	
 	/**
