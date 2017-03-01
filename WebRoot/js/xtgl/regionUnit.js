@@ -25,6 +25,12 @@
 			  window.location="jsp/xtgl/regionUnit/addRegionUnit.jsp";
 			  
 		  }
+		/**
+ * 上传页面
+ */
+upload=function(){
+	JqueryDialog.Open('导入区域单位', 'jsp/xtgl/regionUnit/upload.jsp', 600, 300);
+}
 		//列表分页  
 		  function fenye(num){
 			

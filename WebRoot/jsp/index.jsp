@@ -154,6 +154,9 @@ function toMain(flag){
 		   if(flag==610){
 			   window.main.location="<%=path%>/dictionaryAction.do?method=findByTemplate&flag=4";
 		   }
+		   if(flag==611){
+			   window.main.location="<%=path%>/jsp/xtsz/position/main.jsp";
+		   }
 		    if(flag==71){
 			   window.main.location="<%=path%>/safeAction.do?method=queryElevator&flag=1";
 		   }
@@ -282,6 +285,7 @@ function toMain(flag){
 				<p class="one grade"   >
 					<i class=""></i>系统设置</p>
 				<div class="next">
+					<p	 class="two"  onclick="toMain('611')">地理位置</p>
 					<p	 class="two"  onclick="toMain('31')">系统用户</p>
 					<p	 class="two"  onclick="toMain('61')">操作日志</p>
 					<p	 class="two"  onclick="toMain('62')">通信日志</p>

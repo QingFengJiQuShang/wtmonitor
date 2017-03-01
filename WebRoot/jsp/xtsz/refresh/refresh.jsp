@@ -1,19 +1,22 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>刷新时间</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -22,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 			<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
 		    <script src="<%=path%>/js/Share.js" type="text/javascript" charset="utf-8"></script>
-	
+
 	</head>
 
 	<body>
@@ -33,16 +36,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="table">
 				<p class="add">刷新时间</p>
 				<div class="table_con">
-					
+
 					<p class="fill">
 						<label for="man">刷新时间&nbsp;:&nbsp;</label>
 						<input type="hidden"  name="dictionary.id"  id="id"  value="${list.id}">
 						<input type="hidden"  name="dictionary.flag"  id="flag"  value="${list.flag}">
 						<input type="hidden"  name="dictionary.remarks"  id="remarks"  value="${list.remarks}">
-						<input type="text" id="dictionary"  name="dictionary.dictionary"  value="${list.dictionary}" />
+            <%if(Authority.haveRigth(user.getId(),"xtsz_sxsj_update")) {%>
+            <input type="text" id="dictionary"  name="dictionary.dictionary"  value="${list.dictionary}"  style="width: 150px;height: 29px;border: 1px solid #d2d2d2;text-indent: 10px;"/>
+            <%}else{%>
+              ${list.dictionary}
+            <%}%>
 					</p>
 					<p class="or clearfix">
-						<input type="button"  value="保存"  onclick="add();">
+            <%if(Authority.haveRigth(user.getId(),"xtsz_sxsj_update")) {%>
+  						<input type="button"  value="保存"  onclick="add();">
+            <%}%>
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
 					</p>
 				</div>
@@ -57,8 +66,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 if(showIsNumber("dictionary","刷新时间")){
     		 $('#form').submit();
     	 }
-		 	
+
      }
-     
+
      </script>
 </html>

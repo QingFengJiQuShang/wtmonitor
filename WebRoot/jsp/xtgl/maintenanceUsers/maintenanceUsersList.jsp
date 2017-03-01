@@ -27,6 +27,11 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
+		<script src="<%=path%>/js/Share.js" type="text/javascript" charset="utf-8"></script>
+	<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
 	</head>
 
 	<body>
@@ -51,13 +56,17 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				</div>
 				<div class="table">
 					<div class="or clearfix">
-						<%if(Authority.haveRigth(user.getId(),"dwgl_add")) {%>
+						<%if(Authority.haveRigth(user.getId(),"dwgl_wbry_add")) {%>
 						<p class="fl add"    onclick="add('<%=unitId %>');"><img src="<%=path%>/img/add.png" />新增</p>
 						<%} %>
-						<%if(Authority.haveRigth(user.getId(),"dwgl_del")) {%>
+						<%if(Authority.haveRigth(user.getId(),"dwgl_wbry_del")) {%>
 						<p class="fl del">批量删除</p>
 						<%} %>
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
+						
+            <%if(Authority.haveRigth(user.getId(),"dwgl_wbry_upload")) {%>
+			 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
+            <%} %>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -71,6 +80,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								<th>维保证编号</th>
 								<th>维保证有效期限</th>
 								<th>维保卡号</th>
+								<th>维保记录</th>
 								<th>操作</th>
 							</thead>
 							<tbody>
@@ -85,12 +95,13 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.numbers }</td>
 									<td>${list.validity }</td>
 									<td>${list.cardNumber}</td>
+									<td>${list.cardNumber}</td>
 									<td>
 										<img src="<%=path%>/img/content.png" title="详情"  alt="详情" onclick="findById('${list.id}','2');"/>
-										<%if(Authority.haveRigth(user.getId(),"dwgl_update")) {%>
+										<%if(Authority.haveRigth(user.getId(),"dwgl_wbry_update")) {%>
 										<img src="<%=path%>/img/compile.png"  title="修改"  alt="修改" onclick="findById('${list.id}','1');"/>
 										<%} %>
-										<%if(Authority.haveRigth(user.getId(),"dwgl_del")) {%>
+										<%if(Authority.haveRigth(user.getId(),"dwgl_wbry_del")) {%>
 										<img src="<%=path%>/img/del.png" title="删除"  alt="删除"  class="del_one" onclick="del('${list.id}');"/>
 										<%} %>
 									</td>

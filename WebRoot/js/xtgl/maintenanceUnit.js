@@ -25,6 +25,12 @@
 			window.location="jsp/xtgl/maintenanceUnit/addMaintenanceUnit.jsp";
 			  
 		  }
+		/**
+ * 上传页面
+ */
+upload=function(){
+	JqueryDialog.Open('导入维保单位', 'jsp/xtgl/maintenanceUnit/upload.jsp', 600, 300);
+}
 		//列表分页  
 		  function fenye(num){
 			

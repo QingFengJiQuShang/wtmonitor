@@ -1,5 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@page import="com.jrsoft.fri.xtgl.entity.XtglAuthority"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -7,6 +9,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("authority");
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 %>
 
@@ -14,12 +17,12 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>报警控制</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -29,7 +32,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 		<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 			<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
 		    <script src="<%=path%>/js/Share.js" type="text/javascript" charset="utf-8"></script>
-	
+
 		<style type="text/css">
 			.warp {
 				padding: 10px 0;
@@ -38,37 +41,37 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 				-moz-border-radius: 10px;
 				border-radius: 10px;
 			}
-			
+
 			.level {
 				padding: 10px 0;
 				border-bottom: 1px solid #ccc;
 			}
-			
+
 			.level:nth-child(3) {
 				border-bottom: 0;
 			}
-			
+
 			.level>p {
 				font-size: 16px;
 				padding: 10px;
 			}
-			
+
 			.level_tow {
 				padding-left: 6%;
 			}
-			
+
 			.level_tow p {
 				height: 20px;
 				width: 15%;
 				text-indent: 10px;
 				line-height: 20px;
 			}
-			
+
 			.or {
 				width: 45%;
 				margin: 30px auto 0;
 			}
-			
+
 			.or button {
 				width: 76px;
 				height: 32px;
@@ -85,10 +88,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">报警控制</p>			
+			<p class="user">报警控制</p>
 			<div class="warp">
 				<form id="form" action="<%=path %>/usersAction.do?method=updateAlarm" method="post"  encType="multipart/form-data">
-			
+
 				<div class="level">
 					<p>报警类型</p>
 					<div class="level_tow clearfix">
@@ -158,20 +161,26 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 				</div>
 				<div class="level">
 					<p>提醒时间</p>
-					
+
 					<div class="level_tow  ">
 						<p class="fill" style="width: 30%;">
 							<label for="logn">提醒时间(秒)&nbsp;:&nbsp;</label>
 							<input type="hidden"  name="dictionary.id"  id="id"  value="${list.id}">
 							<input type="hidden"  name="dictionary.flag"  id="flag"  value="${list.flag}">
 							<input type="hidden"  name="dictionary.remarks"  id="remarks"  value="${list.remarks}">
-							<input type="text" id="dictionary"  name="dictionary.dictionary"  value="${list.dictionary}"  style="width: 150px;height: 29px;border: 1px solid #d2d2d2;text-indent: 10px;"/>
-						</p>
+              <%if(Authority.haveRigth(user.getId(),"xtsz_bjkz_update")) {%>
+              <input type="text" id="dictionary"  name="dictionary.dictionary"  value="${list.dictionary}"  style="width: 150px;height: 29px;border: 1px solid #d2d2d2;text-indent: 10px;"/>
+              <%}else{%>
+                ${list.dictionary}
+              <%}%>
+            </p>
 						<p></p>
 					</div>
 				</div>
 				<p class="or clearfix">
+          <%if(Authority.haveRigth(user.getId(),"xtsz_bjkz_update")) {%>
 						<input type="button"  value="保存"  onclick="add();">
+          <%}%>
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
 					</p>
 				</form>

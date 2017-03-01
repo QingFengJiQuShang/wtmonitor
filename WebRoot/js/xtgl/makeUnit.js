@@ -25,6 +25,12 @@
 			  window.location="jsp/xtgl/makeUnit/addMakeUnit.jsp";
 			  
 		  }
+/**
+ * 上传页面
+ */
+upload=function(){
+	JqueryDialog.Open('导入制造单位', 'jsp/xtgl/propertyUnit/upload.jsp', 600, 300);
+}
 		//列表分页  
 		  function fenye(num){
 			

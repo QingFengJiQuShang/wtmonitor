@@ -101,8 +101,8 @@ public class XtglUseUnitDaoImpl  extends BaseDaoImpl< XtglUseUnit, String> imple
 						cell = row.createCell(j);// 创建格 字段
 						cell.setCellValue(e.getName());   //单位名称
 						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getType());   //单位类型
+					//	cell = row.createCell(++j);// 创建格 字段
+					//	cell.setCellValue(e.getType());   //单位类型
 			
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getLiaisons());   //联络人

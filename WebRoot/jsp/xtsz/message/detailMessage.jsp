@@ -1,22 +1,24 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>短信警告</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -32,19 +34,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				font-size: 20px;
 				color: #FFF;
 			}
-			
+
 			.calendar {
 				top: 130px!important;
 			}
-			
+
 			.wrap {
 				margin-top: 20px;
 			}
-			
+
 			.wrap .textarea {
 				height: 120px;
 			}
-			
+
 			textarea {
 				border: 1px solid #d2d2d2;
 				border: 1px solid #d2d2d2;
@@ -62,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="table">
 				<p class="add">查询短信警告</p>
 				<div class="table_con">
-				
+
 				<p class="fill">
 					<label for="phone">客户手机号码&nbsp;:&nbsp;</label>
 					${list.phone}
@@ -80,12 +82,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<p class="fill textarea">
 					<label for="con">发送内容&nbsp;:&nbsp;</label>${list.content}
 				</p>
-				
-					
+
+
 					<div class="keep clearfix">
 						<c:if test="${list.state=='未发送'}">
+            <%if(Authority.haveRigth(user.getId(),"xtsz_dxtx_update")) {%>
+
 						<button class="fl"    onclick="findById('${list.id}','1');">修改</button>
-						</c:if>
+            <%}%>
+            </c:if>
 						<button class="fr"   onclick="history.go(-1); ">取消</button>
 					</div>
 				</div>
@@ -97,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="<%=path%>/js/xtsz/message.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
-     
-     
+
+
      </script>
 </html>

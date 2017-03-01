@@ -26,6 +26,11 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
+		<script src="<%=path%>/js/Share.js" type="text/javascript" charset="utf-8"></script>
+	<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
 	</head>
 
 	<body>
@@ -58,6 +63,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
             <%if(Authority.haveRigth(user.getId(),"dwgl_wbdw_del")) {%>
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
             <%}%>
+            
+            <%if(Authority.haveRigth(user.getId(),"dwgl_wbdw_upload")) {%>
+			 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
+            <%} %>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">

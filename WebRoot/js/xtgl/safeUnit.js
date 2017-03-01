@@ -25,6 +25,12 @@
 			  window.location="jsp/xtgl/safeUnit/addSafeUnit.jsp";
 			  
 		  }
+		/**
+ * 上传页面
+ */
+upload=function(){
+	JqueryDialog.Open('导入保险单位', 'jsp/xtgl/safeUnit/upload.jsp', 600, 300);
+}
 		//列表分页  
 		  function fenye(num){
 			

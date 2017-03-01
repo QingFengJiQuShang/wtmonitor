@@ -25,6 +25,12 @@
 			  window.location="jsp/xtgl/propertyUnit/addPropertyUnit.jsp";
 			  
 		  }
+		/**
+ * 上传页面
+ */
+upload=function(){
+	JqueryDialog.Open('导入物业单位', 'jsp/xtgl/propertyUnit/upload.jsp', 600, 300);
+}
 		//列表分页  
 		  function fenye(num){
 			

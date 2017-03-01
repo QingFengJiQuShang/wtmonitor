@@ -2,21 +2,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>救援区域统计</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -36,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="clearfix">
 					<p class="fl" >
 						<label for="logn">省&nbsp;:&nbsp;</label>
-						<input type="hidden"   id="provinceid"  > 
+						<input type="hidden"   id="provinceid"  >
 						<select   id="province"   >
 						<option value="${province}"  selected="selected">${province}</option>
 						</select>
@@ -59,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="user">开始时间&nbsp;:&nbsp;</label>
 						<input  class="Wdate"   id="begintime"  name="begintime"  value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 					</p>
-					
+
 					<p class="fl">
 						<label for="man">结束时间&nbsp;:&nbsp;</label>
 						<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
@@ -69,7 +73,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="table">
 					<div class="or clearfix">
+          <%if(Authority.haveRigth(user.getId(),"tjfx_jyqytj_exp")) {%>
 					<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
+          <%}%>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
@@ -80,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<th>救援次数</th>
 								<th style="width: 300px;">平均救援到达时间(分钟)</th>
 								<th style="width: 300px;">平均救援成功时间(分钟)</th>
-								
+
 							</thead>
 								<tr>
 									<td>${count.province }</td>
@@ -90,13 +96,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td>${count.arriveTime }</td>
 									<td>${count.successTime }</td>
 									<td>
-										
+
 									</td>
 								</tr>
-								
+
 							</tbody>
 						</table>
-						
+
 					</div>
 				</div>
 			</div>
@@ -106,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<%=path%>/js/bxgl/count.js" type="text/javascript" charset="utf-8"></script>
-	
+
 	<script type="text/javascript">
 	function gotoUrl (){
 			 var begintime= document.getElementById("begintime").value;
@@ -136,7 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function query(){
     		  window.location.href="<%=path%>/countAction.do?method=rescueRegionCount"+gotoUrl();
 		  }
-	  //下载  
+	  //下载
 		  function exp(){
     		  window.location.href="<%=path%>/countAction.do?method=exportRescueRegionCount"+gotoUrl ();
          }

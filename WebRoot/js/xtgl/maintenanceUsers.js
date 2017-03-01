@@ -28,6 +28,12 @@
 			  
 			    window.location="jsp/xtgl/maintenanceUsers/addMaintenanceUsers.jsp?unitId="+unitId;
 		  }
+		/**
+ * 上传页面
+ */
+upload=function(){
+	JqueryDialog.Open('导入维保人员', 'jsp/xtgl/maintenanceUsers/upload.jsp', 600, 300);
+}
 		//列表分页  
 		  function fenye(num){
 			

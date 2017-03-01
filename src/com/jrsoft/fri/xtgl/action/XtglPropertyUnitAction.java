@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,14 +16,20 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.xtgl.entity.XtglPropertyUnit;
+import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtgl.from.XtglForm;
@@ -394,5 +401,48 @@ public class XtglPropertyUnitAction extends DispatchAction  {
 		
 		 return	new ActionForward("/jsp/comm/selectPropertyUnitList.jsp");
 		}
-
+	/**
+	 *   excel导入数据
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  exportIn(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String pathname = request.getRealPath("/")+"upload\\";
+		Upload upload = new Upload();
+		XtglForm f = (XtglForm)form;
+		FormFile file = f.getTheFile();
+		String fileName=upload.uploadFile(file, request, pathname);
+		InputStream in = new FileInputStream(fileName);
+	    Workbook workbook = WorkbookFactory.create(in);  
+	    Sheet sheet = workbook.getSheetAt(0);  //示意访问sheet  
+		Row row = null;
+		int totalRows = sheet.getPhysicalNumberOfRows();
+		
+		for(int r=1; r<totalRows; r++) 
+		{
+			XtglPropertyUnit entity =new XtglPropertyUnit();
+			
+			row = sheet.getRow(r);
+			entity.setName(row.getCell(0).getStringCellValue());
+			entity.setLiaisons(row.getCell(1).getStringCellValue());
+			entity.setPhone(row.getCell(2).getStringCellValue());
+			entity.setAddress(row.getCell(3).getStringCellValue());
+			entity.setProvince(row.getCell(4).getStringCellValue());
+			entity.setCity(row.getCell(5).getStringCellValue());
+			entity.setArea(row.getCell(6).getStringCellValue());
+			propertyUnitService.save(entity);
+		}
+		File fs = new File(fileName);
+		if (fs.isFile() && fs.exists()) {
+			fs.delete();
+			System.out.println("删除导入文件" + fileName + "成功！");
+		} else {
+			System.out.println("删除导入文件" + fileName + "失败！");
+		}
+		 return	new ActionForward("/jsp/comm/close.jsp");
+	}
 }

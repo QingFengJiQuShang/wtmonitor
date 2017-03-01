@@ -1,7 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 %>
 
@@ -9,12 +12,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>用户添加</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<!--
@@ -43,8 +46,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					   ${list.content}
 					</p>
 					<div class="keep clearfix">
+            <%if(Authority.haveRigth(user.getId(),"xtsz_xtbz_update")) {%>
 						<button class="fl"  onclick="findById('${list.id}','1');">修改</button>
-						<button class="fr">取消</button>
+						<%}%>
+            <button class="fr">取消</button>
 					</div>
 				</div>
 		</div>

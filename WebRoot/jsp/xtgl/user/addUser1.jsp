@@ -1327,6 +1327,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
+                                  <li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="xtsz_dxtx" value="xtsz_dxtx_send" />
+																			<label for="user_xg">发送</label> <br>
+																		</p>
+																	</li>
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxtx_all" />

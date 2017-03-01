@@ -2,21 +2,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>短信模板</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -24,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
 			<script src="<%=path %>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 			<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
-	
+
 	</head>
 
 	<body>
@@ -39,14 +42,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="name">模板类型&nbsp;:&nbsp;</label>
 						<input type="hidden" id="flag"  name="dictionary.flag"  value="4"/>
 						<input type="hidden" id="remarks"  name="dictionary.remarks"  />
-						
+
 					</p>
-					
+
 					<p class="fill">
 						<label for="man">模板内容&nbsp;:&nbsp;</label>
 						<textarea  id="dictionary"  name="dictionary.dictionary"   rows="3" cols="50"></textarea>
 					</p>
-					
+
 					<p class="or clearfix">
 						<input type="button"  value="保存"  onclick="add();">
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
@@ -69,6 +72,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 if(dictionary.indexOf("{name}") > -1)
 		 	$('#form').submit();
      }
-     
+
      </script>
 </html>

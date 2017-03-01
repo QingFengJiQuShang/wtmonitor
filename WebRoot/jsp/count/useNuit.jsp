@@ -2,21 +2,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>故障统计</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -30,21 +34,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="con" >
-			<p class="user">维保单位统计</p>			
+			<p class="user">维保单位统计</p>
 			<div class="warp">
 				<div class="select clearfix">
 				<p class="fl">
 						<label for="unit">区域&nbsp;:&nbsp;</label>
 						<select name="type" id="type">
 							<option value="">请选择</option>
-							
-						</select>				
+
+						</select>
 					</p>
 					<p class="fl">
 						<label for="user">开始时间&nbsp;:&nbsp;</label>
 						<input  class="Wdate"   id="begintime"  name="begintime"  value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="开始时间"   readonly="readonly">
 					</p>
-					
+
 					<p class="fl">
 						<label for="man">结束时间&nbsp;:&nbsp;</label>
 						<input  class="Wdate"   id="endtime"  name="endtime"    value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  placeholder="结束时间"   readonly="readonly">
@@ -96,7 +100,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		});
 
-		
+
 		// 使用
 		require(
 			[
@@ -129,11 +133,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					series: [{
 						"name": "平均无故障运行时间",
 						"type": "bar",
-						"data": ${rows} 
+						"data": ${rows}
 					}]
 				};
 
-				// 为echarts对象加载数据 
+				// 为echarts对象加载数据
 				myChart.setOption(option);
 			}
 		);
@@ -143,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 var endtime= document.getElementById("endtime").value;
     		  window.location.href="<%=path%>/countAction.do?method=useUnitCount&begintime="+begintime+"&endtime="+endtime;
 		  }
-	
+
 	</script>
 
 </html>

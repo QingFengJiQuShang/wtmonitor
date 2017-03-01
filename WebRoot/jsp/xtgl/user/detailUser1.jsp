@@ -16,12 +16,12 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>查询用户</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
@@ -42,35 +42,35 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 				-moz-border-radius: 10px;
 				border-radius: 10px;
 			}
-			
+
 			.warp .level_b {
 				padding: 10px 0;
 			}
-			
+
 			.warp .level_b:nth-child(6) {
 				border-bottom: 0;
 			}
-			
+
 			.warp .level_b>p {
 				font-size: 16px;
 				padding: 10px;
 			}
-			
+
 			.warp .level_tow {
 				padding-left:5%;
 			}
-			
+
 			.warp .level_tow p {
 				height:30px;
 				text-indent: 10px;
 				line-height: 20px;
 			}
-			
+
 			.warp .or {
 				width: 45%;
 				margin: 30px auto 0;
 			}
-			
+
 			.warp .or button {
 				width: 76px;
 				height: 32px;
@@ -94,7 +94,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 		</style>
 
   </head>
-  
+
   <body>
     <div class="con">
 			<p class="user">
@@ -110,7 +110,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 						<c:if test="${list.type==1}">超级管理员</c:if>
 						<c:if test="${list.type==2}">区域用户</c:if>
 						<c:if test="${list.type==3}">终端用户</c:if>
-						
+
 					</p>
 					<p class="fill">
 						<label for="logn" style="display:inline-block ;">姓名&nbsp;:&nbsp;</label>
@@ -126,11 +126,11 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 					</p>
 					<p class="fill">
 						<label for="logn" style="display:inline-block ;">省&nbsp;:&nbsp;</label>${list.province}
-						
+
 					</p>
 					<p class="fill" >
 						<label for="logn" style="display:inline-block ;">市&nbsp;:&nbsp;</label>${list.city}
-						
+
 					</p>
 					<p class="fill">
 						<label for="logn" style="display:inline-block ;">区&nbsp;:&nbsp;</label>
@@ -150,14 +150,14 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 						<c:if test="${list.unitType==3}">维保单位</c:if>
 						<c:if test="${list.unitType==4}">制造单位</c:if>
 						<c:if test="${list.unitType==5}">救援单位</c:if>
-						
+
 					</p>
 					<p class="fill"  id="unitName"  >
 						<label for="man" style="display:inline-block ;">单位名称&nbsp;:&nbsp;</label>
 						${list.unitName}
 						</p>
 					</c:if>
-			
+
 					<div class="warp" id="warp">
 							<ul>
 								<li>
@@ -205,7 +205,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_dtlb_all" />
 																			<label for="controlAll">全选</label>
@@ -214,26 +214,26 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																</ul>
 															</p>
 														</li>
-														<li>	
+														<li>
 															<p class="fl">
 																<label for="user_xg">电梯监控</label> <br>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="dtjk_dtjk" value="dtjk_dtjk_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																</ul>
 															</p>
 														</li>
-														<li>	
+														<li>
 															<p class="fl">
 																<label for="user_xg">记录回放</label> <br>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="dtjk_jlhf" value="dtjk_jlhf_check" />
@@ -246,7 +246,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_jlhf_all" />
 																			<label for="controlAll">全选</label>
@@ -284,7 +284,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_sbzq_all" />
 																			<label for="controlAll">全选</label>
@@ -321,7 +321,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_bmd_all" />
 																			<label for="controlAll">全选</label>
@@ -345,14 +345,14 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="dtjk_dtll" value="dtjk_dtll_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_dtll_all" />
 																			<label for="controlAll">全选</label>
@@ -389,7 +389,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_wbjl_all" />
 																			<label for="controlAll">全选</label>
@@ -426,7 +426,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_njjl_all" />
 																			<label for="controlAll">全选</label>
@@ -463,7 +463,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dtjk_fwf_all" />
 																			<label for="controlAll">全选</label>
@@ -508,7 +508,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="gzgl_rgjj_all" />
 																			<label for="controlAll">全选</label>
@@ -545,7 +545,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="gzgl_dqgz_all" />
 																			<label for="controlAll">全选</label>
@@ -558,14 +558,14 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">历史故障</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="gzgl_lsgz" value="gzgl_lsgz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																		
+
 																		<p class="fl">
 																			<input type="checkbox"  id="gzgl_lsgz_all" />
 																			<label for="controlAll">全选</label>
@@ -622,7 +622,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_sydw_all" />
 																			<label for="controlAll">全选</label>
@@ -671,7 +671,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_wbdw_all" />
 																			<label for="controlAll">全选</label>
@@ -708,7 +708,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="dwgl_jydw" value="dwgl_jydw_exp" />
@@ -721,7 +721,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_jydw_all" />
 																			<label for="controlAll">全选</label>
@@ -770,7 +770,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_wydw_all" />
 																			<label for="controlAll">全选</label>
@@ -819,7 +819,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_zzdw_all" />
 																			<label for="controlAll">全选</label>
@@ -868,7 +868,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_bxdw_all" />
 																			<label for="controlAll">全选</label>
@@ -917,7 +917,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">上传</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="dwgl_qydw_all" />
 																			<label for="controlAll">全选</label>
@@ -926,7 +926,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																</ul>
 															</p>
 														</li>
-														
+
 													</div>
 												</ul>
 								</li>
@@ -939,15 +939,15 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">未保电梯</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_wbdt" value="bxgl_wbdt_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_wbdt_all" />
 																			<label for="controlAll">全选</label>
@@ -960,15 +960,15 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">在保电梯</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_zbdt" value="bxgl_zbdt_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_zbdt_all" />
 																			<label for="controlAll">全选</label>
@@ -981,15 +981,15 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">脱保电梯</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_tbdt" value="bxgl_tbdt_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_tbdt_all" />
 																			<label for="controlAll">全选</label>
@@ -1026,7 +1026,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_bdjl_all" />
 																			<label for="controlAll">全选</label>
@@ -1063,7 +1063,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_lpjl_all" />
 																			<label for="controlAll">全选</label>
@@ -1076,7 +1076,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">保险统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_bxtj" value="bxgl_bxtj_check" />
@@ -1089,8 +1089,8 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_bxtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1103,7 +1103,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">保险公司统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="bxgl_bxgs" value="bxgl_bxgs_check" />
@@ -1116,7 +1116,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="bxgl_bxgs_all" />
 																			<label for="controlAll">全选</label>
@@ -1161,7 +1161,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_xtyh_all" />
 																			<label for="controlAll">全选</label>
@@ -1174,15 +1174,15 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">操作日志</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_czrz" value="xtsz_czrz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_czrz_all" />
 																			<label for="controlAll">全选</label>
@@ -1195,7 +1195,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">通信日志</label>
 																<ul>
-																	
+
 																	</li>
 																	<li>
 																		<p class="fl">
@@ -1203,8 +1203,8 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_txrz_all" />
 																			<label for="controlAll">全选</label>
@@ -1241,7 +1241,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_xtbz_all" />
 																			<label for="controlAll">全选</label>
@@ -1254,21 +1254,21 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">短信模板</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxmb" value="xtsz_dxmb_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxmb" value="xtsz_dxmb_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxmb_all" />
 																			<label for="controlAll">全选</label>
@@ -1305,7 +1305,13 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+                                  <li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="xtsz_dxtx" value="xtsz_dxtx_send" />
+																			<label for="user_xg">发送</label> <br>
+																		</p>
+																	</li>
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxtx_all" />
 																			<label for="controlAll">全选</label>
@@ -1318,21 +1324,21 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">短信权限</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxqx" value="xtsz_dxqx_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxqx" value="xtsz_dxqx_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxqx_all" />
 																			<label for="controlAll">全选</label>
@@ -1345,15 +1351,15 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">短信日志</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dxrz" value="xtsz_dxrz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
-																	<li>	
+
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dxrz_all" />
 																			<label for="controlAll">全选</label>
@@ -1366,21 +1372,21 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">刷新时间</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_sxsj" value="xtsz_sxsj_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_sxsj" value="xtsz_sxsj_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_sxsj_all" />
 																			<label for="controlAll">全选</label>
@@ -1393,21 +1399,21 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">单包流量</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dbll" value="xtsz_dbll_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_dbll" value="xtsz_dbll_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_dbll_all" />
 																			<label for="controlAll">全选</label>
@@ -1420,21 +1426,21 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">报警控制</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_bjkz" value="xtsz_bjkz_check" />
 																			<label for="user_xg">查询</label> <br>
 																		</p>
 																	</li>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="xtsz_bjkz" value="xtsz_bjkz_update" />
 																			<label for="user_xg">修改</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="xtsz_bjkz_all" />
 																			<label for="controlAll">全选</label>
@@ -1443,7 +1449,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																</ul>
 															</p>
 														</li>
-														
+
 													</div>
 												</ul>
 										</li>
@@ -1468,7 +1474,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_gzqytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1493,7 +1499,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_gzlxtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1518,7 +1524,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_jyqytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1543,7 +1549,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_jyxytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1556,7 +1562,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">维保区域统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="tjfx_wbqytj" value="tjfx_wbqytj_check" />
@@ -1569,7 +1575,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_wbqytj_all" />
 																			<label for="controlAll">全选</label>
@@ -1582,7 +1588,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 															<p class="fl">
 																<label for="user_ll" class="two_e">维保出勤统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="tjfx_wbcqtj" value="tjfx_wbcqtj_check" />
@@ -1595,7 +1601,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox"  id="tjfx_wbcqtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1609,7 +1615,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																<label for="user_ll" class="two_e">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 																短信统计</label>
 																<ul>
-																	
+
 																	<li>
 																		<p class="fl">
 																			<input type="checkbox" name="authority" id="tjfx_dxtj" value="tjfx_dxtj_check" />
@@ -1622,7 +1628,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 																			<label for="user_xg">下载</label> <br>
 																		</p>
 																	</li>
-																	<li>	
+																	<li>
 																		<p class="fl">
 																			<input type="checkbox" onclick="all()" id="tjfx_dxtj_all" />
 																			<label for="controlAll">全选</label>
@@ -1636,17 +1642,19 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 										</li>
 								</ul>
 						</div>
-						 
+
 					</div>
-			
+
 					<div class="keep clearfix ">
 						<p class="or clearfix">
+              <%if(Authority.haveRigth(user.getId(),"xtsz_xtyh_update")) {%>
 						<button class="fl"  onclick="findById('${list.id}','1');">修改</button>
+            <%}%>
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
 					</p>
-				
+
 					</div>
-				
+
 
 			</div>
 		</div>

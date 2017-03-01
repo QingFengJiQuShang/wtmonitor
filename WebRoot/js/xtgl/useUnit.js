@@ -25,6 +25,7 @@
 			  window.location="jsp/xtgl/useUnit/addUseUnit.jsp";
 			  
 		  }
+
 		//列表分页  
 		  function fenye(num){
 			

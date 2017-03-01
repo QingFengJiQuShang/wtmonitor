@@ -3,10 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@page import="com.jrsoft.fri.xtgl.action.Authority"%>
+<%@page import="com.jrsoft.fri.xtgl.entity.XtglUsers"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("authority");
+XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 %>
 
@@ -14,19 +17,19 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 <html>
   <head>
     <base href="<%=basePath%>">
-    
+
     <title>短信权限</title>
-    
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
-		
+
 		<style type="text/css">
 			.warp {
 				padding: 10px 0;
@@ -35,35 +38,35 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 				-moz-border-radius: 10px;
 				border-radius: 10px;
 			}
-			
+
 			.level {
 				padding: 10px 0;
 				border-bottom: 1px solid #ccc;
 			}
-			
-			
-			
+
+
+
 			.level>p {
 				font-size: 16px;
 				padding: 10px;
 			}
-			
+
 			.level_tow {
 				padding-left: 6%;
 			}
-			
+
 			.level_tow p {
 				height: 20px;
 				width: 15%;
 				text-indent: 10px;
 				line-height: 20px;
 			}
-			
+
 			.or {
 				width: 45%;
 				margin: 30px auto 0;
 			}
-			
+
 			.or button {
 				width: 76px;
 				height: 32px;
@@ -80,10 +83,10 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">短信权限</p>			
+			<p class="user">短信权限</p>
 			<div class="warp">
 				<form id="form" action="<%=path %>/usersAction.do?method=updateMessage" method="post"  encType="multipart/form-data">
-			
+
 				<div class="level">
 					<p>使用单位权限</p>
 					<div class="level_tow clearfix">
@@ -321,7 +324,7 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 							<input type="checkbox" name="authority" id="or_stop"  value="wb_10"/>
 							<label for="or_stop">非平层开门</label>
 						</p>
-						
+
 						<p class="fl">
 							<input type="checkbox" name="authority" id="fwf"  value="wb_fwf"/>
 							<label for="fwf">服务费到期</label>
@@ -702,7 +705,9 @@ List<XtglAuthority> authority=(List<XtglAuthority> )request.getAttribute("author
 					</div>
 				</div>
 				<p class="or clearfix">
-						<input type="button"  value="保存"  onclick="add();">
+          <%if(Authority.haveRigth(user.getId(),"xtsz_dxqx_update")) {%>
+            <input type="button"  value="保存"  onclick="add();">
+          <%}%>
 						<input type="button"  value="取消"   onclick="history.go(-1); " style="float: right;">
 					</p>
 				</form>

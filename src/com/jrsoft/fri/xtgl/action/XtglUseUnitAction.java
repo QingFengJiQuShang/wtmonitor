@@ -7,9 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +19,14 @@ import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -405,73 +415,40 @@ public class XtglUseUnitAction  extends DispatchAction  {
 	 * @return
 	 * @throws Exception
 	 */
-	public void  exportIn(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	public ActionForward  exportIn(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
-		String url=request.getParameter("flie");
 		String pathname = request.getRealPath("/")+"upload\\";
 		Upload upload = new Upload();
-		//upload.getExcelData(pathname);
-		uploadFile(form, request, pathname);
-	
-	}
-	/**
-	 * 上传文件
-	 */
-	public String uploadFile(ActionForm  form,HttpServletRequest request,String filePath){
 		XtglForm f = (XtglForm)form;
 		FormFile file = f.getTheFile();
-		Date date = new Date();
-		int i = 0;
-		String type = file.getFileName();
-		String path = "";
-		while(i!=-1){
-			i = type.indexOf(".");
-			type = type.substring(i+1);//文件类型
+		String fileName=upload.uploadFile(file, request, pathname);
+		InputStream in = new FileInputStream(fileName);
+	    Workbook workbook = WorkbookFactory.create(in);  
+	    Sheet sheet = workbook.getSheetAt(0);  //示意访问sheet  
+		Row row = null;
+		int totalRows = sheet.getPhysicalNumberOfRows();
+		
+		for(int r=1; r<totalRows; r++) 
+		{
+			XtglUseUnit entity =new XtglUseUnit();
+			
+			row = sheet.getRow(r);
+			entity.setName(row.getCell(0).getStringCellValue());
+			entity.setLiaisons(row.getCell(1).getStringCellValue());
+			entity.setPhone(row.getCell(2).getStringCellValue());
+			entity.setAddress(row.getCell(3).getStringCellValue());
+			entity.setProvince(row.getCell(4).getStringCellValue());
+			entity.setCity(row.getCell(5).getStringCellValue());
+			entity.setArea(row.getCell(6).getStringCellValue());
+			useUnitService.save(entity);
 		}
-		String times = String.valueOf(date.getTime());
-		String  fname = times + "." + type;
-		try{
-			InputStream streamIn = file.getInputStream();
-			int ok=file.getFileSize();
-			String strFee = null;
-			if(ok>=1024*1024)
-			{
-				float ok1=(((float)ok)/1024f/1024f); 
-				DecimalFormat myformat1 = new DecimalFormat("0.00");         
-				strFee = myformat1.format(ok1)+"M";
-				System.out.println(strFee+"M");
-			}
-			else if(ok>1024 && ok<=1024*1024)
-			{
-				double  ok2=((double)ok)/1024;
-				DecimalFormat myformat2=new DecimalFormat("0.00");
-				strFee = myformat2.format(ok2)+"kb";
-				System.out.println(strFee+"kb");
-			}
-			else if(ok<1024)
-			{
-				strFee=String.valueOf(ok)+"byte";
-				System.out.println(strFee);
-			}
-			System.out.println( streamIn.available()+"文件大小byte"+"   "+filePath);
-			File uploadFile = new File(filePath);
-			if (!uploadFile.exists() || uploadFile == null) {  
-				uploadFile.mkdirs();
-			}
-			path = uploadFile.getPath() + "\\" + fname;
-			OutputStream streamOut = new FileOutputStream(path);
-			int bytesRead = 0;
-			byte[] buffer = new byte[8192];
-			while ((bytesRead = streamIn.read(buffer, 0, 8192)) != -1) {
-				streamOut.write(buffer, 0, bytesRead);
-			}
-			streamOut.close();
-			streamIn.close();
-			file.destroy();  
-			System.out.println("path==="+path);
-		}catch(Exception e){
-			e.printStackTrace();
+		File fs = new File(fileName);
+		if (fs.isFile() && fs.exists()) {
+			fs.delete();
+			System.out.println("删除导入文件" + fileName + "成功！");
+		} else {
+			System.out.println("删除导入文件" + fileName + "失败！");
 		}
-		return path;
+		 return	new ActionForward("/jsp/comm/close.jsp");
 	}
 }
