@@ -1,5 +1,7 @@
 package com.jrsoft.fri.dtjk.from;
 
+import org.apache.struts.upload.FormFile;
+
 import com.jrsoft.fri.common.core.form.BaseForm;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
@@ -23,6 +25,7 @@ public class DtjkFrom   extends BaseForm {
 	private DtjkPhone ph=new DtjkPhone();
 	private DtjkPush push=new DtjkPush();
 	private DtjkService service=new DtjkService();
+	private FormFile theFile; //нд╪Ч
 	
 	public DtjkElevator getElevator() {
 		return elevator;
@@ -74,6 +77,12 @@ public class DtjkFrom   extends BaseForm {
 	}
 	public void setService(DtjkService service) {
 		this.service = service;
+	}
+	public FormFile getTheFile() {
+		return theFile;
+	}
+	public void setTheFile(FormFile theFile) {
+		this.theFile = theFile;
 	}
 	
 }

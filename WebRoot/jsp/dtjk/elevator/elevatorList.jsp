@@ -29,6 +29,11 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
 		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
 		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
+		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
+		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
+		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
+		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
+	
 	</head>
 
 	<body>
@@ -102,6 +107,11 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<%} %>
             <%if(Authority.haveRigth(user.getId(),"dtjk_dtlb_exp")) {%>
 						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
+            <%} %>
+           <p class="fl add" onclick="upload();" style="width: 100px;">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
+            
+            <%if(Authority.haveRigth(user.getId(),"dwgl_dtlb_upload")) {%>
+			 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
             <%} %>
 					</div>
 				<div class="table_con">

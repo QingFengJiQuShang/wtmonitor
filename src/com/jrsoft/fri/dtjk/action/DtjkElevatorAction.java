@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,10 +20,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSON;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
@@ -32,14 +38,18 @@ import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
 import com.jrsoft.fri.dtjk.service.DtjkPhoneService;
+import com.jrsoft.fri.xtgl.action.Upload;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglMakeUnit;
 import com.jrsoft.fri.xtgl.entity.XtglPropertyUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtgl.from.XtglForm;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUnitService;
 import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
+import com.jrsoft.fri.xtgl.service.XtglMakeUnitService;
 import com.jrsoft.fri.xtgl.service.XtglPropertyUnitService;
 import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
 import com.jrsoft.fri.xtsz.action.Log;
@@ -54,6 +64,7 @@ public class DtjkElevatorAction extends DispatchAction{
 	private XtglMaintenanceUsersService maintenanceUsersService;
 	private XtglPropertyUnitService propertyUnitService;
 	private XtglUseUnitService useUnitService;
+	private XtglMakeUnitService makeUnitService;
 	public DtjkElevatorService getElevatorService() {
 		return elevatorService;
 	}
@@ -110,6 +121,14 @@ public class DtjkElevatorAction extends DispatchAction{
 
 	public void setUseUnitService(XtglUseUnitService useUnitService) {
 		this.useUnitService = useUnitService;
+	}
+
+	public XtglMakeUnitService getMakeUnitService() {
+		return makeUnitService;
+	}
+
+	public void setMakeUnitService(XtglMakeUnitService makeUnitService) {
+		this.makeUnitService = makeUnitService;
 	}
 
 	/**
@@ -1219,4 +1238,113 @@ public class DtjkElevatorAction extends DispatchAction{
 		 return	new ActionForward("/elevatorAction.do?method=query");
 		
 	}
+	
+	/**
+	 *   excel电梯数据导入
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  exportIn(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		String pathname = request.getRealPath("/")+"upload\\";
+		Upload upload = new Upload();
+		DtjkFrom f = (DtjkFrom)form;
+		FormFile file = f.getTheFile();
+		String fileName=upload.uploadFile(file, request, pathname);
+		InputStream in = new FileInputStream(fileName);
+	    Workbook workbook = WorkbookFactory.create(in);  
+	    Sheet sheet = workbook.getSheetAt(0);  //示意访问sheet  
+		Row row = null;
+		int totalRows = sheet.getPhysicalNumberOfRows();
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
+		for(int r=1; r<totalRows; r++) 
+		{
+			DtjkElevator entity =new DtjkElevator();
+			row = sheet.getRow(r);
+			entity.setRegisterid(row.getCell(0).getStringCellValue());
+			entity.setDistinguishid(row.getCell(1).getStringCellValue());
+			entity.setBrand(row.getCell(2).getStringCellValue());
+			entity.setModel(row.getCell(3).getStringCellValue());
+			entity.setType(row.getCell(4).getStringCellValue());   		//电梯类型
+			entity.setSpeed(row.getCell(5).getStringCellValue());   		//电梯速度
+			entity.setNumbers(row.getCell(6).getStringCellValue());   		//总层数
+			entity.setRegisterState(row.getCell(7).getStringCellValue());   		//注册状态
+			entity.setLabel(row.getCell(8).getStringCellValue());   		//地图标注
+			entity.setIp(row.getCell(9).getStringCellValue());					//视频ip
+			entity.setFlowStart(row.getCell(10).getStringCellValue()==null?null:df.parse(row.getCell(10).getStringCellValue()));					//视频ip
+			entity.setFlowEnd(row.getCell(11).getStringCellValue()==null?null:df.parse(row.getCell(11).getStringCellValue()));					//视频ip
+			entity.setProvince(row.getCell(12).getStringCellValue());   		//省
+			entity.setCity(row.getCell(13).getStringCellValue());   		//市
+			entity.setArea(row.getCell(14).getStringCellValue());   		//区
+			
+			//使用单位 查询
+			XtglUseUnit useUnit=null;
+			if(row.getCell(15).getStringCellValue()!=null&&!row.getCell(15).getStringCellValue().equals("")){
+				String hql=" where 1=1 and name='"+row.getCell(15).getStringCellValue()+"'";
+				useUnit=useUnitService.query(hql).get(0);
+			}
+			entity.setUseUnitId(useUnit);   		//使用单位名称
+			entity.setUseUnitLiaisons(row.getCell(16).getStringCellValue());   		//使用单位负责人
+			entity.setUseUnitPhone(row.getCell(17).getStringCellValue());   		//使用单位负责人电话
+			
+			//制造单位查询
+			XtglMakeUnit makeUnit=null;
+			if(row.getCell(18).getStringCellValue()!=null&&!row.getCell(18).getStringCellValue().equals("")){
+				String hql=" where 1=1 and name='"+row.getCell(18).getStringCellValue()+"'";
+				makeUnit=makeUnitService.query(hql).get(0);
+			}
+			entity.setMakeUnitId(makeUnit);   			//制造单位
+
+			//物业单位查询
+			XtglPropertyUnit propertyUnit=null;
+			if(row.getCell(19).getStringCellValue()!=null&&!row.getCell(19).getStringCellValue().equals("")){
+				String hql=" where 1=1 and name='"+row.getCell(19).getStringCellValue()+"'";
+				propertyUnit=propertyUnitService.query(hql).get(0);
+			}
+			entity.setPropertyUnitId(propertyUnit);   		//物业单位名称
+			entity.setPropertyUnitLiaisons(row.getCell(20).getStringCellValue());   		//物业单位负责人
+			entity.setUseUnitPhone(row.getCell(21).getStringCellValue());   				//物业单位负责人电话
+			//维保单位
+			XtglMaintenanceUnit maintenanceUnit=null;
+			if(row.getCell(22).getStringCellValue()!=null&&!row.getCell(22).getStringCellValue().equals("")){
+				String hql=" where 1=1 and name='"+row.getCell(22).getStringCellValue()+"'";
+				maintenanceUnit=maintenanceUnitService.query(hql).get(0);
+			}
+			entity.setMaintenanceUnitId(maintenanceUnit);		//维保单位
+			//维保单位
+			XtglMaintenanceUsers maintenanceUsers=null;
+			if(row.getCell(23).getStringCellValue()!=null&&!row.getCell(23).getStringCellValue().equals("")){
+				String hql=" where 1=1 and name='"+row.getCell(23).getStringCellValue()+"'";
+				maintenanceUsers=maintenanceUsersService.query(hql).get(0);
+			}
+			entity.setMaintenanceUsersId(maintenanceUsers);		//维保人员
+
+			entity.setInstallPlace(row.getCell(24).getStringCellValue());   		//安装地点
+			entity.setInstallUnit(row.getCell(25).getStringCellValue());   		//安装单位
+			entity.setInstallUser(row.getCell(26).getStringCellValue());   		//安装人
+			entity.setInstallTime(row.getCell(27).getStringCellValue()==null?null:df.parse(row.getCell(27).getStringCellValue()));   		//安装时间
+			entity.setManufactureTime(row.getCell(28).getStringCellValue()==null?null:df.parse(row.getCell(28).getStringCellValue()));   		//生产日期
+			entity.setServiceIfe(row.getCell(29).getStringCellValue());   		//电梯使用年限
+			entity.setYearlyTime1(row.getCell(30).getStringCellValue()==null?null:df.parse(row.getCell(30).getStringCellValue()));   		//首次检查时间
+			entity.setState("离线");
+			entity.setDelflag("0");
+			entity.setGatewayId(null);
+			entity.setUserid(user);
+			elevatorService.save(entity);
+		}
+		File fs = new File(fileName);
+		if (fs.isFile() && fs.exists()) {
+			fs.delete();
+			System.out.println("删除导入文件" + fileName + "成功！");
+		} else {
+			System.out.println("删除导入文件" + fileName + "失败！");
+		}
+		 return	new ActionForward("/jsp/comm/close.jsp");
+	}
+	
 }

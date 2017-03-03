@@ -39,7 +39,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<div class="con" id="user">
 			<p class="user">地理位置</p>
 				<iframe width="18.5%"  height="535" id="leftFrame" name="leftFrame" frameborder=0 scrolling=auto  src="<%=path %>/areaAction.do?method=queryTree" ></iframe>
-				<iframe width="80%" height="535" id="rightFrame" name="rightFrame" frameborder=0 scrolling=auto  src="<%=path %>/jsp/xtsz/position/provinceList.jsp" ></iframe>
+				<iframe width="80%" height="535" id="rightFrame" name="rightFrame" frameborder=0 scrolling=auto  src="<%=path %>/provinceAction.do?method=queryList" ></iframe>
 	
 	</div>
 	</body>

@@ -38,9 +38,25 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
   			$('#treeview').treeview({
   				levels: 0,
-          		data: ${array}
+          		data: ${array},
+          		onNodeSelected: function(event, data) {
+		          	toMain(data.flag,data.id);
+		          }
        		 });
+  			
   		});
+      function toMain(flag,id){
+    	  if(flag==1){
+    		   window.parent.rightFrame.location="<%=path%>/cityAction.do?method=queryList&id="+id;
+    	  }else if(flag==2){
+    		   window.parent.rightFrame.location="<%=path%>/areaAction.do?method=queryList&id="+id;
+    	  }else if(flag==3){
+    		  
+    	  }else{
+    		   window.parent.rightFrame.location="<%=path%>/provinceAction.do?method=queryList";
+    	  }
+    	  
+      }
   	</script>
   </body>
 

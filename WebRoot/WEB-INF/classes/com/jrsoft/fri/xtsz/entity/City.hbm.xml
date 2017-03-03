@@ -8,7 +8,9 @@
     <class name="com.jrsoft.fri.xtsz.entity.City" table="CITY" schema="WTMONITOR">
         <id name="id" type="java.lang.Long">
             <column name="ID" precision="11" scale="0" />
-            <generator class="sequence" />
+            <generator class="sequence" >
+                 <param name="sequence">CITY1</param>
+            </generator>
         </id>
         <property name="cityid" type="java.lang.String">
             <column name="CITYID" length="6" />

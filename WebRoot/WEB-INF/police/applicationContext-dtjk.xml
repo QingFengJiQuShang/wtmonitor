@@ -22,6 +22,7 @@
 		<property name="propertyUnitService" ref="propertyUnitService" />
 		<property name="maintenanceUnitService" ref="maintenanceUnitService" />
 		<property name="maintenanceUsersService" ref="maintenanceUsersService" />
+		<property name="makeUnitService" ref="makeUnitService" />
 	</bean>
 	<bean id="elevatorService" class="com.jrsoft.fri.dtjk.service.DtjkElevatorServiceImpl">
 		<property name="elevatorDao"  ref="elevatorDao" />

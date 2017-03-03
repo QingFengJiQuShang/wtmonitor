@@ -35,7 +35,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<div class="clearfix">
 
 					<p class="fl">
-						<label for="unit">省/直辖市&nbsp;:&nbsp;</label>
+						<label for="unit">市&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="provinceid"  value="${provinceid}"  />
 						<input type="text" id="title"    value="${title}"  />
 					</p>
 
@@ -46,24 +47,24 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<div class="table">
 					<div class="or clearfix">
             <%if(Authority.haveRigth(user.getId(),"xtsz_xtbz_add")) {%>
-							<p class="fl add"    onclick="add();"><img src="<%=path%>/img/add.png" />新增</p>
+							<p class="fl add"    onclick="add(''${provinceid});"><img src="<%=path%>/img/add.png" />新增</p>
               <%} %>
               <%if(Authority.haveRigth(user.getId(),"xtsz_xtbz_del")) {%>
-            	<!-- <p class="fl del">批量删除</p> --> 
+           <!-- 	<p class="fl del">批量删除</p> --> 
               <%} %>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">
 							<thead>
 							<th  style="width: 30px;">序列</th>
-							<th >省/直辖市</th>
+							<th >市</th>
 							<th style="width: 100px;">操作</th>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td>${s.index + 1 }</td>
-									<td>&nbsp;&nbsp;${list.province}&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;${list.city}&nbsp;&nbsp;</td>
 
 									<td>
 										<img src="<%=path%>/img/content.png" alt=""  onclick="findById('${list.id}');"/>
@@ -106,7 +107,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/xtsz/province.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtsz/city.js" type="text/javascript" charset="utf-8"></script>
 	 <script src="<%=path %>/js/lq.datetimepick.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

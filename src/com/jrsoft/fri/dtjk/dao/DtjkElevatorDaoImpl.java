@@ -52,12 +52,17 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 			String[] top_arraydis = null;
 			Connection conn = DBEntity.getInstance().getConnection();
 			//查询服务订单
-			String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName,mu.name as usersName" +
-			" from dtjk_elevator de " +
-			" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
-			" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
-			" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
-			" where  1=1   and de.delflag!='1' " ;
+			//查询服务订单
+			String sql="select de.*,xuu.name as useUnitName, " +
+					" xmu.name as  maintenanceUnitName,mu.name as maintenanceUsersName," +
+					" xpu.name as propertyUnitName,make.name as makeUnitName" +
+					" from dtjk_elevator de " +
+					" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+					" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
+					" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
+					" left join Xtgl_Property_Unit xpu on xpu.id=de.property_Unit_Id"+  //物业单位
+					" left join Xtgl_Make_Unit make on make.id=de.make_Unit_Id"+  //制造单位
+					" where  1=1  and de.delflag!='1' " ;
 				
 			if(elevator.getRegisterid()!=null&&!elevator.getRegisterid().equals("")){
 				sql+=" and de.registerid like '%"+elevator.getRegisterid()+"%'";
@@ -74,7 +79,7 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 			if(elevator.getNumbers()!=null&&!elevator.getNumbers().equals("")){
 				sql+=" and de.numbers = '"+elevator.getNumbers()+"'";
 			}			
-			sql+=" order by id";	
+			sql+=" order by de.id";	
 			
 			PreparedStatement sta = conn.prepareStatement(sql);
 			ResultSet rs = sta.executeQuery();
@@ -86,25 +91,37 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 				elevators.setDistinguishid(rs.getString("distinguishid"));   		//识别码
 				elevators.setBrand(rs.getString("brand"));   		//电梯品牌
 				elevators.setModel(rs.getString("model"));   		//电梯型号
-				elevators.setState(rs.getString("state"));   		//运行状态
 				elevators.setType(rs.getString("type"));   		//电梯类型
-				elevators.setNumbers(rs.getString("numbers"));   		//总层数
-				elevators.setLabel(rs.getString("label"));   		//
-				elevators.setPlace(rs.getString("place"));   		//安装地点
-				elevators.setManufactureTime(df.parse(rs.getString("manufacture_Time")));   		//生产日期
-				elevators.setYearlyState(rs.getString("yearly_State"));   		//年检状态
-				elevators.setMaintenanceState(rs.getString("maintenance_State"));   		//维保状态				
-				elevators.setRegisterState(rs.getString("registerstate"));   		//注册状态
 				elevators.setSpeed(rs.getString("speed"));   		//电梯速度
+				elevators.setNumbers(rs.getString("numbers"));   		//总层数
+				elevators.setRegisterState(rs.getString("registerstate"));   		//注册状态
+				elevators.setLabel(rs.getString("label"));   		//地图标注
+				elevators.setIp(rs.getString("ip"));					//视频ip
+				elevators.setFlowStart(rs.getString("flow_Start")==null?null:df.parse(rs.getString("flow_Start")));					//视频ip
+				elevators.setFlowEnd(rs.getString("flow_End")==null?null:df.parse(rs.getString("flow_End")));					//视频ip
+				elevators.setProvince(rs.getString("province"));   		//省
+				elevators.setCity(rs.getString("city"));   		//市
+				elevators.setArea(rs.getString("area"));   		//区
+				elevators.setUseUnitName(rs.getString("useUnitName"));   		//使用单位名称
+				elevators.setUseUnitLiaisons(rs.getString("use_Unit_Liaisons"));   		//使用单位负责人
+				elevators.setUseUnitPhone(rs.getString("use_Unit_Phone"));   		//使用单位负责人电话
+				elevators.setMakeUnitName(rs.getString("makeUnitName"));   		//制造单位
+
+				elevators.setPropertyUnitName(rs.getString("propertyUnitName"));   		//物业单位名称
+				elevators.setPropertyUnitLiaisons(rs.getString("property_Unit_Liaisons"));   		//物业单位负责人
+				elevators.setUseUnitPhone(rs.getString("property_Unit_Phone"));   				//物业单位负责人电话
+				elevators.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));		//维保单位
+				elevators.setMaintenanceUsersName(rs.getString("maintenanceUsersName"));		//维保人员
+
 				elevators.setInstallPlace(rs.getString("install_Place"));   		//安装地点
 				elevators.setInstallUnit(rs.getString("install_Unit"));   		//安装单位
 				elevators.setInstallUser(rs.getString("install_User"));   		//安装人
-				elevators.setInstallTime(df.parse(rs.getString("install_Time")));   		//安装时间
-						elevators.setServiceIfe(rs.getString("service_ife"));   		//电梯使用年限
-				elevators.setRemarks(rs.getString("remarks"));   		//备注
-				elevators.setUseUnitName(rs.getString("useUnitName"));   		//维保状态
-				elevators.setMaintenanceUnitName(rs.getString("maintenanceUnitName"));   		//维保状态
-				elevators.setMaintenanceUsersName(rs.getString("usersName"));   		//维保状态
+				elevators.setInstallTime(rs.getString("install_Time")==null?null:df.parse(rs.getString("install_Time")));   		//安装时间
+				elevators.setManufactureTime(rs.getString("manufacture_Time")==null?null:df.parse(rs.getString("manufacture_Time")));   		//生产日期
+
+				elevators.setServiceIfe(rs.getString("service_ife"));   		//电梯使用年限
+				elevators.setYearlyTime1(rs.getString("yearly_Time1")==null?null:df.parse(rs.getString("yearly_Time1")));   		//首次检查时间
+
 				list.add(elevators);
 				
 			}
@@ -143,7 +160,7 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 						cell.setCellValue(e.getType());   //电梯类型
 						
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getNumbers());   //电梯速度
+						cell.setCellValue(e.getSpeed());   //电梯速度
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getNumbers());   //总层数
@@ -151,9 +168,48 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getRegisterState());   //注册状态
 						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getLabel());   //地图标注(经纬度)
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getIp());   //视频ip
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getFlowStart()==null?null:df.format(e.getFlowStart()));   //维保合同起
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getFlowEnd()==null?null:df.format(e.getFlowEnd()));   //维保合同至
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getProvince());   //省/直辖市
+					
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getCity());   //市
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getArea());   //区
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getUseUnitName());   //使用单位
+
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getUseUnitLiaisons());   //使用单位负责人
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getUseUnitPhone());   //使用单位负责人电话
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getMakeUnitName());   //制造单位	
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getPropertyUnitName());   //物业单位
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getPropertyUnitLiaisons());   //物业单位负责人
+						
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getPropertyUnitPhone());   //物业单位负责人电话
+						
 
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getMaintenanceUnitName());   //维保单位
@@ -165,20 +221,22 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 						cell.setCellValue(e.getInstallUnit());   //安装单位
 						
 						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getMaintenanceState());   //安装地点
+						
+						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getInstallUser());   //安装人员
 
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(df.format(e.getInstallTime()));   //安装时间
-						
-						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getMaintenanceState());   //安装地点
+						cell.setCellValue(e.getInstallTime()==null?null:df.format(e.getInstallTime()));   //安装时间
 
 						cell = row.createCell(++j);// 创建格 字段
-						cell.setCellValue(e.getInstallPlace());   //生产日期
+						cell.setCellValue(e.getManufactureTime()==null?null:df.format(e.getManufactureTime()));   //生产日期
 						
 						cell = row.createCell(++j);// 创建格 字段
 						cell.setCellValue(e.getServiceIfe());   //使用年限
-						
+
+						cell = row.createCell(++j);// 创建格 字段
+						cell.setCellValue(e.getYearlyTime1()==null?null:df.format(e.getYearlyTime1()));   //生产日期
 						
 						
 						j = 0;
