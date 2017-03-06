@@ -1,5 +1,7 @@
 	function gotoUrl (){
 			 var elevatorId= document.getElementById("elevatorId").value;
+			 var userId= document.getElementById("userId").value;
+
 			 var time= document.getElementById("time").value;
 			 
 			 var useUnitId= document.getElementById("useUnitId").value;
@@ -10,6 +12,9 @@
 			  var url="";
 			  if(elevatorId!=""){
 				  url=url+"&elevatorId="+elevatorId;
+			  }
+			  if(userId!=""){
+				  url=url+"&userId="+userId;
 			  }
 			  if(time!=""){
 				  url=url+"&time="+time;
@@ -32,6 +37,10 @@
 		function query(){
     		  window.location.href="recordsAction.do?method=query"+gotoUrl();
 		  }
+		 //模糊查询
+		function query1(){
+    		  window.location.href="recordsAction.do?method=query1"+gotoUrl();
+		  }
 		//添加
 		function add(elevatorId){
 			  window.location="recordsAction.do?method=findByAdd&elevatorId="+elevatorId;
@@ -41,6 +50,11 @@
 		  function fenye(num){
 			
     		  window.location.href="recordsAction.do?method=query&num="+num+gotoUrl();
+         }
+		  //列表分页  
+		  function fenye1(num){
+			
+    		  window.location.href="recordsAction.do?method=query1&num="+num+gotoUrl();
          }
 		  //编辑
 		  function findById(id,flag){

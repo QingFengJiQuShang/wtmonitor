@@ -44,8 +44,15 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="name">电梯注册号&nbsp;:&nbsp;</label>${list.elevatorId.registerid}
 					</p>
 					<p class="fill">
+						<label for="name">识别号&nbsp;:&nbsp;</label>${list.elevatorId.distinguishid}
+					</p>
+					<p class="fill">
+						<label for="name">使用单位&nbsp;:&nbsp;</label>${list.elevatorId.useUnitId.name}
+					</p>
+					<p class="fill">
 						<label for="logn">电梯安装地址&nbsp;:&nbsp;</label>${list.elevatorId.installPlace}
 					</p>
+					
 					<p class="fill">
 						<label for="man">接警日期&nbsp;:&nbsp;</label>
 						<fmt:formatDate value="${list.time}"  pattern='yyyy-MM-dd'/>

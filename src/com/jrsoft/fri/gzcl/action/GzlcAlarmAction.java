@@ -77,13 +77,15 @@ public class GzlcAlarmAction  extends DispatchAction {
 			throws Exception {
 		GzclForm GzclForm=(GzclForm)form;
 		GzlcAlarm elevator =GzclForm.getAlarm();
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 		String time=request.getParameter("time");
 		String happenTime=request.getParameter("happenTime");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		elevator.setTime(df.parse(time));
 		elevator.setHappenTime(df.parse(happenTime));
+		elevator.setDuty(user.getName());
 		alarmService.save(elevator);
-		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		//生成当前故障
 		GzclFault fault=new GzclFault();
 		fault.setElevatorId(elevator.getElevatorId());
@@ -137,9 +139,10 @@ public class GzlcAlarmAction  extends DispatchAction {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*,e.registerid as registerid,e.distinguishid as distinguishid,e.install_place as place   " +
+				String sql="select de.*,e.registerid as registerid,e.distinguishid as distinguishid,e.install_place as place,xuu.name as useUnitName   " +
 						" from gzlc_alarm de " +
 						" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
+						" left join xtgl_use_unit xuu on xuu.id=e.use_unit_id "+  //使用单位
 						"where  1=1 " ;
 				if(registerid!=null&&!registerid.equals("")){
 					sql+=" and e.registerid like '%"+registerid+"%'";
@@ -172,6 +175,8 @@ public class GzlcAlarmAction  extends DispatchAction {
 					useUnit.setRegisterid(rs.getString("registerid"));
 					useUnit.setDistinguishid(rs.getString("distinguishid"));
 					useUnit.setPlace(rs.getString("place"));
+					useUnit.setDuty(rs.getString("duty"));
+					useUnit.setUseUnitName(rs.getString("useUnitName"));
 					list.add(useUnit);
 					
 				}

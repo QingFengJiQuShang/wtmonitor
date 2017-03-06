@@ -28,10 +28,10 @@
 		  /*sheyMsg style*/
     .msg { width:240px;display:none; }
 
-   
+
     .blue .top,.blue .top .title,.blue .top span,.blue .bottom,.blue .bottom a {background:transparent url(<%=path%>/img/msg_bg_blue.gif) no-repeat 0px 0px;}
     .blue .center {background:url(<%=path%>/img/center_bg_blue.gif) repeat-y;}
-    
+
     .msg .top{width:240px;height:25px;position:relative;}
     .msg .top .title {/*background-position:-195px -70px;*/padding-left:10px;line-height:22px;width:100px;height:25px;}
     .msg .top span {background-position:0px -70px;width:36px; height:17px;position:absolute;top:1px;left:198px;cursor:pointer;}
@@ -49,7 +49,7 @@
 <script type="text/javascript">
 function sign(){
 	if(window.confirm('您确定要退出登录吗？')){
-		window.location.href="<%=path%>/userLogout";	
+		window.location.href="<%=path%>/userLogout";
 	}
 }
 function toMain(flag){
@@ -68,7 +68,7 @@ function toMain(flag){
 		   if(flag==24){
 			   window.main.location="<%=path%>/elevatorAction.do?method=queryManage";
 		   }
-		   
+
 		   if(flag==31){
 			   window.main.location="<%=path%>/usersAction.do?method=query";
 		   }
@@ -102,7 +102,7 @@ function toMain(flag){
 		   if(flag==43){
 			   window.main.location="<%=path%>/faultAction.do?method=query1";
 		   }
-		   
+
 		    if(flag==51){
 			   window.main.location="<%=path%>/countAction.do?method=regionCount";
 		   }
@@ -279,43 +279,86 @@ function toMain(flag){
 					<%} %>
 				</div>
 			</li>
-			
+
 			<%}%>
+			<%if(Authority.haveRigth(user.getId(),"xtsz_xtyh_check")||Authority.haveRigth(user.getId(),"xtsz_czrz_check")||Authority.haveRigth(user.getId(),"xtsz_txrz_check")||Authority.haveRigth(user.getId(),"xtsz_xtbz_check")||Authority.haveRigth(user.getId(),"xtsz_dxmb_check")||Authority.haveRigth(user.getId(),"xtsz_dxtx_check")||Authority.haveRigth(user.getId(),"xtsz_dxqx_check")||Authority.haveRigth(user.getId(),"xtsz_dxrz_check")||Authority.haveRigth(user.getId(),"xtsz_sxsj_check")||Authority.haveRigth(user.getId(),"xtsz_dbll_check")||Authority.haveRigth(user.getId(),"xtsz_bjkz_check")||Authority.haveRigth(user.getId(),"xtsz_dlwz_check")) {%>
+
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>系统设置</p>
 				<div class="next">
-					<p	 class="two"  onclick="toMain('611')">地理位置</p>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_xtyh_check")) {%>
 					<p	 class="two"  onclick="toMain('31')">系统用户</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_czrz_check")) {%>
 					<p	 class="two"  onclick="toMain('61')">操作日志</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_txrz_check")) {%>
 					<p	 class="two"  onclick="toMain('62')">通信日志</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_xtbz_check")) {%>
 					<p	 class="two"  onclick="toMain('63')">系统帮助</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_dxmb_check")) {%>
 					<p	 class="two"  onclick="toMain('610')">短信模板</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_dxtx_check")) {%>
 					<p	 class="two"  onclick="toMain('64')">短信提醒</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_dxqx_check")) {%>
 					<p	 class="two"  onclick="toMain('65')">短信权限</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_dxrz_check")) {%>
 					<p	 class="two"  onclick="toMain('66')">短信日志</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_sxsj_check")) {%>
 					<p	 class="two"  onclick="toMain('67')">刷新时间</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_dbll_check")) {%>
 					<p	 class="two"  onclick="toMain('68')">单包流量</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_bjkz_check")) {%>
 					<p	 class="two"  onclick="toMain('69')">报警控制</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"xtsz_dlwz_check")) {%>
+					<p	 class="two"  onclick="toMain('611')">地理位置</p>
+					<%} %>
 				</div>
 			</li>
+			<%}%>
+			<%if(Authority.haveRigth(user.getId(),"tjfx_gzqytj_check")||Authority.haveRigth(user.getId(),"tjfx_gzlxtj_check")||Authority.haveRigth(user.getId(),"tjfx_jyqytj_check")||Authority.haveRigth(user.getId(),"tjfx_jyxytj_check")||Authority.haveRigth(user.getId(),"tjfx_wbqytj_check")||Authority.haveRigth(user.getId(),"tjfx_wbcqtj_check")||Authority.haveRigth(user.getId(),"tjfx_dxtj_check")) {%>
+
 			<li class="list-item">
 				<p class="one grade"   >
 					<i class=""></i>统计分析</p>
 				<div class="next">
+					<%if(Authority.haveRigth(user.getId(),"tjfx_gzqytj_check")) {%>
 					<p	 class="two"   onclick="toMain('51')">故障区域统计</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"tjfx_gzlxtj_check")) {%>
 					<p	 class="two"   onclick="toMain('52')">故障类型统计</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"tjfx_jyqytj_check")) {%>
 					<p	  class="two"  onclick="toMain('53')">救援区域统计</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"tjfx_jyxytj_check")) {%>
 					<p	  class="two"  onclick="toMain('54')">救援响应统计</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"tjfx_wbqytj_check")) {%>
 					<p	  class="two"  onclick="toMain('55')">维保区域统计</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"tjfx_wbcqtj_check")) {%>
 					<p	  class="two"  onclick="toMain('56')">维保出勤统计</p>
+					<%} %>
+					<%if(Authority.haveRigth(user.getId(),"tjfx_dxtj_check")) {%>
 					<p	  class="two"  onclick="toMain('57')">短信统计</p>
+					<%} %>
 				</div>
 			</li>
-			
+				<%} %>
 		</ul>
 		<iframe src="<%=path%>/indexAction.do?method=query" id="main"  name="main"  frameborder="0" scrolling="no" marginheight="0" marginwidth="0" onLoad="iFrameHeight()" width="100%" height=""   style="margin-top: -2px; overflow-x:hidden;  ">
-			
+
 		</iframe>
 		<input  type="hidden" value=""   id="pushId"  name="pushId">
 		<!--sheyMsg start-->
@@ -328,8 +371,8 @@ function toMain(flag){
 			<h3>电梯报警</h3>
 			<p id="news"></p>
 		</div>
-		<audio  id="music"   loop="loop"> 
-			<source src="<%=path%>/music/music.mp3" type="audio/mpeg" /> 
+		<audio  id="music"   loop="loop">
+			<source src="<%=path%>/music/music.mp3" type="audio/mpeg" />
 		</audio>
 	</div>
 	<!--sheyMsg end-->
@@ -347,7 +390,7 @@ function toMain(flag){
 				//ifm.width = subWeb.body.scrollWidth;
 			}
 		}
-		
+
 var g=function(id){return document.getElementById(id)};
 
 	//setInterval('push()',10*1000); //指定30秒刷新一次s
@@ -359,7 +402,7 @@ var g=function(id){return document.getElementById(id)};
 				 url: '<%=path%>/pushAction.do?method=push',
 				 data:'',
 				 success: function(rs){
-				          var json=eval(rs.rows);			
+				          var json=eval(rs.rows);
 				         // alert(json.length);
 				          for(var i=0;i<json.length;i++){
 				        	  var msg=new sheyMsg("msgbox",{
@@ -374,21 +417,21 @@ var g=function(id){return document.getElementById(id)};
 				         	  document.getElementById('news').innerHTML ="注册号："+json[0].registerid+"<br/>识别码："+json[0].distinguishid+"<br/>使用单位："+json[0].useUnitName+"<br/>安装地址："+json[0].installPlace+"<br/>报警时间："+json[0].alarmTime+"<br/>"+json[0].faultType+"<br/><br/>";
 				          	  document.getElementById('music').play();		//开始播放
 				          }
-				         // setTimeout(msg.hide(),<%=dictionary%>*1000); 
-				         // window.clearTimeout(t1);//去掉定时器 
+				         // setTimeout(msg.hide(),<%=dictionary%>*1000);
+				         // window.clearTimeout(t1);//去掉定时器
 				  },
 				  error: function(result){
 							alert("操作失败!");
 					}
 		 });
-		
-		
+
+
 	}
-								
+
 	function clsoePush (){
 		var pushId= document.getElementById('pushId').value;
 		document.getElementById('music').pause();				//停止播放
-		
+
 		$.ajax({
 				 mtype:'post',
 				 url: '<%=path%>/pushAction.do?method=updatePush',
@@ -402,8 +445,8 @@ var g=function(id){return document.getElementById(id)};
 		 });
 		document.getElementById("pushId").value=="";
 	}
-	
-	 
+
+
 	</script>
 
 </html>

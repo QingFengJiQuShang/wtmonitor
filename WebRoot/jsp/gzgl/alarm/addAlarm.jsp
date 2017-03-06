@@ -42,7 +42,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fill">
 						<label for="name">电梯注册号&nbsp;:&nbsp;</label>
 						<input type="hidden" id="elevatorId"  name="alarm.elevatorId.id"  />
-						<input type="text" id="elevatorId1"  readonly="readonly"   onclick="selectElevator('elevatorId','elevatorId1','place')"/>
+						<input type="text" id="elevatorId1"  readonly="readonly"   onclick="selectElevator('elevatorId','elevatorId1','place','distinguishid','useUnitName')"/>
+					</p>
+					<p class="fill">
+						<label for="name">识别号&nbsp;:&nbsp;</label>
+						<input type="text" id="distinguishid"  readonly="readonly"   />
+					</p>
+					<p class="fill">
+						<label for="name">使用单位&nbsp;:&nbsp;</label>
+						<input type="text" id="useUnitName"  readonly="readonly"   />
 					</p>
 					<p class="fill">
 						<label for="logn">电梯安装地址&nbsp;:&nbsp;</label>

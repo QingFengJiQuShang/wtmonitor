@@ -54,6 +54,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 					</p>
 					<p class="fill">
+						<label for="name">识别号&nbsp;:&nbsp;</label>
+						<input type="text" id="distinguishid"  readonly="readonly"  value="${list.elevatorId.distinguishid}" />
+					</p>
+					<p class="fill">
 						<label for="logn">电梯安装地址&nbsp;:&nbsp;</label>
 						<input    value="${list.elevatorId.installPlace}"  readonly="readonly"> 
 					</p>
@@ -111,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</p>
 					<p class="fill">
 						<label for="man">处理信息&nbsp;:&nbsp;</label>
-						<input  id="handle"  name="fault.handle"   value="${list.handle}" > 
+						<textarea  id="handle"  name="fault.handle"   rows="3" cols="50">${list.handle}</textarea>
 					</p>
 					<p class="fill">
 						<label for="man">状态&nbsp;:&nbsp;</label>

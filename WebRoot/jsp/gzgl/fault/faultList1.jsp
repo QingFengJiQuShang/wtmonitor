@@ -33,7 +33,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">当前故障</p>
+			<p class="user">历史故障</p>
 			<div class="warp">
 				<div class="select clearfix">
 					<p class="fl">

@@ -141,6 +141,9 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 					elevator.setPhone(rs.getString("phone"));
 					elevator.setValidity(rs.getString("validity"));
 					elevator.setCardNumber(rs.getString("card_Number"));
+					 String sql2="select count(*)  from dtjk_maintenance_records de left join dtjk_elevator e on e.id=de.elevator_id  where  1=1 and e.delflag!='1'   and user_Id = '"+rs.getString("id")+"'";
+					int n=DBEntity.getInstance().queryDataCount(sql2);
+					elevator.setNum(n);
 					list.add(elevator);
 					
 				}

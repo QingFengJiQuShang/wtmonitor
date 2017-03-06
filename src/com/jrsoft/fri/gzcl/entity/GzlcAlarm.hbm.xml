@@ -36,5 +36,8 @@
         <property name="happenTime" type="java.util.Date">
             <column name="HAPPEN_TIME" length="7" />
         </property>
+        <property name="duty" type="java.lang.String">
+            <column name="DUTY" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

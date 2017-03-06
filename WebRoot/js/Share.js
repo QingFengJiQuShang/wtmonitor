@@ -47,8 +47,8 @@ closeMultiRescueUnit=function(id){
 /**
  * 选择电梯信息
  */
-selectElevator=function(id,id1,id2){
-	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query1&id='+id+"&id1="+id1+"&id2="+id2, 1000, 650);
+selectElevator=function(id,id1,id2,id3,id4){
+	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query1&id='+id+"&id1="+id1+"&id2="+id2+"&id3="+id3+"&id4="+id4, 1000, 650);
 }
 
 /**

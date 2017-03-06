@@ -46,6 +46,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text" id="elevatorId1"  value="${list.elevatorId.registerid}"  readonly="readonly"   onclick="selectElevator('elevatorId','elevatorId1','place')"/>
 					</p>
 					<p class="fill">
+						<label for="name">识别号&nbsp;:&nbsp;</label>
+						<input type="text" id="distinguishid"  readonly="readonly"  value="${list.elevatorId.distinguishid}" />
+					</p>
+					<p class="fill">
+						<label for="name">使用单位&nbsp;:&nbsp;</label>
+						<input type="text" id="useUnitName"  readonly="readonly"  value="${list.elevatorId.useUnitId.name}" />
+					</p>
+					<p class="fill">
 						<label for="logn">电梯安装地址&nbsp;:&nbsp;</label>
 						<input type="text" id="place"  value="${list.elevatorId.installPlace}"   readonly="readonly"    />
 					</p>

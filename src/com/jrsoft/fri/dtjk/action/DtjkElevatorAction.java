@@ -1131,7 +1131,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		String id=request.getParameter("id");
 		String id1=request.getParameter("id1");
 		String id2=request.getParameter("id2");
-		
+		String id3=request.getParameter("id3");
+		String id4=request.getParameter("id4");
 		String registerid=request.getParameter("registerid");
 		String installPlace=request.getParameter("installPlace");
 		String useUnitName=request.getParameter("useUnitName");
@@ -1205,7 +1206,8 @@ public class DtjkElevatorAction extends DispatchAction{
 				request.setAttribute("id", id);
 				request.setAttribute("id1", id1);
 				request.setAttribute("id2", id2);
-				
+				request.setAttribute("id3", id3);
+				request.setAttribute("id4", id4);
 				request.setAttribute("registerid", registerid);
 				request.setAttribute("installPlace", installPlace);
 				request.setAttribute("useUnitName", useUnitName);

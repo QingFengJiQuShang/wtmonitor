@@ -70,6 +70,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								<th>电梯注册号</th>
 								<th>识别码</th>
 								<th>安装地址</th>
+								<th>使用单位</th>
+								<th>值班人</th>
 								<th>接警日期</th>
 								<th>故障问题</th>
 								<th>操作</th>
@@ -84,6 +86,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.registerid }</td>
 									<td>${list.distinguishid }</td>
 									<td>${list.place }</td>
+									<td>${list.useUnitName }</td>
+									<td>${list.duty }</td>
 									<td><fmt:formatDate value="${list.time }"  pattern='yyyy-MM-dd'/></td>
 									<td>${list.fault}</td>
 									<td>

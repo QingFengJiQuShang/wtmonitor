@@ -4,7 +4,7 @@ function type(flag){
 				 document.getElementById("quyu").style.display="none";
 				 document.getElementById("unitType").style.display="none";
 				 document.getElementById("unitName").style.display="none";
-				 
+
 			 }else if(flag==2){
 				 document.getElementById("quyu").style.display="";
 				 document.getElementById("unitType").style.display="none";
@@ -16,7 +16,7 @@ function type(flag){
 				 document.getElementById("unitName").style.display="";
 				 reSetHeight2();
 			 }
-			  
+
 		  }
 
 
@@ -36,7 +36,7 @@ function type(flag){
 			               }
 			    });
 	}
-		  
+
 //修改用户时，判断用户名是否存在
 		  function skip1(){
 			 var loginname1=document.getElementById("logn1").value;
@@ -55,11 +55,11 @@ function type(flag){
 			               }
 			    });
 			}
-			
+
 	}
 	/**
 	 * 电梯列表  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_dtlb_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -72,10 +72,10 @@ $("#dtjk_dtlb_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 	/**
 	 * 记录回放  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_jlhf_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -88,10 +88,10 @@ $("#dtjk_jlhf_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 上报周期  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_sbzq_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -104,10 +104,10 @@ $("#dtjk_sbzq_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 白名单  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_bmd_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -120,10 +120,10 @@ $("#dtjk_bmd_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 电梯流量  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_dtll_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -136,10 +136,10 @@ $("#dtjk_dtll_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 维保记录  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_wbjl_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -152,10 +152,10 @@ $("#dtjk_wbjl_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 年检记录  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_njjl_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -168,10 +168,10 @@ $("#dtjk_njjl_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 服务费  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dtjk_fwf_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -184,11 +184,11 @@ $("#dtjk_fwf_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 人工接警  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#gzgl_rgjj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -201,11 +201,11 @@ $("#gzgl_rgjj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 当前故障  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#gzgl_dqgz_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -218,11 +218,11 @@ $("#gzgl_dqgz_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 历史故障  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#gzgl_lsgz_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -235,11 +235,11 @@ $("#gzgl_lsgz_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 使用单位  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dwgl_sydw_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -252,10 +252,10 @@ $("#dwgl_sydw_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 维保单位  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dwgl_wbdw_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -268,10 +268,27 @@ $("#dwgl_wbdw_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
+
+/**
+	 * 维保人员  全选
+	 * @memberOf {TypeName}
+	 */
+$("#dwgl_wbry_all").click(function() {
+	var sure = $(this).prop("checked");
+	if(sure == true) {
+		$("input[id='dwgl_wbry']").prop({
+			"checked": true
+		});
+	} else {
+		$("input[id='dwgl_wbry']").prop({
+			"checked": false
+		});
+	}
+})
 /**
 	 * 救援单位  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dwgl_jydw_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -284,10 +301,10 @@ $("#dwgl_jydw_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 物业单位  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dwgl_wydw_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -300,10 +317,10 @@ $("#dwgl_wydw_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 制造单位  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dwgl_zzdw_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -316,10 +333,10 @@ $("#dwgl_zzdw_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 保险单位  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dwgl_bxdw_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -332,10 +349,10 @@ $("#dwgl_bxdw_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 区域单位  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#dwgl_qydw_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -348,11 +365,11 @@ $("#dwgl_qydw_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 未保电梯  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#bxgl_wbdt_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -365,11 +382,11 @@ $("#bxgl_wbdt_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 在保电梯  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#bxgl_zbdt_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -382,11 +399,11 @@ $("#bxgl_zbdt_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 脱保电梯  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#bxgl_tbdt_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -399,11 +416,11 @@ $("#bxgl_tbdt_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 保单记录  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#bxgl_bdjl_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -416,11 +433,11 @@ $("#bxgl_bdjl_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 理赔电梯  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#bxgl_lpjl_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -433,11 +450,11 @@ $("#bxgl_lpjl_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 保险统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#bxgl_bxtj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -450,11 +467,11 @@ $("#bxgl_bxtj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 未保险公司统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#bxgl_bxgs_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -467,11 +484,11 @@ $("#bxgl_bxgs_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 系统用户  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_xtyh_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -484,11 +501,11 @@ $("#xtsz_xtyh_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 操作日志  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_czrz_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -501,11 +518,11 @@ $("#xtsz_czrz_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 通信日志  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_txrz_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -518,11 +535,11 @@ $("#xtsz_txrz_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 系统帮助  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_xtbz_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -535,11 +552,11 @@ $("#xtsz_xtbz_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 短信模板  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_dxmb_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -552,11 +569,11 @@ $("#xtsz_dxmb_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 短信提醒  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_dxtx_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -569,10 +586,10 @@ $("#xtsz_dxtx_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 /**
 	 * 短信权限  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_dxqx_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -585,11 +602,11 @@ $("#xtsz_dxqx_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 短信日志  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_dxrz_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -602,11 +619,11 @@ $("#xtsz_dxrz_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 刷新时间  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_sxsj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -619,11 +636,11 @@ $("#xtsz_sxsj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 单包流量  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_dbll_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -636,11 +653,11 @@ $("#xtsz_dbll_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 报警控制  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#xtsz_bjkz_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -653,11 +670,28 @@ $("#xtsz_bjkz_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
+
+/**
+	 * 地理位置  全选
+	 * @memberOf {TypeName}
+	 */
+$("#xtsz_dlwz_all").click(function() {
+	var sure = $(this).prop("checked");
+	if(sure == true) {
+		$("input[id='xtsz_dlwz']").prop({
+			"checked": true
+		});
+	} else {
+		$("input[id='xtsz_dlwz']").prop({
+			"checked": false
+		});
+	}
+})
 
 /**
 	 * 故障区域统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#tjfx_gzqytj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -670,11 +704,11 @@ $("#tjfx_gzqytj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 故障类型统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#tjfx_gzlxtj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -687,11 +721,11 @@ $("#tjfx_gzlxtj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 救援区域统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#tjfx_jyqytj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -704,11 +738,11 @@ $("#tjfx_jyqytj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 救援响应统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#tjfx_jyxytj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -721,11 +755,11 @@ $("#tjfx_jyxytj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 维保区域统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#tjfx_wbqytj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -738,11 +772,11 @@ $("#tjfx_wbqytj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 * 维保出勤统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#tjfx_wbcqtj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -755,11 +789,11 @@ $("#tjfx_wbcqtj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 
 /**
 	 *短信统计  全选
-	 * @memberOf {TypeName} 
+	 * @memberOf {TypeName}
 	 */
 $("#tjfx_dxtj_all").click(function() {
 	var sure = $(this).prop("checked");
@@ -772,7 +806,6 @@ $("#tjfx_dxtj_all").click(function() {
 			"checked": false
 		});
 	}
-}) 
+})
 var height = $(window.document).height();
 $('#iframepage', window.parent.document).height(height + 40);
-

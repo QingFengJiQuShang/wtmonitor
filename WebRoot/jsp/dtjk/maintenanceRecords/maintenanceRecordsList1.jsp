@@ -43,8 +43,8 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<div class="clearfix">
 					<p class="fl">
 						<label for="user">使用单位&nbsp;:&nbsp;</label>
+					<input type="hidden"  id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
 						<input type="hidden"  id="userId"  name="userId"  value="${userId}" />
-						<input type="hidden"  id="elevatorId"  name="elevatorId"  value="${elevatorId}" />
 						<input type="hidden"  id="useUnitId"  value="${useUnitId}" name="elevator.useUnitId.id"   />
 						<input type="text"  id="useUnitId1"  value="${useUnitId1}"  placeholder="请选择" readonly="readonly"  onclick="selectUseUnitId('useUnitId','useUnitId1');"/>
 
@@ -60,7 +60,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 
 					</p>
 
-					<button class="fl"  onclick="query();">查询</button>
+					<button class="fl"  onclick="query1();">查询</button>
 				</div>
 				<div class="table">
 					<div class="table">
@@ -128,13 +128,13 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
-								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
+								<a href="javascript:void(0);"  title="首页" onclick="fenye1('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
 
 								<c:if test="${page.pageNum==0||page.countSize==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
 							 	 <c:if test="${page.pageNum!=0&&page.countSize!=0}">
-							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
+							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye1('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
 
 								<c:if test="${page.pageNum+1==page.countSize||page.countSize==0}">

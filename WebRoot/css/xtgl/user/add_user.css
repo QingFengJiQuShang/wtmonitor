@@ -60,7 +60,7 @@
 }
 .table_con .fill>input,
 .table_con .fill select {
-	width: 150px;
+	width: 300px;
 	height: 29px;
 	border: 1px solid #d2d2d2;
 	text-indent: 10px;

@@ -3,6 +3,7 @@ package com.jrsoft.fri.gzcl.entity;
 import java.util.Date;
 
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
+import com.jrsoft.fri.xtgl.entity.XtglUsers;
 
 /**
  * GzlcAlarm entity. @author MyEclipse Persistence Tools
@@ -25,10 +26,13 @@ public class GzlcAlarm implements java.io.Serializable {
 	private String describe;					//故障描述
 	private String flag;					//是否转入当前故障标示
 	private Date happenTime;					//故障发生时间
+	private String duty;			//值班人
+	
 	
 	private String registerid;			//电梯注册号
 	private String distinguishid;			//识别码
 	private String place;			//安装地点
+	private String useUnitName;
 	// Constructors
 
 	/** default constructor */
@@ -36,7 +40,7 @@ public class GzlcAlarm implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public GzlcAlarm(DtjkElevator elevatorId, String fault, Date time,
+	public GzlcAlarm(DtjkElevator elevatorId, String fault, Date time,String duty,
 			String alarmPerson, String phone, String describe, String flag,Date happenTime) {
 		this.elevatorId = elevatorId;
 		this.fault = fault;
@@ -46,6 +50,7 @@ public class GzlcAlarm implements java.io.Serializable {
 		this.describe = describe;
 		this.flag = flag;
 		this.happenTime=happenTime;
+		this.duty=duty;
 	}
 
 	// Property accessors
@@ -144,6 +149,26 @@ public class GzlcAlarm implements java.io.Serializable {
 
 	public void setHappenTime(Date happenTime) {
 		this.happenTime = happenTime;
+	}
+
+	public String getDuty() {
+		return duty;
+	}
+
+	public void setDuty(String duty) {
+		this.duty = duty;
+	}
+
+	public String getUseUnitName() {
+		return useUnitName;
+	}
+
+	public void setUseUnitName(String useUnitName) {
+		this.useUnitName = useUnitName;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

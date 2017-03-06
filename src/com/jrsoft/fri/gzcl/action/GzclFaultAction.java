@@ -224,8 +224,9 @@ public class GzclFaultAction extends DispatchAction {
 					fault.setFaultType(unit.getFaultType());
 					fault.setFault(unit.getFault());
 					fault.setNumbers(unit.getNumbers());
-					fault.setFaultType(unit.getFaultType());
-					fault.setFaultType(unit.getFaultType());
+					fault.setHandle(unit.getHandle());
+					fault.setType(unit.getType());
+					fault.setState(unit.getState());
 					faultService.update(fault);
 		
 				//删除已有的关系，重新建立关系

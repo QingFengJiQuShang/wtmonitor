@@ -328,13 +328,13 @@ public class XtglUsersAction extends DispatchAction {
 				elevator.setPassword(StringUtils.encodeBase64(unit.getPassword()));
 			}
 			
-			if(elevator.getProvince().equals("")||elevator.getProvince()==null){
+			if(unit.getProvince().equals("")||unit.getProvince()==null){
 				elevator.setProvince("");
 			}
-			if(elevator.getCity().equals("")||elevator.getCity()==null){
+			if(unit.getCity().equals("")||unit.getCity()==null){
 				elevator.setCity("");
 			}
-			if(elevator.getArea().equals("")||elevator.getArea()==null){
+			if(unit.getArea().equals("")||unit.getArea()==null){
 				elevator.setArea("");
 			}
 			usersService.update(elevator);

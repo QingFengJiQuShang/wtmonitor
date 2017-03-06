@@ -62,8 +62,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<%if(Authority.haveRigth(user.getId(),"dwgl_wbry_del")) {%>
 						<p class="fl del">批量删除</p>
 						<%} %>
+						<%if(Authority.haveRigth(user.getId(),"dwgl_wbry_exp")) {%>		
 						<p class="fl add" onclick="exp();">&nbsp;&nbsp;下载&nbsp;&nbsp;</p>
-						
+						<%} %>
             <%if(Authority.haveRigth(user.getId(),"dwgl_wbry_upload")) {%>
 			 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
             <%} %>
@@ -95,7 +96,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.numbers }</td>
 									<td>${list.validity }</td>
 									<td>${list.cardNumber}</td>
-									<td>${list.cardNumber}</td>
+									<td><a  href="<%=path %>/recordsAction.do?method=query1&userId=${list.id}"  style="color: blue; ">${list.num}</a></td>
 									<td>
 										<img src="<%=path%>/img/content.png" title="详情"  alt="详情" onclick="findById('${list.id}','2');"/>
 										<%if(Authority.haveRigth(user.getId(),"dwgl_wbry_update")) {%>

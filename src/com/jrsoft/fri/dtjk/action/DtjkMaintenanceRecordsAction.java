@@ -142,7 +142,7 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 						" left join xtgl_maintenance_users mu on mu.id=de.user_id"+  //维保人员
 						" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
 						" left join Xtgl_Property_Unit xpu on xpu.id=e.property_Unit_Id "+  //物业单位
-						" where  1=1 " ;
+						" where  1=1  and e.delflag!='1' " ;
 				if(elevatorId!=null&&!elevatorId.equals("")){
 					sql+=" and de.elevator_Id = '"+elevatorId+"'";
 				}
@@ -196,7 +196,108 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 		
 		 return	new ActionForward("/jsp/dtjk/maintenanceRecords/maintenanceRecordsList.jsp");
 		}
-	
+	/**
+	 * 查询 维保记录列表
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  query1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		String userId=request.getParameter("userId");
+		String time=request.getParameter("time");
+		String useUnitId=request.getParameter("useUnitId");
+		String useUnitId1=request.getParameter("useUnitId1");
+		String maintenanceUnitId=request.getParameter("maintenanceUnitId");
+		String maintenanceUnitId1=request.getParameter("maintenanceUnitId1");
+		
+		String num=request.getParameter("num");   //当前页
+		
+		if(useUnitId1!=null){
+			useUnitId1=new String(useUnitId1.getBytes("iso-8859-1"),"utf-8");
+		 }
+		 if(maintenanceUnitId1!=null){
+			 maintenanceUnitId1=new String(maintenanceUnitId1.getBytes("iso-8859-1"),"utf-8");
+		 }
+		Page  page=new Page();
+		
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		
+		List<DtjkMaintenanceRecords> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*,xuu.name as userunitname,xmu.name unitname," +
+						"mu.name as username,mu.phone as phone,e.registerid as registerid," +
+						"e.distinguishid as distinguishid,e.install_place as place," +
+						"xpu.name as propertyUnitName  " +
+						" from dtjk_maintenance_records de " +
+						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
+						" left join xtgl_maintenance_unit xmu on xmu.id=de.unit_id"+  //维保单位
+						" left join xtgl_maintenance_users mu on mu.id=de.user_id"+  //维保人员
+						" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
+						" left join Xtgl_Property_Unit xpu on xpu.id=e.property_Unit_Id "+  //物业单位
+						" where  1=1  and e.delflag!='1' " ;
+				if(userId!=null&&!userId.equals("")){
+					sql+=" and de.user_Id = '"+userId+"'";
+				}
+				if(time!=null&&!time.equals("")){
+					sql+=" and de.time = to_date('" + time+ "','yyyy-MM-dd')";
+				}
+				if(useUnitId!=null&&!useUnitId.equals("")){
+					sql+=" and de.use_unit_id  ='"+useUnitId+"'";
+				}
+				if(maintenanceUnitId!=null&&!maintenanceUnitId.equals("")){
+					sql+=" and de.unit_id  ='"+maintenanceUnitId+"'";
+				}
+				sql+=" order by time desc";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
+				page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<DtjkMaintenanceRecords>();
+				while(rs.next()){
+					DtjkMaintenanceRecords useUnit=new DtjkMaintenanceRecords();
+					useUnit.setId(rs.getLong("id"));
+					useUnit.setUseUnitName(rs.getString("userunitname"));
+					useUnit.setUserName(rs.getString("username"));
+					useUnit.setUnitName(rs.getString("unitname"));
+					useUnit.setRegisterid(rs.getString("registerid"));
+					useUnit.setDistinguishid(rs.getString("distinguishid"));
+					useUnit.setPlace(rs.getString("place"));
+					useUnit.setTime(df.parse(rs.getString("time")));
+					useUnit.setContent(rs.getString("content"));
+					useUnit.setPropertyUnitName(rs.getString("propertyUnitName"));
+					useUnit.setCardNumber(rs.getString("card_Number"));
+					useUnit.setPhone(rs.getString("phone"));
+					list.add(useUnit);
+					
+				}
+				request.setAttribute("userId", userId);
+				if(time!=null){
+					request.setAttribute("time", df.parse(time));
+				}
+				
+				request.setAttribute("useUnitId", useUnitId);
+				request.setAttribute("useUnitId1", useUnitId1);
+				request.setAttribute("maintenanceUnitId", maintenanceUnitId);
+				request.setAttribute("maintenanceUnitId1", maintenanceUnitId1);
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+		
+		
+		 return	new ActionForward("/jsp/dtjk/maintenanceRecords/maintenanceRecordsList1.jsp");
+		}
 	/**
 	 * 编辑 查看 维保记录
 	 * @param request

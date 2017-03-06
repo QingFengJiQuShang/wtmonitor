@@ -28,9 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
 		<style type="text/css">
-	
 .or {
-
 	width: 400px;
 	margin: 10px auto;
 }
@@ -58,6 +56,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="hidden"  id="id" value="${id}">
 						<input type="hidden"  id="id1" value="${id1}">
 						<input type="hidden"  id="id2" value="${id2}">
+						<input type="hidden"  id="id3" value="${id3}">
+						<input type="hidden"  id="id4" value="${id4}">
 						<input type="text" id="registerid"  value="${registerid}"  placeholder="请输入" />
 					</p>
 					<p class="fl">
@@ -91,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td class="wei">
-										<i class=""  data-e="${list.id }" data="${list.registerid }"  data-f="${list.installPlace}"></i>
+										<i class=""  data-e="${list.id }" data="${list.registerid }"  data-f="${list.installPlace}"  data-a="${list.distinguishid}"  data-b="${list.useUnitName}"></i>
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.registerid }</td>
@@ -132,15 +132,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<a href="javascript:void(0);" class="mo" title="尾页"  onclick="fenye1('${page.countSize-1}')"  style="background-color: #00AAEE;color: #fff;">>></a>
 							</div>
 						</div>
+						<p class="or clearfix" >
+							<button class="fl"  onclick="onSure();">保存</button>
+							<button class="fr" onclick="closeShow();">取消</button>
+						</p>
 					</div>
 				</div>
-			</div>
 			
-		</div>
-		<p class="or clearfix"  style="margin-top: 300px;">
-					<button class="fl"  onclick="onSure();">保存</button>
-					<button class="fr" onclick="closeShow();">取消</button>
-			</p>
+			
+		
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
@@ -151,17 +151,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var ids="";
 		var names="";
 		var places="";
+		var distinguishids="";
+		var useUnitNames="";
 		$(".wei").each(function() {
 			if($(this).children("i").hasClass("gou")) {
 				 ids = ids+$(this).find("i").attr("data-e")+",";
 				 names =names+$(this).find("i").attr("data")+",";
 				 places =places+$(this).find("i").attr("data-f")+",";
+				 distinguishids =distinguishids+$(this).find("i").attr("data-a")+",";
+				 useUnitNames=useUnitNames+$(this).find("i").attr("data-b")+",";
 			}
 		})
 		
 	 var id=ids.split(",");
 	 var name=names.split(",");
 	 var place=places.split(",");
+	  var distinguishid=distinguishids.split(",");
+	 var useUnitName=useUnitNames.split(",");
 	//	alert(place[0]);
 	 if(id.length>2){
 	 	alert("只能选择一条数据！");
@@ -170,6 +176,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 window.parent.document.getElementById('${id}').value=id[0];
 	 window.parent.document.getElementById('${id1}').value=name[0];
 	 window.parent.document.getElementById('${id2}').value=place[0];
+	 window.parent.document.getElementById('${id3}').value=distinguishid[0];
+	 window.parent.document.getElementById('${id4}').value=useUnitName[0];
 	 window.parent.JqueryDialog.Close();
  }
 	

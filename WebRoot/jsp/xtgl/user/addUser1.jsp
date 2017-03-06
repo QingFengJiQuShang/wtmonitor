@@ -704,6 +704,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														</li>
 														<li>
 															<p class="fl">
+																<label for="user_ll" class="two_e">维保人员</label>
+																<ul>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dwgl_wbry" value="dwgl_wbry_add" />
+																			<label for="user_xg">新增</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dwgl_wbry" value="dwgl_wbry_check" />
+																			<label for="user_xg">查询</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dwgl_wbry" value="dwgl_wbry_del" />
+																			<label for="user_xg">删除</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dwgl_wbry" value="dwgl_wbry_update" />
+																			<label for="user_xg">修改</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dwgl_wbry" value="dwgl_wbry_exp" />
+																			<label for="user_xg">下载</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox" name="authority" id="dwgl_wbry" value="dwgl_wbry_upload" />
+																			<label for="user_xg">上传</label> <br>
+																		</p>
+																	</li>
+																	<li>
+																		<p class="fl">
+																			<input type="checkbox"  id="dwgl_wbry_all" />
+																			<label for="controlAll">全选</label>
+																		</p>
+																	</li>
+																</ul>
+															</p>
+														</li>
+														<li>
+															<p class="fl">
 																<label for="user_ll" class="two_e">救援单位</label>
 																<ul>
 																	<li>
@@ -1471,7 +1520,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																</ul>
 															</p>
 														</li>
-
+                            <li>
+                              <p class="fl">
+                                <label for="user_ll" class="two_e">地理位置</label>
+                                <ul>
+                                  <li>
+                                    <p class="fl">
+                                      <input type="checkbox" name="authority" id="xtsz_dlwz" value="xtsz_dlwz_add" />
+                                      <label for="user_xg">新增</label> <br>
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <p class="fl">
+                                      <input type="checkbox" name="authority" id="xtsz_dlwz" value="xtsz_dlwz_check" />
+                                      <label for="user_xg">查询</label> <br>
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <p class="fl">
+                                      <input type="checkbox" name="authority" id="xtsz_dlwz" value="xtsz_dlwz_del" />
+                                      <label for="user_xg">删除</label> <br>
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <p class="fl">
+                                      <input type="checkbox" name="authority" id="xtsz_dlwz" value="xtsz_dlwz_update" />
+                                      <label for="user_xg">修改</label> <br>
+                                    </p>
+                                  </li>
+                                  <li>
+                                    <p class="fl">
+                                      <input type="checkbox"  id="xtsz_dlwz_all" />
+                                      <label for="controlAll">全选</label>
+                                    </p>
+                                  </li>
+                                </ul>
+                              </p>
+                            </li>
 													</div>
 												</ul>
 										</li>

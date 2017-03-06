@@ -15,7 +15,8 @@ public class XtglMaintenanceUsers implements java.io.Serializable {
 	private String phone;				//电话
 	private XtglMaintenanceUnit unitId=new XtglMaintenanceUnit();				//维保单位id
 	private String cardNumber;				//卡号
-
+	
+	private int num;
 	// Constructors
 
 	/** default constructor */
@@ -89,6 +90,14 @@ public class XtglMaintenanceUsers implements java.io.Serializable {
 
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 }

@@ -108,10 +108,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
             <%if(Authority.haveRigth(user.getId(),"dtjk_dtlb_exp")) {%>
 						<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
             <%} %>
-           <p class="fl add" onclick="upload();" style="width: 100px;">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
-            
-            <%if(Authority.haveRigth(user.getId(),"dwgl_dtlb_upload")) {%>
-			 			<p class="fl add" onclick="upload();">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
+          
+            <%if(Authority.haveRigth(user.getId(),"dtjk_dtlb_upload")) {%>
+			 			<p class="fl add" onclick="upload();" style="width: 100px;">&nbsp;&nbsp;导入&nbsp;&nbsp;</p>
             <%} %>
 					</div>
 				<div class="table_con">

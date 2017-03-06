@@ -99,10 +99,12 @@ upload=function(){
 			 var id= document.getElementById("id").value;
 			 var id1= document.getElementById("id1").value;
 			 var id2= document.getElementById("id2").value;
+			  var id3= document.getElementById("id3").value;
+			 var id4= document.getElementById("id4").value;
 			 var installPlace= document.getElementById("installPlace").value;
 			 var registerid= document.getElementById("registerid").value;
 			 var useUnitName= document.getElementById("useUnitName").value;
-    		  window.location.href="elevatorAction.do?method=query1&num="+num+"&id="+id+"&id1="+id1+"&id2="+id2+"&installPlace="+installPlace+"&registerid="+registerid+"&useUnitName="+useUnitName;
+    		  window.location.href="elevatorAction.do?method=query1&num="+num+"&id="+id+"&id1="+id1+"&id2="+id2+"&id3="+id3+"&id4="+id4+"&installPlace="+installPlace+"&registerid="+registerid+"&useUnitName="+useUnitName;
          }
 		  
 		  	//		批量删除

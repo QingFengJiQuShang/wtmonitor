@@ -20,6 +20,8 @@ String unitId=request.getParameter("unitId");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
+	<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 	</head>
 
 	<body>
@@ -46,7 +48,7 @@ String unitId=request.getParameter("unitId");
 					
 					<p class="fill">
 						<label for="address">维保证有效期&nbsp;:&nbsp;</label>
-						<input type="text" id="validity"  name="maintenanceUsers.validity" value="${list.validity}"/>
+						<input type="text"   class="Wdate"    id="validity"  name="maintenanceUsers.validity" value="${list.validity}"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})" />
 					</p>
 					<p class="fill">
 						<label for="address">维保卡号&nbsp;:&nbsp;</label>
