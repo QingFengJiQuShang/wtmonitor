@@ -54,10 +54,16 @@ public class XtglMaintenanceUsersDaoImpl  extends BaseDaoImpl< XtglMaintenanceUs
 			//查询服务订单
 			String sql="select dr.*  from Xtgl_maintenance_users dr where  1=1 " ;
 			if(users.getName()!=null&&!users.getName().equals("")){
-				sql+=" and name like '%"+users.getName()+"%'";
+				sql+=" and name = '"+users.getName()+"'";
 			}
 			if(users.getNumbers()!=null&&!users.getNumbers().equals("")){
-				sql+=" and numbers like '%"+users.getNumbers()+"%'";
+				sql+=" and numbers = '"+users.getNumbers()+"'";
+			}
+			if(users.getCardNumber()!=null&&!users.getCardNumber().equals("")){
+				sql+=" and card_Number = '"+users.getCardNumber()+"'";
+			}
+			if(users.getPhone()!=null&&!users.getPhone().equals("")){
+				sql+=" and phone = '"+users.getPhone()+"'";
 			}
 			if(users.getUnitId()!=null&&!users.getUnitId().equals("")){
 				sql+=" and unit_Id = '"+users.getUnitId().getId()+"'";

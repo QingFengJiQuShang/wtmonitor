@@ -55,7 +55,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fl">
 						<label for="user">维保人姓名&nbsp;:&nbsp;</label>
 						<input type="hidden"  id="unitId"  value="${unitId}"/>
+						<input type="hidden"  id="id"  value="${id}"/>
+						<input type="hidden"  id="id1"  value="${id1}"/>
 						<input type="text" id="name" placeholder="请输入"   value="${name}"/>
+					</p>
+					<p class="fl">
+						<label for="phone">维保人电话&nbsp;:&nbsp;</label>
+						<input type="text" id="phone"  name="phone"  value="${phone}"/>
 					</p>
 					<p class="fl">
 						<label for="unit">维保证编号&nbsp;:&nbsp;</label>

@@ -84,6 +84,7 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		String name=request.getParameter("name");
 		String numbers=request.getParameter("numbers");
 		String cardNumber=request.getParameter("cardNumber");
+		String phone=request.getParameter("phone");
 		if(unitId!=null){
 			unitId=new String(unitId.getBytes("iso-8859-1"),"utf-8");
 		 }
@@ -124,6 +125,10 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 				if(cardNumber!=null&&!cardNumber.equals("")){
 					sql+=" and card_Number = '"+cardNumber+"'";
 				}
+				if(phone!=null&&!phone.equals("")){
+					phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and phone = '"+phone+"'";
+				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
@@ -151,7 +156,8 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 				request.setAttribute("name", name);
 				request.setAttribute("numbers", numbers);
 				request.setAttribute("cardNumber", cardNumber);
-				
+				request.setAttribute("phone", phone);
+
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
@@ -269,15 +275,25 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 		String unitId=request.getParameter("unitId");
 		String name=request.getParameter("name");
 		String numbers=request.getParameter("numbers");
+		String cardNumber=request.getParameter("cardNumber");
+		String phone=request.getParameter("phone");
 		if(name!=null){
 			name=new String(name.getBytes("iso-8859-1"),"utf-8");
 		 }
 		if(numbers!=null){
 			numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
 		 }
+		if(cardNumber!=null){
+			cardNumber=new String(cardNumber.getBytes("iso-8859-1"),"utf-8");
+		 }
+		if(phone!=null){
+			phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+		 }
 		XtglMaintenanceUsers elevator=new XtglMaintenanceUsers();
 		elevator.setName(name);
 		elevator.setNumbers(numbers);
+		elevator.setCardNumber(cardNumber);
+		elevator.setPhone(phone);
 		XtglMaintenanceUnit maintenanceUnit=new XtglMaintenanceUnit();
 		maintenanceUnit.setId(Long.parseLong(unitId));
 		elevator.setUnitId(maintenanceUnit);

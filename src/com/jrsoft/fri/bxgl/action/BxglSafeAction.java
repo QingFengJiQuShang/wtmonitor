@@ -534,15 +534,15 @@ public class BxglSafeAction  extends DispatchAction{
 				//脱保电梯数
 				safe.setTuo(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State='0'"));
 				//未保率
-				safe.setWeiRate( df.format(((double)safe.getWei()/safe.getZong())));
+				safe.setWeiRate( safe.getZong()!=0?df.format(((double)safe.getWei()/safe.getZong())):"0");
 				//在保率
-				safe.setZaiRate( df.format(((double)safe.getZai()/safe.getZong())));
+				safe.setZaiRate( safe.getZong()!=0?df.format(((double)safe.getZai()/safe.getZong())):"0");
 				//脱保率
-				safe.setTuoRate( df.format(((double)safe.getTuo()/safe.getZong())));
+				safe.setTuoRate( safe.getZong()!=0?df.format(((double)safe.getTuo()/safe.getZong())):"0");
 				//受理赔次数
 				safe.setClaimNum(DBEntity.getInstance().queryDataCount(sql1));
 				//理赔率
-				safe.setClaimRate(df.format(((double)safe.getClaimNum()/safe.getZai())));
+				safe.setClaimRate(safe.getZong()!=0?df.format(((double)safe.getClaimNum()/safe.getZai())):"0");
 				//最高受理赔次数
 				safe.setMostNum(DBEntity.getInstance().queryDataCount(sql2+" group by e.id"));
 				if(makeUnitId1!=null&&!makeUnitId1.equals(""))
@@ -650,15 +650,15 @@ public class BxglSafeAction  extends DispatchAction{
 				//脱保电梯数
 				safe.setTuo(DBEntity.getInstance().queryDataCount(sql+" and de.safe_State='0'"));
 				//未保率
-				safe.setWeiRate( df.format(((double)safe.getWei()/safe.getZong())));
+				safe.setWeiRate( safe.getZong()!=0?df.format(((double)safe.getWei()/safe.getZong())):"0");
 				//在保率
-				safe.setZaiRate( df.format(((double)safe.getZai()/safe.getZong())));
+				safe.setZaiRate( safe.getZong()!=0?df.format(((double)safe.getZai()/safe.getZong())):"0");
 				//脱保率
-				safe.setTuoRate( df.format(((double)safe.getTuo()/safe.getZong())));
+				safe.setTuoRate( safe.getZong()!=0?df.format(((double)safe.getTuo()/safe.getZong())):"0");
 				//受理赔次数
 				safe.setClaimNum(DBEntity.getInstance().queryDataCount(sql1));
 				//理赔率
-				safe.setClaimRate(df.format(((double)safe.getClaimNum()/safe.getZai())));
+				safe.setClaimRate(safe.getZong()!=0?df.format(((double)safe.getClaimNum()/safe.getZai())):"0");
 				//最高受理赔次数
 				safe.setMostNum(DBEntity.getInstance().queryDataCount(sql2+" group by e.id"));
 		List<Safe> list=new ArrayList<Safe>();
@@ -733,7 +733,7 @@ public class BxglSafeAction  extends DispatchAction{
 					unit.setName(rs.getString("name"));
 					unit.setNum(rs.getInt("num"));
 					unit.setClaimNum(rs.getInt("claimNum"));
-					unit.setClaimRate(df.format((double)unit.getClaimNum()/unit.getNum()));
+					unit.setClaimRate(unit.getNum()!=0?df.format((double)unit.getClaimNum()/unit.getNum()):"0");
 					list.add(unit);
 				}
 				request.setAttribute("list", list);
@@ -764,7 +764,7 @@ public class BxglSafeAction  extends DispatchAction{
 			unit.setName(rs.getString("name"));
 			unit.setNum(rs.getInt("num"));
 			unit.setClaimNum(rs.getInt("claimNum"));
-			unit.setClaimRate(df.format((double)unit.getClaimNum()/unit.getNum()));
+			unit.setClaimRate(unit.getNum()!=0?df.format((double)unit.getClaimNum()/unit.getNum()):"0");
 			list.add(unit);
 		}
 		try {

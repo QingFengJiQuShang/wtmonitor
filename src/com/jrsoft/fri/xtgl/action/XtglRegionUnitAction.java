@@ -72,19 +72,13 @@ public class XtglRegionUnitAction extends DispatchAction  {
 	 */
 	public ActionForward  query(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
 		String name=request.getParameter("name");
 		String liaisons=request.getParameter("liaisons");
-		String type=request.getParameter("type");
-		
-		if(name!=null){
-			name=new String(name.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(liaisons!=null){
-			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(type!=null){
-			 type=new String(type.getBytes("iso-8859-1"),"utf-8");
-		 }
+		String address=request.getParameter("address");
+		String phone=request.getParameter("phone");
 		
 		String num=request.getParameter("num");   //当前页
 		
@@ -101,14 +95,33 @@ public class XtglRegionUnitAction extends DispatchAction  {
 				
 				//查询服务订单
 				String sql="select de.*  from Xtgl_Region_Unit de where  1=1 " ;
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and area  ='" + area+ "'";
+				}
 				if(name!=null&&!name.equals("")){
-					sql+=" and name like '%"+name+"%'";
+					name=new String(name.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and name = '"+name+"'";
 				}
 				if(liaisons!=null&&!liaisons.equals("")){
-					sql+=" and liaisons like '%"+liaisons+"%'";
+					 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and liaisons  '"+liaisons+"'";
 				}
-				if(type!=null&&!type.equals("")){
-					sql+=" and type like '%"+type+"%'";
+				if(phone!=null&&!phone.equals("")){
+					phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and phone = '"+phone+"'";
+				}
+				if(address!=null&&!address.equals("")){
+					address=new String(address.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and address like '%"+address+"%'";
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -133,9 +146,13 @@ public class XtglRegionUnitAction extends DispatchAction  {
 					list.add(useUnit);
 					
 				}
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
 				request.setAttribute("name", name);
+				request.setAttribute("address", address);
 				request.setAttribute("liaisons", liaisons);
-				request.setAttribute("type", type);
+				request.setAttribute("phone", phone);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
 		
@@ -252,23 +269,42 @@ public class XtglRegionUnitAction extends DispatchAction  {
 	public ActionForward  export(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
 		String name=request.getParameter("name");
 		String liaisons=request.getParameter("liaisons");
+		String address=request.getParameter("address");
 		String phone=request.getParameter("phone");
-		
-		if(name!=null){
-			name=new String(name.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(liaisons!=null){
-			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(phone!=null){
-			 phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
-		 }
 		XtglRegionUnit elevator=new XtglRegionUnit();
-		elevator.setName(name);
-		elevator.setLiaisons(liaisons);
-		elevator.setPhone(phone);
+		if(province!=null&&!province.equals("")){
+			province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+			elevator.setProvince(province);
+		}
+		if(city!=null&&!city.equals("")){
+			city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+			elevator.setCity(city);
+		}
+		if(area!=null&&!area.equals("")){
+			area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+			elevator.setArea(area);
+		}
+		if(name!=null&&!name.equals("")){
+			name=new String(name.getBytes("iso-8859-1"),"utf-8");
+			elevator.setName(name);
+		}
+		if(liaisons!=null&&!liaisons.equals("")){
+			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
+			 elevator.setLiaisons(liaisons);
+		}
+		if(phone!=null&&!phone.equals("")){
+			phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+			elevator.setPhone(phone);
+		}
+		if(address!=null&&!address.equals("")){
+			address=new String(address.getBytes("iso-8859-1"),"utf-8");
+			elevator.setAddress(address);
+		}
 		
 		try {
 			String dates = new SimpleDateFormat("yyyyMMddHHmmss")

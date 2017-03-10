@@ -45,6 +45,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<input type="text" id="name" placeholder="请输入"   value="${name}"/>
 					</p>
 					<p class="fl">
+						<label for="phone">维保人电话&nbsp;:&nbsp;</label>
+						<input type="text" id="phone"  name="phone"  value="${phone}"/>
+					</p>
+					<p class="fl">
 						<label for="unit">维保证编号&nbsp;:&nbsp;</label>
 						<input type="text" id="numbers" placeholder="请输入"  value="${numbers}"/>
 					</p>

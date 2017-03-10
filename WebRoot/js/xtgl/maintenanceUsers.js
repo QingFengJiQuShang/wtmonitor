@@ -3,7 +3,8 @@
 			 var numbers= document.getElementById("numbers").value;
 			 var cardNumber= document.getElementById("cardNumber").value;
 			 var unitId= document.getElementById("unitId").value;
-			 
+			 var phone= document.getElementById("phone").value;
+
 			  var url="";
 			  if(name!=""){
 				  url=url+"&name="+name;
@@ -16,6 +17,9 @@
 			  }
 			  if(unitId!=""){
 				  url=url+"&unitId="+unitId;
+			  }
+			  if(phone!=""){
+				  url=url+"&phone="+phone;
 			  }
 			  return url;
 		  }
@@ -55,7 +59,7 @@ upload=function(){
          }
 		  
 		  //选择模糊查询
-		function query(){
+		function query1(){
 			 var id= document.getElementById("id").value;
 			 var id1= document.getElementById("id1").value;
     		  window.location.href="maintenanceUsersAction.do?method=query1&id="+id+"&id1="+id1+gotoUrl();

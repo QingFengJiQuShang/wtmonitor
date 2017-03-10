@@ -31,26 +31,57 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
+		
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
 		<div class="con" id="user" style="padding-top: 70px;">
 			<p class="user">维保单位</p>
 			<div class="warp">
-				<div class="select clearfix">
-					<p class="fl">
-						<label for="user">单位名称&nbsp;:&nbsp;</label>
-						<input type="text" id="name" placeholder="请输入"  value="${name}" />
+				<div class="select "  style="height: 110px;">
+					<div class="clearfix">
+						<p class="fl" >
+							<label for="logn">省&nbsp;:&nbsp;</label>
+							<input type="hidden"   id="provinceid"  >
+							<select   id="province"   >
+							<option value="${province}"  selected="selected">${province}</option>
+							</select>
+					</p>
+						<p class="fl"  >
+						<label for="logn">市&nbsp;:&nbsp;</label>
+							<select   id="city" >
+							<option value="${city}"  selected="selected">${city}</option>
+							</select>
 					</p>
 					<p class="fl">
-						<label for="unit">公司代码&nbsp;:&nbsp;</label>
-						<input type="text" id="code" placeholder="请输入"  value="${code}"/>
+							<label for="logn">区&nbsp;:&nbsp;</label>
+							<select   id="area" >
+								<option value="${area}"  selected="selected">${area}</option>
+							</select>
+						</p>
+						<p class="fl">
+							<label for="user">单位名称&nbsp;:&nbsp;</label>
+							<input type="text" id="name" placeholder="请输入"  value="${name}" />
+						</p>
+	
+						</div>
+					<div class="clearfix">
+					<p class="fl">
+						<label for="unit">单位地址&nbsp;:&nbsp;</label>
+						<input type="text" id="address" placeholder="请输入"  value="${address}" />
 					</p>
 					<p class="fl">
-						<label for="man">负责人&nbsp;:&nbsp;</label>
+						<label for="man">联系人&nbsp;:&nbsp;</label>
 						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
 					</p>
+					<p class="fl">
+						<label for="phone">联系人电话&nbsp;:&nbsp;</label>
+						<input type="text" id="phone"  name="phone"  value="${phone}"/>
+					</p>
 					<button class="fl"  onclick="query();">查询</button>
+					</div>
 				</div>
 				<div class="table">
 					<div class="or clearfix">

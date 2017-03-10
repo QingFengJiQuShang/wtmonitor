@@ -60,10 +60,9 @@
     		  window.location.href="elevatorAction.do?method=queryManage&num="+num+gotoUrl();
          }
 		  
-		   //编辑
-		  function findById(id){
-			 // alert(id);
-    		  window.location.href="recordAction.do?method=query&elevatorId="+id;
+		     //编辑
+		  function findById(id,flag){
+    		  window.location.href="elevatorAction.do?method=findById&id="+id+"&flag="+flag;
          }
 		    
 

@@ -1,19 +1,33 @@
 	function gotoUrl (){
+			var province= document.getElementById("province").value;
+			 var city= document.getElementById("city").value;
+			 var area= document.getElementById("area").value;
 			 var name= document.getElementById("name").value;
-			 var type= document.getElementById("type").value;
+			 var address= document.getElementById("address").value;
 			 var liaisons= document.getElementById("liaisons").value;
-			 
+			  var phone= document.getElementById("phone").value;
 			  var url="";
+			  if(province!=""){
+				  url=url+"&province="+province;
+			  }
+			  if(city!=""){
+				  url=url+"&city="+city;
+			  }
+			  if(area!=""){
+				  url=url+"&area="+area;
+			  }
 			  if(name!=""){
 				  url=url+"&name="+name;
 			  }
 			  if(liaisons!=""){
 				  url=url+"&liaisons="+liaisons;
 			  }
-			  if(type!=""&&type!="请选择"){
-				  url=url+"&type="+type;
+			  if(address!=""){
+				  url=url+"&address="+address;
 			  }
-			  
+			  if(phone!=""){
+				  url=url+"&phone="+phone;
+			  }
 			  return url;
 		  }
 	   //模糊查询

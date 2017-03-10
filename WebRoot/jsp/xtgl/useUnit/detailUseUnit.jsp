@@ -48,10 +48,10 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<label for="name">使用单位名称&nbsp;:&nbsp;</label>
 						${list.name}
 					</p>
-					<p class="fill">
+		<!-- 			<p class="fill">
 						<label for="logn">使用单位类型&nbsp;:&nbsp;</label>${list.type }
 
-					</p>
+					</p> -->
 					<p class="fill">
 						<label for="man">联系人&nbsp;:&nbsp;</label>${list.liaisons }
 					</p>

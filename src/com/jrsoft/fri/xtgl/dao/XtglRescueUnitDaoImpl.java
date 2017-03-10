@@ -56,14 +56,26 @@ public class XtglRescueUnitDaoImpl  extends BaseDaoImpl< XtglRescueUnit, String>
 			Connection conn = DBEntity.getInstance().getConnection();
 			//查询服务订单
 			String sql="select dr.*  from xtgl_rescue_unit dr where  1=1 " ;
+			if(unit.getProvince()!=null&&!unit.getProvince().equals("")){
+				sql+=" and province  ='" +unit.getProvince()+ "'";
+			}
+			if(unit.getCity()!=null&&!unit.getCity().equals("")){
+				sql+=" and city ='" + unit.getCity()+ "'";
+			}
+			if(unit.getArea()!=null&&!unit.getArea().equals("")){
+				sql+=" and area  ='" + unit.getArea()+ "'";
+			}
 			if(unit.getName()!=null&&!unit.getName().equals("")){
-				sql+=" and name like '%"+unit.getName()+"%'";
+				sql+=" and name = '"+unit.getName()+"'";
 			}
 			if(unit.getLiaisons()!=null&&!unit.getLiaisons().equals("")){
-				sql+=" and liaisons like '%"+unit.getLiaisons()+"%'";
+				sql+=" and liaisons  '"+unit.getLiaisons()+"'";
 			}
 			if(unit.getPhone()!=null&&!unit.getPhone().equals("")){
-				sql+=" and phone like '%"+unit.getPhone()+"%'";
+				sql+=" and phone = '"+unit.getPhone()+"'";
+			}
+			if(unit.getAddress()!=null&&!unit.getAddress().equals("")){
+				sql+=" and address like '%"+unit.getAddress()+"%'";
 			}
 			
 			sql+=" order by id";	

@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="name">使用单位名称&nbsp;:&nbsp;</label>
 						<input type="text" id="name"  name="unit.name"  />
 					</p>
-					<p class="fill">
+		<!-- 			<p class="fill">
 						<label for="logn">使用单位类型&nbsp;:&nbsp;</label>
 						<select  name="unit.type"  id="type">
 							<option value="">请选择</option>
@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<option value="政府">政府</option>
 							<option value="事业单位">事业单位</option>
 						</select>
-					</p>
+					</p> -->
 					<p class="fill">
 						<label for="man">联系人&nbsp;:&nbsp;</label>
 						<input type="text" id="liaisons"  name="unit.liaisons"  />
