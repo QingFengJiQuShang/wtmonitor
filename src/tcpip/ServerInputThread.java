@@ -34,11 +34,11 @@ public class ServerInputThread  extends Thread
                 if (length == -1) {
 					break;
 				}
-//                String str = new String(buffer, 0, length);
+                String str = new String(buffer, 0, length);
 //                System.out.println(str);
                 Gateway j=new Gateway();
                 //j.query(str, os);
-               j.query(buffer, os);
+               j.query(buffer, os,str);
                 System.out.println();
             }
             Thread.sleep(1 * 1000);//≥Ã–ÚÀØ√ﬂ1√Î÷”

@@ -47,6 +47,7 @@ import com.jrsoft.fri.xtgl.service.XtglUseUnitService;
 import com.jrsoft.fri.xtsz.action.Log;
 import com.jrsoft.fri.xtsz.action.Message;
 import com.jrsoft.fri.xtsz.entity.XtszLog;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class Gateway {
 	private static DtjkGatewayService gatewayService = (DtjkGatewayService)SpringBeanUtil.getBean("gatewayService");
@@ -130,11 +131,16 @@ public class Gateway {
 	private static String type;
 	private static String elevatorId;
 
-	public void query(byte[] buffer,OutputStream os ) throws Exception{
+	public void query(byte[] buffer,OutputStream os,String message ) throws Exception{
         byteUtil util=new byteUtil();
         String str = util.BytesHexString(buffer);
         System.out.println(str);
         this.str=str;
+        if(str.substring(0, 6).equalsIgnoreCase("5a5a48")){
+        	write(message);
+        	return;
+        	
+        }
 		SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //≈–∂œ√¸¡Ó≥§∂»
         if(length(str)){
@@ -160,7 +166,7 @@ public class Gateway {
 			if(elevators.size()==0){
 				 System.out.println("√¸¡Ó¥ÌŒÛ£∫E0021102F0");
 				 os.write(byteUtil.hexStringToByte("E0021102F0"));
-				CreateWorkbook("E0021102F0");
+				//CreateWorkbook("E0021102F0");
 				 return;
 			}
     		
@@ -262,7 +268,7 @@ public class Gateway {
     			try {
 					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
-					CreateWorkbook("E0021101F0");
+					//CreateWorkbook("E0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -311,7 +317,7 @@ public class Gateway {
     			 try {
 					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
-					CreateWorkbook("E0021101F0");
+					//CreateWorkbook("E0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -432,7 +438,7 @@ public class Gateway {
 				      				 try {
 				      					 //os.write("E0021101F0".getBytes());
 				      		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
-				      					CreateWorkbook("E0021101F0");
+				      					//CreateWorkbook("E0021101F0");
 				      				} catch (IOException e) {
 				      					e.printStackTrace();
 				      				}
@@ -553,12 +559,12 @@ public class Gateway {
     			System.out.println("∑¢ÀÕ«Î«Û√¸¡Ó£∫"+m.toUpperCase());
        			//os.write(m.getBytes());
        			os.write(byteUtil.hexStringToByte(m.toUpperCase()));
-				CreateWorkbook(m.toUpperCase());
+				//CreateWorkbook(m.toUpperCase());
     		}else{   
     			try {
     				 System.out.println("√¸¡Ó¥ÌŒÛ£∫E0021102F0");
     				 os.write(byteUtil.hexStringToByte("E0021102F0"));
-    				CreateWorkbook("E0021102F0");
+    				//CreateWorkbook("E0021102F0");
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
@@ -566,7 +572,7 @@ public class Gateway {
         }else{
         	 System.out.println("≥§∂»¥ÌŒÛ£∫E0021103F0");
 			 os.write(byteUtil.hexStringToByte("E0021103F0"));
-				CreateWorkbook("E0021103F0");
+				//CreateWorkbook("E0021103F0");
         }
         	
        
@@ -965,10 +971,19 @@ public class Gateway {
 		 * @param content		–¥»Îƒ⁄»›
 		 */
 		public static void write(String content) {  
-
-			String filePath="D:/test.txt";
+			SimpleDateFormat df=new SimpleDateFormat("yyyyMMdd");
+			String filePath="D:/ZZH/"+df.format(new Date())+".txt";
 			BufferedWriter out = null;
 			try {
+					File f1 = new File("D:/ZZH/");  
+		            if (!f1.exists()) {  
+		                f1.mkdirs();
+		            }
+				 	File f = new File(filePath);  
+		            if (!f.exists()) {  
+		                f.createNewFile();
+		            }  
+		            
 				out = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(filePath, true)));
 				out.write(content+"\r\n");
