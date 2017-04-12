@@ -123,11 +123,11 @@ public class XtglMaintenanceUsersAction  extends DispatchAction {
 					sql+=" and unit_Id = '"+unitId+"'";
 				}
 				if(cardNumber!=null&&!cardNumber.equals("")){
-					sql+=" and card_Number = '"+cardNumber+"'";
+					sql+=" and card_Number like '%"+cardNumber+"%'";
 				}
 				if(phone!=null&&!phone.equals("")){
 					phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
-					sql+=" and phone = '"+phone+"'";
+					sql+=" and phone like '%"+phone+"%'";
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);

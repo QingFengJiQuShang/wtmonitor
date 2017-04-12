@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <script type="text/javascript">
+		window.parent.location.reload(); 
 		window.parent.JqueryDialog.Close();
 </script>
   </head>

@@ -78,7 +78,10 @@ public class DtjkElevator implements java.io.Serializable {
 	private String city;						//市
 	private String area;					//区
 	// Constructors
-    
+	 private String useUnitName1;			//使用单位id
+	 private String maintenanceUnitName1;		//维保单位id
+	 private String maintenanceUsersName1;	//维保人员id
+
     private String useUnitName;			//使用单位名称
     private String maintenanceUnitName;		//维保单位名称
     private String maintenanceUsersName;	//维保人员姓名
@@ -636,6 +639,30 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setArea(String area) {
 		this.area = area;
+	}
+
+	public String getUseUnitName1() {
+		return useUnitName1;
+	}
+
+	public void setUseUnitName1(String useUnitName1) {
+		this.useUnitName1 = useUnitName1;
+	}
+
+	public String getMaintenanceUnitName1() {
+		return maintenanceUnitName1;
+	}
+
+	public void setMaintenanceUnitName1(String maintenanceUnitName1) {
+		this.maintenanceUnitName1 = maintenanceUnitName1;
+	}
+
+	public String getMaintenanceUsersName1() {
+		return maintenanceUsersName1;
+	}
+
+	public void setMaintenanceUsersName1(String maintenanceUsersName1) {
+		this.maintenanceUsersName1 = maintenanceUsersName1;
 	}
 
 }

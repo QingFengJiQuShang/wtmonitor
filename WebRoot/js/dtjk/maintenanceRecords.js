@@ -42,8 +42,8 @@
     		  window.location.href="recordsAction.do?method=query1"+gotoUrl();
 		  }
 		//添加
-		function add(elevatorId){
-			  window.location="recordsAction.do?method=findByAdd&elevatorId="+elevatorId;
+		function add(elevatorId,userId){
+			  window.location="recordsAction.do?method=findByAdd&elevatorId="+elevatorId+"&userId="+userId;
 			  
 		  }
 		//列表分页  

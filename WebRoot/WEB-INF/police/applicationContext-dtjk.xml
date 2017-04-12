@@ -90,6 +90,8 @@
 	<bean name="/recordsAction" class="com.jrsoft.fri.dtjk.action.DtjkMaintenanceRecordsAction">
 		<property name="recordsService" ref="recordsService" />
 		<property name="elevatorService" ref="elevatorService" />
+		<property name="maintenanceUsersService" ref="maintenanceUsersService" />
+		
 	</bean>
 	<bean id="recordsService" class="com.jrsoft.fri.dtjk.service.DtjkMaintenanceRecordsServiceImpl">
 		<property name="recordsDao"  ref="recordsDao" />

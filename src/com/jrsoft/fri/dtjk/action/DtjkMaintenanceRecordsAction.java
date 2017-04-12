@@ -18,6 +18,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import smart.sys.platform.dao.DBEntity;
+import smart.sys.platform.springUtils.SpringBeanUtil;
 
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkMaintenanceRecords;
@@ -29,12 +30,24 @@ import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
+import com.jrsoft.fri.xtgl.service.XtglAuthorityService;
+import com.jrsoft.fri.xtgl.service.XtglMaintenanceUsersService;
 import com.jrsoft.fri.xtsz.action.Log;
 
 public class DtjkMaintenanceRecordsAction extends DispatchAction {
 	
 	private DtjkMaintenanceRecordsService recordsService;
 	private DtjkElevatorService elevatorService;
+	private XtglMaintenanceUsersService maintenanceUsersService;
+
+	public XtglMaintenanceUsersService getMaintenanceUsersService() {
+		return maintenanceUsersService;
+	}
+
+	public void setMaintenanceUsersService(
+			XtglMaintenanceUsersService maintenanceUsersService) {
+		this.maintenanceUsersService = maintenanceUsersService;
+	}
 	public DtjkMaintenanceRecordsService getRecordsService() {
 		return recordsService;
 	}
@@ -61,7 +74,17 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 	public ActionForward  findByAdd(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String elevatorId=request.getParameter("elevatorId");
-		DtjkElevator list=elevatorService.get(Long.parseLong(elevatorId));
+		String userId=request.getParameter("userId");
+		DtjkElevator list=new DtjkElevator();
+		if(elevatorId!=null&&!elevatorId.equals("")){
+			 list=elevatorService.get(Long.parseLong(elevatorId));
+			request.setAttribute("list", list);
+		}
+		if(userId!=null&&!userId.equals("")){
+			XtglMaintenanceUsers user =maintenanceUsersService.get(Long.parseLong(userId));
+			list.setMaintenanceUsersId(user);
+			
+		}
 		request.setAttribute("list", list);
 		return	new ActionForward("/jsp/dtjk/maintenanceRecords/addMaintenanceRecords.jsp");
 	}

@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- 引用初始化JS -->
 		<script type="text/javascript" src="<%=path %>/js/demo.js"></script>
 	<body style="width: 550px;padding-top: 50px;padding-left: 25px;">
-	<form id="form" action="<%=path %>/useUnitAction.do?method=exportIn" method="post"  encType="multipart/form-data">
+	<form id="form" action="<%=path %>/safeUnitAction.do?method=exportIn" method="post"  encType="multipart/form-data">
 		<!-- 
 			<div id="demo" class="demo"></div>    -->
 			 		<div class="table">

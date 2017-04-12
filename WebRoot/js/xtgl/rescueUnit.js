@@ -43,7 +43,7 @@
  * 上传页面
  */
 upload=function(){
-	JqueryDialog.Open('导入救援单位', 'jsp/xtgl/safeUnit/upload.jsp', 600, 300);
+	JqueryDialog.Open('导入救援单位', 'jsp/xtgl/rescueUnit/upload.jsp', 600, 300);
 }
 		//列表分页  
 		  function fenye(num){

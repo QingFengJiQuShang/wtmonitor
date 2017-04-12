@@ -50,6 +50,12 @@ closeMultiRescueUnit=function(id){
 selectElevator=function(id,id1,id2,id3,id4){
 	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query1&id='+id+"&id1="+id1+"&id2="+id2+"&id3="+id3+"&id4="+id4, 1000, 650);
 }
+/**
+ * 维保记录选择电梯信息
+ */
+selectElevator1=function(id,id1,id2,id3,id4,id5,id6,id7){
+	JqueryDialog.Open('电梯列表', 'elevatorAction.do?method=query2&id='+id+"&id1="+id1+"&id2="+id2+"&id3="+id3+"&id4="+id4+"&id5="+id5+"&id6="+id6+"&id7="+id7, 1000, 650);
+}
 
 /**
  * 选择制造单位
@@ -129,7 +135,7 @@ selectMaintenanceUsers1=function(id,id1){
  */
 selectMaintenanceUsers2=function(id,id1,id2,id3){
  			var unitId= document.getElementById("unitId").value;
-				   JqueryDialog.Open('维保人员', 'maintenanceUsersAction.do?method=query2&id='+id+"&id1="+id1+"&id2="+id2+"&id3="+id3+"&unitId="+unitId, 1000, 650);
+				   JqueryDialog.Open('维保人员', 'maintenanceUsersAction.do?method=query2&id='+id+"&id1="+id1+"&id2="+id2+"&id3="+id3+"&unitId="+unitId, 1100, 650);
 		
 }
 

@@ -66,7 +66,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					<div class="table">
 					<div class="or clearfix">
 						<%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_add")) {%>
-						<p class="fl add"    onclick="add('${elevatorId}');"><img src="<%=path%>/img/add.png" />新增</p>
+						<p class="fl add"    onclick="add('${elevatorId}','${userId}');"><img src="<%=path%>/img/add.png" />新增</p>
 						<%} %>
 						<%if(Authority.haveRigth(user.getId(),"dtjk_wbjl_del")) {%>
 						<p class="fl del">批量删除</p>

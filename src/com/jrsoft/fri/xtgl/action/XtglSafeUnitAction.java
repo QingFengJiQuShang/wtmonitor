@@ -112,15 +112,15 @@ public class XtglSafeUnitAction extends DispatchAction  {
 				}
 				if(name!=null&&!name.equals("")){
 					name=new String(name.getBytes("iso-8859-1"),"utf-8");
-					sql+=" and name = '"+name+"'";
+					sql+=" and name like '%"+name+"%'";
 				}
 				if(liaisons!=null&&!liaisons.equals("")){
 					 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
-					sql+=" and liaisons  '"+liaisons+"'";
+					sql+=" and liaisons like '%"+liaisons+"%'";
 				}
 				if(phone!=null&&!phone.equals("")){
 					phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
-					sql+=" and phone = '"+phone+"'";
+					sql+=" and phone like '%"+phone+"%'";
 				}
 				if(address!=null&&!address.equals("")){
 					address=new String(address.getBytes("iso-8859-1"),"utf-8");
@@ -177,9 +177,9 @@ public class XtglSafeUnitAction extends DispatchAction  {
 		XtglSafeUnit list=safeUnitService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
 		if(flag.equals("1")){
-			return	new ActionForward("/jsp/xtgl/propertyUnit/updateSafeUnit.jsp");
+			return	new ActionForward("/jsp/xtgl/safeUnit/updateSafeUnit.jsp");
 		}else{
-			return	new ActionForward("/jsp/xtgl/propertyUnit/detailSafeUnit.jsp");
+			return	new ActionForward("/jsp/xtgl/safeUnit/detailSafeUnit.jsp");
 		}
 	}
 	

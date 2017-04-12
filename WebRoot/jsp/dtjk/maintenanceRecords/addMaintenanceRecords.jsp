@@ -43,22 +43,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p class="fill">
 						<label for="user">电梯注册号&nbsp;:&nbsp;</label>
 						<input type="hidden" id="elevatorId"  name="maintenanceRecords.elevatorId.id"  value="${list.id}" />
-						<input type="text"    value="${list.registerid}"  readonly="readonly"  />
+						<input type="text"   id="registerid"  value="${list.registerid}"  readonly="readonly"  onclick="selectElevator1('elevatorId','registerid','distinguishid','useUnitId','useUnitId1','installPlace','unitId','unitId1','userId','userId1');"/>
 						
 					</p>
 					<p class="fill">
 						<label for="code">识别码&nbsp;:&nbsp;</label>
-						<input type="text"    value="${list.distinguishid}"  readonly="readonly" />
+						<input type="text"   id="distinguishid"     value="${list.distinguishid}"  readonly="readonly" />
 
 					</p>
 					<p class="fill">
 						<label for="unit">电梯使用单位&nbsp;:&nbsp;</label>
 						<input type="hidden"  id="useUnitId"  name="maintenanceRecords.useUnitId.id"  value="${list.useUnitId.id}"/>
-						<input type="text"  id="useUnitId"   value="${list.useUnitId.name}"  readonly="readonly" />
+						<input type="text"  id="useUnitId1"   value="${list.useUnitId.name}"  readonly="readonly" />
 					</p>
 					<p class="fill">
 						<label for="place">电梯安装地点&nbsp;:&nbsp;</label>
-						<input type="text"    value="${list.installPlace}" readonly="readonly" />
+						<input type="text"  id="installPlace"   value="${list.installPlace}" readonly="readonly" />
 					</p>
 					<p class="fill">
 						<label for="datetimepicker3">维保日期&nbsp;:&nbsp;</label>
