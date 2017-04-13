@@ -102,7 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 					</p>
 					<p class="fill">
-						<label for="man">施救单位&nbsp;:&nbsp;</label>
+						<label for="man">施救单位1&nbsp;:&nbsp;</label>
 							<select multiple="multiple" style="WIDTH: 10em; height: 100px;" name="unitId"  id="unitId"  >
 								<c:forEach items="${unitId}" var="unitId" varStatus="s">
 									<option value="${unitId.id }" selected="selected">${unitId.name }</option>
@@ -111,6 +111,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    	</select>
 					    	<input style="width: 60px;" type="button" id="msdept" value="选择" onClick="selectRescueUnit('handle','unitId')">
 					    	<input style="width: 60px;" type="button" id="msuser2" value="移除" onClick="closeMultiRescueUnit('unitId')">
+					</p>
+					<p class="fill"  >
+						<label for="man" style="display:inline-block ;">单位类型&nbsp;:&nbsp;</label>
+							<select id="flag" name="">
+									<option value="">请选择</option>
+									<option value="1">使用单位</option>
+									<option value="2">物业单位</option>
+									<option value="3">维保单位</option>
+							</select>
+					</p>
+					<p class="fill">
+						<label for="man">施救单位2&nbsp;:&nbsp;</label>
+							<select multiple="multiple" style="WIDTH: 10em; height: 100px;display: none;" name="succorid"  id="succorid"  >
+								<c:forEach items="${succors}" var="succors" varStatus="s">
+									<option value="${succors.unitId }"  selected="selected"  onclick="mOption('succorid','succorName');">${succors.unitName }</option>
+								</c:forEach>
+					    	</select>
+							<select multiple="multiple" style="WIDTH: 10em; height: 100px;" name="succorName"  id="succorName"  >
+								<c:forEach items="${succors}" var="succors" varStatus="s">
+									<option value="${succors.unitName }"  selected="selected"  >${succors.unitName }</option>
+								</c:forEach>
+								
+					    	</select>
+					    	<input style="width: 60px;" type="button" id="msdept" value="选择" onClick="selectTypeUnitId1('succorid','succorName','flag')">
+					    	<input style="width: 60px;" type="button" id="msuser2" value="移除" onClick="closeMultiRescueUnit('succorName')">
 						
 					</p>
 					<p class="fill">

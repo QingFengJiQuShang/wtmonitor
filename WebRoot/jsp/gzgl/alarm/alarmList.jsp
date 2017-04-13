@@ -26,27 +26,41 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user_comm.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path %>/css/calendar.css" />
-
+		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
+	
 	</head>
 
 	<body>
 		<div class="con" id="user">
 			<p class="user">人工接警</p>
 			<div class="warp">
-				<div class="select clearfix">
+				<div class="select" style="height: 110px;">
+				<div class="clearfix">
 					<p class="fl">
 						<label for="user">电梯注册号&nbsp;:&nbsp;</label>
 						<input type="text" id="registerid" placeholder="请输入"  value="${registerid}" />
 					</p>
 					<p class="fl">
-						<label for="unit">安装地址&nbsp;:&nbsp;</label>
-						<input type="text" id="place"    value="${place}"  />
+						<label for="code">识别码&nbsp;:&nbsp;</label>
+						<input type="text" id="distinguishid"  value="${distinguishid}" />
 					</p>
 					<p class="fl">
-						<label for="man">接警日期&nbsp;:&nbsp;</label>
-						<input type="text" id="time"  name="time"  value="<fmt:formatDate value="${time}"  pattern='yyyy-MM-dd'/>"/>
+						<label for="unit">安装地址&nbsp;:&nbsp;</label>
+						<input type="text" id="place"    value="${place}"   />
+					</p>
+					</div>
+					<div class="clearfix">
+					<p class="fl">
+						<label for="man">接警日期起&nbsp;:&nbsp;</label>
+						<input type="text"  class="Wdate"  id="startTime"  name="startTime"  value="<fmt:formatDate value="${startTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})"   />
+					</p>
+					<p class="fl">
+						<label for="man">接警日期止&nbsp;:&nbsp;</label>
+						<input type="text"  class="Wdate"  id="endTime"  name="endTime"  value="<fmt:formatDate value="${endTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
 					</p>
 					<button class="fl"  onclick="query();">查询</button>
+					</div>
 				</div>
 				<div class="table">
 					<div class="or clearfix">
@@ -105,7 +119,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							</tbody>
 						</table>
 						<div class="choose">
-							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*5 }</c:if></span>到<span>${(page.pageNum+1)*5 }</span>条，共<span>${page.count }</span>条记录</p>
+							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
 								<a href="javascript:void(0);"  title="首页" onclick="fenye('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
 
@@ -134,15 +148,5 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/gzcl/alarm.js" type="text/javascript" charset="utf-8"></script>
-	    <script src="<%=path %>/js/calendar.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-     //	日期插件
-		date = new Date();
-		Calendar.setup({
-					inputField     :    "time",
-					ifFormat       :    "%Y-%m-%d %H:%M:%S",
-					showsTime      :    true,
-					timeFormat     :    "24"
-		});
-     </script>
+
 </html>

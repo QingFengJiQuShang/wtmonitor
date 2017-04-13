@@ -28,6 +28,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
 		
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
+		
 	<style type="text/css">
 	
 .or {
@@ -51,28 +54,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="warp">
-				<div class="select clearfix">
-					<p class="fl">
-						<label for="user">单位名称&nbsp;:&nbsp;</label>
-						<input type="hidden" id="id" value="${id}">
-						<input type="hidden" id="id1" value="${id1}">
-						<input type="text" id="name" placeholder="请输入"  value="${name}" />
+				<div class="select "  style="height: 110px;">
+					<div class="clearfix">
+						<p class="fl" >
+							<label for="logn">省&nbsp;:&nbsp;</label>
+							<input type="hidden"  id="id" value="${id}">
+							<input type="hidden"  id="id1" value="${id1}">
+							<input type="hidden"   id="provinceid"  >
+							<select   id="province"   >
+							<option value="${province}"  selected="selected">${province}</option>
+							</select>
+					</p>
+						<p class="fl"  >
+						<label for="logn">市&nbsp;:&nbsp;</label>
+							<select   id="city" >
+							<option value="${city}"  selected="selected">${city}</option>
+							</select>
 					</p>
 					<p class="fl">
-						<label for="unit">单位类型&nbsp;:&nbsp;</label>
-						<select name="type" id="type">
-							<option value="">请选择</option>
-							<option <c:if test="${type=='物业'}">selected="selected" </c:if> value="物业">物业</option>
-							<option <c:if test="${type=='政府'}">selected="selected" </c:if> value="政府">政府</option>
-							<option <c:if test="${type=='事业单位'}">selected="selected" </c:if> value="事业单位">事业单位</option>
-						
-						</select>				
+							<label for="logn">区&nbsp;:&nbsp;</label>
+							<select   id="area" >
+								<option value="${area}"  selected="selected">${area}</option>
+							</select>
+						</p>
+						<p class="fl">
+							<label for="user">单位名称&nbsp;:&nbsp;</label>
+							<input type="text" id="name" placeholder="请输入"  value="${name}" />
+						</p>
+	
+						</div>
+					<div class="clearfix">
+					<p class="fl">
+						<label for="unit">单位地址&nbsp;:&nbsp;</label>
+						<input type="text" id="address" placeholder="请输入"  value="${address}" />
 					</p>
 					<p class="fl">
 						<label for="man">联系人&nbsp;:&nbsp;</label>
 						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
 					</p>
+					<p class="fl">
+						<label for="phone">联系人电话&nbsp;:&nbsp;</label>
+						<input type="text" id="phone"  name="phone"  value="${phone}"/>
+					</p>
 					<button class="fl"  onclick="query1();">查询</button>
+					</div>
 				</div>
 				
 				<div class="table_con">
@@ -83,33 +108,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</th>
 								<th>序列</th>
 								<th>使用单位名称</th>
-								<th>使用单位类型</th>
 								<th>联系人</th>
 								<th>联系人电话</th>
 								<th>使用单位地址</th>
-								
+								<th>省</th>
+								<th>市</th>
+								<th>区</th>
 							</thead>
 							<tbody>
 							<c:forEach items="${list}" var="list" varStatus="s">
 								<tr>
 									<td class="wei">
 										<i class=""  data-e="${list.id }" data="${list.name }"></i>
-										
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.name }</td>
-									<td>${list.type }</td>
 									<td>${list.liaisons }</td>
 									<td>${list.phone }</td>
 									<td>${list.address}</td>
-									
+									<td>${list.province}</td>
+									<td>${list.city}</td>
+									<td>${list.area}</td>
 								</tr>
 								</c:forEach>
 								
 							</tbody>
 						</table>
 						<div class="choose">
-							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*5 }</c:if></span>到<span>${(page.pageNum+1)*5 }</span>条，共<span>${page.count }</span>条记录</p>
+							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
 								<a href="javascript:void(0);"  title="首页" onclick="fenye1('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
 								

@@ -168,7 +168,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${list.state}</td>
 									<td><c:if test="${list.serviceState=='0'}">待服务</c:if><c:if test="${list.serviceState=='1'}">服务中</c:if></td>
                   <%if(Authority.haveRigth(user.getId(),"dtjk_dtll_check")) {%>
-									<td>${list.flowSurplus}M<!-- <a href="javascript:void(0);"  <%if(Authority.haveRigth(user.getId(),"dtjk_update")) {%> onclick="findById('${list.id}','4');"  <%} %>style="color: blue; ">${list.flowSurplus}</a> --></td>
+									<td><a href="javascript:void(0);"  onclick="findById('${list.id}','4');"  style="color: blue; ">${list.flowSurplus}M</a> </td>
                   <%}%>
                   <%if(Authority.haveRigth(user.getId(),"dtjk_sbzq_check")) {%>
                   <td  >

@@ -59,7 +59,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<select name="state" id="state">
 							<option value="">请选择</option>
 							<option <c:if test="${state=='正常'}">selected="selected" </c:if> value="正常">正常</option>
-							<option <c:if test="${state=='离线'}">selected="selected" </c:if> value="离线">离线</option>
+							<option <c:if test="${state=='维保'}">selected="selected" </c:if> value="维保">维保</option>
 							<option <c:if test="${state=='故障'}">selected="selected" </c:if> value="故障">故障</option>
 						</select>
 					</p>
@@ -69,8 +69,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 						<label for="user">运行方向&nbsp;:&nbsp;</label>
 						<select name="direction" id="direction">
 							<option value="">请选择</option>
-							<option <c:if test="${direction=='上'}">selected="selected" </c:if> value="上">上</option>
-							<option <c:if test="${direction=='下'}">selected="selected" </c:if> value="下">下</option>
+							<option <c:if test="${direction=='上行'}">selected="selected" </c:if> value="上行">上行</option>
+							<option <c:if test="${direction=='下行'}">selected="selected" </c:if> value="下行">下行</option>
+							<option <c:if test="${direction=='静止'}">selected="selected" </c:if> value="静止">静止</option>
 						</select>
 					</p>
 					<p class="fl">
@@ -106,6 +107,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 								</th>
 							<th>序列</th>
 								<th>电梯注册号</th>
+								<th>接收时间</th>
 								<th>日期</th>
 								<th>时间</th>
 								<th>电梯方向</th>
@@ -123,13 +125,14 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.elevatorId }</td>
+									<td><fmt:formatDate value="${list.foundTime}"  pattern='yyyy-MM-dd HH:mm:ss'/></td>
 									<td>${list.gatewayDate }</td>
 									<td>${list.gatewayTime }</td>
 									<td>${list.direction }</td>
 									<td>${list.floor}</td>
 									<td>${list.people}</td>
 									<td>${list.door}</td>
-									<td>${list.heartbeat}</td>
+									<td>${list.state}</td>
 									<td>
 										<img src="<%=path%>/img/content.png"  title="详情"  alt="详情"  onclick="findById('${list.id}');"/>
 										</td>

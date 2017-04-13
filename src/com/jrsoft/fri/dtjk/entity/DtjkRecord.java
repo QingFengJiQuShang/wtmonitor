@@ -30,6 +30,8 @@ public class DtjkRecord implements java.io.Serializable {
 	private String maintenanceState;				//检修状态
 	private Date foundTime;                //创建时间
 	private String type;							//故障类型
+	
+	private String state;//电梯状态
 
 	// Constructors
 
@@ -182,6 +184,14 @@ public class DtjkRecord implements java.io.Serializable {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 }

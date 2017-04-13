@@ -119,10 +119,18 @@ public class DtjkPhoneAction extends DispatchAction{
 			throws Exception {
 		String elevatorId=request.getParameter("elevatorId");
 		DtjkElevator elevator=elevatorService.get(Long.parseLong(elevatorId));
-		XtglMaintenanceUnit maintenanceUnit=maintenanceUnitService.get(elevator.getMaintenanceUnitId().getId());
-		XtglUseUnit useUnit=useUnitService.get(elevator.getUseUnitId().getId());		
-		XtglPropertyUnit propertyUnit=propertyUnitService.get(elevator.getPropertyUnitId().getId());
-		XtglMaintenanceUsers maintenanceUsers=maintenanceUsersService.get(elevator.getMaintenanceUsersId().getId());
+		XtglMaintenanceUnit maintenanceUnit=null;
+		XtglMaintenanceUsers maintenanceUsers=null;
+		XtglUseUnit useUnit=null;
+		XtglPropertyUnit propertyUnit=null;
+		if(elevator.getMaintenanceUnitId()!=null)
+			maintenanceUnit=maintenanceUnitService.get(elevator.getMaintenanceUnitId().getId());
+		if(elevator.getUseUnitId()!=null)
+			useUnit=useUnitService.get(elevator.getUseUnitId().getId());		
+		if(elevator.getPropertyUnitId()!=null)
+			propertyUnit=propertyUnitService.get(elevator.getPropertyUnitId().getId());
+		if(elevator.getMaintenanceUsersId()!=null)
+			maintenanceUsers=maintenanceUsersService.get(elevator.getMaintenanceUsersId().getId());
 		
 		
 		JSONArray array=new JSONArray();

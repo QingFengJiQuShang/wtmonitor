@@ -22,9 +22,11 @@ import smart.sys.platform.dao.DBEntity;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
 import com.jrsoft.fri.gzcl.entity.GzclRescue;
+import com.jrsoft.fri.gzcl.entity.GzclSuccor;
 import com.jrsoft.fri.gzcl.from.GzclForm;
 import com.jrsoft.fri.gzcl.service.GzclFaultService;
 import com.jrsoft.fri.gzcl.service.GzclRescueService;
+import com.jrsoft.fri.gzcl.service.GzclSuccorService;
 import com.jrsoft.fri.xtgl.entity.XtglRescueUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
@@ -36,6 +38,8 @@ public class GzclFaultAction extends DispatchAction {
 	private GzclFaultService faultService;
 	private XtglRescueUnitService rescueUnitService;
 	private GzclRescueService gzclRescueService;
+	private GzclSuccorService succorService ;
+	
 	public GzclFaultService getFaultService() {
 		return faultService;
 	}
@@ -58,6 +62,14 @@ public class GzclFaultAction extends DispatchAction {
 
 	public void setGzclRescueService(GzclRescueService gzclRescueService) {
 		this.gzclRescueService = gzclRescueService;
+	}
+
+	public GzclSuccorService getSuccorService() {
+		return succorService;
+	}
+
+	public void setSuccorService(GzclSuccorService succorService) {
+		this.succorService = succorService;
 	}
 
 	/**
@@ -91,8 +103,11 @@ public class GzclFaultAction extends DispatchAction {
 	throws Exception {
 		String registerid=request.getParameter("registerid");
 		String place=request.getParameter("place");
-		String begintime=request.getParameter("begintime");
-		String endtime=request.getParameter("endtime");
+		String distinguishid=request.getParameter("distinguishid");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String type=request.getParameter("type");
+		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		
@@ -115,18 +130,28 @@ public class GzclFaultAction extends DispatchAction {
 				" left join xtgl_users xu on xu.id=de.duty_id "+  //电梯信息
 				"where  1=1 " ;
 				if(registerid!=null&&!registerid.equals("")){
+					registerid=new String(registerid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and e.registerid like '%"+registerid+"%'";
 				}
+				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and e.distinguishid like '%"+distinguishid+"%'";
+				}
 				if(place!=null&&!place.equals("")){
+					place=new String(place.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and e.install_Place like '%"+place+"%'";
 				}
-				if(begintime!=null&&!begintime.equals("")){
-					sql+=" and de.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+				if(type!=null&&!type.equals("")){
+					type=new String(type.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.type= '"+type+"'";
 				}
-				if(endtime!=null&&!endtime.equals("")){
-					sql+=" and de.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+				if(startTime!=null&&!startTime.equals("")){
+					sql+=" and de.happen_Time  >=to_date('" + startTime+ "','yyyy-MM-dd hh24:mi:ss')";
 				}
-				sql+="  and de.state='处理中' order by de.happen_Time desc";	
+				if(endTime!=null&&!endTime.equals("")){
+					sql+=" and de.happen_Time  <=to_date('" + endTime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				sql+="  and de.state='处理中' order by de.found_Time desc,de.happen_Time desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
 				page.setCount(siz);//总记录数
@@ -153,12 +178,14 @@ public class GzclFaultAction extends DispatchAction {
 					
 				}
 				request.setAttribute("registerid", registerid);
+				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("place", place);
-				if(endtime!=null){
-					request.setAttribute("endtime", df.parse( endtime));
+				request.setAttribute("type", type);
+				if(startTime!=null){
+					request.setAttribute("startTime", df.parse( startTime));
 				}
-				if(begintime!=null){
-					request.setAttribute("begintime", df.parse( begintime));
+				if(endTime!=null){
+					request.setAttribute("endTime", df.parse( endTime));
 				}
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
@@ -183,11 +210,13 @@ public class GzclFaultAction extends DispatchAction {
 		List<XtglRescueUnit> unitId=new ArrayList<XtglRescueUnit>();
 		String hql=" where  fault_Id='"+list.getId()+"'";
 		List<GzclRescue> rescues=gzclRescueService.query(hql);
+		List<GzclSuccor> succors=succorService.query(hql);
+		
 		for(int i=0;i<rescues.size();i++){
 			unitId.add(rescues.get(i).getRescueUnitId());
 		}
 		request.setAttribute("unitId", unitId);
-		
+		request.setAttribute("succors", succors);
 		if(flag.equals("1")){
 			return	new ActionForward("/jsp/gzgl/fault/updateFault.jsp");
 		}else{
@@ -207,6 +236,8 @@ public class GzclFaultAction extends DispatchAction {
 		GzclForm GzclForm=(GzclForm)form;
 		GzclFault unit =GzclForm.getFault();
 		GzclFault fault=faultService.get(unit.getId());
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 		if(fault!=null){
 					String happenTime=request.getParameter("happenTime");
 					String alarmTime=request.getParameter("alarmTime");
@@ -227,6 +258,9 @@ public class GzclFaultAction extends DispatchAction {
 					fault.setHandle(unit.getHandle());
 					fault.setType(unit.getType());
 					fault.setState(unit.getState());
+					if(fault.getDutyId()==null){
+						fault.setDutyId(user);
+					}
 					faultService.update(fault);
 		
 				//删除已有的关系，重新建立关系
@@ -241,7 +275,20 @@ public class GzclFaultAction extends DispatchAction {
 						gzclRescueService.save(rescue);
 					}
 				}
-				
+				//删除已有的关系，重新建立关系
+				String sql2="delete Gzcl_Succor where fault_Id='"+unit.getId()+"'";
+			   DBEntity.getInstance().executeSql(sql2);	
+				String[] succorids=request.getParameterValues("succorid");
+				String[] succorName=request.getParameterValues("succorName");
+				if(succorName!=null){
+					for(int i=0;i<succorName.length;i++){
+						GzclSuccor rescue=new GzclSuccor();
+						rescue.setFaultId(unit.getId());
+						//rescue.setUnitId(Long.parseLong(succorids[i]));
+						rescue.setUnitName(succorName[i]);
+						succorService.save(rescue);
+					}
+				}
 				
 				if(!unit.getState().equals("处理中")){
 					String sql="update dtjk_elevator set state='正常' where id='"+unit.getElevatorId().getId()+"' ";
@@ -249,7 +296,6 @@ public class GzclFaultAction extends DispatchAction {
 				}
 				//DtjkElevator elevator=e
 				//生成 操作日志
-				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				Log log=new Log();
 		        log.addLog(user.getName(), "修改当前故障", "1");
 			}
@@ -449,16 +495,16 @@ public class GzclFaultAction extends DispatchAction {
 	throws Exception {
 		String registerid=request.getParameter("registerid");
 		String place=request.getParameter("place");
-		String begintime=request.getParameter("begintime");
-		String endtime=request.getParameter("endtime");
+		String distinguishid=request.getParameter("distinguishid");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String type=request.getParameter("type");
+		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		
 		String num=request.getParameter("num");   //当前页
-		
-
 		Page  page=new Page();
-		
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
@@ -468,30 +514,40 @@ public class GzclFaultAction extends DispatchAction {
 		List<GzclFault> list=null;
 		Connection conn=DBEntity.getInstance().getConnection();
 				
-		//查询
+				//查询服务订单
+		//查询服务订单
 		String sql="select de.*,e.registerid as registerid,e.distinguishid as distinguishid,e.install_place as place ,xu.name as username  " +
 				" from gzcl_fault de " +
 				" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
 				" left join xtgl_users xu on xu.id=de.duty_id "+  //电梯信息
 				"where  1=1 " ;
 				if(registerid!=null&&!registerid.equals("")){
+					registerid=new String(registerid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and e.registerid like '%"+registerid+"%'";
 				}
+				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and e.distinguishid like '%"+distinguishid+"%'";
+				}
 				if(place!=null&&!place.equals("")){
+					place=new String(place.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and e.install_Place like '%"+place+"%'";
 				}
-				if(begintime!=null&&!begintime.equals("")){
-					sql+=" and de.happen_Time  >=to_date('" + begintime+ "','yyyy-MM-dd hh24:mi:ss')";
+				if(type!=null&&!type.equals("")){
+					type=new String(type.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and de.type= '"+type+"'";
 				}
-				if(endtime!=null&&!endtime.equals("")){
-					sql+=" and de.happen_Time  <=to_date('" + endtime+ "','yyyy-MM-dd hh24:mi:ss')";
+				if(startTime!=null&&!startTime.equals("")){
+					sql+=" and de.happen_Time  >=to_date('" + startTime+ "','yyyy-MM-dd hh24:mi:ss')";
 				}
-				sql+="  and de.state!='处理中' order by de.happen_Time desc";	
+				if(endTime!=null&&!endTime.equals("")){
+					sql+=" and de.happen_Time  <=to_date('" + endTime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				sql+="  and de.state!='处理中' order by de.found_Time desc,de.happen_Time desc";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
 				int siz=	DBEntity.getInstance().queryCount(sql);
 				page.setCount(siz);//总记录数
 				page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
-
 				PreparedStatement sta = conn.prepareStatement(sql1);
 				ResultSet rs = sta.executeQuery();
 				list=new ArrayList<GzclFault>();
@@ -514,16 +570,17 @@ public class GzclFaultAction extends DispatchAction {
 					
 				}
 				request.setAttribute("registerid", registerid);
+				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("place", place);
-				if(endtime!=null){
-					request.setAttribute("endtime", df.parse( endtime));
+				request.setAttribute("type", type);
+				if(startTime!=null){
+					request.setAttribute("startTime", df.parse( startTime));
 				}
-				if(begintime!=null){
-					request.setAttribute("begintime", df.parse( begintime));
+				if(endTime!=null){
+					request.setAttribute("endTime", df.parse( endTime));
 				}
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
-		
 		
 		 return	new ActionForward("/jsp/gzgl/fault/faultList1.jsp");
 		}

@@ -367,22 +367,16 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 	 */
 	public ActionForward  query1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
-		String name=request.getParameter("name");
-		String code=request.getParameter("code");
-		String liaisons=request.getParameter("liaisons");
-		
 		String id=request.getParameter("id");
 		String id1=request.getParameter("id1");
 		
-		if(name!=null){
-			name=new String(name.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(code!=null){
-			 code=new String(code.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(liaisons!=null){
-			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
-		 }
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
+		String name=request.getParameter("name");
+		String liaisons=request.getParameter("liaisons");
+		String address=request.getParameter("address");
+		String phone=request.getParameter("phone");
 		
 		String num=request.getParameter("num");   //当前页
 		
@@ -399,14 +393,34 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 				
 				//查询服务订单
 				String sql="select de.*  from Xtgl_maintenance_unit de where  1=1 " ;
+			
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and area  ='" + area+ "'";
+				}
 				if(name!=null&&!name.equals("")){
+					name=new String(name.getBytes("iso-8859-1"),"utf-8");
 					sql+=" and name like '%"+name+"%'";
 				}
-				if(code!=null&&!code.equals("")){
-					sql+=" and code like '%"+code+"%'";
-				}
 				if(liaisons!=null&&!liaisons.equals("")){
+					 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
 					sql+=" and liaisons like '%"+liaisons+"%'";
+				}
+				if(phone!=null&&!phone.equals("")){
+					phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and phone like '%"+phone+"%'";
+				}
+				if(address!=null&&!address.equals("")){
+					address=new String(address.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and address like '%"+address+"%'";
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -426,24 +440,135 @@ public class XtglMaintenanceUnitAction  extends DispatchAction {
 					elevator.setAddress(rs.getString("address"));
 					elevator.setCode(rs.getString("code"));
 					elevator.setCorporation(rs.getString("corporation"));
-					
+					elevator.setProvince(rs.getString("province"));
+					elevator.setCity(rs.getString("city"));
+					elevator.setArea(rs.getString("area"));
 					String sql2="select count(*)  from Xtgl_maintenance_users de where  1=1  and unit_Id = '"+rs.getLong("id")+"'";
 					int n=DBEntity.getInstance().queryDataCount(sql2);
 					elevator.setNum(n);
 					list.add(elevator);
 					
 				}
-				
-				request.setAttribute("id", id);
-				request.setAttribute("id1", id1);
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
 				request.setAttribute("name", name);
-				request.setAttribute("code", code);
+				request.setAttribute("address", address);
 				request.setAttribute("liaisons", liaisons);
+				request.setAttribute("phone", phone);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
-		
+				request.setAttribute("id", id);
+				request.setAttribute("id1", id1);
 		
 		 return	new ActionForward("/jsp/comm/selectMaintenanceUnitList.jsp");
+		}
+
+	/**
+	 * 选择 维保单位列表
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  query2(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		String id=request.getParameter("id");
+		String id1=request.getParameter("id1");
+		
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
+		String name=request.getParameter("name");
+		String liaisons=request.getParameter("liaisons");
+		String address=request.getParameter("address");
+		String phone=request.getParameter("phone");
+		
+		String num=request.getParameter("num");   //当前页
+		
+
+		Page  page=new Page();
+		if(num!=null&&!num.equals("")){
+			page.setPageNum(Integer.parseInt(num));//当前页数
+		}else{
+			page.setPageNum(0);//当前页数
+		}
+		
+		List<XtglMaintenanceUnit> list=null;
+		Connection conn=DBEntity.getInstance().getConnection();
+				
+				//查询服务订单
+				String sql="select de.*  from Xtgl_maintenance_unit de where  1=1 " ;
+			
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and area  ='" + area+ "'";
+				}
+				if(name!=null&&!name.equals("")){
+					name=new String(name.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and name like '%"+name+"%'";
+				}
+				if(liaisons!=null&&!liaisons.equals("")){
+					 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and liaisons like '%"+liaisons+"%'";
+				}
+				if(phone!=null&&!phone.equals("")){
+					phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and phone like '%"+phone+"%'";
+				}
+				if(address!=null&&!address.equals("")){
+					address=new String(address.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and address like '%"+address+"%'";
+				}
+				sql+=" order by id";	
+				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
+				int siz=	DBEntity.getInstance().queryCount(sql);
+				page.setCount(siz);//总记录数
+				page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
+
+				PreparedStatement sta = conn.prepareStatement(sql1);
+				ResultSet rs = sta.executeQuery();
+				list=new ArrayList<XtglMaintenanceUnit>();
+				while(rs.next()){
+					XtglMaintenanceUnit elevator=new XtglMaintenanceUnit();
+					elevator.setId(rs.getLong("id"));
+					elevator.setName(rs.getString("name"));
+					elevator.setLiaisons(rs.getString("liaisons"));
+					elevator.setPhone(rs.getString("phone"));
+					elevator.setAddress(rs.getString("address"));
+					elevator.setCode(rs.getString("code"));
+					elevator.setCorporation(rs.getString("corporation"));
+					elevator.setProvince(rs.getString("province"));
+					elevator.setCity(rs.getString("city"));
+					elevator.setArea(rs.getString("area"));
+					String sql2="select count(*)  from Xtgl_maintenance_users de where  1=1  and unit_Id = '"+rs.getLong("id")+"'";
+					int n=DBEntity.getInstance().queryDataCount(sql2);
+					elevator.setNum(n);
+					list.add(elevator);
+					
+				}
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
+				request.setAttribute("name", name);
+				request.setAttribute("address", address);
+				request.setAttribute("liaisons", liaisons);
+				request.setAttribute("phone", phone);
+				request.setAttribute("page", page);
+				request.setAttribute("list", list);
+				request.setAttribute("id", id);
+				request.setAttribute("id1", id1);
+		
+		 return	new ActionForward("/jsp/comm/selectMaintenanceUnitList1.jsp");
 		}
 	/**
 	 *   excel导入数据

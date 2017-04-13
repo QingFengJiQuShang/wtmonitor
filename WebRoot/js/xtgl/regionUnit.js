@@ -65,9 +65,11 @@ upload=function(){
     		  window.location.href="regionUnitAction.do?method=export"+gotoUrl ();
          }
 		  
-		   //模糊查询
+		     //模糊查询
 		function query1(){
-    		  window.location.href="regionUnitAction.do?method=query1"+gotoUrl();
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="regionUnitAction.do?method=query1&id="+id+"&id1="+id1+gotoUrl();
 		  }
 		//列表分页  
 		  function fenye1(num){

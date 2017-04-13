@@ -1,17 +1,25 @@
 	function gotoUrl (){
 			 var registerid= document.getElementById("registerid").value;
+			 var distinguishid= document.getElementById("distinguishid").value;
 			 var place= document.getElementById("place").value;
-			 var time= document.getElementById("time").value;
+			var startTime= document.getElementById("startTime").value;
+			 var endTime= document.getElementById("endTime").value;
 			 
 			  var url="";
 			  if(registerid!=""){
 				  url=url+"&registerid="+registerid;
 			  }
+			  if(distinguishid!=""){
+				  url=url+"&distinguishid="+distinguishid;
+			  }
 			  if(place!=""){
 				  url=url+"&place="+place;
 			  }
-			   if(time!=""){
-				  url=url+"&time="+time;
+			   if(startTime!=""){
+				  url=url+"&startTime="+startTime;
+			  }
+			    if(endTime!=""){
+				  url=url+"&endTime="+endTime;
 			  }
 			  return url;
 		  }

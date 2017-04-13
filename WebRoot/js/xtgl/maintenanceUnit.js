@@ -76,7 +76,18 @@ upload=function(){
 			 var id1= document.getElementById("id1").value;
     		  window.location.href="maintenanceUnitAction.do?method=query1&num="+num+"&id="+id+"&id1="+id1+gotoUrl();
          }
-		  
+		   //选择模糊查询
+		function query2(){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="maintenanceUnitAction.do?method=query2&id="+id+"&id1="+id1+gotoUrl();
+		  }
+		  //选择列表分页  
+		  function fenye2(num){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="maintenanceUnitAction.do?method=query2&num="+num+"&id="+id+"&id1="+id1+gotoUrl();
+         }
 		  	//		批量删除
 $(".del").click(function() {
 	var ids="";

@@ -63,7 +63,7 @@
 	font-size: 13px;
 	font-weight: 700;
 	font-size: 13px;
-	color: #d4d4d4;
+	/**color: #d4d4d4;*/
 	text-indent: 10px;
 }
 .select p select {

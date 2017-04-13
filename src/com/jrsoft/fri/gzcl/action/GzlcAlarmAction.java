@@ -85,6 +85,7 @@ public class GzlcAlarmAction  extends DispatchAction {
 		elevator.setTime(df.parse(time));
 		elevator.setHappenTime(df.parse(happenTime));
 		elevator.setDuty(user.getName());
+		elevator.setFoundTime(new Date());
 		alarmService.save(elevator);
 		//生成当前故障
 		GzclFault fault=new GzclFault();
@@ -93,6 +94,7 @@ public class GzlcAlarmAction  extends DispatchAction {
 		fault.setAlarmTime(elevator.getTime());
 		fault.setHappenTime(elevator.getHappenTime());
 		fault.setFaultType(elevator.getFault());
+		fault.setFoundTime(new Date());
 		fault.setNumbers("0");
 		fault.setType("人工接警");
 		fault.setState("处理中");
@@ -122,13 +124,14 @@ public class GzlcAlarmAction  extends DispatchAction {
 	throws Exception {
 		String registerid=request.getParameter("registerid");
 		String place=request.getParameter("place");
-		String time=request.getParameter("time");
+		String distinguishid=request.getParameter("distinguishid");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
 		
 		String num=request.getParameter("num");   //当前页
 		
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Page  page=new Page();
-		page.setPageSize(3);	//每页显示数
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
 		}else{
@@ -145,15 +148,24 @@ public class GzlcAlarmAction  extends DispatchAction {
 						" left join xtgl_use_unit xuu on xuu.id=e.use_unit_id "+  //使用单位
 						"where  1=1 " ;
 				if(registerid!=null&&!registerid.equals("")){
+					registerid=new String(registerid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and e.registerid like '%"+registerid+"%'";
 				}
+				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and e.distinguishid like '%"+distinguishid+"%'";
+				}
 				if(place!=null&&!place.equals("")){
+					place=new String(place.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and e.install_Place like '%"+place+"%'";
 				}
-				if(time!=null&&!time.equals("")){
-					sql+=" and de.time  =to_date('" + time+ "','yyyy-MM-dd')";
+				if(startTime!=null&&!startTime.equals("")){
+					sql+=" and de.time  >=to_date('" + startTime+ "','yyyy-MM-dd hh24:mi:ss')";
 				}
-				sql+=" order by de.time desc";	
+				if(endTime!=null&&!endTime.equals("")){
+					sql+=" and de.time  <=to_date('" + endTime+ "','yyyy-MM-dd hh24:mi:ss')";
+				}
+				sql+=" order by de.found_Time desc, de.time desc";	
 				int siz=	DBEntity.getInstance().queryCount(sql);
 				page.setCount(siz);//总记录数
 				page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
@@ -181,9 +193,13 @@ public class GzlcAlarmAction  extends DispatchAction {
 					
 				}
 				request.setAttribute("registerid", registerid);
+				request.setAttribute("distinguishid", distinguishid);
 				request.setAttribute("place", place);
-				if(time!=null){
-					request.setAttribute("time", df.parse( time));
+				if(startTime!=null){
+					request.setAttribute("startTime", df.parse( startTime));
+				}
+				if(endTime!=null){
+					request.setAttribute("endTime", df.parse( endTime));
 				}
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);

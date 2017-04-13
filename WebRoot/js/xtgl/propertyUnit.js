@@ -67,13 +67,29 @@ upload=function(){
 		  
 		   //模糊查询
 		function query1(){
-    		  window.location.href="propertyUnitAction.do?method=query1"+gotoUrl();
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="propertyUnitAction.do?method=query1&id="+id+"&id1="+id1+gotoUrl();
+		
 		  }
 		//列表分页  
 		  function fenye1(num){
 			 var id= document.getElementById("id").value;
 			 var id1= document.getElementById("id1").value;
     		  window.location.href="propertyUnitAction.do?method=query1&num="+num+"&id="+id+"&id1="+id1+gotoUrl();
+         }
+		  //模糊查询
+		function query2(){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="propertyUnitAction.do?method=query2&id="+id+"&id1="+id1+gotoUrl();
+		
+		  }
+		//列表分页  
+		  function fenye2(num){
+			 var id= document.getElementById("id").value;
+			 var id1= document.getElementById("id1").value;
+    		  window.location.href="propertyUnitAction.do?method=query2&num="+num+"&id="+id+"&id1="+id1+gotoUrl();
          }
 		  	//		批量删除
 $(".del").click(function() {

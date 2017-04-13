@@ -79,13 +79,13 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		DtjkFrom DtjkFrom=(DtjkFrom)form;
 		DtjkYearlyInspection elevator =DtjkFrom.getInspection();
-		elevator.setTime(df.parse(time));
-		elevator.setNextTime(df.parse(nextTime));
+		elevator.setTime(time==null?null:df.parse(time));
+		elevator.setNextTime(nextTime==null?null:df.parse(nextTime));
 		inspectionService.save(elevator);
 		//修改电梯的年检状态和年检时间
 		DtjkElevator entity =elevatorService.get(elevator.getElevatorId().getId());
-		entity.setYearlyTime(df.parse(time));
-		entity.setNextTime(df.parse(nextTime));
+		entity.setYearlyTime(elevator.getTime());
+		entity.setNextTime(elevator.getNextTime());
 		entity.setYearlyState(elevator.getResult());
 		elevatorService.update(entity);
 		
@@ -223,11 +223,17 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		DtjkYearlyInspection unit =DtjkFrom.getInspection();
 		String time=request.getParameter("time");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
-		unit.setTime(df.parse(time));
-			
+		unit.setTime(time==null?null:df.parse(time));
+		String nextTime=request.getParameter("nextTime");
+		unit.setNextTime(nextTime==null?null:df.parse(nextTime));
 		inspectionService.update(unit);
+		
 		DtjkElevator entity =elevatorService.get(unit.getElevatorId().getId());
-
+		entity.setYearlyTime(time==null?null:df.parse(time));
+		entity.setNextTime(nextTime==null?null:df.parse(nextTime));
+		entity.setYearlyState(unit.getResult());
+		elevatorService.update(entity);
+		
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
@@ -251,7 +257,12 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 		String elevatorId=request.getParameter("elevatorId");
 		DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
 		inspectionService.delete(id);
-		
+		String hql=" where  elevatorId='"+elevatorId+"' ";
+		List<DtjkYearlyInspection> list=inspectionService.query(hql);
+		if(list.size()==0){
+			entity.setNextTime(null);
+			elevatorService.update(entity);
+		}
 
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
@@ -270,17 +281,23 @@ public class DtjkYearlyInspectioAction extends DispatchAction {
 			throws Exception {
 		String ids=request.getParameter("ids");
 		String elevatorId=request.getParameter("elevatorId");
+		DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
 
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
-				DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
 				inspectionService.delete(Long.parseLong(arr[i]));
 				//生成 操作日志
 				XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				Log log=new Log();
 		        log.addLog(user.getName(), "删除电梯年检记录，电梯注册号："+entity.getRegisterid(), "1");
 			}
+		}
+		String hql=" where  elevatorId='"+elevatorId+"' ";
+		List<DtjkYearlyInspection> list=inspectionService.query(hql);
+		if(list.size()==0){
+			entity.setNextTime(null);
+			elevatorService.update(entity);
 		}
 		 return	new ActionForward("/inspectionAction.do?method=query&elevatorId="+elevatorId);
 		

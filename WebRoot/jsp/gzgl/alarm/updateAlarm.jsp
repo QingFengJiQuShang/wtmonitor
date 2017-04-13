@@ -23,11 +23,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/xtgl/user/add_user.css" />
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list_add.css" />
 		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
+<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
 
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
 		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
 		
 	</head>
 
@@ -58,8 +59,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text" id="place"  value="${list.elevatorId.installPlace}"   readonly="readonly"    />
 					</p>
 					<p class="fill">
-						<label for="man">接警日期&nbsp;:&nbsp;</label>
-						<input type="text" id="time"  name="time"  value="<fmt:formatDate value="${list.time}"  pattern='yyyy-MM-dd'/>"/>
+						<label for="man">接警时间&nbsp;:&nbsp;</label>
+						<input type="text"  class="Wdate"  id="time"  name="time"  value="<fmt:formatDate value="${list.time}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+					</p>
+						<p class="fill">
+						<label for="man">故障发生时间&nbsp;:&nbsp;</label>
+						<input type="text"  class="Wdate"  id="happenTime"  name="happenTime"  value="<fmt:formatDate value="${list.happenTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
 					</p>
 					<p class="fill">
 						<label for="phone">报警人&nbsp;:&nbsp;</label>

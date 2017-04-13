@@ -37,6 +37,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<div class="clearfix">
 					<p class="fl">
 						<label for="user">注册号&nbsp;:&nbsp;</label>
+						<input type="hidden"  id="flag" name="flag" value="1">
 						<input type="text" id="registerid"  value="${registerid}"  placeholder="请输入" />
 					</p>
 					<p class="fl">
@@ -62,7 +63,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 				<div class="table">
 					<div class="or clearfix">
 
-
+						<%if(Authority.haveRigth(user.getId(),"dtjk_dtlb_exp")) {%>
+						<p class="fl add" onclick="exp1('1');" style="width: 100px;">下载</p>
+            			<%} %>
 					</div>
 				<div class="table_con">
 						<table border="" cellspacing="" cellpadding="">

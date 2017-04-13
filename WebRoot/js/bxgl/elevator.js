@@ -28,7 +28,7 @@
 		  }
 	   //模糊查询
 		function query(){
-    		  window.location.href="elevatorAction.do?method=query"+gotoUrl();
+    		  window.location.href="safeAction.do?method=queryElevator"+gotoUrl();
 		  }
 		
 		//列表分页  
@@ -36,4 +36,7 @@
 			
     		  window.location.href="elevatorAction.do?method=query&num="+num+gotoUrl();
          }
-		 
+		   //下载  
+		 function exp1(SafeState){
+    		  window.location.href="elevatorAction.do?method=export&SafeState="+SafeState+gotoUrl ();
+         }

@@ -54,5 +54,8 @@
          <property name="faultType" type="java.lang.String">
             <column name="FAULT_TYPE" length="50" />
         </property>
+         <property name="foundTime" type="java.util.Date">
+            <column name="FOUND_TIME" length="7" />
+        </property>
     </class>
 </hibernate-mapping>

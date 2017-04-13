@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>物业单位</title>
+    <title>使用单位</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="phone">联系人电话&nbsp;:&nbsp;</label>
 						<input type="text" id="phone"  name="phone"  value="${phone}"/>
 					</p>
-					<button class="fl"  onclick="query1();">查询</button>
+					<button class="fl"  onclick="query2();">查询</button>
 					</div>
 				</div>
 				
@@ -107,10 +107,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<i></i>
 								</th>
 								<th>序列</th>
-								<th>物业单位名称</th>
+								<th>使用单位名称</th>
 								<th>联系人</th>
 								<th>联系人电话</th>
-								<th>物业单位地址</th>
+								<th>使用单位地址</th>
 								<th>省</th>
 								<th>市</th>
 								<th>区</th>
@@ -120,7 +120,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<tr>
 									<td class="wei">
 										<i class=""  data-e="${list.id }" data="${list.name }"></i>
-										
 									</td>
 									<td>${s.index + 1 }</td>
 									<td>${list.name }</td>
@@ -138,22 +137,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="choose">
 							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
-								<a href="javascript:void(0);"  title="首页" onclick="fenye1('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
+								<a href="javascript:void(0);"  title="首页" onclick="fenye2('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
 								
 								<c:if test="${page.pageNum==0}">
 										<a href="javascript:void(0);"  title="上一页"   style="background-color: #333;color: #fff;"><</a>
 								 </c:if>
 							 	 <c:if test="${page.pageNum!=0}">
-							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye1('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
+							 	 		<a href="javascript:void(0);"  title="上一页"  onclick="fenye2('${page.pageNum-1	}')"  style="background-color: #00AAEE;color: #fff;"><</a>
                          		</c:if>
 								
 								<c:if test="${page.pageNum+1==page.countSize}">
                         				<a href="javascript:void(0);" title="下一页"  style="background-color: #333;color: #fff;">></a>
 		                        </c:if>
 		                        <c:if test="${page.pageNum+1!=page.countSize}">
-		                        		<a href="javascript:void(0);"  title="下一页"  onclick="fenye1('${page.pageNum+1}')"  style="background-color: #00AAEE;color: #fff;">></a>
+		                        		<a href="javascript:void(0);"  title="下一页"  onclick="fenye2('${page.pageNum+1}')"  style="background-color: #00AAEE;color: #fff;">></a>
 		                    	</c:if>
-								<a href="javascript:void(0);" class="mo" title="尾页"  onclick="fenye1('${page.countSize-1}')"  style="background-color: #00AAEE;color: #fff;">>></a>
+								<a href="javascript:void(0);" class="mo" title="尾页"  onclick="fenye2('${page.countSize-1}')"  style="background-color: #00AAEE;color: #fff;">>></a>
 							</div>
 						</div>
 					</div>
@@ -167,7 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/xtgl/safeUnit.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtgl/useUnit.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 	function onSure(){
 		
@@ -183,14 +182,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 	 var id=ids.split(",");
 	 var name=names.split(",");
-	//	alert(id.length+","+id);
-	 if(id.length>2){
-	 	alert("只能选择一条数据！");
+	 if(id.length==1){
+	 	alert("请选择数据！");
 	 	return;
 	 }
-	 window.parent.document.getElementById('${id}').value=id[0];
-	 window.parent.document.getElementById('${id1}').value=name[0];
-	 
+	 for(var i=0; i<id.length; i+=1){
+		 if(name[i]!=""){
+			  $('#${id}',window.parent.document).append("<option value='"+id[i]+"' selected='selected' >"+name[i]+"</option>");	 
+			  $('#${id1}',window.parent.document).append("<option value='"+name[i]+"' selected='selected' >"+name[i]+"</option>");	 
+			window.parent.document.getElementById('${id}').focus();
+		 }			
+  	}
 	 window.parent.JqueryDialog.Close();
  }
 	

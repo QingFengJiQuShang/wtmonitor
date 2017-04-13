@@ -23,7 +23,7 @@ public class ServiceState implements Job {
 		String time=df.format(new Date());
 		try {
 			//修改 服务期内的电梯服务状态
-			String	sql="update DTJK_ELEVATOR t set t.safe_State='1' where (select count(ds.id) from Dtjk_Service ds where ds.elevator_id = t.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd')) > 0 and t.delflag!='1' ";
+			String	sql="update DTJK_ELEVATOR t set t.service_State='1' where (select count(ds.id) from Dtjk_Service ds where ds.elevator_id = t.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd')) > 0 and t.delflag!='1' ";
 			DBEntity.getInstance().executeSql(sql);
 			//修改 不在服务期内的电梯服务状态
 			sql="update DTJK_ELEVATOR t set t.service_State='0' where (select count(ds.id) from Dtjk_Service ds where ds.elevator_id = t.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd')) = 0 and t.delflag!='1' ";

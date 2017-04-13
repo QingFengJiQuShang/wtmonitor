@@ -1,28 +1,39 @@
 	function gotoUrl (){
 			 var registerid= document.getElementById("registerid").value;
+			 var distinguishid= document.getElementById("distinguishid").value;
 			 var place= document.getElementById("place").value;
-			 var begintime= document.getElementById("begintime").value;
-			 var endtime= document.getElementById("endtime").value;
-			 
+			 var startTime= document.getElementById("startTime").value;
+			 var endTime= document.getElementById("endTime").value;
+			  var type= document.getElementById("type").value;
+			  
 			  var url="";
 			  if(registerid!=""){
 				  url=url+"&registerid="+registerid;
 			  }
+			  if(distinguishid!=""){
+				  url=url+"&distinguishid="+distinguishid;
+			  }
 			  if(place!=""){
 				  url=url+"&place="+place;
 			  }
-			  if(begintime!=""){
-				  url=url+"&begintime="+begintime;
+			   if(startTime!=""){
+				  url=url+"&startTime="+startTime;
 			  }
-			   if(endtime!=""){
-				  url=url+"&endtime="+endtime;
+			    if(endTime!=""){
+				  url=url+"&endTime="+endTime;
 			  }
-			   
+			  if(type!=""){
+				  url=url+"&type="+type;
+			  }
 			  return url;
 		  }
 	   //模糊查询
 		function query(){
     		  window.location.href="faultAction.do?method=query"+gotoUrl();
+		  }
+		 //模糊查询
+		function query(){
+    		  window.location.href="faultAction.do?method=query1"+gotoUrl();
 		  }
 		//添加
 		function add(){

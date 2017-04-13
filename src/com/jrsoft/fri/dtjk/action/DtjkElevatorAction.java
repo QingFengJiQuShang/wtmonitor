@@ -983,7 +983,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
         log.addLog(user.getName(), "修改电梯流量，电梯注册号："+elevator.getRegisterid(), "1");
-		return	new ActionForward("/elevatorAction.do?method=query");
+		return	new ActionForward("/elevatorAction.do?method=queryManage");
 	}
 	
 	/**
@@ -1049,6 +1049,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		String useUnitName=request.getParameter("useUnitName");
 		String brand=request.getParameter("brand");
 		String numbers=request.getParameter("numbers");
+		String SafeState=request.getParameter("SafeState");
 		DtjkElevator elevator=new DtjkElevator();
 		
 		 if(register!=null){
@@ -1070,6 +1071,9 @@ public class DtjkElevatorAction extends DispatchAction{
 		 if(numbers!=null){
 			 numbers=new String(numbers.getBytes("iso-8859-1"),"utf-8");
 			 elevator.setNumbers(numbers);
+		 }
+		 if(SafeState!=null){
+			 elevator.setSafeState(SafeState);
 		 }
 		
 		try {
@@ -1377,71 +1381,76 @@ public class DtjkElevatorAction extends DispatchAction{
 		{
 			DtjkElevator entity =new DtjkElevator();
 			row = sheet.getRow(r);
-			entity.setRegisterid(row.getCell(0).getStringCellValue());
-			entity.setDistinguishid(row.getCell(1).getStringCellValue());
-			entity.setBrand(row.getCell(2).getStringCellValue());
-			entity.setModel(row.getCell(3).getStringCellValue());
-			entity.setType(row.getCell(4).getStringCellValue());   		//电梯类型
-			entity.setSpeed(row.getCell(5).getStringCellValue());   		//电梯速度
-			entity.setNumbers(row.getCell(6).getStringCellValue());   		//总层数
-			entity.setRegisterState(row.getCell(7).getStringCellValue());   		//注册状态
-			entity.setLabel(row.getCell(8).getStringCellValue());   		//地图标注
-			entity.setIp(row.getCell(9).getStringCellValue());					//视频ip
-			entity.setFlowStart(row.getCell(10).getStringCellValue()==null?null:df.parse(row.getCell(10).getStringCellValue()));					//视频ip
-			entity.setFlowEnd(row.getCell(11).getStringCellValue()==null?null:df.parse(row.getCell(11).getStringCellValue()));					//视频ip
-			entity.setProvince(row.getCell(12).getStringCellValue());   		//省
-			entity.setCity(row.getCell(13).getStringCellValue());   		//市
-			entity.setArea(row.getCell(14).getStringCellValue());   		//区
+			entity.setRegisterid(row.getCell(0)==null?null:row.getCell(0).getStringCellValue());
+			entity.setDistinguishid(row.getCell(1)==null?null:row.getCell(1).getStringCellValue());
+			entity.setBrand(row.getCell(2)==null?null:row.getCell(2).getStringCellValue());
+			entity.setModel(row.getCell(3)==null?null:row.getCell(3).getStringCellValue());
+			entity.setType(row.getCell(4)==null?null:row.getCell(4).getStringCellValue());   		//电梯类型
+			entity.setSpeed(row.getCell(5)==null?null:row.getCell(5).getStringCellValue());   		//电梯速度
+			entity.setNumbers(row.getCell(6)==null?null:row.getCell(6).getStringCellValue());   		//总层数
+			entity.setRegisterState(row.getCell(7)==null?null:row.getCell(7).getStringCellValue());   		//注册状态
+			entity.setLabel(row.getCell(8)==null?null:row.getCell(8).getStringCellValue());   		//地图标注
+			entity.setIp(row.getCell(9)==null?null:row.getCell(9).getStringCellValue());					//视频ip
+			entity.setFlowStart(row.getCell(10)==null?null:df.parse(row.getCell(10).getStringCellValue()));					//视频ip
+			entity.setFlowEnd(row.getCell(11)==null?null:df.parse(row.getCell(11).getStringCellValue()));					//视频ip
+			entity.setProvince(row.getCell(12)==null?null:row.getCell(12).getStringCellValue());   		//省
+			entity.setCity(row.getCell(13)==null?null:row.getCell(13).getStringCellValue());   		//市
+			entity.setArea(row.getCell(14)==null?null:row.getCell(14).getStringCellValue());   		//区
 			
 			//使用单位 查询
 			XtglUseUnit useUnit=null;
-			if(row.getCell(15).getStringCellValue()!=null&&!row.getCell(15).getStringCellValue().equals("")){
+			if(row.getCell(15)!=null&&!row.getCell(15).getStringCellValue().equals("")){
 				String hql=" where 1=1 and name='"+row.getCell(15).getStringCellValue()+"'";
 				useUnit=useUnitService.query(hql).get(0);
 			}
 			entity.setUseUnitId(useUnit);   		//使用单位名称
-			entity.setUseUnitLiaisons(row.getCell(16).getStringCellValue());   		//使用单位负责人
-			entity.setUseUnitPhone(row.getCell(17).getStringCellValue());   		//使用单位负责人电话
+			entity.setUseUnitLiaisons(row.getCell(16)==null?null:row.getCell(16).getStringCellValue());   		//使用单位负责人
+			entity.setUseUnitPhone(row.getCell(17)==null?null:row.getCell(17).getStringCellValue());   		//使用单位负责人电话
 			
 			//制造单位查询
 			XtglMakeUnit makeUnit=null;
-			if(row.getCell(18).getStringCellValue()!=null&&!row.getCell(18).getStringCellValue().equals("")){
+			if(row.getCell(18)!=null&&!row.getCell(18).getStringCellValue().equals("")){
 				String hql=" where 1=1 and name='"+row.getCell(18).getStringCellValue()+"'";
-				makeUnit=makeUnitService.query(hql).get(0);
+				List<XtglMakeUnit> unit=makeUnitService.query(hql);
+				if(unit.size()>0)makeUnit=unit.get(0);
 			}
 			entity.setMakeUnitId(makeUnit);   			//制造单位
 
 			//物业单位查询
 			XtglPropertyUnit propertyUnit=null;
-			if(row.getCell(19).getStringCellValue()!=null&&!row.getCell(19).getStringCellValue().equals("")){
+			if(row.getCell(19)!=null&&!row.getCell(19).getStringCellValue().equals("")){
 				String hql=" where 1=1 and name='"+row.getCell(19).getStringCellValue()+"'";
-				propertyUnit=propertyUnitService.query(hql).get(0);
+				List<XtglPropertyUnit> unit=propertyUnitService.query(hql);
+				if(unit.size()>0)propertyUnit=unit.get(0);
 			}
 			entity.setPropertyUnitId(propertyUnit);   		//物业单位名称
-			entity.setPropertyUnitLiaisons(row.getCell(20).getStringCellValue());   		//物业单位负责人
-			entity.setUseUnitPhone(row.getCell(21).getStringCellValue());   				//物业单位负责人电话
+			entity.setPropertyUnitLiaisons(row.getCell(20)==null?null:row.getCell(20).getStringCellValue());   		//物业单位负责人
+		
+			entity.setUseUnitPhone(row.getCell(21)==null?"":row.getCell(21).getStringCellValue());   				//物业单位负责人电话
 			//维保单位
 			XtglMaintenanceUnit maintenanceUnit=null;
-			if(row.getCell(22).getStringCellValue()!=null&&!row.getCell(22).getStringCellValue().equals("")){
+			if(row.getCell(22)!=null&&!row.getCell(22).getStringCellValue().equals("")){
 				String hql=" where 1=1 and name='"+row.getCell(22).getStringCellValue()+"'";
-				maintenanceUnit=maintenanceUnitService.query(hql).get(0);
+				List<XtglMaintenanceUnit> unit=maintenanceUnitService.query(hql);
+				if(unit.size()>0)maintenanceUnit=unit.get(0);
 			}
 			entity.setMaintenanceUnitId(maintenanceUnit);		//维保单位
 			//维保单位
 			XtglMaintenanceUsers maintenanceUsers=null;
-			if(row.getCell(23).getStringCellValue()!=null&&!row.getCell(23).getStringCellValue().equals("")){
+			if(row.getCell(23)!=null&&!row.getCell(23).getStringCellValue().equals("")){
 				String hql=" where 1=1 and name='"+row.getCell(23).getStringCellValue()+"'";
-				maintenanceUsers=maintenanceUsersService.query(hql).get(0);
+				List<XtglMaintenanceUsers> unit=maintenanceUsersService.query(hql);
+				if(unit.size()>0)maintenanceUsers=unit.get(0);
 			}
 			entity.setMaintenanceUsersId(maintenanceUsers);		//维保人员
 
-			entity.setInstallPlace(row.getCell(24).getStringCellValue());   		//安装地点
-			entity.setInstallUnit(row.getCell(25).getStringCellValue());   		//安装单位
-			entity.setInstallUser(row.getCell(26).getStringCellValue());   		//安装人
-			entity.setInstallTime(row.getCell(27).getStringCellValue()==null?null:df.parse(row.getCell(27).getStringCellValue()));   		//安装时间
-			entity.setManufactureTime(row.getCell(28).getStringCellValue()==null?null:df.parse(row.getCell(28).getStringCellValue()));   		//生产日期
-			entity.setServiceIfe(row.getCell(29).getStringCellValue());   		//电梯使用年限
-			entity.setYearlyTime1(row.getCell(30).getStringCellValue()==null?null:df.parse(row.getCell(30).getStringCellValue()));   		//首次检查时间
+			entity.setInstallPlace(row.getCell(24)==null?null:row.getCell(24).getStringCellValue());   		//安装地点
+			entity.setInstallUnit(row.getCell(25)==null?null:row.getCell(25).getStringCellValue());   		//安装单位
+			entity.setInstallUser(row.getCell(26)==null?null:row.getCell(26).getStringCellValue());   		//安装人
+			entity.setInstallTime(row.getCell(27)==null?null:df.parse(row.getCell(27).getStringCellValue()));   		//安装时间
+			entity.setManufactureTime(row.getCell(28)==null?null:df.parse(row.getCell(28).getStringCellValue()));   		//生产日期
+			entity.setServiceIfe(row.getCell(29)==null?null:row.getCell(29).getStringCellValue());   		//电梯使用年限
+			entity.setYearlyTime1(row.getCell(30)==null?null:df.parse(row.getCell(30).getStringCellValue()));   		//首次检查时间
 			entity.setState("离线");
 			entity.setDelflag("0");
 			entity.setGatewayId(null);

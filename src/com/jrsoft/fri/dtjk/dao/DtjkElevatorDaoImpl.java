@@ -78,7 +78,14 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 			}
 			if(elevator.getNumbers()!=null&&!elevator.getNumbers().equals("")){
 				sql+=" and de.numbers = '"+elevator.getNumbers()+"'";
-			}			
+			}
+			if(elevator.getSafeState()!=null&&elevator.getSafeState().equals("1")){
+				sql+=" and de.Safe_State is null ";
+			}else if(elevator.getSafeState()!=null&&elevator.getSafeState().equals("2")){
+				sql+=" and de.Safe_State='1' ";
+			}else if(elevator.getSafeState()!=null&&elevator.getSafeState().equals("2")){
+				sql+=" and de.Safe_State='0' ";
+			}
 			sql+=" order by de.id";	
 			
 			PreparedStatement sta = conn.prepareStatement(sql);

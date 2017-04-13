@@ -28,6 +28,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script type="text/javascript" src="<%=path %>/js/jquery.js"></script>
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
 		
+		<script type="text/javascript" src="<%=path %>/js/jquery-1.9.1.min.js"></script>
+		<script src="<%=path%>/js/region.js" type="text/javascript" charset="utf-8"></script>
+		
 	<style type="text/css">
 	
 .or {
@@ -51,19 +54,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="warp">
-				<div class="select clearfix">
-					<p class="fl">
-						<label for="user">单位名称&nbsp;:&nbsp;</label>
-						<input type="hidden" id="id" value="${id}">
-						<input type="hidden" id="id1" value="${id1}">
-						<input type="text" id="name" placeholder="请输入"  value="${name}" />
+				<div class="select "  style="height: 110px;">
+					<div class="clearfix">
+						<p class="fl" >
+							<label for="logn">省&nbsp;:&nbsp;</label>
+							<input type="hidden"  id="id" value="${id}">
+							<input type="hidden"  id="id1" value="${id1}">
+							<input type="hidden"   id="provinceid"  >
+							<select   id="province"   >
+							<option value="${province}"  selected="selected">${province}</option>
+							</select>
 					</p>
-					
+						<p class="fl"  >
+						<label for="logn">市&nbsp;:&nbsp;</label>
+							<select   id="city" >
+							<option value="${city}"  selected="selected">${city}</option>
+							</select>
+					</p>
+					<p class="fl">
+							<label for="logn">区&nbsp;:&nbsp;</label>
+							<select   id="area" >
+								<option value="${area}"  selected="selected">${area}</option>
+							</select>
+						</p>
+						<p class="fl">
+							<label for="user">单位名称&nbsp;:&nbsp;</label>
+							<input type="text" id="name" placeholder="请输入"  value="${name}" />
+						</p>
+	
+						</div>
+					<div class="clearfix">
+					<p class="fl">
+						<label for="unit">单位地址&nbsp;:&nbsp;</label>
+						<input type="text" id="address" placeholder="请输入"  value="${address}" />
+					</p>
 					<p class="fl">
 						<label for="man">联系人&nbsp;:&nbsp;</label>
 						<input type="text" id="liaisons" placeholder="请输入"  value="${liaisons}"/>
 					</p>
+					<p class="fl">
+						<label for="phone">联系人电话&nbsp;:&nbsp;</label>
+						<input type="text" id="phone"  name="phone"  value="${phone}"/>
+					</p>
 					<button class="fl"  onclick="query1();">查询</button>
+					</div>
 				</div>
 				
 				<div class="table_con">
@@ -102,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</tbody>
 						</table>
 						<div class="choose">
-							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*5 }</c:if></span>到<span>${(page.pageNum+1)*5 }</span>条，共<span>${page.count }</span>条记录</p>
+							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
 								<a href="javascript:void(0);"  title="首页" onclick="fenye1('0')" style="background-color: #00AAEE;color: #fff;"><<</a>								
 								
@@ -133,7 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=path%>/js/xtgl/useUnit.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/xtgl/propertyUnit.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 	function onSure(){
 		

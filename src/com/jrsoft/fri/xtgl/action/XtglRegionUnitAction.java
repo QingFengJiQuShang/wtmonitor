@@ -360,22 +360,15 @@ public class XtglRegionUnitAction extends DispatchAction  {
 	 */
 	public ActionForward  query1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
-		String name=request.getParameter("name");
-		String liaisons=request.getParameter("liaisons");
-		String type=request.getParameter("type");
-		
 		String id=request.getParameter("id");
 		String id1=request.getParameter("id1");
-		
-		if(name!=null){
-			name=new String(name.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(liaisons!=null){
-			 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
-		 }
-		 if(type!=null){
-			 type=new String(type.getBytes("iso-8859-1"),"utf-8");
-		 }
+		String province=request.getParameter("province");
+		String city=request.getParameter("city");
+		String area=request.getParameter("area");
+		String name=request.getParameter("name");
+		String liaisons=request.getParameter("liaisons");
+		String address=request.getParameter("address");
+		String phone=request.getParameter("phone");
 		
 		String num=request.getParameter("num");   //当前页
 		
@@ -392,14 +385,33 @@ public class XtglRegionUnitAction extends DispatchAction  {
 				
 				//查询服务订单
 				String sql="select de.*  from Xtgl_Region_Unit de where  1=1 " ;
+				if(province!=null&&!province.equals("")){
+					province=new String(province.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and province  ='" + province+ "'";
+				}
+				if(city!=null&&!city.equals("")){
+					city=new String(city.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and city ='" + city+ "'";
+				}
+				if(area!=null&&!area.equals("")){
+					area=new String(area.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and area  ='" + area+ "'";
+				}
 				if(name!=null&&!name.equals("")){
+					name=new String(name.getBytes("iso-8859-1"),"utf-8");
 					sql+=" and name like '%"+name+"%'";
 				}
 				if(liaisons!=null&&!liaisons.equals("")){
+					 liaisons=new String(liaisons.getBytes("iso-8859-1"),"utf-8");
 					sql+=" and liaisons like '%"+liaisons+"%'";
 				}
-				if(type!=null&&!type.equals("")){
-					sql+=" and type like '%"+type+"%'";
+				if(phone!=null&&!phone.equals("")){
+					phone=new String(phone.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and phone like '%"+phone+"%'";
+				}
+				if(address!=null&&!address.equals("")){
+					address=new String(address.getBytes("iso-8859-1"),"utf-8");
+					sql+=" and address like '%"+address+"%'";
 				}
 				sql+=" order by id";	
 				String sql1="select * from ( select a.*,rownum rn from ("+sql+") a where rownum<="+page.getPageSize() * (page.getPageNum() +1)+") where rn>="+(page.getPageSize() * page.getPageNum()+1);
@@ -418,17 +430,23 @@ public class XtglRegionUnitAction extends DispatchAction  {
 					useUnit.setLiaisons(rs.getString("liaisons"));
 					useUnit.setPhone(rs.getString("phone"));
 					useUnit.setAddress(rs.getString("address"));
-					
+					useUnit.setProvince(rs.getString("province"));
+					useUnit.setCity(rs.getString("city"));
+					useUnit.setArea(rs.getString("area"));
 					list.add(useUnit);
 					
 				}
-				request.setAttribute("id", id);
-				request.setAttribute("id1", id1);
+				request.setAttribute("province",province );
+				request.setAttribute("city",city );
+				request.setAttribute("area",area );
 				request.setAttribute("name", name);
+				request.setAttribute("address", address);
 				request.setAttribute("liaisons", liaisons);
-				request.setAttribute("type", type);
+				request.setAttribute("phone", phone);
 				request.setAttribute("page", page);
 				request.setAttribute("list", list);
+				request.setAttribute("id", id);
+				request.setAttribute("id1", id1);
 		
 		
 		 return	new ActionForward("/jsp/comm/selectRegionUnitList.jsp");

@@ -24,6 +24,7 @@
 		<property name="faultService" ref="gzclFaultService" />
 		<property name="rescueUnitService" ref="xtglRescueUnitService" />
 		<property name="gzclRescueService" ref="gzclRescueService" />
+		<property name="succorService" ref="succorService" />
 	</bean>
 	<bean id="gzclFaultService" class="com.jrsoft.fri.gzcl.service.GzclFaultServiceImpl">
 		<property name="faultDao"  ref="gzclFaultDao" />
@@ -39,4 +40,13 @@
 	<bean id="gzclRescueDao" class="com.jrsoft.fri.gzcl.dao.GzclRescueDaoImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
+	<!-- 故障施救单位关系-->
+	<bean id="succorService" class="com.jrsoft.fri.gzcl.service.GzclSuccorServiceImpl">
+		<property name="succorDao"  ref="succorDao" />
+	</bean>
+	<bean id="succorDao" class="com.jrsoft.fri.gzcl.dao.GzclSuccorDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	
+	
 	</beans>

@@ -176,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</p>
 									<p class="clearfix">
 										<span class="fl">
-											门关不上
+											关门故障
 											<c:if test="${list.record.type=='门关不上'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
@@ -205,7 +205,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</c:if>
 										</span>
 										<span class="fr">
-											开门不到位
+											开门故障
 											<c:if test="${list.record.type=='开门不到位'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
@@ -216,7 +216,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</p>
 									<p class="clearfix">
 										<span class="fl">
-											非平层开门
+											门区外开门
 											<c:if test="${list.record.type=='非平层开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>

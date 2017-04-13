@@ -378,7 +378,7 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 			throws Exception {
 		Long id=Long.parseLong(request.getParameter("id"));
 		String elevatorId=request.getParameter("elevatorId");
-		DtjkElevator entity =elevatorService.get(id);
+		DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
 		recordsService.delete(id);
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
@@ -396,10 +396,11 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 	public ActionForward  deleteEntity(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 		String ids=request.getParameter("ids");
+		String elevatorId=request.getParameter("elevatorId");
+		DtjkElevator entity =elevatorService.get(Long.parseLong(elevatorId));
 		if(ids!=null&&!ids.equals("")){
 			String  arr []=ids.split(",");
 			for(int i=0;i<arr.length;i++){
-				DtjkElevator entity =elevatorService.get(Long.parseLong(arr[i]));
 				recordsService.delete(Long.parseLong(arr[i]));
 				
 				//生成 操作日志
@@ -408,7 +409,7 @@ public class DtjkMaintenanceRecordsAction extends DispatchAction {
 		        log.addLog(user.getName(), "删除电梯维保记录，电梯注册号："+entity.getRegisterid(), "1");
 			}
 		}
-		 return	new ActionForward("/recordsAction.do?method=query");
+		 return	new ActionForward("/recordsAction.do?method=query&elevatorId="+elevatorId);
 		
 	}
 	

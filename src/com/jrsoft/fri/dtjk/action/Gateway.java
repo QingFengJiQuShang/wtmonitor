@@ -174,7 +174,7 @@ public class Gateway {
     		String serialNumber=str.substring(48,70); 
     		serialNumber=convertHexToString(serialNumber);
     		System.out.println("网关id："+serialNumber);
-    		
+    		record.setHeartbeat(type);
     		log.setContent(judgeType(type)+"   "+str);
             logAction.addEntity(log);
     		if(type.equalsIgnoreCase("20")){     //上报运行数据
@@ -398,6 +398,7 @@ public class Gateway {
 				      			  GzclFault fault=new GzclFault();
 				         			  fault.setHappenTime(d.parse("20"+date+" "+time));
 				         			  fault.setAlarmTime(new Date());
+				         			  fault.setFoundTime(new Date());
 				         			  fault.setType("自动接警");
 				         			  fault.setState("处理中");
 				         			  fault.setFaultType(order);

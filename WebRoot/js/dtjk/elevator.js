@@ -82,6 +82,7 @@ upload=function(){
 		  function exp(){
     		  window.location.href="elevatorAction.do?method=export"+gotoUrl ();
          }
+		
 		 
 		   //选择模糊查询
 		function query1(){

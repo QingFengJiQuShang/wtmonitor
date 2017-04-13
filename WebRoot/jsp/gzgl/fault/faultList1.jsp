@@ -35,22 +35,40 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		<div class="con" id="user">
 			<p class="user">历史故障</p>
 			<div class="warp">
-				<div class="select clearfix">
+			<div class="select" style="height: 110px;">
+				<div class="clearfix">
 					<p class="fl">
 						<label for="user">电梯注册号&nbsp;:&nbsp;</label>
 						<input type="text" id="registerid" placeholder="请输入"  value="${registerid}" />
 					</p>
 					<p class="fl">
-						<label for="unit">安装地址&nbsp;:&nbsp;</label>
-						<input type="text" id="place"    value="${place}"  />
+						<label for="code">识别码&nbsp;:&nbsp;</label>
+						<input type="text" id="distinguishid"  value="${distinguishid}" />
 					</p>
-					<p class="fl"  style="width: 450px;">
-						<label for="man"  style="width: 100px;">故障发生时间&nbsp;:&nbsp;</label>
-						<input  class="Wdate"   id="begintime"  name="begintime"   value="<fmt:formatDate value="${begintime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
-						--
-						<input  class="Wdate"   id="endtime"  name="endtime"   value="<fmt:formatDate value="${endtime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" >
+					<p class="fl">
+						<label for="unit">安装地址&nbsp;:&nbsp;</label>
+						<input type="text" id="place"    value="${place}"   />
+					</p>
+					</div>
+					<div class="clearfix">
+					<p class="fl">
+						<label for="man">故障时间起&nbsp;:&nbsp;</label>
+						<input type="text"  class="Wdate"  id="startTime"  name="startTime"  value="<fmt:formatDate value="${startTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})"   />
+					</p>
+					<p class="fl">
+						<label for="man">故障时间止&nbsp;:&nbsp;</label>
+						<input type="text"  class="Wdate"  id="endTime"  name="endTime"  value="<fmt:formatDate value="${endTime}"  pattern='yyyy-MM-dd HH:mm:ss'/>"   onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+					</p>
+					<p class="fl">
+						<label for="man">接警类型&nbsp;:&nbsp;</label>
+						<select name="type" id="type"  >
+							<option value="">请选择</option>
+							<option <c:if test="${type=='人工接警'}">selected="selected" </c:if> value="人工接警">人工接警</option>
+							<option <c:if test="${type=='自动接警'}">selected="selected" </c:if> value="自动接警">自动接警</option>
+						</select>	
 					</p>
 					<button class="fl"  onclick="query1();">查询</button>
+					</div>
 				</div>
 				<div class="table">
 					<div class="or clearfix">
@@ -107,7 +125,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							</tbody>
 						</table>
 						<div class="choose">
-							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*5 }</c:if></span>到<span>${(page.pageNum+1)*5 }</span>条，共<span>${page.count }</span>条记录</p>
+							<p class="num">当前显示<span><c:if test="${page.pageNum==0}">${(page.pageNum+1)*1 }</c:if><c:if test="${page.pageNum!=0}">${(page.pageNum)*(page.pageSize) }</c:if></span>到<span>${(page.pageNum+1)* (page.pageSize)}</span>条，共<span>${page.count }</span>条记录</p>
 							<div class="page">
 								<a href="javascript:void(0);"  title="首页" onclick="fenye1('0')" style="background-color: #00AAEE;color: #fff;"><<</a>
 

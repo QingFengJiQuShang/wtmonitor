@@ -84,7 +84,7 @@ $(".del").click(function() {
 			}
 		})
 		 if(len>0 && confirm("确定删除这 "+len+" 条记录？")){
-	 		window.location.href="recordsAction.do?method=deleteEntity&ids="+ids;
+	 		window.location.href="recordsAction.do?method=deleteEntity&ids="+ids+gotoUrl();
 		 }
 })
 		  

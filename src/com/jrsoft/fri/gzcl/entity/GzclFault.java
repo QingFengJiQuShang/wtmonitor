@@ -28,6 +28,7 @@ public class GzclFault implements java.io.Serializable {
 	private String flag;					//是否是当前故障标示
 	private String state;			//状态
 	private String faultType;  		//故障类型 
+	private Date foundTime;                //创建时间
 	// Constructors
 	private String registerid;			//电梯注册号
 	private String distinguishid;			//识别码
@@ -241,6 +242,14 @@ public class GzclFault implements java.io.Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Date getFoundTime() {
+		return foundTime;
+	}
+
+	public void setFoundTime(Date foundTime) {
+		this.foundTime = foundTime;
 	}
 
 }

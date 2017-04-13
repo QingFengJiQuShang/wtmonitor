@@ -43,6 +43,23 @@ selectRescueUnit=function(id,id1){
 closeMultiRescueUnit=function(id){
 		$('#'+id+' option:selected').remove();
 }
+/**
+ * 根据单位类型选择单位名称
+ */
+selectTypeUnitId1=function(id,id1,flag){
+	 var flag= document.getElementById(flag).value;
+	if(flag=='1'){
+			JqueryDialog.Open('使用单位', 'useUnitAction.do?method=query2&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='2'){
+			JqueryDialog.Open('物业单位', 'propertyUnitAction.do?method=query2&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='3'){
+			JqueryDialog.Open('维保单位', 'maintenanceUnitAction.do?method=query2&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else if(flag=='5'){
+			JqueryDialog.Open('救援单位', 'rescueUnitAction.do?method=query2&id='+id+"&id1="+id1+"&flag"+flag, 1000, 650);
+	}else{
+		alert("请先选择单位类型");
+	}
+}
 
 /**
  * 选择电梯信息

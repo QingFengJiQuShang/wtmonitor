@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input type="text"  id="useUnitId1"   placeholder="请选择"   value="${list.useUnitId.name}"  readonly="readonly" />
 					
 				</p>
-				<p class="fill">
+	<!--  			<p class="fill">
 					<label for="start_end">开始时间&nbsp;:&nbsp;</label>
 					<input type="text"  class="Wdate"  name="flowStart"  onfocus="WdatePicker({skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"  value="<fmt:formatDate value="${list.flowStart}"  pattern='yyyy-MM-dd'/>" >
 				</p>
@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<p class="fill">
 					<label for="wb_unit">单月使用额&nbsp;:&nbsp;</label>
 					<input type="text" id="flowNum" name="elevator.flowNum" value="${list.flowNum}" />
-				</p>
+				</p>-->
 				<p class="fill">
 					<label for="wb_unit">剩余流量&nbsp;:&nbsp;</label>
 					<input type="text" id="flowSurplus" name="elevator.flowSurplus" value="${list.flowSurplus}" />

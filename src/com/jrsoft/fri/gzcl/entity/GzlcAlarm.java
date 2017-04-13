@@ -27,7 +27,7 @@ public class GzlcAlarm implements java.io.Serializable {
 	private String flag;					//是否转入当前故障标示
 	private Date happenTime;					//故障发生时间
 	private String duty;			//值班人
-	
+	private Date foundTime;                //创建时间
 	
 	private String registerid;			//电梯注册号
 	private String distinguishid;			//识别码
@@ -169,6 +169,14 @@ public class GzlcAlarm implements java.io.Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public Date getFoundTime() {
+		return foundTime;
+	}
+
+	public void setFoundTime(Date foundTime) {
+		this.foundTime = foundTime;
 	}
 
 }
