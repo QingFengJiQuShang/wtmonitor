@@ -181,7 +181,6 @@ public class DtjkRecordAction extends DispatchAction {
 		String num=request.getParameter("num");   //当前页
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 		if(state!=null){
 			state=new String(state.getBytes("iso-8859-1"),"utf-8");
 		 }
@@ -206,7 +205,7 @@ public class DtjkRecordAction extends DispatchAction {
 		Connection conn=DBEntity.getInstance().getConnection();
 				
 				//查询服务订单
-				String sql="select de.*,e.state as state  from dtjk_record de" +
+				String sql="select de.*  from dtjk_record de" +
 						" left join dtjk_elevator e on e.registerid=de.elevator_id " +
 						"   where  1=1 " ;
 				if(begintime!=null&&!begintime.equals("")){
@@ -227,8 +226,12 @@ public class DtjkRecordAction extends DispatchAction {
 				if(door!=null&&!door.equals("")){
 					sql+=" and de.door = '"+door+"'";
 				}
-				if(state!=null&&!state.equals("")){
-					sql+=" and e.state = '"+state+"'";
+				if(state!=null&&state.equals("正常")){
+					sql+=" and de.heartbeat!='21'  and de.maintenance_User_Id is null ";
+				}else if(state!=null&&state.equals("故障")){
+					sql+=" and de.heartbeat='21' ";
+				}else if(state!=null&&state.equals("维保")){
+					sql+=" and de.heartbeat='20' and  de.maintenance_User_Id  is not null";
 				}
 				sql+=" order by de.found_time desc  ";	
 				int siz=	DBEntity.getInstance().queryCount(sql);
@@ -255,8 +258,10 @@ public class DtjkRecordAction extends DispatchAction {
 					elevator.setMaintenanceUserId(rs.getString("maintenance_User_Id"));
 					elevator.setFoundTime(df.parse((rs.getString("found_Time"))));
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
-					if(rs.getString("state").equals("故障")||rs.getString("state").equals("维保")){
-						elevator.setState(rs.getString("state"));
+					if(rs.getString("heartbeat")!=null&&rs.getString("heartbeat").equals("20")&&rs.getString("maintenance_User_Id")!=null){
+						elevator.setState("维保");
+					}else if(rs.getString("heartbeat")!=null&&rs.getString("heartbeat").equals("21")){
+						elevator.setState("故障");
 					}else{
 						elevator.setState("正常");
 					}
@@ -363,8 +368,12 @@ public class DtjkRecordAction extends DispatchAction {
 				if(door!=null&&!door.equals("")){
 					sql+=" and de.door = '"+door+"'";
 				}
-				if(state!=null&&!state.equals("")){
-					sql+=" and e.state = '"+state+"'";
+				if(state!=null&&state.equals("正常")){
+					sql+=" and de.heartbeat!='21'  and de.maintenance_User_Id is null ";
+				}else if(state!=null&&state.equals("故障")){
+					sql+=" and de.heartbeat='21' ";
+				}else if(state!=null&&state.equals("维保")){
+					sql+=" and de.heartbeat='20' and  de.maintenance_User_Id  is not null";
 				}
 				sql+=" order by de.found_time desc  ";	
 					PreparedStatement sta = conn.prepareStatement(sql);
@@ -385,6 +394,13 @@ public class DtjkRecordAction extends DispatchAction {
 					elevator.setHeartbeat(rs.getString("heartbeat"));
 					elevator.setMaintenanceUserId(rs.getString("maintenance_User_Id"));
 					elevator.setMaintenanceState(rs.getString("maintenance_State"));
+					if(rs.getString("heartbeat")!=null&&rs.getString("heartbeat").equals("20")&&rs.getString("maintenance_User_Id")!=null){
+						elevator.setState("维保");
+					}else if(rs.getString("heartbeat")!=null&&rs.getString("heartbeat").equals("21")){
+						elevator.setState("故障");
+					}else{
+						elevator.setState("正常");
+					}
 					list.add(elevator);
 					
 				}
@@ -454,7 +470,7 @@ public class DtjkRecordAction extends DispatchAction {
 								cell.setCellValue(e.getDoor());  
 								
 								cell = row.createCell(++j);// 创建格 字段
-								cell.setCellValue(e.getHeartbeat());  
+								cell.setCellValue(e.getState());  
 								
 								
 								j = 0;

@@ -26,7 +26,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" type="text/css" href="<%=path%>/css/dtjk/list.css" />
 		<link type="text/css" rel="stylesheet" href="<%=path%>/css/jquery_dialog.css" />
 		<script type="text/javascript" src="<%=path %>/js/jquery_dialog.js"></script>
-		<link rel="stylesheet" type="text/css" href="<%=path %>/css/lq.datetimepick.css" />
 		<script type="text/javascript" src="<%=path %>/js/Share.js"></script>
 		<script language="javascript" type="text/javascript" src="<%=path %>/js/My97DatePicker/WdatePicker.js" ></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="<%=path %>/css/lanrenzhijia.css" />
@@ -34,7 +33,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<body>
 		<div class="con" id="user">
-			<p class="user">操作日志</p>
+			<p class="user">
+			<c:if test="${flag=='1'}">
+			操作日志
+			</c:if>
+			<c:if test="${flag=='0' }">
+			通信日志
+			</c:if>
+			</p>
 			<div class="warp">
 				<div class="select">
 				<div class="clearfix">
@@ -57,6 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="table">
 					<div class="table">
 					<div class="or clearfix">
+							<p class="fl add" onclick="del('${flag}');" style="width: 100px;">删除</p>
 							<p class="fl add" onclick="exp();" style="width: 100px;">下载</p>
 					</div>
 				<div class="table_con">

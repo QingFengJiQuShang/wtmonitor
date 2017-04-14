@@ -20,6 +20,7 @@ import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.from.Index;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
+import com.jrsoft.fri.xtgl.action.Authority;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtsz.service.XtszDictionaryService;
@@ -48,8 +49,8 @@ public class IndexAction  extends DispatchAction{
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		 judge( );
 		//正常电梯数量
-		String hql=" where  1=1 and state='正常' and delflag!='1'  " ;
-			//	"and userid.id='"+user.getId()+"' " ;
+		String hql=" where  1=1 and state='正常' and delflag!='1'  "+Authority.Hql(user) ;
+
 		List<DtjkElevator> elevators=elevatorService.queryAll(hql);
 		String str="[";
 		int i=0;
@@ -66,7 +67,7 @@ public class IndexAction  extends DispatchAction{
 		request.setAttribute("str", str);
 		
 		//故障电梯数量
-		String hql1=" where  1=1 and state='故障'  and delflag!='1'  " ;
+		String hql1=" where  1=1 and state='故障'  and delflag!='1'  "+Authority.Hql(user) ;
 				//"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators1=elevatorService.queryAll(hql1);
 		String str1="[";
@@ -83,7 +84,7 @@ public class IndexAction  extends DispatchAction{
 		str1+="]";
 		request.setAttribute("str1", str1);
 		//离线电梯数量
-		String hql2=" where  1=1 and state='离线'  and delflag!='1'  " ;
+		String hql2=" where  1=1 and state='离线'  and delflag!='1'  " +Authority.Hql(user) ;
 				//"and userid.id='"+user.getId()+"' " ;
 		List<DtjkElevator> elevators2=elevatorService.queryAll(hql2);
 		String str2="[";
@@ -98,7 +99,24 @@ public class IndexAction  extends DispatchAction{
 			}
 		}
 		str2+="]";
+		
+		//维保电梯
+		String hql3=" where  1=1 and state='维保'  and delflag!='1'  " +Authority.Hql(user) ;
+		List<DtjkElevator> elevators3=elevatorService.queryAll(hql3);
+		String str3="[";
+		 i=0;
+		for(DtjkElevator elevator:elevators3){
+			if(elevator.getLabel()!=null){
+				String [] label=elevator.getLabel().split(",");
+				str3+="["+label[0]+","+label[1]+"]";
+				i++;
+				if(i!=elevators3.size())
+					str3+=",";
+			}
+		}
+		str3+="]";
 		request.setAttribute("str2", str2);
+		request.setAttribute("str3", str3);
 		Index index=new Index();
 		//正常电梯数量
 		index.setNormalNum(elevators.size());
@@ -107,8 +125,7 @@ public class IndexAction  extends DispatchAction{
 		//故障电梯数量
 		index.setFaultNum(elevators1.size());
 		//维保电梯数量
-		String hql3=" where  1=1 and state='维保'  and delflag!='1'  " ;
-		List<DtjkElevator> elevators3=elevatorService.queryAll(hql3);
+		
 		index.setMaintenanceNum1(elevators3.size());
 		//维保过期电梯数量
 		
@@ -117,13 +134,13 @@ public class IndexAction  extends DispatchAction{
 		c.setTime(new Date());
 		c.add(Calendar.DATE, -20);							//20天前日期
 		
-		String sql="select count(*)  from Dtjk_Elevator de where  1=1  and delflag!='1'  and maintenance_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
+		String sql="select count(*)  from  ("+Authority.Sql(user) +")  de where  1=1  and delflag!='1'  and maintenance_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
 		int n=DBEntity.getInstance().queryDataCount(sql);
 		index.setMaintenanceNum(n);
 		
 		c.setTime(new Date());
 		c.add(Calendar.YEAR, -1);  //加一年
-		 sql="select count(*)  from Dtjk_Elevator de where  1=1  and delflag!='1'  and yearly_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
+		 sql="select count(*)  from  ("+Authority.Sql(user) +")  de where  1=1  and delflag!='1'  and yearly_Time   < to_date('" + df.format(c.getTime())+ "','yyyy-MM-dd hh24:mi:ss')";
 		 n=DBEntity.getInstance().queryDataCount(sql);
 		index.setYearlyNum(n);
 		request.setAttribute("index", index);
@@ -144,7 +161,7 @@ public class IndexAction  extends DispatchAction{
 		//查询服务订单
 		 sql="select de.*,e.registerid as registerid,e.distinguishid as distinguishid,e.install_place as place ,xu.name as username,xuu.name as useUnitName  " +
 				" from gzcl_fault de " +
-				" left join dtjk_elevator e on e.id=de.elevator_id "+  //电梯信息
+				" left join ("+Authority.Sql(user) +") e on e.id=de.elevator_id "+  //电梯信息
 				" left join xtgl_users xu on xu.id=de.duty_id "+  //电梯信息
 				" left join xtgl_use_unit xuu on xuu.id=e.use_unit_id "+  //使用单位
 				"where  1=1   and de.state='处理中' order by de.happen_Time desc";	

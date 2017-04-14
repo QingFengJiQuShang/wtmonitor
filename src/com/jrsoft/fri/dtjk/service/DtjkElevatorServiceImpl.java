@@ -17,8 +17,8 @@ public class DtjkElevatorServiceImpl   extends BaseServiceImpl<DtjkElevator> imp
 	}
 
 	@Override
-	public void export(String filePath, DtjkElevator elevator) {
-		elevatorDao.export(filePath, elevator);
+	public void export(String filePath, DtjkElevator elevator,String sql) {
+		elevatorDao.export(filePath, elevator,sql);
 		
 	}
 

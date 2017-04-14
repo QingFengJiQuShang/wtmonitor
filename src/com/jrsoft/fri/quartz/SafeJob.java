@@ -22,7 +22,7 @@ public class SafeJob  implements Job {
 			String	sql="update DTJK_ELEVATOR t set t.safe_State='1' where (select count(ds.id) from Bxgl_Safe ds where ds.elevator_id = t.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd')) > 0 and t.delflag!='1' ";
 			DBEntity.getInstance().executeSql(sql);
 			//修改 不在服务期内的电梯保险状态
-			sql="update DTJK_ELEVATOR t set t.safe_State='0' where (select count(ds.id) from Dtjk_Service ds where ds.elevator_id = t.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd')) = 0 and (select count(ds.id) from Bxgl_Safe ds where ds.elevator_id = t.id and ds.end_Time < to_date('"+time+"', 'yyyy-MM-dd')) >0  and t.delflag!='1' ";
+			sql="update DTJK_ELEVATOR t set t.safe_State='0' where (select count(ds.id) from Bxgl_Safe ds where ds.elevator_id = t.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd')) = 0 and (select count(ds.id) from Bxgl_Safe ds where ds.elevator_id = t.id and ds.end_Time < to_date('"+time+"', 'yyyy-MM-dd')) >0  and t.delflag!='1' ";
 
 			DBEntity.getInstance().executeSql(sql);
 			

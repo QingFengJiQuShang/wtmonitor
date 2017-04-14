@@ -47,7 +47,7 @@ public class InitSmartServlet extends HttpServlet {
 		String job_name1 = "判断电梯服务状态";
 		QuartzManager.addJob(job_name1, ServiceState.class, "0 40 16 * * ?"); 
 		String job_name2 = "判断电梯保险状态";
-		QuartzManager.addJob(job_name2, SafeJob.class, "0 43 16 * * ?"); 
+		QuartzManager.addJob(job_name2, SafeJob.class, "0 30 17 * * ?"); 
 		String job_name3 = "修改电梯流量";
 		QuartzManager.addJob(job_name3, FlowJob.class, "0 0 12 * * ?"); 
 	}

@@ -28,7 +28,7 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void export(String filePath, DtjkElevator elevator) {
+	public void export(String filePath, DtjkElevator elevator,String sql1) {
 		try {
 			System.out.println("========>>" + filePath);
 			//Excel ex = new Excel();
@@ -56,7 +56,7 @@ public class DtjkElevatorDaoImpl extends BaseDaoImpl< DtjkElevator, String> impl
 			String sql="select de.*,xuu.name as useUnitName, " +
 					" xmu.name as  maintenanceUnitName,mu.name as maintenanceUsersName," +
 					" xpu.name as propertyUnitName,make.name as makeUnitName" +
-					" from dtjk_elevator de " +
+					" from ("+sql1+") de " +
 					" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 					" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 					" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人

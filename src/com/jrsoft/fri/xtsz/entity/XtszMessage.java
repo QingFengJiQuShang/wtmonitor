@@ -16,6 +16,7 @@ public class XtszMessage implements java.io.Serializable {
 	private String state;					//发送状态
 	private Date time;						//发送时间
 	private String content;			//内容
+	private Date foundTime;                //创建时间
 
 	// Constructors
 
@@ -81,6 +82,14 @@ public class XtszMessage implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Date getFoundTime() {
+		return foundTime;
+	}
+
+	public void setFoundTime(Date foundTime) {
+		this.foundTime = foundTime;
 	}
 
 }

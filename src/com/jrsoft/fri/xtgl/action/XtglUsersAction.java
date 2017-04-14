@@ -318,6 +318,7 @@ public class XtglUsersAction extends DispatchAction {
 			elevator.setUnit(unit.getUnit());
 			elevator.setProvince(unit.getProvince());
 			elevator.setCity(unit.getCity());
+			elevator.setArea(unit.getArea());
 			elevator.setLoginname(unit.getLoginname());
 			elevator.setType(unit.getType());
 			elevator.setRegionUnitId(unit.getRegionUnitId());

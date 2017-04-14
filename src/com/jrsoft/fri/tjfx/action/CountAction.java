@@ -466,6 +466,9 @@ public class CountAction  extends DispatchAction{
 		PreparedStatement sta = conn.prepareStatement(sql1);
 		ResultSet rs = sta.executeQuery();
 		List<FaultCount> counts=new ArrayList<FaultCount>();
+		List<String> title=new ArrayList<String>();
+		List<String> num=new ArrayList<String>();
+
 		while(rs.next()){
 			FaultCount count=new FaultCount();
 			count.setName(unitId1==null?"所有单位":unitId1);
@@ -474,8 +477,17 @@ public class CountAction  extends DispatchAction{
 			count.setFaultType(rs.getString("faultType"));		//故障类型
 			count.setIncidence(count.getElevatorNum()==0?"0":df.format((double)count.getFaultNum()/count.getElevatorNum()));
 			counts.add(count);
+			num.add(count.getElevatorNum()==0?"0":df.format((double)count.getFaultNum()/count.getElevatorNum()));
+			if(rs.getString("faultType")==null){
+				title.add("\"\"");
+			}else{
+				title.add("\""+rs.getString("faultType")+"\"");
+			}
 		}
+		System.out.println(title.toString());
 		request.setAttribute("counts",counts);
+		request.setAttribute("title",title.toString());
+		request.setAttribute("num",num.toString());
 		request.setAttribute("flag",flag);
 		request.setAttribute("unitId1",unitId1);
 		request.setAttribute("unitId",unitId);
@@ -766,9 +778,9 @@ public class CountAction  extends DispatchAction{
 		double  arriveTime=0;
 		double successTime=0;
 		while(rs.next()){
-			long arrive=(d.parse(rs.getString("arriveTime")).getTime()-d.parse(rs.getString("happenTime")).getTime());
+			long arrive=((rs.getString("arriveTime")==null?0:d.parse(rs.getString("arriveTime")).getTime())-(rs.getString("happenTime")==null?0:d.parse(rs.getString("happenTime")).getTime()));
 			arriveTime+= arrive /(1000*60);  		 //  救援到达时间  分钟
-			long success=(d.parse(rs.getString("successTime")).getTime()-d.parse(rs.getString("arriveTime")).getTime());
+			long success=((rs.getString("successTime")==null?0:d.parse(rs.getString("successTime")).getTime())-(rs.getString("arriveTime")==null?0:d.parse(rs.getString("arriveTime")).getTime()));
 			successTime+= success /(1000*60);  		 //  救援成功时间  分钟
 		}
 		count.setNum(DBEntity.getInstance().queryDataCount(sql1));
@@ -1043,8 +1055,8 @@ public class CountAction  extends DispatchAction{
 			RescueCount count=new RescueCount();
 			count.setName(rs.getString("name"));
 			count.setNum(rs.getInt("num"));
-			count.setArriveTime(rs.getString("arriveTime"));
-			count.setSuccessTime(rs.getString("successTime"));
+			count.setArriveTime(df.format(rs.getDouble("arriveTime")));
+			count.setSuccessTime(df.format(rs.getDouble("successTime")));
 			list.add(count);
 		}
 	

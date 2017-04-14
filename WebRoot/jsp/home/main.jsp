@@ -11,6 +11,7 @@
 	String  list=(String)request.getAttribute("str");
 	String  list1=(String)request.getAttribute("str1");
 	String  list2=(String)request.getAttribute("str2");
+	String  list3=(String)request.getAttribute("str3");
 %>
 <!DOCTYPE html>
 <html>
@@ -47,7 +48,7 @@
 			
 	    <ul class="clearfix list_num">
 				<li class="fl list-item" >
-					<p class="name">在线电梯电梯数量</p>
+					<p class="name">正常电梯数量</p>
 					<p class="num">${index.normalNum}</p>
 					<p>
 						<img src="<%=path %>/img/green_small.png" alt="" />	
@@ -176,10 +177,22 @@
 		markers.addEventListener("click",attribute);
 		j++;
 	}
+	//维保电梯
+	var str3=<%=list3.toString()%>;	
+	for(var i=0;i<str3.length;i++){
+		var icons = "<%=path %>/img/icom-2.png"; //这个是你要显示坐标的图片的相对路径 
+		var markers = new BMap.Marker(new BMap.Point(str3[i][0], str3[i][1])); //lng为经度,lat为纬度 
+		var icon = new BMap.Icon(icons, new BMap.Size(20, 40)); //显示图标大小 
+		markers.setIcon(icon);//设置标签的图标为自定义图标
+		map.addOverlay(markers);    //增加点
+		pointArray[j] = new BMap.Point(str3[i][0], str3[i][1]);
+		markers.addEventListener("click",attribute);
+		j++;
+	}
 	//离线电梯
 	var str2=<%=list2.toString()%>;	
 	for(var i=0;i<str2.length;i++){
-		var icons = "<%=path %>/img/orange.png"; //这个是你要显示坐标的图片的相对路径 
+		var icons = "<%=path %>/img/gray1.png"; //这个是你要显示坐标的图片的相对路径 
 		var markers = new BMap.Marker(new BMap.Point(str2[i][0], str2[i][1])); //lng为经度,lat为纬度 
 		var icon = new BMap.Icon(icons, new BMap.Size(20, 40)); //显示图标大小 
 		markers.setIcon(icon);//设置标签的图标为自定义图标
@@ -261,7 +274,7 @@
 		var point = new BMap.Point(p.getPosition().lng,p.getPosition().lat);
 		var marker = new BMap.Marker(point);  // 创建标注
 		//map.addOverlay(marker);              // 将标注添加到地图中
-		map.centerAndZoom(point, 15);
+		map.centerAndZoom(point, 20);
 		var label=p.getPosition().lng + "," + p.getPosition().lat;
 		var opts = {
 		  width : 200,     // 信息窗口宽度
@@ -302,9 +315,18 @@
 		             data: "registerid="+registerid,
 		             success: function(rs){
 		            	 if(rs!=null){
-		            		var label= rs.label.split(",");
-							var point = new BMap.Point(label[0], label[1]);
-							map.centerAndZoom(point, 15); 
+		            		 var label= rs.label.split(",");
+		            		 var point = new BMap.Point(label[0], label[1]);
+		            		 
+		            		var icons = "<%=path %>/img/border.png"; //这个是你要显示坐标的图片的相对路径 
+							var markers = new BMap.Marker(point); //lng为经度,lat为纬度 
+							var icon = new BMap.Icon(icons, new BMap.Size(22, 40)); //显示图标大小 
+							markers.setIcon(icon);//设置标签的图标为自定义图标
+		            		markers.addEventListener("click",attribute);
+							map.addOverlay(markers);    //增加点
+							
+							map.centerAndZoom(point, 20); 
+							
 		            	 }
 					        
 		             }

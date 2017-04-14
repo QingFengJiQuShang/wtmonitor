@@ -38,6 +38,7 @@ import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.dtjk.service.DtjkElevatorService;
 import com.jrsoft.fri.dtjk.service.DtjkGatewayService;
 import com.jrsoft.fri.dtjk.service.DtjkPhoneService;
+import com.jrsoft.fri.xtgl.action.Authority;
 import com.jrsoft.fri.xtgl.action.Upload;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
@@ -283,8 +284,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		 judge( ) ;	//判断电梯是否离线
 
 		String num=request.getParameter("num");   //当前页
-		
-
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+		System.out.println(Authority.Sql(user));
 		Page  page=new Page();
 		if(num!=null&&!num.equals("")){
 			page.setPageNum(Integer.parseInt(num));//当前页数
@@ -296,7 +297,7 @@ public class DtjkElevatorAction extends DispatchAction{
 				
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName,xpu.name as propertyUnitName" +
-						" from dtjk_elevator de " +
+						" from ("+Authority.Sql(user)+") de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
@@ -420,7 +421,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		String propertyUnitName=request.getParameter("propertyUnitName");
 		String makeUnitName=request.getParameter("makeUnitName");
 		String installPlace=request.getParameter("installPlace");
-		
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -436,7 +438,7 @@ public class DtjkElevatorAction extends DispatchAction{
 		Connection conn=DBEntity.getInstance().getConnection();
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName, xpu.name as propertyUnitName" +
-						" from dtjk_elevator de " +
+						" from ("+Authority.Sql(user)+") de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
@@ -549,7 +551,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		String propertyUnitName=request.getParameter("propertyUnitName");
 		String makeUnitName=request.getParameter("makeUnitName");
 		String installPlace=request.getParameter("installPlace");
-		
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 		String num=request.getParameter("num");   //当前页
 		
 
@@ -565,7 +568,7 @@ public class DtjkElevatorAction extends DispatchAction{
 				
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
-						" from dtjk_elevator de " +
+						" from ("+Authority.Sql(user)+") de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
@@ -681,7 +684,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		String yearlyState=request.getParameter("yearlyState");
 		String serviceState=request.getParameter("serviceState");
 		String num=request.getParameter("num");   //当前页
-		
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 
 		Page  page=new Page();
@@ -696,7 +700,7 @@ public class DtjkElevatorAction extends DispatchAction{
 				
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
-						" from dtjk_elevator de " +
+						" from ("+Authority.Sql(user)+") de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //使用单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保人
@@ -1051,7 +1055,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		String numbers=request.getParameter("numbers");
 		String SafeState=request.getParameter("SafeState");
 		DtjkElevator elevator=new DtjkElevator();
-		
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 		 if(register!=null){
 			 register=new String(register.getBytes("iso-8859-1"),"utf-8");
 			 elevator.setRegisterid(register);
@@ -1083,7 +1088,7 @@ public class DtjkElevatorAction extends DispatchAction{
 			String filePath = request.getRealPath("/")
 					+ "excel\\" + fileName;
 			// 生成excel文件
-			elevatorService.export(filePath, elevator);
+			elevatorService.export(filePath, elevator,Authority.Sql(user));
 
 			// 下载excel
 			BufferedOutputStream bos = null;
@@ -1140,7 +1145,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		String registerid=request.getParameter("registerid");
 		String installPlace=request.getParameter("installPlace");
 		String useUnitName=request.getParameter("useUnitName");
-		
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 //		 if(registerid!=null){
 //			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
 //		 }
@@ -1165,7 +1171,7 @@ public class DtjkElevatorAction extends DispatchAction{
 				
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName" +
-						" from dtjk_elevator de " +
+						" from ("+Authority.Sql(user)+") de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位
@@ -1243,7 +1249,8 @@ public class DtjkElevatorAction extends DispatchAction{
 		String registerid=request.getParameter("registerid");
 		String installPlace=request.getParameter("installPlace");
 		String useUnitName=request.getParameter("useUnitName");
-		
+		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
+
 //		 if(registerid!=null){
 //			 registerid=new String(registerid.getBytes("iso-8859-1"),"utf-8");
 //		 }
@@ -1268,7 +1275,7 @@ public class DtjkElevatorAction extends DispatchAction{
 				
 				//查询服务订单
 				String sql="select de.*,xuu.name as useUnitName, xmu.name as  maintenanceUnitName,xuu.id as useUnitName1, xmu.id as  maintenanceUnitName1,mu.id as maintenanceUsersName1,mu.name as maintenanceUsersName" +
-						" from dtjk_elevator de " +
+						" from ("+Authority.Sql(user)+") de " +
 						" left join xtgl_use_unit xuu on xuu.id=de.use_unit_id "+  //维保单位
 						" left join xtgl_maintenance_unit xmu on xmu.id=de.maintenance_unit_id"+  //维保单位
 						" left join xtgl_maintenance_users mu on mu.id=de.maintenance_users_id"+  //维保单位

@@ -56,6 +56,7 @@ public class Message {
 				message.setName(useUnit.getLiaisons());
 				message.setPhone(useUnit.getPhone());
 				message.setContent(str);
+				message.setFoundTime(new Date());
 				messageService.save(message);
 			}
 			//判断是否拥有自动发送短信权限
@@ -72,6 +73,7 @@ public class Message {
 				message.setName(useUnit.getName());
 				message.setPhone(useUnit.getPhone());
 				message.setContent(str);
+				message.setFoundTime(new Date());
 				messageService.save(message);
 			}
 			
@@ -90,6 +92,7 @@ public class Message {
 				message.setName(useUnit.getName());
 				message.setPhone(useUnit.getPhone());
 				message.setContent(str);
+				message.setFoundTime(new Date());
 				messageService.save(message);
 			}
 			//判断是否拥有自动发送短信权限
@@ -131,6 +134,7 @@ public class Message {
 		message.setState("未发送");
 		message.setPhone(phone);
 		message.setContent(str);
+		message.setFoundTime(new Date());
 		messageService.save(message);
 		
 	}

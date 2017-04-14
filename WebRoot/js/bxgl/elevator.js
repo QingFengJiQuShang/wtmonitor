@@ -34,7 +34,7 @@
 		//列表分页  
 		  function fenye(num){
 			
-    		  window.location.href="elevatorAction.do?method=query&num="+num+gotoUrl();
+    		  window.location.href="safeAction.do?method=queryElevator&num="+num+gotoUrl();
          }
 		   //下载  
 		 function exp1(SafeState){

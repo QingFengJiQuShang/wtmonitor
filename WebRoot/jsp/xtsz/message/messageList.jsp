@@ -66,6 +66,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 							<th  style="width: 30px;">序列</th>
 							<th style="width: 150px;">用户手机号码</th>
 							<th style="width: 100px;">发送状态</th>
+							<th style="width: 100px;">创建时间</th>
 							<th>内容</th>
 							<th>操作</th>
 							</thead>
@@ -75,6 +76,9 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>${s.index + 1 }</td>
 									<td>&nbsp;&nbsp;${list.phone}&nbsp;&nbsp;</td>
 									<td>&nbsp;&nbsp;${list.state }&nbsp;&nbsp;</td>
+
+									<td>
+									<td>&nbsp;&nbsp;<fmt:formatDate value="${list.foundTime }"  pattern='yyyy-MM-dd HH:mm:ss'/>&nbsp;&nbsp;</td>
 
 									<td>
 									<c:if test="${fn:length(list.content)>70 }">

@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -52,6 +53,7 @@ public class XtszMessageAction  extends DispatchAction {
 			throws Exception {
 		XtszFrom from=(XtszFrom)form;
 		XtszMessage elevator =from.getMessage();
+		elevator.setFoundTime(new Date());
 		messageService.save(elevator);
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
@@ -117,6 +119,7 @@ public class XtszMessageAction  extends DispatchAction {
 					XtszMessage elevator=new XtszMessage();
 					elevator.setId(rs.getLong("id"));
 					elevator.setTime(rs.getString("Time")==null?null:df.parse(rs.getString("Time")));
+					elevator.setFoundTime(rs.getString("found_Time")==null?null:df.parse(rs.getString("found_Time")));
 					elevator.setName(rs.getString("name"));
 					elevator.setPhone(rs.getString("phone"));
 					elevator.setState(rs.getString("state"));

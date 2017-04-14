@@ -28,6 +28,16 @@
 			  window.location="logAction.do?method=findByAdd&elevatorId="+elevatorId;
 			  
 		  }
+		//删除
+		del=function(flag){
+			JqueryDialog.Open('删除日志', 'jsp/xtsz/log/deteleLog.jsp?flag='+flag, 900, 350);
+		}
+			/**
+	 * 关闭
+	 */
+	closeShow=function(){
+		window.parent.JqueryDialog.Close();
+	}
 		//列表分页  
 		  function fenye(num){
 			

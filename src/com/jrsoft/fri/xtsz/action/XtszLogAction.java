@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,17 +16,27 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import smart.sys.platform.dao.DBEntity;
 
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkPhone;
+import com.jrsoft.fri.dtjk.from.DtjkFrom;
 import com.jrsoft.fri.gzcl.entity.GzclFault;
+import com.jrsoft.fri.xtgl.action.Upload;
 import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUnit;
+import com.jrsoft.fri.xtgl.entity.XtglMaintenanceUsers;
+import com.jrsoft.fri.xtgl.entity.XtglMakeUnit;
+import com.jrsoft.fri.xtgl.entity.XtglPropertyUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUseUnit;
 import com.jrsoft.fri.xtgl.entity.XtglUsers;
 import com.jrsoft.fri.xtgl.from.Page;
@@ -142,6 +153,37 @@ public class XtszLogAction extends DispatchAction {
 		
 	}
 
+
+	/**
+	 *   excel电梯数据导入
+	 * @param request
+	 * @param response
+	 * @param region
+	 * @return
+	 * @throws Exception
+	 */
+	public ActionForward  detele(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
+	throws Exception {
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String flag=request.getParameter("flag");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String sql="delete Xtsz_Log where 1=1 ";
+		if(flag!=null&&!flag.equals("")){
+			sql+=" and flag  ='" + flag+ "' ";
+		}
+		if(startTime!=null&&!startTime.equals("")){
+			sql+=" and found_Time  >=to_date('" + startTime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if(endTime!=null&&!endTime.equals("")){
+			sql+=" and found_Time  <=to_date('" + endTime+ "','yyyy-MM-dd hh24:mi:ss')";
+		}
+		if((startTime!=null&&!startTime.equals(""))||(endTime!=null&&!endTime.equals("")))
+			DBEntity.getInstance().executeSql(sql);
+		
+		
+		 return	new ActionForward("/jsp/comm/close.jsp");
+	}
 	/**
 	 * 导出 操作日志信息
 	 * @param request
