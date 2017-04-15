@@ -77,6 +77,9 @@ public class DtjkElevator implements java.io.Serializable {
 	private String province;			//省
 	private String city;						//市
 	private String area;					//区
+	private String faultType;		//故障类型
+	private String faultName;		//故障类型
+	
 	// Constructors
 	 private String useUnitName1;			//使用单位id
 	 private String maintenanceUnitName1;		//维保单位id
@@ -663,6 +666,22 @@ public class DtjkElevator implements java.io.Serializable {
 
 	public void setMaintenanceUsersName1(String maintenanceUsersName1) {
 		this.maintenanceUsersName1 = maintenanceUsersName1;
+	}
+
+	public String getFaultType() {
+		return faultType;
+	}
+
+	public void setFaultType(String faultType) {
+		this.faultType = faultType;
+	}
+
+	public String getFaultName() {
+		return faultName;
+	}
+
+	public void setFaultName(String faultName) {
+		this.faultName = faultName;
 	}
 
 }

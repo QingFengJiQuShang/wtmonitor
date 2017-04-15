@@ -118,13 +118,18 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					</div>
 					</div>
 				</div>
+				<div id="main" style="height:300px;">
+
+		</div>
 			</div>
+			
 		</div>
 	</div>
 	</body>
 	<script src="<%=path%>/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="<%=path%>/js/comm.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<%=path%>/js/bxgl/count.js" type="text/javascript" charset="utf-8"></script>
+	<script src="<%=path%>/js/echarts/build/dist/echarts.js" type="text/javascript" charset="utf-8"></script>
 
 	<script type="text/javascript">
 	function gotoUrl (){
@@ -151,6 +156,51 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 			  }
 			  return url;
 		  }
+	require.config({
+			paths: {
+				echarts: '<%=path%>/js/echarts/build/dist'
+			}
+		});
+	// 使用
+		require(
+			[
+				'echarts',
+				'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+			],
+			function(ec) {
+				// 基于准备好的dom，初始化echarts图表
+				var myChart = ec.init(document.getElementById('main'));
+				//设置数据
+				var option = {
+					title: {
+						text: '短信统计'
+							//						subtext: '纯属虚构'
+					},
+					tooltip: {
+						trigger: 'axis'
+					},
+					//设置坐标轴
+					xAxis: [{
+						type: 'category',
+						data: ${title}
+					}],
+					yAxis: [{
+						type: 'value'
+					}],
+					//设置数据
+					series: [{
+						"name": "短信条数",
+						"type": "bar",
+						"data": ${num1},
+					}
+					
+					]
+				};
+
+				// 为echarts对象加载数据 
+				myChart.setOption(option);
+			}
+		);
 	 //模糊查询
 		function query(){
     		  window.location.href="<%=path%>/countAction.do?method=messageCount"+gotoUrl();

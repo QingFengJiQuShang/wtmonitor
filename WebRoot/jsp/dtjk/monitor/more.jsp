@@ -97,19 +97,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fr">
 											超速
-											<c:if test="${list.record.type=='超速'}">
+											<c:if test="${list.elevator.faultName=='超速'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='超速'}">
+											<c:if test="${list.elevator.faultName!='超速'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fl">
 											困人
-											<c:if test="${list.record.type=='困人'}">
+											<c:if test="${list.elevator.faultName=='困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='困人'}">
+											<c:if test="${list.elevator.faultName!='困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
@@ -117,19 +117,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											冲顶困人
-											<c:if test="${list.record.type=='冲顶困人'}">
+											<c:if test="${list.elevator.faultName=='冲顶困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='冲顶困人'}">
+											<c:if test="${list.elevator.faultName!='冲顶困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											冲顶
-											<c:if test="${list.record.type=='冲顶'}">
+											<c:if test="${list.elevator.faultName=='冲顶'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='冲顶'}">
+											<c:if test="${list.elevator.faultName!='冲顶'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
@@ -137,19 +137,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											蹲底困人
-											<c:if test="${list.record.type=='蹲底困人'}">
+											<c:if test="${list.elevator.faultName=='蹲底困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='蹲底困人'}">
+											<c:if test="${list.elevator.faultName!='蹲底困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											蹲底
-											<c:if test="${list.record.type=='蹲底'}">
+											<c:if test="${list.elevator.faultName=='蹲底'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='蹲底'}">
+											<c:if test="${list.elevator.faultName!='蹲底'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
@@ -157,19 +157,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											非平层困人
-											<c:if test="${list.record.type=='非平层困人'}">
+											<c:if test="${list.elevator.faultName=='非平层困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='非平层困人'}">
+											<c:if test="${list.elevator.faultName!='非平层困人'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											非平层停梯
-											<c:if test="${list.record.type=='非平层停梯'}">
+											<c:if test="${list.elevator.faultName=='非平层停梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='非平层停梯'}">
+											<c:if test="${list.elevator.faultName!='非平层停梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
@@ -177,19 +177,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											关门故障
-											<c:if test="${list.record.type=='门关不上'}">
+											<c:if test="${list.elevator.faultName=='关门故障'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='门关不上'}">
+											<c:if test="${list.elevator.faultName!='关门故障'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											开门走梯
-											<c:if test="${list.record.type=='开门走梯'}">
+											<c:if test="${list.elevator.faultName=='开门走梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='开门走梯'}">
+											<c:if test="${list.elevator.faultName!='开门走梯'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
@@ -197,19 +197,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											运动中开门
-											<c:if test="${list.record.type=='运动中开门'}">
+											<c:if test="${list.elevator.faultName=='运动中开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='运动中开门'}">
+											<c:if test="${list.elevator.faultName!='运动中开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
 										<span class="fr">
 											开门故障
-											<c:if test="${list.record.type=='开门不到位'}">
+											<c:if test="${list.elevator.faultName=='开门故障'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='开门不到位'}">
+											<c:if test="${list.elevator.faultName!='开门故障'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>
@@ -217,10 +217,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<p class="clearfix">
 										<span class="fl">
 											门区外开门
-											<c:if test="${list.record.type=='非平层开门'}">
+											<c:if test="${list.elevator.faultName=='门区外开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_red.png" alt="" />
 											</c:if>
-											<c:if test="${list.record.type!='非平层开门'}">
+											<c:if test="${list.elevator.faultName!='门区外开门'}">
 											<img class="fr"  src="<%=path %>/img/dianti_green.png" alt="" />
 											</c:if>
 										</span>

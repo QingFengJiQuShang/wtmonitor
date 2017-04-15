@@ -154,9 +154,9 @@ public class CityAction  extends DispatchAction {
 		City list=cityService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
 		if(flag.equals("1")){
-			return	new ActionForward("/jsp/xtsz/help/updateHelp.jsp");
+			return	new ActionForward("/jsp/xtsz/position/updateCtiy.jsp");
 		}else{
-			return	new ActionForward("/jsp/xtsz/help/detailHelp.jsp");
+			return	new ActionForward("/jsp/xtsz/position/detailCtiy.jsp");
 		}
 	}
 	

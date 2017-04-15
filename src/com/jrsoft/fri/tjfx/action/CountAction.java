@@ -1051,6 +1051,10 @@ public class CountAction  extends DispatchAction{
 		Connection conn=DBEntity.getInstance().getConnection();
 		PreparedStatement sta = conn.prepareStatement(sql);
 		ResultSet rs = sta.executeQuery();
+		List<String> names=new ArrayList<String>();
+		List<String> num=new ArrayList<String>();
+		List<String> arriveTime=new ArrayList<String>();
+		List<String> successTime=new ArrayList<String>();
 		while(rs.next()){
 			RescueCount count=new RescueCount();
 			count.setName(rs.getString("name"));
@@ -1058,8 +1062,20 @@ public class CountAction  extends DispatchAction{
 			count.setArriveTime(df.format(rs.getDouble("arriveTime")));
 			count.setSuccessTime(df.format(rs.getDouble("successTime")));
 			list.add(count);
+			if(rs.getString("name")==null){
+				names.add("\"\"");
+			}else{
+				names.add("\""+rs.getString("name")+"\"");
+			}
+			
+			num.add(rs.getString("num"));
+			arriveTime.add(df.format(rs.getDouble("arriveTime")));
+			successTime.add(df.format(rs.getDouble("successTime")));
 		}
-	
+		request.setAttribute("names",names.toString() );
+		request.setAttribute("num",num.toString() );
+		request.setAttribute("arriveTime",arriveTime.toString() );
+		request.setAttribute("successTime",successTime.toString() );
 		request.setAttribute("list",list );
 		request.setAttribute("flag",flag);
 		request.setAttribute("unitId1",unitId1);
@@ -1926,7 +1942,8 @@ public class CountAction  extends DispatchAction{
 			int siz=	DBEntity.getInstance().queryDataCount(sql1);
 			page.setCount(siz);//总记录数
 			page.setCountSize(page.getCount()%page.getPageSize()==0?page.getCount()/page.getPageSize():page.getCount()/page.getPageSize()+1);	//总页数	
-
+			List<String> title=new ArrayList<String>();
+			List<String> num1=new ArrayList<String>();
 			PreparedStatement sta = conn.prepareStatement(sql2);
 			ResultSet rs = sta.executeQuery();
 			while(rs.next()){
@@ -1935,8 +1952,15 @@ public class CountAction  extends DispatchAction{
 				count.setNum(rs.getInt("num"));
 				count.setPhone(rs.getString("phone"));
 				list.add(count);
+				if(rs.getString("phone")==null){
+					title.add("\"\"");
+				}else{
+					title.add("\""+rs.getString("phone")+"\"");
+				}
+				num1.add(rs.getString("num"));
 			}
-			
+			request.setAttribute("title",title.toString() );
+			request.setAttribute("num1",num1.toString() );
 		request.setAttribute("list",list );
 		request.setAttribute("flag",flag);
 		request.setAttribute("unitId1",unitId1);

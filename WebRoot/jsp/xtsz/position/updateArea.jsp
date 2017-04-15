@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 					<p class="fill">
 						<label for="name">编号&nbsp;:&nbsp;</label>
-						<input type="text" id="id"  name="area.id"  value="${list.id}"/>
+						<input type="hidden" id="id"  name="area.id"  value="${list.id}"/>
 						<input type="text" id="areaid"  name="area.areaid"  value="${list.areaid}"/>
 					</p>
 					<p class="fill">

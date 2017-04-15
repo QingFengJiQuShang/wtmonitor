@@ -80,9 +80,9 @@ var JqueryDialog = {
 	init:function(dialogTitle, iframeSrc, iframeWidth, iframeHeight, isSubmitButton, isCancelButton, isDrag){
 		
 		//获取客户端页面宽高
-		var _client_width = document.body.clientWidth;
+		var _client_width = window.top.document.body.clientWidth;
 		//var _client_height = document.documentElement.scrollHeight;
-		var _client_height = document.documentElement.scrollHeight+50;
+		var _client_height = window.top.document.documentElement.scrollHeight+50;
 		//create shadow
 		if(typeof($("#jd_shadow")[0]) == "undefined"){
 			//前置
@@ -96,17 +96,17 @@ var JqueryDialog = {
 		if(typeof($("#jd_dialog")[0]) != "undefined"){
 			$("#jd_dialog").remove();
 		}
-		$("body").prepend("<div id='jd_dialog'></div>");
+		$("body").prepend("<div id='jd_dialog' ></div>");
 	
 		//dialog location
 		//left 边框*2 阴影5
 		//top 边框*2 阴影5 header30 bottom50
 		var _jd_dialog = $("#jd_dialog");
 		var _left = (_client_width - (iframeWidth + JqueryDialog.cBorderSize * 2 + 5)) / 2;
-		_jd_dialog.css("left", (_left < 0 ? 0 : _left) + document.documentElement.scrollLeft + "px");
+		_jd_dialog.css("left", (_left < 0 ? 0 : _left) + window.top.document.documentElement.scrollLeft + "px");
 		
-		var _top = (document.documentElement.clientHeight - (iframeHeight + JqueryDialog.cBorderSize * 2 + 30 + 50 + 5)) / 2;
-		_jd_dialog.css("top", (_top < 0 ? 0 : _top) + document.documentElement.scrollTop +90+ "px");
+		var _top = (window.top.document.documentElement.clientHeight - (iframeHeight + JqueryDialog.cBorderSize * 2 + 30 + 50 + 5)) / 2;
+		_jd_dialog.css("top", (_top < 0 ? 0 : _top) + window.top.document.documentElement.scrollTop +90+ "px");
 
 		//create dialog shadow
 		_jd_dialog.append("<div id='jd_dialog_s'>&nbsp;</div>");
@@ -226,7 +226,7 @@ var DragAndDrop = function(){
 	//};
 	
 	var getElementDocument = function(element){
-		return element.ownerDocument || element.document;
+		return element.ownerDocument || element.window.top.document;
 	};
 	
 	//鼠标按下
@@ -237,8 +237,8 @@ var DragAndDrop = function(){
 			evt = evt || window.event;
 			
 			//获取客户端屏幕尺寸
-			_clientWidth = document.body.clientWidth;
-			_clientHeight = document.documentElement.scrollHeight;
+			_clientWidth = window.top.document.body.clientWidth;
+			_clientHeight =window.top.document.documentElement.scrollHeight;
 			
 			//iframe遮罩
 			$("#jd_dialog_m_b_1").css("display", "");
@@ -260,9 +260,9 @@ var DragAndDrop = function(){
 			
 			//注：mousemove与mouseup下件均针对document注册，以解决鼠标离开_controlObj时事件丢失问题
 			//注册事件(鼠标移动)			
-			$(document).bind("mousemove", dragMouseMoveHandler);
+			$(window.top.document).bind("mousemove", dragMouseMoveHandler);
 			//注册事件(鼠标松开)
-			$(document).bind("mouseup", dragMouseUpHandler);
+			$(window.top.document).bind("mouseup", dragMouseUpHandler);
 			
 			//取消事件的默认动作
 			if(evt.preventDefault)

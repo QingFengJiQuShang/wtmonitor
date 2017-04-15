@@ -217,9 +217,9 @@ public class AreaAction extends DispatchAction {
 		Area list=areaService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
 		if(flag.equals("1")){
-			return	new ActionForward("/jsp/xtsz/help/updateHelp.jsp");
+			return	new ActionForward("/jsp/xtsz/position/updateArea.jsp");
 		}else{
-			return	new ActionForward("/jsp/xtsz/help/detailHelp.jsp");
+			return	new ActionForward("/jsp/xtsz/position/detailArea.jsp");
 		}
 	}
 	

@@ -213,7 +213,11 @@ public class BxglSafeAction  extends DispatchAction{
 			elevator.setSafeState("0");
 			elevatorService.update(elevator);
 		}
-		
+		String time=df.format(new Date());
+		if(entity.getStartTime().getTime()<=df.parse(time).getTime()&&df.parse(time).getTime()<=entity.getEndTime().getTime()){
+			elevator.setSafeState("1");
+			elevatorService.update(elevator);
+		}
 		//生成 操作日志
 		XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 		Log log=new Log();
@@ -728,6 +732,10 @@ public class BxglSafeAction  extends DispatchAction{
 				PreparedStatement sta = conn.prepareStatement(sql);
 				ResultSet rs = sta.executeQuery();
 				DecimalFormat    df   = new DecimalFormat("#0.00");   
+				List<String> names=new ArrayList<String>();
+				List<String> num=new ArrayList<String>();
+				List<String> claimNum=new ArrayList<String>();
+				List<String> claimRate=new ArrayList<String>();
 				while(rs.next()){
 					SafeUnit unit=new SafeUnit();
 					unit.setName(rs.getString("name"));
@@ -735,7 +743,20 @@ public class BxglSafeAction  extends DispatchAction{
 					unit.setClaimNum(rs.getInt("claimNum"));
 					unit.setClaimRate(unit.getNum()!=0?df.format((double)unit.getClaimNum()/unit.getNum()):"0");
 					list.add(unit);
+					if(rs.getString("name")==null&&rs.getString("name").equals("")){
+						names.add("\"\"");
+					}else{
+						names.add("\""+rs.getString("name")+"\"");
+					}
+					
+					num.add(rs.getString("num"));
+					claimNum.add(rs.getString("claimNum"));
+					claimRate.add(unit.getNum()!=0?df.format((double)unit.getClaimNum()/unit.getNum()):"0");
 				}
+				request.setAttribute("names", names);
+				request.setAttribute("claimNum", claimNum);
+				request.setAttribute("claimRate", claimRate);
+				request.setAttribute("num", num);
 				request.setAttribute("list", list);
 				return	new ActionForward("/jsp/Insurance/count/SafeUnitCount.jsp");
 		}

@@ -166,7 +166,6 @@ public class Gateway {
 			if(elevators.size()==0){
 				 System.out.println("命令错误：E0021102F0");
 				 os.write(byteUtil.hexStringToByte("E0021102F0"));
-				//CreateWorkbook("E0021102F0");
 				 return;
 			}
     		
@@ -206,8 +205,7 @@ public class Gateway {
     			//保存 上报的运行数据
     			recordService.save(record);
     			
-    	//		String hql1=" where 1=1 and  registerid = '"+record.getElevatorId()+"'";
-		//		List<DtjkElevator> elevators=elevatorService.queryAll(hql1);
+
 				//修改 电梯上报时间
 				if(elevators.size()>0){
     				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
@@ -253,22 +251,9 @@ public class Gateway {
     				}
     				recordsService.save(records);
     			}
-//    			//维保人员不为空时，
-//    			if(record.getMaintenanceUserId()!=null&&!record.getMaintenanceUserId().equals("")&&record.getMaintenanceState().equals("正常")){
-//    				
-//    				if(elevators.size()>0){
-//	    				//修改电梯的维保状态和维保时间
-//	    				DtjkElevator entity =elevatorService.get(elevators.get(0).getId());
-//	    				entity.setMaintenanceTime(new Date());
-//	    				entity.setMaintenanceState("正常");
-//	    				entity.setState("正常");
-//	    				elevatorService.update(entity);
-//    				}
-//    			}
+
     			try {
-					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
-					//CreateWorkbook("E0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -298,9 +283,7 @@ public class Gateway {
     			//num等于0 说明该终端未记录，重新保存
     			if(list.size()==0){
     				gatewayService.save(gateway);
-    	//			String hql1="where registerid='"+elevatorId+"'";
-    	//			List<DtjkElevator> elevators=elevatorService.query(hql1);
-    				if(elevators.size()>0){
+     				if(elevators.size()>0){
     					DtjkElevator elevator=elevators.get(0);
     					elevator.setGatewayId(gateway);
     					elevatorService.update(elevator);
@@ -315,9 +298,7 @@ public class Gateway {
     				
     			}
     			 try {
-					 //os.write("E0021101F0".getBytes());
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
-					//CreateWorkbook("E0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -372,9 +353,7 @@ public class Gateway {
 					 date=dateString(hexToString(date)) ;
 					 String time=str.substring(86,92);
 					 time=timeString(hexToString(time));  //时间
-					// System.out.println(d.format(new Date()));
-					// System.out.println(d.format(d.parse("20"+date+" "+time)));
-					 record.setSerialNumber(serialNumber);
+						 record.setSerialNumber(serialNumber);
 					 record.setElevatorId(elevatorId);
 					
 					 
@@ -388,11 +367,13 @@ public class Gateway {
 		        				//修改电梯离线状态为正常状态
 		        				//if(entity.getState().equals("离线")||entity.getState().equals("维保")||entity.getState().equals("故障")){
 		            			if(entity.getState().equals("故障")){
-
+		            				entity.setFaultType(null);
+		            				entity.setFaultName(null);
 		        					entity.setReportTime(new Date());
 		        					entity.setState("正常");
 		        					elevatorService.update(entity);
 		        				}
+		            			
 		    			}else{
 				    				//自动生成 当前故障
 				      			  GzclFault fault=new GzclFault();
@@ -413,6 +394,8 @@ public class Gateway {
 				  					push.setElevatorId(elevators.get(0));
 				  					list=elevators.get(0);
 				  					list.setState("故障");
+				  					list.setFaultType(types);
+				  					list.setFaultName(order);
 				  					elevatorService.update(list);	//修改电梯运行状态
 				  					String key="bjkz_"+types;
 				  					//判断该报警类型是否拥有首页弹窗提醒权限
@@ -436,19 +419,19 @@ public class Gateway {
 				  				}
 				  				faultService.save(fault);		//生成当前故障
 				  				
-				      				 try {
-				      					 //os.write("E0021101F0".getBytes());
-				      		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
-				      					//CreateWorkbook("E0021101F0");
-				      				} catch (IOException e) {
-				      					e.printStackTrace();
-				      				}
+				      				
 				      			//生成报警短信 
 				      				if(elevators.size()>0){
 				      					Message.addMessage(types,order,elevators.get(0));
 				      				}
 		    			}
-    			  
+		    			 try {
+	      					 //os.write("E0021101F0".getBytes());
+	      		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
+	      					//CreateWorkbook("E0021101F0");
+	      				} catch (IOException e) {
+	      					e.printStackTrace();
+	      				}
     				
     		}  else if(type.equalsIgnoreCase("22")){    //请求数据	
     			gateway.setElevatorId(elevatorId);
@@ -893,7 +876,7 @@ public class Gateway {
 		 }else if(type.equals("02")){
 			 name="困人";
 		 }else if(type.equals("03")){
-			 name="门关不上";
+			 name="关门故障";
 		 }else if(type.equals("04")){
 			 name="冲顶困人";
 		 }else if(type.equals("05")){
@@ -913,9 +896,9 @@ public class Gateway {
 		 }else if(type.equals("0c")){
 			 name="停电";
 		 }else if(type.equals("0d")){
-			 name="开门不到位";
-		 }else if(type.equals("10")){
-			 name="非平层开门";
+			 name="开门故障";
+		 }else if(type.equals("0e")){
+			 name="门区外开门";
 		 }else{
 			 return name;
 		 }

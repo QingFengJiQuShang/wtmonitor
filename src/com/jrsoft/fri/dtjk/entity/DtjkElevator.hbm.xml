@@ -161,5 +161,11 @@
         <property name="area" type="java.lang.String">
             <column name="AREA" length="200" />
         </property>
+        <property name="faultType" type="java.lang.String">
+            <column name="FAULT_TYPE" length="200" />
+        </property>
+        <property name="faultName" type="java.lang.String">
+            <column name="FAULT_NAME" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

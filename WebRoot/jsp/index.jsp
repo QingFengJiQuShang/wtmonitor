@@ -440,7 +440,7 @@ var g=function(id){return document.getElementById(id)};
 				        // alert("已确认");
 				  },
 				  error: function(result){
-							alert("操作失败!");
+							//alert("操作失败!");
 					}
 		 });
 		document.getElementById("pushId").value=="";
