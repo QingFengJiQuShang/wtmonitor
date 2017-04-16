@@ -122,9 +122,7 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 					</div>
 				</div>
 			</div>
-			<div id="main" style="height:300px">
-
-		</div>
+			<div id="main" style="height:300px"></div>
 		</div>
 		
 	</div>

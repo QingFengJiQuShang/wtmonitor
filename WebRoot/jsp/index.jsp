@@ -421,7 +421,7 @@ var g=function(id){return document.getElementById(id)};
 				         // window.clearTimeout(t1);//去掉定时器
 				  },
 				  error: function(result){
-							alert("操作失败!");
+							//alert("操作失败!");
 					}
 		 });
 

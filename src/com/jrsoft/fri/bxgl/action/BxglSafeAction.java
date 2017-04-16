@@ -389,7 +389,11 @@ public class BxglSafeAction  extends DispatchAction{
 			entity.setSafeUnitId(unit.getSafeUnitId());
 			safeService.update(entity);
 			DtjkElevator elevator =elevatorService.get(entity.getElevatorId().getId());
-
+			String time=df.format(new Date());
+			if(entity.getStartTime().getTime()<=df.parse(time).getTime()&&df.parse(time).getTime()<=entity.getEndTime().getTime()){
+				elevator.setSafeState("1");
+				elevatorService.update(elevator);
+			}
 			//生成 操作日志
 			XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 			Log log=new Log();

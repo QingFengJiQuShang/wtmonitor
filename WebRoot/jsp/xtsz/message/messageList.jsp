@@ -77,7 +77,6 @@ XtglUsers user =(XtglUsers)request.getSession().getAttribute("user");
 									<td>&nbsp;&nbsp;${list.phone}&nbsp;&nbsp;</td>
 									<td>&nbsp;&nbsp;${list.state }&nbsp;&nbsp;</td>
 
-									<td>
 									<td>&nbsp;&nbsp;<fmt:formatDate value="${list.foundTime }"  pattern='yyyy-MM-dd HH:mm:ss'/>&nbsp;&nbsp;</td>
 
 									<td>
