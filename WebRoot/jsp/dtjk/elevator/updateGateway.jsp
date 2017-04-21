@@ -90,8 +90,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label for="area">联网方式&nbsp;:&nbsp;</label>
 						<select  name="gateway.networking"  id="networking">
 							<option value="">请选择</option>
-							<option value="GPRS" <c:if test="${list.type=='GPRS'}">selected="selected" </c:if>>GPRS</option>
-							<option value="WIFI" <c:if test="${list.type=='WIFI'}">selected="selected" </c:if>>WIFI</option>
+							<option value="GPRS" <c:if test="${list.networking=='GPRS'}">selected="selected" </c:if>>GPRS</option>
+							<option value="WIFI" <c:if test="${list.networking=='WIFI'}">selected="selected" </c:if>>WIFI</option>
 						</select>
 					</p>
 					<p class="or clearfix">

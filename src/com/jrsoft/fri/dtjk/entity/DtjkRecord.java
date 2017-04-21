@@ -31,6 +31,7 @@ public class DtjkRecord implements java.io.Serializable {
 	private Date foundTime;                //创建时间
 	private String type;							//故障类型
 	
+	private String foundTime1;
 	private String state;//电梯状态
 
 	// Constructors
@@ -192,6 +193,14 @@ public class DtjkRecord implements java.io.Serializable {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getFoundTime1() {
+		return foundTime1;
+	}
+
+	public void setFoundTime1(String foundTime1) {
+		this.foundTime1 = foundTime1;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -30,6 +34,7 @@ import org.apache.struts.actions.DispatchAction;
 
 import smart.sys.platform.dao.DBEntity;
 
+import com.jrsoft.fri.common.utils.JsonUtil;
 import com.jrsoft.fri.dtjk.entity.DtjkElevator;
 import com.jrsoft.fri.dtjk.entity.DtjkGateway;
 import com.jrsoft.fri.dtjk.entity.DtjkRecord;
@@ -42,6 +47,7 @@ import com.jrsoft.fri.xtgl.from.ExcelColumns;
 import com.jrsoft.fri.xtgl.from.Page;
 import com.jrsoft.fri.xtsz.entity.XtszDictionary;
 import com.jrsoft.fri.xtsz.service.XtszDictionaryService;
+import com.sun.org.apache.xerces.internal.impl.dtd.models.DFAContentModel;
 
 public class DtjkRecordAction extends DispatchAction {
 	
@@ -92,7 +98,7 @@ public class DtjkRecordAction extends DispatchAction {
 		String flag=request.getParameter("flag");
 		DtjkElevator list=elevatorService.get(Long.parseLong(id));
 		request.setAttribute("list", list);
-		String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"')  ";
+		String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"') and elevatorId='"+list.getRegisterid()+"'  ";
 		//String hql="select t.* form () where elevatorId='"+list.getRegisterid()+"' order by t.foundTime desc    ";
 		List<DtjkRecord> record=recordService.query(hql);
 		String hql2=" where  1=1 and elevatorId='"+list.getRegisterid()+"' " ;
@@ -111,12 +117,54 @@ public class DtjkRecordAction extends DispatchAction {
 			request.setAttribute("dictionarie", dictionaries.get(0));
 		}
 		if(flag.equals("1")&&flag!=null)
-			return	new ActionForward("/jsp/dtjk/monitor/left.jsp");
+			return	new ActionForward("/jsp/dtjk/monitor/left.jsp");		
+		else if(flag.equals("2")&&flag!=null)
+			return	new ActionForward("/jsp/dtjk/monitor/monitorDetail1.jsp");
 		else
 			return	new ActionForward("/jsp/dtjk/monitor/monitorDetail.jsp");
 		
 	}
-	
+	/**
+	   * 查看 电梯监控 
+	   * @param request
+	   * @param respons
+	   * @param productList
+	   * @param productSeries
+	   * @param productImageList
+	 * @throws Exception 
+	   */
+		public void findByMonitor1(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception{
+			
+			String id=request.getParameter("id");
+			DtjkElevator list=elevatorService.get(Long.parseLong(id));
+			request.setAttribute("list", list);
+			String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"')   and elevatorId='"+list.getRegisterid()+"'";
+			//String hql="select t.* form () where elevatorId='"+list.getRegisterid()+"' order by t.foundTime desc    ";
+			List<DtjkRecord> record=recordService.query(hql);
+			String hql2=" where  1=1 and elevatorId='"+list.getRegisterid()+"' " ;
+			List<DtjkGateway> gateways=gatewayService.queryAll(hql2);
+			SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			//重新刷新时间
+			String hql1=" where flag='0'";
+			List<XtszDictionary> dictionaries=dictionaryService.query(hql1);
+			JSONObject cell = new JSONObject();
+			cell.put("id", list.getId());
+			cell.put("state", list.getState());
+			if(gateways.size()>0){
+				cell.put("gateway", gateways.get(0));
+			}
+			if(record.size()>0){
+				DtjkRecord records=record.get(0);
+				records.setFoundTime1(df.format(records.getFoundTime()));
+				records.setFoundTime(null);
+				cell.put("records", records);
+			}
+			if(dictionaries.size()>0){
+				cell.put("dictionarie", dictionaries.get(0));
+			}
+			JsonUtil.ajaxOutPutJson(response, cell);
+	}
 	/**
 	 * 查看 多台电梯监控 
 	 * @param request
@@ -136,7 +184,7 @@ public class DtjkRecordAction extends DispatchAction {
 				Control control=new Control();
 				DtjkElevator list=elevatorService.get(Long.parseLong(arr[i]));
 				control.setElevator(list);
-				String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"')  ";
+				String hql=" where foundTime= ( select max(foundTime) from DtjkRecord where elevatorId='"+list.getRegisterid()+"')  and elevatorId='"+list.getRegisterid()+"' ";
 				List<DtjkRecord> record=recordService.query(hql);
 				String hql2=" where  1=1 and elevatorId='"+list.getRegisterid()+"' " ;
 				List<DtjkGateway> gateways=gatewayService.queryAll(hql2);

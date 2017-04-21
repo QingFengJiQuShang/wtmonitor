@@ -320,6 +320,7 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
 				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
@@ -461,6 +462,7 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
 				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
@@ -591,6 +593,7 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
 				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
@@ -723,6 +726,7 @@ public class DtjkElevatorAction extends DispatchAction{
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
 				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){

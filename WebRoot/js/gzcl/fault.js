@@ -31,10 +31,7 @@
 		function query(){
     		  window.location.href="faultAction.do?method=query"+gotoUrl();
 		  }
-		 //模糊查询
-		function query(){
-    		  window.location.href="faultAction.do?method=query1"+gotoUrl();
-		  }
+		
 		//添加
 		function add(){
 			  window.location="jsp/xtgl/useUnit/addUseUnit.jsp";

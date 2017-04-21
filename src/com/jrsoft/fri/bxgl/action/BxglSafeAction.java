@@ -118,18 +118,23 @@ public class BxglSafeAction  extends DispatchAction{
 							" left join Xtgl_Users xu on xu.id=de.userid"+  //«¯”Ú”√ªß
 							" where  1=1  and de.delflag!='1' " ;
 				if(registerid!=null&&!registerid.equals("")){
+					registerid=new String(registerid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.registerid like '%"+registerid+"%'";
 				}		
 				if(distinguishid!=null&&!distinguishid.equals("")){
+					distinguishid=new String(distinguishid.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.distinguishid like '%"+distinguishid+"%'";
 				}
 				if(useUnitName!=null&&!useUnitName.equals("")){
+					useUnitName=new String(useUnitName.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and xuu.name like '%"+useUnitName+"%'";
 				}
 				if(brand!=null&&!brand.equals("")){
+					brand=new String(brand.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.brand like '%"+brand+"%'";
 				}
 				if(numbers!=null&&!numbers.equals("")){
+					numbers=new String(numbers.getBytes("ISO-8859-1"),"UTF-8");
 					sql+=" and de.numbers = '"+numbers+"'";
 				}
 				if(flag.equals("1")){
@@ -275,7 +280,7 @@ public class BxglSafeAction  extends DispatchAction{
 				}
 				if(company!=null&&!company.equals("")){
 					company=new String(company.getBytes("ISO-8859-1"),"UTF-8");
-					sql+=" and de.company like '%"+company+"%'";
+					sql+=" and xsu.name like '%"+company+"%'";
 				}
 				if(beneficiary!=null&&!beneficiary.equals("")){
 					beneficiary=new String(beneficiary.getBytes("ISO-8859-1"),"UTF-8");
@@ -387,6 +392,7 @@ public class BxglSafeAction  extends DispatchAction{
 			entity.setNumber(unit.getNumber());
 			entity.setCompany(unit.getCompany());
 			entity.setSafeUnitId(unit.getSafeUnitId());
+			entity.setBeneficiary(unit.getBeneficiary());
 			safeService.update(entity);
 			DtjkElevator elevator =elevatorService.get(entity.getElevatorId().getId());
 			String time=df.format(new Date());
@@ -726,16 +732,35 @@ public class BxglSafeAction  extends DispatchAction{
 	 */
 	public ActionForward  querySafeUnit (ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 	throws Exception {
+
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String company=request.getParameter("company");
+		String time=d.format(new Date());
 				List<SafeUnit> list=new ArrayList<SafeUnit>();
 				String sql=" select xsu.name as name, " +
-						"					(select count(de.id) from BXGL_SAFE s  left join dtjk_elevator de on de.id=s.elevator_id where s.safe_unit_id = xsu.id) as num, " +
-						" 					(select count(c.id) from Bxgl_Claim c left join Bxgl_Safe s on s.id=c.Safe_id  where s.safe_unit_id = xsu.id) as claimNum " +
+						" (select count( distinct  ds.elevator_id) from Bxgl_Safe ds where   ds.safe_unit_id = xsu.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd'))  as num, " +
+						" (select count(c.id) from Bxgl_Claim c left join Bxgl_Safe s on s.id=c.Safe_id  where s.safe_unit_id = xsu.id " ;
+						if(startTime!=null&&!startTime.equals("")){
+							sql+=" and c.claim_Time >= to_date('" + startTime+ "','yyyy-MM-dd')";
+						}
+						if(endTime!=null&&!endTime.equals("")){
+							sql+=" and c.claim_Time <= to_date('" + endTime+ "','yyyy-MM-dd')";
+						}
+						sql+=") as claimNum " +
 						"			 	from Xtgl_Safe_Unit xsu " +
 						"				where 1 = 1";
+				
+				if(company!=null&&!company.equals("")){
+					company=new String(company.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xsu.name like '%"+company+"%'";
+				}
 				Connection conn=DBEntity.getInstance().getConnection();
 				PreparedStatement sta = conn.prepareStatement(sql);
 				ResultSet rs = sta.executeQuery();
-				DecimalFormat    df   = new DecimalFormat("#0.00");   
+
 				List<String> names=new ArrayList<String>();
 				List<String> num=new ArrayList<String>();
 				List<String> claimNum=new ArrayList<String>();
@@ -757,6 +782,13 @@ public class BxglSafeAction  extends DispatchAction{
 					claimNum.add(rs.getString("claimNum"));
 					claimRate.add(unit.getNum()!=0?df.format((double)unit.getClaimNum()/unit.getNum()):"0");
 				}
+				request.setAttribute("company", company);
+				if(startTime!=null){
+					request.setAttribute("startTime", d.parse(startTime));
+				}
+				if(endTime!=null){
+					request.setAttribute("endTime", d.parse(endTime));
+				}
 				request.setAttribute("names", names);
 				request.setAttribute("claimNum", claimNum);
 				request.setAttribute("claimRate", claimRate);
@@ -774,16 +806,33 @@ public class BxglSafeAction  extends DispatchAction{
 	public ActionForward  exportSafeUnit(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response )
 			throws Exception {
 
-		List<SafeUnit> list=new ArrayList<SafeUnit>();
-		String sql=" select xsu.name as name, " +
-				"					(select count(de.id) from BXGL_SAFE s  left join dtjk_elevator de on de.id=s.elevator_id where s.safe_unit_id = xsu.id) as num, " +
-				" 					(select count(c.id) from Bxgl_Claim c left join Bxgl_Safe s on s.id=c.Safe_id  where s.safe_unit_id = xsu.id) as claimNum " +
-				"			 	from Xtgl_Safe_Unit xsu " +
-				"				where 1 = 1";
+		DecimalFormat    df   = new DecimalFormat("#0.00");   
+		SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd");
+		String startTime=request.getParameter("startTime");
+		String endTime=request.getParameter("endTime");
+		String company=request.getParameter("company");
+		String time=d.format(new Date());
+				List<SafeUnit> list=new ArrayList<SafeUnit>();
+				String sql=" select xsu.name as name, " +
+						" (select count( distinct  ds.elevator_id) from Bxgl_Safe ds where   ds.safe_unit_id = xsu.id and ds.start_Time <= to_date('"+time+"', 'yyyy-MM-dd') and ds.end_Time >= to_date('"+time+"', 'yyyy-MM-dd'))  as num, " +
+						" (select count(c.id) from Bxgl_Claim c left join Bxgl_Safe s on s.id=c.Safe_id  where s.safe_unit_id = xsu.id " ;
+						if(startTime!=null&&!startTime.equals("")){
+							sql+=" and c.claim_Time >= to_date('" + startTime+ "','yyyy-MM-dd')";
+						}
+						if(endTime!=null&&!endTime.equals("")){
+							sql+=" and c.claim_Time <= to_date('" + endTime+ "','yyyy-MM-dd')";
+						}
+						sql+=") as claimNum " +
+						"			 	from Xtgl_Safe_Unit xsu " +
+						"				where 1 = 1";
+				
+				if(company!=null&&!company.equals("")){
+					company=new String(company.getBytes("ISO-8859-1"),"UTF-8");
+					sql+=" and xsu.name like '%"+company+"%'";
+				}
 		Connection conn=DBEntity.getInstance().getConnection();
 		PreparedStatement sta = conn.prepareStatement(sql);
 		ResultSet rs = sta.executeQuery();
-		DecimalFormat    df   = new DecimalFormat("#0.00");   
 		while(rs.next()){
 			SafeUnit unit=new SafeUnit();
 			unit.setName(rs.getString("name"));

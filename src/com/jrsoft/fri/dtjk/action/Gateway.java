@@ -8,12 +8,15 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -153,11 +156,11 @@ public class Gateway {
     		DtjkRecord record=new DtjkRecord();     //终端上报记录
     		Ask ask=new Ask();     				//请求命令
     		String type=str.substring(6,8); 
-    		System.out.println("数据类型："+judgeType(type));
+    		//System.out.println("数据类型："+judgeType(type));
     		 this.type=type;
     		String elevatorId=str.substring(8,48); 
     		 elevatorId=convertHexToString(elevatorId);
-    		System.out.println("电梯id："+elevatorId);
+    		//System.out.println("电梯id："+elevatorId);
     		this.elevatorId=elevatorId;
     		
     		String hql2=" where 1=1 and  registerid = '"+elevatorId+"' and delflag!='1' ";
@@ -172,7 +175,7 @@ public class Gateway {
     		
     		String serialNumber=str.substring(48,70); 
     		serialNumber=convertHexToString(serialNumber);
-    		System.out.println("网关id："+serialNumber);
+    		//System.out.println("网关id："+serialNumber);
     		record.setHeartbeat(type);
     		log.setContent(judgeType(type)+"   "+str);
             logAction.addEntity(log);
@@ -254,6 +257,8 @@ public class Gateway {
 
     			try {
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
+					 CreateWorkbook("E0021101F0");
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -277,7 +282,7 @@ public class Gateway {
     			}
     			
     			//根据终端号查询该终端是否已记录
-    			String hql=" where  1=1 and serialNumber='"+gateway.getSerialNumber()+"' " ;
+    			String hql=" where  1=1 and elevatorId='"+elevatorId+"' " ;
     			List<DtjkGateway> list=gatewayService.queryAll(hql);
     			
     			//num等于0 说明该终端未记录，重新保存
@@ -291,14 +296,38 @@ public class Gateway {
     				
     			}else{//num不等于0 说明该终端已记录，重新修改
     				
-    				String hql1=" where  1=1 and serialNumber='"+gateway.getSerialNumber()+"' " ;
+    				String hql1=" where  1=1 and elevatorId='"+elevatorId+"' " ;
     				DtjkGateway dtjkGateways=gatewayService.queryAll(hql1).get(0);
     				gateway.setId(dtjkGateways.getId());
-    				gatewayService.update(gateway);
+    				dtjkGateways.setSerialNumber(gateway.getSerialNumber());
+    				if(gateway.getType()!=null)
+    					dtjkGateways.setType(gateway.getType());
+    				if(gateway.getHardware()!=null)
+    					dtjkGateways.setHardware(gateway.getHardware());
+    				if(gateway.getSoftware()!=null)
+    					dtjkGateways.setSoftware(gateway.getSoftware());
+    				if(gateway.getSim()!=null)
+    					dtjkGateways.setSim(gateway.getSim());
+    				if(gateway.getReport()!=null)
+    					dtjkGateways.setReport(gateway.getReport());
+    				if(gateway.getFloor()!=null)
+    					dtjkGateways.setFloor(gateway.getFloor());
+    				if(gateway.getUpper()!=null)
+    					dtjkGateways.setUpper(gateway.getUpper());
+    				if(gateway.getLower()!=null)
+    					dtjkGateways.setLower(gateway.getLower());
+    				if(gateway.getSpeed()!=null)
+    					dtjkGateways.setSpeed(gateway.getSpeed());
+    				if(gateway.getSpacing()!=null)
+    					dtjkGateways.setSpacing(gateway.getSpacing());
+    				if(gateway.getNetworking()!=null)
+    					dtjkGateways.setNetworking(gateway.getNetworking());
+    				gatewayService.update(dtjkGateways);
     				
     			}
     			 try {
 					 os.write(byteUtil.hexStringToByte("E0021101F0")); 
+					 CreateWorkbook("E0021101F0");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -311,7 +340,10 @@ public class Gateway {
     				 String order=warning(command);
     				 record.setType(order);
     				 command="故障类型："+ warning(command);
-    				 System.out.println(command);
+    				// System.out.println(command);
+    				 if(order.equals("")){
+    					 return;
+    				 }
     				 
     				 String state =str.substring(72,74); //状态
     				 if(state.equalsIgnoreCase("00")){
@@ -324,7 +356,6 @@ public class Gateway {
     					 record.setDirection("静止");
     					 state="运行状态：静止";
     				 }
-					 System.out.println(state);
 
     				 String people  =str.substring(74,76); //有人
     				 if(people.equalsIgnoreCase("00")){
@@ -334,11 +365,10 @@ public class Gateway {
     					 record.setPeople("有人");
     					 people="	是否有人：有人";
     				 }
-    				 System.out.println(people);
     				 String floor  =str.substring(76,78); //楼层
     				 record.setFloor(""+(byte)Integer.parseInt(floor,16));
     				 floor="	当前楼层："+  (byte)Integer.parseInt(floor,16);
-    				 System.out.println(floor);				 
+    				// System.out.println(floor);				 
     				 
     				 String door  =str.substring(78,80); // 门
     				 if(door.equalsIgnoreCase("00")){
@@ -348,7 +378,6 @@ public class Gateway {
     					 record.setDoor("关门");
     					 door=" 	门状态：关门";
     				 }
-					 System.out.println(door);
 					 String date  =str.substring(80,86); // 日期
 					 date=dateString(hexToString(date)) ;
 					 String time=str.substring(86,92);
@@ -406,10 +435,10 @@ public class Gateway {
 				  						push.setFaultType(command);
 				  						push.setFlag("0");
 				  						push.setCode(types);
-				  						System.out.println(list.getUseUnitId().getId());
+				  						//System.out.println(list.getUseUnitId().getId());
 				  						XtglUseUnit unit=useUnitService.get(list.getUseUnitId().getId());
 				  						push.setUseUnitName(unit.getName());
-				  						System.out.println(unit.getName());
+				  					//	System.out.println(unit.getName());
 				  						push.setAlarmTime(d.format(fault.getHappenTime()));
 				  						pushService.save(push);		//生成提醒记录
 				  					}
@@ -428,7 +457,7 @@ public class Gateway {
 		    			 try {
 	      					 //os.write("E0021101F0".getBytes());
 	      		       		 os.write(byteUtil.hexStringToByte("E0021101F0"));
-	      					//CreateWorkbook("E0021101F0");
+	      					CreateWorkbook("E0021101F0");
 	      				} catch (IOException e) {
 	      					e.printStackTrace();
 	      				}
@@ -543,12 +572,12 @@ public class Gateway {
     			System.out.println("发送请求命令："+m.toUpperCase());
        			//os.write(m.getBytes());
        			os.write(byteUtil.hexStringToByte(m.toUpperCase()));
-				//CreateWorkbook(m.toUpperCase());
+				CreateWorkbook(m.toUpperCase());
     		}else{   
     			try {
     				 System.out.println("命令错误：E0021102F0");
     				 os.write(byteUtil.hexStringToByte("E0021102F0"));
-    				//CreateWorkbook("E0021102F0");
+    				CreateWorkbook("E0021102F0");
     			} catch (IOException e) {
     				e.printStackTrace();
     			}
@@ -556,7 +585,7 @@ public class Gateway {
         }else{
         	 System.out.println("长度错误：E0021103F0");
 			 os.write(byteUtil.hexStringToByte("E0021103F0"));
-				//CreateWorkbook("E0021103F0");
+				CreateWorkbook("E0021103F0");
         }
         	
        
@@ -654,59 +683,59 @@ public class Gateway {
 		if(command.equalsIgnoreCase("01")){
 			int floor=Integer.parseInt(content, 16);
 			gateway.setFloor(Integer.toString(floor));
-			System.out.println("总楼层："+floor);
+			//System.out.println("总楼层："+floor);
 		}
 		 //地上楼层
 		if(command.equalsIgnoreCase("03")){
 			int floor=Integer.parseInt(content, 16);
 			gateway.setUpper(Integer.toString(floor));
-			System.out.println("地上楼层："+floor);
+			//System.out.println("地上楼层："+floor);
 		}
 		 //地下楼层
 		if(command.equalsIgnoreCase("04")){
 			int floor=Integer.parseInt(content, 16);
 			gateway.setLower(Integer.toString(floor));
-			System.out.println("地下楼层："+floor);
+			//System.out.println("地下楼层："+floor);
 		}
 		 //设定速度
 		if(command.equalsIgnoreCase("02")){
 			String velocity =convertHexToString(content);
 			gateway.setSpeed(velocity);
-			System.out.println("设定速度："+velocity+"mm/s");
+			//System.out.println("设定速度："+velocity+"mm/s");
 		}
 		 //层间距
 		if(command.equalsIgnoreCase("20")){
 			int floor=Integer.parseInt(content, 16);
 			gateway.setSpacing(floor+"mm/s");
-			System.out.println("层间距："+floor+"mm");
+			//System.out.println("层间距："+floor+"mm");
 		}
 		//终端SIM
 		if(command.equalsIgnoreCase("21")){
 			String velocity =convertHexToString(content);
 			gateway.setSim(velocity);
-			System.out.println("终端SIM："+velocity);
+			//System.out.println("终端SIM："+velocity);
 		}
 		 //硬件版本
 		if(command.equalsIgnoreCase("22")){
 			String velocity =convertHexToString(content);
 			gateway.setHardware(velocity);
-			System.out.println("硬件版本："+velocity);
+			//System.out.println("硬件版本："+velocity);
 		}
 		 //软件版本
 		if(command.equalsIgnoreCase("23")){
 			String velocity =convertHexToString(content);
 			gateway.setSoftware(velocity);
-			System.out.println("软件版本："+velocity);
+			//System.out.println("软件版本："+velocity);
 		}
 		 //语音/视频
 		if(command.equalsIgnoreCase("24")){
 			int floor=Integer.parseInt(content, 16);
 			if(floor==0){
 				gateway.setType("语音版");
-				System.out.println("语音/视频：语音版");
+			//	System.out.println("语音/视频：语音版");
 			}else{
 				gateway.setType("视频版");
-				System.out.println("语音/视频：视频版");
+			//	System.out.println("语音/视频：视频版");
 			}
 			
 		}
@@ -715,10 +744,10 @@ public class Gateway {
 			int floor=Integer.parseInt(content, 16);
 			if(floor==0){
 				gateway.setNetworking("GPRS");
-				System.out.println("联网方式：GPRS");
+			//	System.out.println("联网方式：GPRS");
 			}else{
 				gateway.setNetworking("WIFI");
-				System.out.println("联网方式：WIFI");
+			//	System.out.println("联网方式：WIFI");
 			}
 			
 		}
@@ -727,20 +756,20 @@ public class Gateway {
 			int floor=Integer.parseInt(content, 16);
 			if(floor==0){
 				record.setDirection("上行");
-				System.out.println("运行方向：上行");
+				//System.out.println("运行方向：上行");
 			}else if(floor==1){
 				record.setDirection("下行");
-				System.out.println("运行方向：下行");
+				//System.out.println("运行方向：下行");
 			}else{
 				record.setDirection("静止");
-				System.out.println("运行方向：静止");
+				//System.out.println("运行方向：静止");
 			}
 		}
 		 //运行速度
 		if(command.equalsIgnoreCase("32")){
 			String velocity =convertHexToString(content);
 			record.setSpeed(velocity+"mm/s");
-			System.out.println("运行速度："+velocity+"mm/s");
+			//System.out.println("运行速度："+velocity+"mm/s");
 		}
 		 //当前楼层
 		if(command.equalsIgnoreCase("33")){
@@ -748,21 +777,21 @@ public class Gateway {
 //			if(floor<=0)
 //				floor=floor-1;
 			record.setFloor(Integer.toString(floor));
-			System.out.println("当前楼层："+floor);
+			//System.out.println("当前楼层："+floor);
 		}
 		//终端日期
 		if(command.equalsIgnoreCase("37")){
 			String date=hexToString(content);
 			 date=dateString(date) ;
 			record.setGatewayDate("20"+date);
-			System.out.println("终端日期："+"20"+date);
+			//System.out.println("终端日期："+"20"+date);
 		}
 		//终端时间
 		if(command.equalsIgnoreCase("38")){
 			String time=hexToString(content);
 			time=timeString(time) ;
 			record.setGatewayTime(time);
-			System.out.println("终端时间："+time);
+			//System.out.println("终端时间："+time);
 		}
 		
 		//人
@@ -770,10 +799,10 @@ public class Gateway {
 			int floor=Integer.parseInt(content, 16);
 			if(floor==0){
 				record.setPeople("没人");
-				System.out.println("人：没人");
+			//	System.out.println("人：没人");
 			}else{
 				record.setPeople("有人");
-				System.out.println("人：有人");
+			//	System.out.println("人：有人");
 			}
 		}
 		//门
@@ -781,34 +810,34 @@ public class Gateway {
 			int floor=Integer.parseInt(content, 16);
 			if(floor==0){
 				record.setDoor("开门");
-				System.out.println("门 ：开门");
+			//	System.out.println("门 ：开门");
 			}else{
 				record.setDoor("关门");
-				System.out.println("门：关门");
+			//	System.out.println("门：关门");
 			}
 		}
 		//一切正常
 		if(command.equalsIgnoreCase("3c")){
 			int floor=Integer.parseInt(content, 16);
 			record.setHeartbeat(Integer.toString(floor));
-			System.out.println("一切正常 ："+floor);
+			//System.out.println("一切正常 ："+floor);
 			
 		}
 		 //现场维保人员
 		if(command.equalsIgnoreCase("50")){
 			String velocity =convertHexToString(content);
 			record.setMaintenanceUserId(velocity);
-			System.out.println("现场维保人员："+velocity);
+			//System.out.println("现场维保人员："+velocity);
 		}
 		//检修状态
 		if(command.equalsIgnoreCase("51")){
 			int floor=Integer.parseInt(content, 16);
 			if(floor==0){
 				record.setMaintenanceState("检修中");
-				System.out.println("检修状态 ：检修中");
+			//	System.out.println("检修状态 ：检修中");
 			}else{
 				record.setMaintenanceState("正常");
-				System.out.println("检修状态：正常");
+				//System.out.println("检修状态：正常");
 			}
 		}
 		//终端日期
@@ -816,46 +845,46 @@ public class Gateway {
 			 String date=hexToString(content);
 			 date=dateString(date) ;
 			 ask.setDates(date);
-			 System.out.println("日期："+date);
+			// System.out.println("日期："+date);
 		}
 		//终端时间
 		if(command.equalsIgnoreCase("61")){
 			String time=hexToString(content);
 			time=timeString(time) ;
 			ask.setTime(time);
-			System.out.println("时间："+time);
+			//System.out.println("时间："+time);
 		}
 		//上报周期
 		if(command.equalsIgnoreCase("62")){
 			String velocity =convertHexToString(content);
 			gateway.setReport(velocity);
 			ask.setPeriod(velocity);
-			System.out.println("上报周期 ："+velocity+"秒");
+		//	System.out.println("上报周期 ："+velocity+"秒");
 			
 		}
 		//白名单1
 		if(command.equalsIgnoreCase("63")){
 			String velocity =convertHexToString(content);
 			ask.setWhite1(velocity);
-			System.out.println("白名单1："+velocity);
+		//	System.out.println("白名单1："+velocity);
 		}
 		//白名单2
 		if(command.equalsIgnoreCase("64")){
 			String velocity =convertHexToString(content);
 			ask.setWhite2(velocity);
-			System.out.println("白名单2："+velocity);
+		//	System.out.println("白名单2："+velocity);
 		}
 		//白名单3
 		if(command.equalsIgnoreCase("65")){
 			String velocity =convertHexToString(content);
 			ask.setWhite3(velocity);
-			System.out.println("白名单3："+velocity);
+		//	System.out.println("白名单3："+velocity);
 		}
 		//白名单4
 		if(command.equalsIgnoreCase("66")){
 			String velocity =convertHexToString(content);
 			ask.setWhite4(velocity);
-			System.out.println("白名单4："+velocity);
+		//	System.out.println("白名单4："+velocity);
 		}
 		
 	}
@@ -985,43 +1014,52 @@ public class Gateway {
 		/**
 		 * 向excel中追加数据
 		 * @param a
+		 * @throws IOException 
 		 */
-		public static void CreateWorkbook(String cmd) {
-			SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			 String[] a={d.format(new Date()),type,elevatorId,str,cmd};
-			String url="D:/网关通信命令.xls";
-			File file=new File(url);
-	        try {
-	            if (!file.exists()) { //判断文件是否已存在，如果没有存在则创建新文件
-	            	export(url);
-	            } 
-	            	// 输出流  
-	            	   FileInputStream is = new FileInputStream(file);  
-	            	   HSSFWorkbook wb =new HSSFWorkbook(is); 
-	            	   HSSFCellStyle style = wb.createCellStyle(); // 样式对象
-		   //    			style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
-		   //    			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
-	            	   HSSFSheet sheet1 = wb.getSheetAt(0);  
-	            	   HSSFRow row = sheet1.createRow(sheet1.getLastRowNum() + 1);  
-	            	   row.setRowStyle(style);
-	            	   row.setHeightInPoints((short) 25);  
-	            	   // 给这一行赋值  
-	            	   row.createCell(0).setCellValue(a[0]);  
-	            	   row.createCell(1).setCellValue(a[1]);  
-	            	   row.createCell(2).setCellValue(a[2]);  
-	            	   row.createCell(3).setCellValue(a[3]);  
-	            	   row.createCell(4).setCellValue(a[4]);  
-	            	   FileOutputStream os = new FileOutputStream(file);  
-	            	   type=null;
-	            	   str=null;
-	            	   elevatorId=null;
-	            	   wb.write(os);  
-	            	   is.close();  
-	            	   os.close();  
-	        } catch (Exception e) {  
-	            e.printStackTrace();  
-	        }  
-	       
+		public static void CreateWorkbook(String cmd) throws IOException {
+
+		    InputStream inStream = Gateway.class.getClassLoader().getResourceAsStream("config.properties");  
+
+			Properties prop = new Properties();    
+			prop.load(inStream);    
+			String key = prop.getProperty("xy.switchs"); 
+			if(key.equals("true")){
+					SimpleDateFormat d=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					SimpleDateFormat df=new SimpleDateFormat("yyyyMMdd");
+					 String[] a={d.format(new Date()),type,elevatorId,str,cmd};
+					String url="D:/ZZH/网关通信命令"+df.format(new Date())+".xls";
+					File file=new File(url);
+			        try {
+			            if (!file.exists()) { //判断文件是否已存在，如果没有存在则创建新文件
+			            	export(url);
+			            } 
+			            	// 输出流  
+			            	   FileInputStream is = new FileInputStream(file);  
+			            	   HSSFWorkbook wb =new HSSFWorkbook(is); 
+			            	   HSSFCellStyle style = wb.createCellStyle(); // 样式对象
+				   //    			style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);// 垂直
+				   //    			style.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 水平
+			            	   HSSFSheet sheet1 = wb.getSheetAt(0);  
+			            	   HSSFRow row = sheet1.createRow(sheet1.getLastRowNum() + 1);  
+			            	   row.setRowStyle(style);
+			            	   row.setHeightInPoints((short) 25);  
+			            	   // 给这一行赋值  
+			            	   row.createCell(0).setCellValue(a[0]);  
+			            	   row.createCell(1).setCellValue(a[1]);  
+			            	   row.createCell(2).setCellValue(a[2]);  
+			            	   row.createCell(3).setCellValue(a[3]);  
+			            	   row.createCell(4).setCellValue(a[4]);  
+			            	   FileOutputStream os = new FileOutputStream(file);  
+			            	   type=null;
+			            	   str=null;
+			            	   elevatorId=null;
+			            	   wb.write(os);  
+			            	   is.close();  
+			            	   os.close();  
+			        } catch (Exception e) {  
+			            e.printStackTrace();  
+			        }  
+			}
 	    }
 		
 		/**
